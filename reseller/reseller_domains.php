@@ -114,7 +114,7 @@
 	echo "<div class='action_bar' id='action_bar'>\n";
 	echo "	<div class='heading'><b>".$text['header-reseller_domains']."</b></div>\n";
 	echo "	<div class='actions'>\n";
-	if (permission_exists('reseller_domains_add')) {
+	if (permission_exists('reseller_domain_add')) {
 		echo button::create(['type'=>'button','label'=>$text['button-create_domain'],'icon'=>'plus','link'=>'reseller_domain_create.php']);
 	}
 	echo "	</div>\n";

@@ -112,13 +112,13 @@
 
 		//save to database
 		$p = new permissions;
-		$p->add('v_billing_notice_template_add', 'temp');
+		$p->add('v_billing_notice_templates_add', 'temp');
 		$database = new database;
 		$database->app_name = 'billing';
 		$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 		$database->save($array);
 		unset($array);
-		$p->delete('v_billing_notice_template_add', 'temp');
+		$p->delete('v_billing_notice_templates_add', 'temp');
 	}
 
 ?>

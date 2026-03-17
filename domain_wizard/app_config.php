@@ -61,7 +61,7 @@
 
 	//schema details - domain_wizard_templates
 		$y = 0;
-		$apps[$x]['db'][$y]['table']['name'] = 'v_domain_wizard_templates';
+		$apps[$x]['db'][$y]['table']['name'] = 'domain_wizard_templates';
 		$apps[$x]['db'][$y]['table']['parent'] = '';
 		$z = 0;
 		$apps[$x]['db'][$y]['fields'][$z]['name'] = 'domain_wizard_template_uuid';
@@ -133,7 +133,7 @@
 
 	//schema details - domain_wizard_logs
 		$y++;
-		$apps[$x]['db'][$y]['table']['name'] = 'v_domain_wizard_logs';
+		$apps[$x]['db'][$y]['table']['name'] = 'domain_wizard_logs';
 		$apps[$x]['db'][$y]['table']['parent'] = '';
 		$z = 0;
 		$apps[$x]['db'][$y]['fields'][$z]['name'] = 'domain_wizard_log_uuid';

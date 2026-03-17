@@ -15,7 +15,7 @@
 	$text = $language->get();
 
 //handle delete
-	if ($_REQUEST['action'] == 'delete' && permission_exists('v_billing_notice_template_delete')) {
+	if ($_REQUEST['action'] == 'delete' && permission_exists('billing_notice_templates_delete')) {
 		$token_obj = new token;
 		if (!$token_obj->validate($_SERVER['PHP_SELF'])) {
 			message::add($text['message-error'], 'negative');
@@ -26,13 +26,13 @@
 		if (is_uuid($template_uuid)) {
 			$array['v_billing_notice_templates'][0]['template_uuid'] = $template_uuid;
 			$p = new permissions;
-			$p->add('v_billing_notice_template_delete', 'temp');
+			$p->add('v_billing_notice_templates_delete', 'temp');
 			$database = new database;
 			$database->app_name = 'billing';
 			$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 			$database->delete($array);
 			unset($array);
-			$p->delete('v_billing_notice_template_delete', 'temp');
+			$p->delete('v_billing_notice_templates_delete', 'temp');
 			message::add($text['message-deleted']);
 		}
 		header('Location: billing_notice_templates.php');
@@ -59,7 +59,7 @@
 	echo "		<b>".$text['header-billing_notice_templates']."</b>\n";
 	echo "	</div>\n";
 	echo "	<div class='actions'>\n";
-	if (permission_exists('v_billing_notice_template_add')) {
+	if (permission_exists('billing_notice_templates_add')) {
 		echo button::create(['type'=>'button','label'=>$text['button-add'],'icon'=>'plus','link'=>'billing_notice_template_edit.php']);
 	}
 	echo "	</div>\n";
@@ -75,7 +75,7 @@
 	echo "	<th>".$text['label-notice_type']."</th>\n";
 	echo "	<th>".$text['label-subject']."</th>\n";
 	echo "	<th>".$text['label-enabled']."</th>\n";
-	if (permission_exists('v_billing_notice_template_edit') || permission_exists('v_billing_notice_template_delete')) {
+	if (permission_exists('billing_notice_templates_edit') || permission_exists('billing_notice_templates_delete')) {
 		echo "	<th class='action-button'>&nbsp;</th>\n";
 	}
 	echo "</tr>\n";
@@ -91,7 +91,7 @@
 				'payment_failed' => 'Payment Failed',
 			];
 			echo "<tr class='list-row'>\n";
-			if (permission_exists('v_billing_notice_template_edit')) {
+			if (permission_exists('billing_notice_templates_edit')) {
 				echo "	<td><a href='billing_notice_template_edit.php?id=".urlencode($row['template_uuid'])."'>".escape($row['template_name'])."</a></td>\n";
 			}
 			else {
@@ -100,12 +100,12 @@
 			echo "	<td>".escape($type_labels[$row['notice_type']] ?? $row['notice_type'])."</td>\n";
 			echo "	<td>".escape($row['subject'])."</td>\n";
 			echo "	<td>".escape($row['enabled'])."</td>\n";
-			if (permission_exists('v_billing_notice_template_edit') || permission_exists('v_billing_notice_template_delete')) {
+			if (permission_exists('billing_notice_templates_edit') || permission_exists('billing_notice_templates_delete')) {
 				echo "	<td class='action-button'>\n";
-				if (permission_exists('v_billing_notice_template_edit')) {
+				if (permission_exists('billing_notice_templates_edit')) {
 					echo button::create(['type'=>'button','title'=>$text['button-edit'],'icon'=>'pencil-alt','link'=>'billing_notice_template_edit.php?id='.urlencode($row['template_uuid'])]);
 				}
-				if (permission_exists('v_billing_notice_template_delete')) {
+				if (permission_exists('billing_notice_templates_delete')) {
 					echo button::create(['type'=>'button','title'=>$text['button-delete'],'icon'=>'trash','link'=>'billing_notice_templates.php?action=delete&id='.urlencode($row['template_uuid']).'&token='.$token,'onclick'=>"return confirm('".$text['confirm-delete']."');"]);
 				}
 				echo "	</td>\n";

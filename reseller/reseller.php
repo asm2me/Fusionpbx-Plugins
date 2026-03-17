@@ -52,7 +52,7 @@
 	}
 	echo "	</div>\n";
 	echo "	<div class='actions'>\n";
-	if ($show_all && permission_exists('reseller_profiles_add')) {
+	if ($show_all && permission_exists('reseller_profile_add')) {
 		echo button::create(['type'=>'button','label'=>$text['button-add'],'icon'=>'plus','id'=>'btn_add','link'=>'reseller_edit.php']);
 	}
 	if (!$show_all && isset($reseller_profile)) {

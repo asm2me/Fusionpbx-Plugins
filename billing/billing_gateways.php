@@ -15,7 +15,7 @@
 	$text = $language->get();
 
 //handle delete
-	if ($_REQUEST['action'] == 'delete' && permission_exists('v_billing_payment_gateway_delete')) {
+	if ($_REQUEST['action'] == 'delete' && permission_exists('billing_payment_gateways_delete')) {
 		$token_obj = new token;
 		if (!$token_obj->validate($_SERVER['PHP_SELF'])) {
 			message::add($text['message-error'], 'negative');
@@ -26,13 +26,13 @@
 		if (is_uuid($gateway_uuid)) {
 			$array['v_billing_payment_gateways'][0]['gateway_uuid'] = $gateway_uuid;
 			$p = new permissions;
-			$p->add('v_billing_payment_gateway_delete', 'temp');
+			$p->add('v_billing_payment_gateways_delete', 'temp');
 			$database = new database;
 			$database->app_name = 'billing';
 			$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 			$database->delete($array);
 			unset($array);
-			$p->delete('v_billing_payment_gateway_delete', 'temp');
+			$p->delete('v_billing_payment_gateways_delete', 'temp');
 			message::add($text['message-deleted']);
 		}
 		header('Location: billing_gateways.php');
@@ -59,7 +59,7 @@
 	echo "		<b>".$text['header-billing_gateways']."</b>\n";
 	echo "	</div>\n";
 	echo "	<div class='actions'>\n";
-	if (permission_exists('v_billing_payment_gateway_add')) {
+	if (permission_exists('billing_payment_gateways_add')) {
 		echo button::create(['type'=>'button','label'=>$text['button-add'],'icon'=>'plus','link'=>'billing_gateway_edit.php']);
 	}
 	echo "	</div>\n";
@@ -75,7 +75,7 @@
 	echo "	<th>".$text['label-display_name']."</th>\n";
 	echo "	<th>".$text['label-sandbox_mode']."</th>\n";
 	echo "	<th>".$text['label-enabled']."</th>\n";
-	if (permission_exists('v_billing_payment_gateway_edit') || permission_exists('v_billing_payment_gateway_delete')) {
+	if (permission_exists('billing_payment_gateways_edit') || permission_exists('billing_payment_gateways_delete')) {
 		echo "	<th class='action-button'>&nbsp;</th>\n";
 	}
 	echo "</tr>\n";
@@ -83,7 +83,7 @@
 	if (is_array($gateways) && count($gateways) > 0) {
 		foreach ($gateways as $row) {
 			echo "<tr class='list-row'>\n";
-			if (permission_exists('v_billing_payment_gateway_edit')) {
+			if (permission_exists('billing_payment_gateways_edit')) {
 				echo "	<td><a href='billing_gateway_edit.php?id=".urlencode($row['gateway_uuid'])."'>".escape(ucfirst($row['gateway_name']))."</a></td>\n";
 			}
 			else {
@@ -92,12 +92,12 @@
 			echo "	<td>".escape($row['display_name'])."</td>\n";
 			echo "	<td>".escape($row['sandbox_mode'] == 'true' ? 'Yes' : 'No')."</td>\n";
 			echo "	<td>".escape($row['enabled'])."</td>\n";
-			if (permission_exists('v_billing_payment_gateway_edit') || permission_exists('v_billing_payment_gateway_delete')) {
+			if (permission_exists('billing_payment_gateways_edit') || permission_exists('billing_payment_gateways_delete')) {
 				echo "	<td class='action-button'>\n";
-				if (permission_exists('v_billing_payment_gateway_edit')) {
+				if (permission_exists('billing_payment_gateways_edit')) {
 					echo button::create(['type'=>'button','title'=>$text['button-edit'],'icon'=>'pencil-alt','link'=>'billing_gateway_edit.php?id='.urlencode($row['gateway_uuid'])]);
 				}
-				if (permission_exists('v_billing_payment_gateway_delete')) {
+				if (permission_exists('billing_payment_gateways_delete')) {
 					echo button::create(['type'=>'button','title'=>$text['button-delete'],'icon'=>'trash','link'=>'billing_gateways.php?action=delete&id='.urlencode($row['gateway_uuid']).'&token='.$token,'onclick'=>"return confirm('".$text['confirm-delete']."');"]);
 				}
 				echo "	</td>\n";

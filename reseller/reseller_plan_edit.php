@@ -5,7 +5,7 @@
 	require_once dirname(__DIR__, 2) . "/resources/check_auth.php";
 
 //check permissions
-	if (!permission_exists('v_reseller_plan_add') && !permission_exists('v_reseller_plan_edit')) {
+	if (!permission_exists('reseller_plan_add') && !permission_exists('reseller_plan_edit')) {
 		echo "access denied";
 		exit;
 	}

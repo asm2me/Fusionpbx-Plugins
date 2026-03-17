@@ -45,7 +45,7 @@
 		}
 
 		//check edit permission
-		if (!permission_exists('v_reseller_profile_edit')) {
+		if (!permission_exists('reseller_profile_edit')) {
 			message::add($text['message-access_denied'], 'negative');
 			header('Location: reseller_settings.php');
 			exit;
@@ -122,7 +122,7 @@
 	echo "	<div class='heading'><b>".$text['header-reseller_settings']."</b></div>\n";
 	echo "	<div class='actions'>\n";
 	echo button::create(['type'=>'button','label'=>$text['button-back'],'icon'=>'arrow-left','link'=>'reseller.php']);
-	if (permission_exists('v_reseller_profile_edit')) {
+	if (permission_exists('reseller_profile_edit')) {
 		echo button::create(['type'=>'submit','label'=>$text['button-save'],'icon'=>'check','id'=>'btn_save']);
 	}
 	echo "	</div>\n";

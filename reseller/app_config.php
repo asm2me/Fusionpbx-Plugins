@@ -16,10 +16,10 @@
 		$apps[$x]['permissions'][$y]['menu']['uuid'] = 'c3d40001-a7b8-9012-cdef-123456789012';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'reseller_profiles_add';
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_profile_add';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'reseller_profiles_edit';
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_profile_edit';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
 		$apps[$x]['permissions'][$y]['name'] = 'reseller_delete';
@@ -38,7 +38,7 @@
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'reseller_domains_add';
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_domain_add';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
 		$y++;
@@ -54,11 +54,11 @@
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'reseller_plans_add';
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_plan_add';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'reseller_plans_edit';
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_plan_edit';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
 		$y++;
@@ -80,7 +80,7 @@
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'reseller_profiles_edit';
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_profile_edit';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
 		$y++;
@@ -144,7 +144,7 @@
 
 	//schema details - v_reseller_profiles
 		$y = 0;
-		$apps[$x]['db'][$y]['table']['name'] = 'v_reseller_profiles';
+		$apps[$x]['db'][$y]['table']['name'] = 'reseller_profiles';
 		$apps[$x]['db'][$y]['table']['parent'] = '';
 		$z = 0;
 		$apps[$x]['db'][$y]['fields'][$z]['name'] = 'reseller_uuid';
@@ -294,7 +294,7 @@
 
 	//schema details - v_reseller_domains
 		$y++;
-		$apps[$x]['db'][$y]['table']['name'] = 'v_reseller_domains';
+		$apps[$x]['db'][$y]['table']['name'] = 'reseller_domains';
 		$apps[$x]['db'][$y]['table']['parent'] = '';
 		$z = 0;
 		$apps[$x]['db'][$y]['fields'][$z]['name'] = 'reseller_domain_uuid';
@@ -357,7 +357,7 @@
 
 	//schema details - v_reseller_plans
 		$y++;
-		$apps[$x]['db'][$y]['table']['name'] = 'v_reseller_plans';
+		$apps[$x]['db'][$y]['table']['name'] = 'reseller_plans';
 		$apps[$x]['db'][$y]['table']['parent'] = '';
 		$z = 0;
 		$apps[$x]['db'][$y]['fields'][$z]['name'] = 'reseller_plan_uuid';
@@ -450,7 +450,7 @@
 
 	//schema details - v_reseller_commissions
 		$y++;
-		$apps[$x]['db'][$y]['table']['name'] = 'v_reseller_commissions';
+		$apps[$x]['db'][$y]['table']['name'] = 'reseller_commissions';
 		$apps[$x]['db'][$y]['table']['parent'] = '';
 		$z = 0;
 		$apps[$x]['db'][$y]['fields'][$z]['name'] = 'commission_uuid';
@@ -513,7 +513,7 @@
 
 	//schema details - v_reseller_activity_log
 		$y++;
-		$apps[$x]['db'][$y]['table']['name'] = 'v_reseller_activity_log';
+		$apps[$x]['db'][$y]['table']['name'] = 'reseller_activity_log';
 		$apps[$x]['db'][$y]['table']['parent'] = '';
 		$z = 0;
 		$apps[$x]['db'][$y]['fields'][$z]['name'] = 'log_uuid';
@@ -564,7 +564,7 @@
 
 	//schema details - v_reseller_permissions
 		$y++;
-		$apps[$x]['db'][$y]['table']['name'] = 'v_reseller_permissions';
+		$apps[$x]['db'][$y]['table']['name'] = 'reseller_permissions';
 		$apps[$x]['db'][$y]['table']['parent'] = '';
 		$z = 0;
 		$apps[$x]['db'][$y]['fields'][$z]['name'] = 'permission_uuid';

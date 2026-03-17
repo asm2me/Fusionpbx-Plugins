@@ -19,34 +19,34 @@
 		$apps[$x]['permissions'][$y]['name'] = 'billing_plan_view';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'v_billing_plan_add';
+		$apps[$x]['permissions'][$y]['name'] = 'billing_plans_add';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'v_billing_plan_edit';
+		$apps[$x]['permissions'][$y]['name'] = 'billing_plans_edit';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'v_billing_plan_delete';
+		$apps[$x]['permissions'][$y]['name'] = 'billing_plans_delete';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
 		$apps[$x]['permissions'][$y]['name'] = 'billing_subscription_view';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'v_billing_subscription_add';
+		$apps[$x]['permissions'][$y]['name'] = 'billing_subscriptions_add';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'v_billing_subscription_edit';
+		$apps[$x]['permissions'][$y]['name'] = 'billing_subscriptions_edit';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'v_billing_subscription_delete';
+		$apps[$x]['permissions'][$y]['name'] = 'billing_subscriptions_delete';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
 		$apps[$x]['permissions'][$y]['name'] = 'billing_invoice_view';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'v_billing_invoice_add';
+		$apps[$x]['permissions'][$y]['name'] = 'billing_invoices_add';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'v_billing_invoice_edit';
+		$apps[$x]['permissions'][$y]['name'] = 'billing_invoices_edit';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
 		$apps[$x]['permissions'][$y]['name'] = 'billing_invoice_delete';
@@ -55,10 +55,10 @@
 		$apps[$x]['permissions'][$y]['name'] = 'billing_payment_view';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'v_billing_payment_add';
+		$apps[$x]['permissions'][$y]['name'] = 'billing_payments_add';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'v_billing_payment_edit';
+		$apps[$x]['permissions'][$y]['name'] = 'billing_payments_edit';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
 		$apps[$x]['permissions'][$y]['name'] = 'billing_payment_delete';
@@ -67,31 +67,31 @@
 		$apps[$x]['permissions'][$y]['name'] = 'billing_notice_template_view';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'v_billing_notice_template_add';
+		$apps[$x]['permissions'][$y]['name'] = 'billing_notice_templates_add';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'v_billing_notice_template_edit';
+		$apps[$x]['permissions'][$y]['name'] = 'billing_notice_templates_edit';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'v_billing_notice_template_delete';
+		$apps[$x]['permissions'][$y]['name'] = 'billing_notice_templates_delete';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
 		$apps[$x]['permissions'][$y]['name'] = 'billing_gateway_view';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'v_billing_payment_gateway_add';
+		$apps[$x]['permissions'][$y]['name'] = 'billing_payment_gateways_add';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'v_billing_payment_gateway_edit';
+		$apps[$x]['permissions'][$y]['name'] = 'billing_payment_gateways_edit';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'v_billing_payment_gateway_delete';
+		$apps[$x]['permissions'][$y]['name'] = 'billing_payment_gateways_delete';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
 		$apps[$x]['permissions'][$y]['name'] = 'billing_credit_view';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'v_billing_credit_add';
+		$apps[$x]['permissions'][$y]['name'] = 'billing_credits_add';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
 		$apps[$x]['permissions'][$y]['name'] = 'billing_credit_edit';
@@ -164,7 +164,7 @@
 
 	//schema details - billing_plans
 		$y = 0;
-		$apps[$x]['db'][$y]['table']['name'] = 'v_billing_plans';
+		$apps[$x]['db'][$y]['table']['name'] = 'billing_plans';
 		$apps[$x]['db'][$y]['table']['parent'] = '';
 		$z = 0;
 		$apps[$x]['db'][$y]['fields'][$z]['name'] = 'plan_uuid';
@@ -260,7 +260,7 @@
 
 	//schema details - billing_subscriptions
 		$y++;
-		$apps[$x]['db'][$y]['table']['name'] = 'v_billing_subscriptions';
+		$apps[$x]['db'][$y]['table']['name'] = 'billing_subscriptions';
 		$apps[$x]['db'][$y]['table']['parent'] = '';
 		$z = 0;
 		$apps[$x]['db'][$y]['fields'][$z]['name'] = 'subscription_uuid';
@@ -353,7 +353,7 @@
 
 	//schema details - billing_invoices
 		$y++;
-		$apps[$x]['db'][$y]['table']['name'] = 'v_billing_invoices';
+		$apps[$x]['db'][$y]['table']['name'] = 'billing_invoices';
 		$apps[$x]['db'][$y]['table']['parent'] = '';
 		$z = 0;
 		$apps[$x]['db'][$y]['fields'][$z]['name'] = 'invoice_uuid';
@@ -449,7 +449,7 @@
 
 	//schema details - billing_payments
 		$y++;
-		$apps[$x]['db'][$y]['table']['name'] = 'v_billing_payments';
+		$apps[$x]['db'][$y]['table']['name'] = 'billing_payments';
 		$apps[$x]['db'][$y]['table']['parent'] = '';
 		$z = 0;
 		$apps[$x]['db'][$y]['fields'][$z]['name'] = 'payment_uuid';
@@ -515,7 +515,7 @@
 
 	//schema details - billing_notices
 		$y++;
-		$apps[$x]['db'][$y]['table']['name'] = 'v_billing_notices';
+		$apps[$x]['db'][$y]['table']['name'] = 'billing_notices';
 		$apps[$x]['db'][$y]['table']['parent'] = '';
 		$z = 0;
 		$apps[$x]['db'][$y]['fields'][$z]['name'] = 'notice_uuid';
@@ -575,7 +575,7 @@
 
 	//schema details - billing_notice_templates
 		$y++;
-		$apps[$x]['db'][$y]['table']['name'] = 'v_billing_notice_templates';
+		$apps[$x]['db'][$y]['table']['name'] = 'billing_notice_templates';
 		$apps[$x]['db'][$y]['table']['parent'] = '';
 		$z = 0;
 		$apps[$x]['db'][$y]['fields'][$z]['name'] = 'template_uuid';
@@ -635,7 +635,7 @@
 
 	//schema details - billing_payment_gateways
 		$y++;
-		$apps[$x]['db'][$y]['table']['name'] = 'v_billing_payment_gateways';
+		$apps[$x]['db'][$y]['table']['name'] = 'billing_payment_gateways';
 		$apps[$x]['db'][$y]['table']['parent'] = '';
 		$z = 0;
 		$apps[$x]['db'][$y]['fields'][$z]['name'] = 'gateway_uuid';
@@ -701,7 +701,7 @@
 
 	//schema details - billing_credits
 		$y++;
-		$apps[$x]['db'][$y]['table']['name'] = 'v_billing_credits';
+		$apps[$x]['db'][$y]['table']['name'] = 'billing_credits';
 		$apps[$x]['db'][$y]['table']['parent'] = '';
 		$z = 0;
 		$apps[$x]['db'][$y]['fields'][$z]['name'] = 'credit_uuid';

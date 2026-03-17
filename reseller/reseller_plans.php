@@ -80,7 +80,7 @@
 	echo "<div class='action_bar' id='action_bar'>\n";
 	echo "	<div class='heading'><b>".$text['header-reseller_plans']."</b></div>\n";
 	echo "	<div class='actions'>\n";
-	if (permission_exists('reseller_plans_add')) {
+	if (permission_exists('reseller_plan_add')) {
 		echo button::create(['type'=>'button','label'=>$text['button-add'],'icon'=>'plus','link'=>'reseller_plan_edit.php']);
 	}
 	echo "	</div>\n";
@@ -123,7 +123,7 @@
 			echo "		<td>".escape($row['max_ivrs'])."</td>\n";
 			echo "		<td>".escape($row['enabled'])."</td>\n";
 			echo "		<td class='action-button'>\n";
-			if (permission_exists('reseller_plans_edit')) {
+			if (permission_exists('reseller_plan_edit')) {
 				echo "			<a href='".$edit_link."'>".$text['button-edit']."</a>\n";
 			}
 			if (permission_exists('reseller_plans_delete')) {

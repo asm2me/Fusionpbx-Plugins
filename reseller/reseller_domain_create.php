@@ -5,7 +5,7 @@
 	require_once dirname(__DIR__, 2) . "/resources/check_auth.php";
 
 //check permissions
-	if (!permission_exists('reseller_domains_add')) {
+	if (!permission_exists('reseller_domain_add')) {
 		echo "access denied";
 		exit;
 	}
