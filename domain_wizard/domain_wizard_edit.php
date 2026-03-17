@@ -75,11 +75,18 @@
 					}
 
 				//save to the database
+					$p = new permissions;
+					$p->add('domain_wizard_template_add', 'temp');
+					$p->add('domain_wizard_template_edit', 'temp');
+
 					$database = new database;
 					$database->app_name = 'domain_wizard';
 					$database->app_uuid = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890';
 					$database->save($array);
 					unset($array);
+
+					$p->delete('domain_wizard_template_add', 'temp');
+					$p->delete('domain_wizard_template_edit', 'temp');
 
 				//set the message
 					message::add($text['message-template_saved']);
@@ -250,6 +257,7 @@
 	if ($action == 'update') {
 		echo "<input type='hidden' name='domain_wizard_template_uuid' value='".escape($domain_wizard_template_uuid)."'>\n";
 	}
+	echo "<input type='hidden' name='persistformvar' value=''>\n";
 
 	echo "</form>\n";
 
