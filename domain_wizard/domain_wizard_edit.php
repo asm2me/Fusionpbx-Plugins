@@ -83,17 +83,42 @@
 					$database->app_name = 'domain_wizard';
 					$database->app_uuid = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890';
 					$database->save($array);
+					$db_response = $database->message;
 					unset($array);
 
 					$p->delete('domain_wizard_template_add', 'temp');
 					$p->delete('domain_wizard_template_edit', 'temp');
 
-				//set the message
-					message::add($text['message-template_saved']);
-
-				//redirect
-					header('Location: domain_wizard.php');
-					exit;
+				//check result and show debug info
+					if (isset($db_response['code']) && $db_response['code'] == '200') {
+						message::add($text['message-template_saved']);
+						header('Location: domain_wizard.php');
+						exit;
+					}
+					else {
+						$error_detail = isset($db_response['message']) ? $db_response['message'] : 'Unknown error';
+						$error_code = isset($db_response['code']) ? $db_response['code'] : 'N/A';
+						$debug_info = 'DB Error Code: ' . $error_code . ' | Message: ' . $error_detail;
+						if (isset($db_response['error'])) {
+							$error_obj = $db_response['error'];
+							if (is_array($error_obj)) {
+								$debug_info .= ' | Detail: ' . json_encode($error_obj);
+							} else {
+								$debug_info .= ' | Detail: ' . $error_obj;
+							}
+						}
+						$debug_info .= ' | Full response: ' . json_encode($db_response);
+						message::add($debug_info, 'negative');
+						//persist form vars for redisplay
+						$template_name = $_POST['template_name'];
+						$source_domain_uuid = $_POST['source_domain_uuid'];
+						$default_extensions = $_POST['default_extensions'];
+						$default_gateways = $_POST['default_gateways'];
+						$default_ivrs = $_POST['default_ivrs'];
+						$default_ring_groups = $_POST['default_ring_groups'];
+						$description = $_POST['description'];
+						$enabled = $_POST['enabled'];
+					}
 			}
 	}
 
