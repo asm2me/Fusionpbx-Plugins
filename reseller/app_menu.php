@@ -6,7 +6,7 @@
 		$apps[$x]['menu'][$y]['uuid'] = 'c3d40010-a7b8-9012-cdef-123456789012';
 		$apps[$x]['menu'][$y]['parent_uuid'] = '';
 		$apps[$x]['menu'][$y]['category'] = 'internal';
-		$apps[$x]['menu'][$y]['icon'] = '';
+		$apps[$x]['menu'][$y]['icon'] = 'fa-solid fa-handshake';
 		$apps[$x]['menu'][$y]['path'] = '';
 		$apps[$x]['menu'][$y]['order'] = '';
 		$apps[$x]['menu'][$y]['groups'][] = 'superadmin';
@@ -18,7 +18,7 @@
 		$apps[$x]['menu'][$y]['uuid'] = 'c3d40002-a7b8-9012-cdef-123456789012';
 		$apps[$x]['menu'][$y]['parent_uuid'] = 'c3d40010-a7b8-9012-cdef-123456789012';
 		$apps[$x]['menu'][$y]['category'] = 'internal';
-		$apps[$x]['menu'][$y]['icon'] = '';
+		$apps[$x]['menu'][$y]['icon'] = 'fa-solid fa-gauge-high';
 		$apps[$x]['menu'][$y]['path'] = '/app/reseller/reseller.php';
 		$apps[$x]['menu'][$y]['order'] = '';
 		$apps[$x]['menu'][$y]['groups'][] = 'superadmin';
@@ -30,7 +30,7 @@
 		$apps[$x]['menu'][$y]['uuid'] = 'c3d40003-a7b8-9012-cdef-123456789012';
 		$apps[$x]['menu'][$y]['parent_uuid'] = 'c3d40010-a7b8-9012-cdef-123456789012';
 		$apps[$x]['menu'][$y]['category'] = 'internal';
-		$apps[$x]['menu'][$y]['icon'] = '';
+		$apps[$x]['menu'][$y]['icon'] = 'fa-solid fa-globe';
 		$apps[$x]['menu'][$y]['path'] = '/app/reseller/reseller_domains.php';
 		$apps[$x]['menu'][$y]['order'] = '';
 		$apps[$x]['menu'][$y]['groups'][] = 'superadmin';
@@ -42,7 +42,7 @@
 		$apps[$x]['menu'][$y]['uuid'] = 'c3d40011-a7b8-9012-cdef-123456789012';
 		$apps[$x]['menu'][$y]['parent_uuid'] = 'c3d40010-a7b8-9012-cdef-123456789012';
 		$apps[$x]['menu'][$y]['category'] = 'internal';
-		$apps[$x]['menu'][$y]['icon'] = '';
+		$apps[$x]['menu'][$y]['icon'] = 'fa-solid fa-plus-circle';
 		$apps[$x]['menu'][$y]['path'] = '/app/reseller/reseller_domain_create.php';
 		$apps[$x]['menu'][$y]['order'] = '';
 		$apps[$x]['menu'][$y]['groups'][] = 'superadmin';
@@ -54,7 +54,7 @@
 		$apps[$x]['menu'][$y]['uuid'] = 'c3d40004-a7b8-9012-cdef-123456789012';
 		$apps[$x]['menu'][$y]['parent_uuid'] = 'c3d40010-a7b8-9012-cdef-123456789012';
 		$apps[$x]['menu'][$y]['category'] = 'internal';
-		$apps[$x]['menu'][$y]['icon'] = '';
+		$apps[$x]['menu'][$y]['icon'] = 'fa-solid fa-clipboard-list';
 		$apps[$x]['menu'][$y]['path'] = '/app/reseller/reseller_plans.php';
 		$apps[$x]['menu'][$y]['order'] = '';
 		$apps[$x]['menu'][$y]['groups'][] = 'superadmin';
@@ -66,7 +66,7 @@
 		$apps[$x]['menu'][$y]['uuid'] = 'c3d40005-a7b8-9012-cdef-123456789012';
 		$apps[$x]['menu'][$y]['parent_uuid'] = 'c3d40010-a7b8-9012-cdef-123456789012';
 		$apps[$x]['menu'][$y]['category'] = 'internal';
-		$apps[$x]['menu'][$y]['icon'] = '';
+		$apps[$x]['menu'][$y]['icon'] = 'fa-solid fa-percent';
 		$apps[$x]['menu'][$y]['path'] = '/app/reseller/reseller_commissions.php';
 		$apps[$x]['menu'][$y]['order'] = '';
 		$apps[$x]['menu'][$y]['groups'][] = 'superadmin';
@@ -78,7 +78,7 @@
 		$apps[$x]['menu'][$y]['uuid'] = 'c3d40006-a7b8-9012-cdef-123456789012';
 		$apps[$x]['menu'][$y]['parent_uuid'] = 'c3d40010-a7b8-9012-cdef-123456789012';
 		$apps[$x]['menu'][$y]['category'] = 'internal';
-		$apps[$x]['menu'][$y]['icon'] = '';
+		$apps[$x]['menu'][$y]['icon'] = 'fa-solid fa-clock-rotate-left';
 		$apps[$x]['menu'][$y]['path'] = '/app/reseller/reseller_activity.php';
 		$apps[$x]['menu'][$y]['order'] = '';
 		$apps[$x]['menu'][$y]['groups'][] = 'superadmin';
@@ -90,7 +90,7 @@
 		$apps[$x]['menu'][$y]['uuid'] = 'c3d40007-a7b8-9012-cdef-123456789012';
 		$apps[$x]['menu'][$y]['parent_uuid'] = 'c3d40010-a7b8-9012-cdef-123456789012';
 		$apps[$x]['menu'][$y]['category'] = 'internal';
-		$apps[$x]['menu'][$y]['icon'] = '';
+		$apps[$x]['menu'][$y]['icon'] = 'fa-solid fa-gear';
 		$apps[$x]['menu'][$y]['path'] = '/app/reseller/reseller_settings.php';
 		$apps[$x]['menu'][$y]['order'] = '';
 		$apps[$x]['menu'][$y]['groups'][] = 'superadmin';
@@ -102,7 +102,7 @@
 		$apps[$x]['menu'][$y]['uuid'] = 'c3d40001-a7b8-9012-cdef-123456789012';
 		$apps[$x]['menu'][$y]['parent_uuid'] = 'c3d40010-a7b8-9012-cdef-123456789012';
 		$apps[$x]['menu'][$y]['category'] = 'internal';
-		$apps[$x]['menu'][$y]['icon'] = '';
+		$apps[$x]['menu'][$y]['icon'] = 'fa-solid fa-users-gear';
 		$apps[$x]['menu'][$y]['path'] = '/app/reseller/reseller.php?show=all';
 		$apps[$x]['menu'][$y]['order'] = '';
 		$apps[$x]['menu'][$y]['groups'][] = 'superadmin';

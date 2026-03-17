@@ -74,10 +74,14 @@ if (!class_exists('reseller')) {
 		 * @return array ['success' => bool, 'message' => string, 'domain_uuid' => string|null]
 		 */
 		public function create_domain($reseller_uuid, $domain_data) {
+			$log = [];
+
 			//validate reseller status
+			$log[] = 'Validating reseller profile...';
 			$profile = $this->get_profile($reseller_uuid);
 			if (!$profile || $profile['status'] !== 'active' || $profile['enabled'] !== 'true') {
-				return ['success' => false, 'message' => 'Reseller account is not active.', 'domain_uuid' => null];
+				$log[] = 'FAILED: Reseller account is not active or not found.';
+				return ['success' => false, 'message' => 'Reseller account is not active.', 'domain_uuid' => null, 'log' => $log];
 			}
 
 			//check domain quota
@@ -233,7 +237,8 @@ if (!class_exists('reseller')) {
 				'plan_uuid' => $domain_data['plan_uuid'] ?? null,
 			], $new_domain_uuid);
 
-			return ['success' => true, 'message' => 'Domain created successfully.', 'domain_uuid' => $new_domain_uuid];
+			$log[] = 'Domain creation completed successfully.';
+			return ['success' => true, 'message' => 'Domain created successfully.', 'domain_uuid' => $new_domain_uuid, 'log' => $log];
 		}
 
 		/**
@@ -242,18 +247,24 @@ if (!class_exists('reseller')) {
 		 * @return array ['success' => bool, 'message' => string, 'domain_uuid' => string|null]
 		 */
 		public function create_domain_direct($domain_data) {
+			$log = [];
+
 			//check if domain name already exists
+			$log[] = 'Checking if domain "' . $domain_data['domain_name'] . '" already exists...';
 			$sql = "select count(*) as num from v_domains where domain_name = :domain_name ";
 			$parameters['domain_name'] = $domain_data['domain_name'];
 			$database = new database;
 			$row = $database->select($sql, $parameters, 'row');
 			unset($parameters);
 			if (is_array($row) && (int)$row['num'] > 0) {
-				return ['success' => false, 'message' => 'Domain name already exists.', 'domain_uuid' => null];
+				$log[] = 'FAILED: Domain name "' . $domain_data['domain_name'] . '" already exists in the database.';
+				return ['success' => false, 'message' => 'Domain name "' . $domain_data['domain_name'] . '" already exists.', 'domain_uuid' => null, 'log' => $log];
 			}
+			$log[] = 'OK: Domain name is available.';
 
 			//create the domain
 			$new_domain_uuid = uuid();
+			$log[] = 'Creating domain with UUID: ' . $new_domain_uuid . '...';
 			$array['v_domains'][0]['domain_uuid'] = $new_domain_uuid;
 			$array['v_domains'][0]['domain_name'] = $domain_data['domain_name'];
 			$array['v_domains'][0]['domain_enabled'] = 'true';
@@ -265,39 +276,56 @@ if (!class_exists('reseller')) {
 			$database->app_name = 'reseller';
 			$database->app_uuid = 'c3d4e5f6-a7b8-9012-cdef-123456789012';
 			$database->save($array);
+			$db_message = $database->message;
 			unset($array);
 
 			$p->delete('domain_add', 'temp');
 
-			if ($database->message['code'] != '200') {
-				return ['success' => false, 'message' => 'Failed to create domain in database.', 'domain_uuid' => null];
+			if (!isset($db_message['code']) || $db_message['code'] != '200') {
+				$error_detail = isset($db_message['message']) ? $db_message['message'] : json_encode($db_message);
+				$log[] = 'FAILED: Could not create domain. DB response: ' . $error_detail;
+				return ['success' => false, 'message' => 'Failed to create domain. DB error: ' . $error_detail, 'domain_uuid' => null, 'log' => $log];
 			}
+			$log[] = 'OK: Domain created in v_domains.';
 
 			//clone from source domain if specified
 			if (!empty($domain_data['source_domain_uuid']) && is_uuid($domain_data['source_domain_uuid'])) {
-				$this->clone_domain_data($domain_data['source_domain_uuid'], $new_domain_uuid, $domain_data);
+				$log[] = 'Cloning data from source domain: ' . $domain_data['source_domain_uuid'] . '...';
+				$clone_log = $this->clone_domain_data($domain_data['source_domain_uuid'], $new_domain_uuid, $domain_data);
+				if (is_array($clone_log)) {
+					$log = array_merge($log, $clone_log);
+				}
 			}
 
 			//create admin user for the new domain
 			if (!empty($domain_data['admin_username']) && !empty($domain_data['admin_password'])) {
-				$this->create_domain_admin_user($new_domain_uuid, $domain_data['admin_username'], $domain_data['admin_password']);
+				$log[] = 'Creating admin user "' . $domain_data['admin_username'] . '"...';
+				$user_log = $this->create_domain_admin_user($new_domain_uuid, $domain_data['admin_username'], $domain_data['admin_password']);
+				if (is_array($user_log)) {
+					$log = array_merge($log, $user_log);
+				}
 			}
 
 			//set domain limits
 			if (!empty($domain_data['num_extensions'])) {
 				$this->set_domain_setting($new_domain_uuid, 'limit', 'extensions', 'numeric', $domain_data['num_extensions']);
+				$log[] = 'OK: Set extensions limit to ' . $domain_data['num_extensions'] . '.';
 			}
 			if (!empty($domain_data['num_gateways'])) {
 				$this->set_domain_setting($new_domain_uuid, 'limit', 'gateways', 'numeric', $domain_data['num_gateways']);
+				$log[] = 'OK: Set gateways limit to ' . $domain_data['num_gateways'] . '.';
 			}
 			if (!empty($domain_data['num_ivrs'])) {
 				$this->set_domain_setting($new_domain_uuid, 'limit', 'ivrs', 'numeric', $domain_data['num_ivrs']);
+				$log[] = 'OK: Set IVRs limit to ' . $domain_data['num_ivrs'] . '.';
 			}
 			if (!empty($domain_data['num_ring_groups'])) {
 				$this->set_domain_setting($new_domain_uuid, 'limit', 'ring_groups', 'numeric', $domain_data['num_ring_groups']);
+				$log[] = 'OK: Set ring groups limit to ' . $domain_data['num_ring_groups'] . '.';
 			}
 
-			return ['success' => true, 'message' => 'Domain created successfully.', 'domain_uuid' => $new_domain_uuid];
+			$log[] = 'Domain creation completed successfully.';
+			return ['success' => true, 'message' => 'Domain created successfully.', 'domain_uuid' => $new_domain_uuid, 'log' => $log];
 		}
 
 		/**
@@ -307,6 +335,7 @@ if (!class_exists('reseller')) {
 		 * @param array $options
 		 */
 		private function clone_domain_data($source_uuid, $target_uuid, $options = []) {
+			$log = [];
 			$num_extensions = (int) ($options['num_extensions'] ?? 0);
 			$num_gateways = (int) ($options['num_gateways'] ?? 0);
 
@@ -319,7 +348,7 @@ if (!class_exists('reseller')) {
 				$extensions = $database->select($sql, $parameters, 'all');
 				unset($parameters);
 
-				if (is_array($extensions)) {
+				if (is_array($extensions) && sizeof($extensions) > 0) {
 					$ext_num = 1000;
 					foreach ($extensions as $idx => $ext) {
 						$new_ext_uuid = uuid();
@@ -340,6 +369,9 @@ if (!class_exists('reseller')) {
 					$database->save($array);
 					unset($array);
 					$p->delete('extension_add', 'temp');
+					$log[] = 'OK: Cloned ' . sizeof($extensions) . ' extensions (starting at ' . $ext_num . ').';
+				} else {
+					$log[] = 'WARNING: No extensions found in source domain to clone.';
 				}
 			}
 
@@ -352,7 +384,7 @@ if (!class_exists('reseller')) {
 				$gateways = $database->select($sql, $parameters, 'all');
 				unset($parameters);
 
-				if (is_array($gateways)) {
+				if (is_array($gateways) && sizeof($gateways) > 0) {
 					foreach ($gateways as $idx => $gw) {
 						$new_gw_uuid = uuid();
 						$array['v_gateways'][$idx]['gateway_uuid'] = $new_gw_uuid;
@@ -374,6 +406,9 @@ if (!class_exists('reseller')) {
 					$database->save($array);
 					unset($array);
 					$p->delete('gateway_add', 'temp');
+					$log[] = 'OK: Cloned ' . sizeof($gateways) . ' gateways (disabled by default).';
+				} else {
+					$log[] = 'WARNING: No gateways found in source domain to clone.';
 				}
 			}
 
@@ -403,7 +438,12 @@ if (!class_exists('reseller')) {
 				$database->save($array);
 				unset($array);
 				$p->delete('dialplan_add', 'temp');
+				$log[] = 'OK: Cloned ' . sizeof($dialplans) . ' dialplan entries.';
+			} else {
+				$log[] = 'INFO: No dialplan entries found in source domain.';
 			}
+
+			return $log;
 		}
 
 		/**
@@ -413,6 +453,7 @@ if (!class_exists('reseller')) {
 		 * @param string $password
 		 */
 		private function create_domain_admin_user($domain_uuid, $username, $password) {
+			$log = [];
 			$new_user_uuid = uuid();
 			$salt = uuid();
 			$password_hash = md5($salt . $password);
@@ -432,8 +473,17 @@ if (!class_exists('reseller')) {
 			$database->app_name = 'reseller';
 			$database->app_uuid = 'c3d4e5f6-a7b8-9012-cdef-123456789012';
 			$database->save($array);
+			$db_msg = $database->message;
 			unset($array);
 			$p->delete('user_add', 'temp');
+
+			if (isset($db_msg['code']) && $db_msg['code'] == '200') {
+				$log[] = 'OK: Admin user "' . $username . '" created (UUID: ' . $new_user_uuid . ').';
+			} else {
+				$error_detail = isset($db_msg['message']) ? $db_msg['message'] : json_encode($db_msg);
+				$log[] = 'WARNING: Failed to create admin user. DB response: ' . $error_detail;
+				return $log;
+			}
 
 			//assign admin group to user
 			$sql = "select group_uuid from v_groups where group_name = 'admin' limit 1 ";
@@ -454,7 +504,12 @@ if (!class_exists('reseller')) {
 				$database->save($array);
 				unset($array);
 				$p->delete('user_group_add', 'temp');
+				$log[] = 'OK: Assigned admin group to user.';
+			} else {
+				$log[] = 'WARNING: Could not find admin group to assign to user.';
 			}
+
+			return $log;
 		}
 
 		/**

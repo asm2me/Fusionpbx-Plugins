@@ -146,9 +146,14 @@
 				$result = $reseller_obj->create_domain($reseller_uuid, $domain_data);
 			}
 
+			//store log in session for display
+			if (isset($result['log']) && is_array($result['log'])) {
+				$_SESSION['domain_create_log'] = $result['log'];
+			}
+
 			if ($result['success']) {
 				message::add($text['message-domain_created'] ?? 'Domain created successfully.');
-				header('Location: reseller_domains.php');
+				header('Location: reseller_domain_create.php?result=success');
 				exit;
 			} else {
 				message::add($result['message'], 'negative');
@@ -198,6 +203,26 @@
 	echo "	</div>\n";
 	echo "	<div style='clear: both;'></div>\n";
 	echo "</div>\n";
+
+	//show creation log if available
+	if (isset($_SESSION['domain_create_log']) && is_array($_SESSION['domain_create_log'])) {
+		$log_entries = $_SESSION['domain_create_log'];
+		unset($_SESSION['domain_create_log']);
+		$log_type = (isset($_GET['result']) && $_GET['result'] === 'success') ? 'success' : 'warning';
+		echo "<div class='card' style='margin-bottom: 15px; padding: 15px; border-left: 4px solid " . ($log_type === 'success' ? '#4CAF50' : '#FF9800') . "; background-color: " . ($log_type === 'success' ? '#f0fff0' : '#fff8f0') . ";'>\n";
+		echo "	<b>Domain Creation Log:</b><br/>\n";
+		echo "	<div style='font-family: monospace; font-size: 12px; margin-top: 8px; max-height: 300px; overflow-y: auto; padding: 10px; background: #fafafa; border: 1px solid #ddd; border-radius: 4px;'>\n";
+		foreach ($log_entries as $entry) {
+			$color = '#333';
+			if (strpos($entry, 'FAILED') !== false) { $color = '#d32f2f'; }
+			elseif (strpos($entry, 'WARNING') !== false) { $color = '#f57c00'; }
+			elseif (strpos($entry, 'OK:') !== false) { $color = '#388e3c'; }
+			elseif (strpos($entry, 'INFO:') !== false) { $color = '#1976d2'; }
+			echo "		<div style='color: " . $color . "; margin-bottom: 4px;'>" . escape($entry) . "</div>\n";
+		}
+		echo "	</div>\n";
+		echo "</div>\n";
+	}
 
 	if ($direct_mode) {
 		echo "<div class='card'>\n";
