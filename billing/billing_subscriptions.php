@@ -24,7 +24,7 @@
 		}
 		$subscription_uuid = $_REQUEST['id'];
 		if (is_uuid($subscription_uuid)) {
-			$array['billing_subscriptions'][0]['subscription_uuid'] = $subscription_uuid;
+			$array['v_billing_subscriptions'][0]['subscription_uuid'] = $subscription_uuid;
 			$p = new permissions;
 			$p->add('billing_subscription_delete', 'temp');
 			$database = new database;

@@ -78,21 +78,21 @@
 			'{{company_name}}' => 'Company name',
 		]);
 
-		$array['billing_notice_templates'][0]['template_name'] = $template_name;
-		$array['billing_notice_templates'][0]['notice_type'] = $notice_type;
-		$array['billing_notice_templates'][0]['subject'] = $subject;
-		$array['billing_notice_templates'][0]['body_html'] = $body_html;
-		$array['billing_notice_templates'][0]['body_text'] = $body_text;
-		$array['billing_notice_templates'][0]['variables_json'] = $default_variables;
-		$array['billing_notice_templates'][0]['enabled'] = $enabled;
+		$array['v_billing_notice_templates'][0]['template_name'] = $template_name;
+		$array['v_billing_notice_templates'][0]['notice_type'] = $notice_type;
+		$array['v_billing_notice_templates'][0]['subject'] = $subject;
+		$array['v_billing_notice_templates'][0]['body_html'] = $body_html;
+		$array['v_billing_notice_templates'][0]['body_text'] = $body_text;
+		$array['v_billing_notice_templates'][0]['variables_json'] = $default_variables;
+		$array['v_billing_notice_templates'][0]['enabled'] = $enabled;
 
 		if ($action == 'add') {
 			$template_uuid = uuid();
-			$array['billing_notice_templates'][0]['template_uuid'] = $template_uuid;
-			$array['billing_notice_templates'][0]['add_date'] = date('Y-m-d H:i:s');
+			$array['v_billing_notice_templates'][0]['template_uuid'] = $template_uuid;
+			$array['v_billing_notice_templates'][0]['add_date'] = date('Y-m-d H:i:s');
 		}
 		else {
-			$array['billing_notice_templates'][0]['template_uuid'] = $template_uuid;
+			$array['v_billing_notice_templates'][0]['template_uuid'] = $template_uuid;
 		}
 
 		$p = new permissions;

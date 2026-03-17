@@ -70,18 +70,18 @@ class billing {
 
 		$subscription_uuid = uuid();
 
-		$array['billing_subscriptions'][0]['subscription_uuid'] = $subscription_uuid;
-		$array['billing_subscriptions'][0]['domain_uuid'] = $domain_uuid;
-		$array['billing_subscriptions'][0]['plan_uuid'] = $plan_uuid;
-		$array['billing_subscriptions'][0]['reseller_uuid'] = $options['reseller_uuid'] ?? null;
-		$array['billing_subscriptions'][0]['status'] = 'active';
-		$array['billing_subscriptions'][0]['start_date'] = $start_date;
-		$array['billing_subscriptions'][0]['end_date'] = $end_date;
-		$array['billing_subscriptions'][0]['next_billing_date'] = $end_date;
-		$array['billing_subscriptions'][0]['auto_renew'] = $options['auto_renew'] ?? 'true';
-		$array['billing_subscriptions'][0]['trial_ends_at'] = $options['trial_ends_at'] ?? null;
-		$array['billing_subscriptions'][0]['add_date'] = date('Y-m-d H:i:s');
-		$array['billing_subscriptions'][0]['add_user'] = $options['user_uuid'] ?? ($_SESSION['user_uuid'] ?? null);
+		$array['v_billing_subscriptions'][0]['subscription_uuid'] = $subscription_uuid;
+		$array['v_billing_subscriptions'][0]['domain_uuid'] = $domain_uuid;
+		$array['v_billing_subscriptions'][0]['plan_uuid'] = $plan_uuid;
+		$array['v_billing_subscriptions'][0]['reseller_uuid'] = $options['reseller_uuid'] ?? null;
+		$array['v_billing_subscriptions'][0]['status'] = 'active';
+		$array['v_billing_subscriptions'][0]['start_date'] = $start_date;
+		$array['v_billing_subscriptions'][0]['end_date'] = $end_date;
+		$array['v_billing_subscriptions'][0]['next_billing_date'] = $end_date;
+		$array['v_billing_subscriptions'][0]['auto_renew'] = $options['auto_renew'] ?? 'true';
+		$array['v_billing_subscriptions'][0]['trial_ends_at'] = $options['trial_ends_at'] ?? null;
+		$array['v_billing_subscriptions'][0]['add_date'] = date('Y-m-d H:i:s');
+		$array['v_billing_subscriptions'][0]['add_user'] = $options['user_uuid'] ?? ($_SESSION['user_uuid'] ?? null);
 
 		$p = new permissions;
 		$p->add('billing_subscription_add', 'temp');
@@ -106,8 +106,8 @@ class billing {
 	public function suspend_domain($domain_uuid) {
 		if (!is_uuid($domain_uuid)) { return false; }
 
-		$array['domains'][0]['domain_uuid'] = $domain_uuid;
-		$array['domains'][0]['domain_enabled'] = 'false';
+		$array['v_domains'][0]['domain_uuid'] = $domain_uuid;
+		$array['v_domains'][0]['domain_enabled'] = 'false';
 
 		$p = new permissions;
 		$p->add('domain_edit', 'temp');
@@ -132,8 +132,8 @@ class billing {
 	public function activate_domain($domain_uuid) {
 		if (!is_uuid($domain_uuid)) { return false; }
 
-		$array['domains'][0]['domain_uuid'] = $domain_uuid;
-		$array['domains'][0]['domain_enabled'] = 'true';
+		$array['v_domains'][0]['domain_uuid'] = $domain_uuid;
+		$array['v_domains'][0]['domain_enabled'] = 'true';
 
 		$p = new permissions;
 		$p->add('domain_edit', 'temp');
@@ -188,17 +188,17 @@ class billing {
 
 		$invoice_uuid = uuid();
 
-		$array['billing_invoices'][0]['invoice_uuid'] = $invoice_uuid;
-		$array['billing_invoices'][0]['subscription_uuid'] = $subscription_uuid;
-		$array['billing_invoices'][0]['domain_uuid'] = $subscription['domain_uuid'];
-		$array['billing_invoices'][0]['invoice_number'] = $invoice_number;
-		$array['billing_invoices'][0]['amount'] = $amount;
-		$array['billing_invoices'][0]['currency'] = $subscription['currency'];
-		$array['billing_invoices'][0]['tax_amount'] = $tax_amount;
-		$array['billing_invoices'][0]['total_amount'] = $total_amount;
-		$array['billing_invoices'][0]['status'] = 'pending';
-		$array['billing_invoices'][0]['due_date'] = $due_date;
-		$array['billing_invoices'][0]['add_date'] = date('Y-m-d H:i:s');
+		$array['v_billing_invoices'][0]['invoice_uuid'] = $invoice_uuid;
+		$array['v_billing_invoices'][0]['subscription_uuid'] = $subscription_uuid;
+		$array['v_billing_invoices'][0]['domain_uuid'] = $subscription['domain_uuid'];
+		$array['v_billing_invoices'][0]['invoice_number'] = $invoice_number;
+		$array['v_billing_invoices'][0]['amount'] = $amount;
+		$array['v_billing_invoices'][0]['currency'] = $subscription['currency'];
+		$array['v_billing_invoices'][0]['tax_amount'] = $tax_amount;
+		$array['v_billing_invoices'][0]['total_amount'] = $total_amount;
+		$array['v_billing_invoices'][0]['status'] = 'pending';
+		$array['v_billing_invoices'][0]['due_date'] = $due_date;
+		$array['v_billing_invoices'][0]['add_date'] = date('Y-m-d H:i:s');
 
 		$p = new permissions;
 		$p->add('billing_invoice_add', 'temp');
@@ -285,16 +285,16 @@ class billing {
 		if ($result) {
 			//record the payment attempt
 			$payment_uuid = uuid();
-			$array['billing_payments'][0]['payment_uuid'] = $payment_uuid;
-			$array['billing_payments'][0]['invoice_uuid'] = $invoice_uuid;
-			$array['billing_payments'][0]['domain_uuid'] = $invoice['domain_uuid'];
-			$array['billing_payments'][0]['amount'] = $invoice['total_amount'];
-			$array['billing_payments'][0]['currency'] = $invoice['currency'];
-			$array['billing_payments'][0]['payment_gateway'] = $gateway_name;
-			$array['billing_payments'][0]['transaction_id'] = $result['transaction_id'] ?? '';
-			$array['billing_payments'][0]['status'] = 'pending';
-			$array['billing_payments'][0]['gateway_response_json'] = json_encode($result);
-			$array['billing_payments'][0]['add_date'] = date('Y-m-d H:i:s');
+			$array['v_billing_payments'][0]['payment_uuid'] = $payment_uuid;
+			$array['v_billing_payments'][0]['invoice_uuid'] = $invoice_uuid;
+			$array['v_billing_payments'][0]['domain_uuid'] = $invoice['domain_uuid'];
+			$array['v_billing_payments'][0]['amount'] = $invoice['total_amount'];
+			$array['v_billing_payments'][0]['currency'] = $invoice['currency'];
+			$array['v_billing_payments'][0]['payment_gateway'] = $gateway_name;
+			$array['v_billing_payments'][0]['transaction_id'] = $result['transaction_id'] ?? '';
+			$array['v_billing_payments'][0]['status'] = 'pending';
+			$array['v_billing_payments'][0]['gateway_response_json'] = json_encode($result);
+			$array['v_billing_payments'][0]['add_date'] = date('Y-m-d H:i:s');
 
 			$p = new permissions;
 			$p->add('billing_payment_add', 'temp');
@@ -334,10 +334,10 @@ class billing {
 		if (!is_array($payment)) { return false; }
 
 		//update payment status
-		$array['billing_payments'][0]['payment_uuid'] = $payment_uuid;
-		$array['billing_payments'][0]['transaction_id'] = $transaction_id;
-		$array['billing_payments'][0]['status'] = 'completed';
-		$array['billing_payments'][0]['gateway_response_json'] = json_encode($gateway_response);
+		$array['v_billing_payments'][0]['payment_uuid'] = $payment_uuid;
+		$array['v_billing_payments'][0]['transaction_id'] = $transaction_id;
+		$array['v_billing_payments'][0]['status'] = 'completed';
+		$array['v_billing_payments'][0]['gateway_response_json'] = json_encode($gateway_response);
 
 		$p = new permissions;
 		$p->add('billing_payment_edit', 'temp');
@@ -432,11 +432,11 @@ class billing {
 				$new_end = date('Y-m-d H:i:s', strtotime($base_date . ' +1 month'));
 		}
 
-		$array['billing_subscriptions'][0]['subscription_uuid'] = $subscription_uuid;
-		$array['billing_subscriptions'][0]['status'] = 'active';
-		$array['billing_subscriptions'][0]['end_date'] = $new_end;
-		$array['billing_subscriptions'][0]['next_billing_date'] = $new_end;
-		$array['billing_subscriptions'][0]['mod_date'] = date('Y-m-d H:i:s');
+		$array['v_billing_subscriptions'][0]['subscription_uuid'] = $subscription_uuid;
+		$array['v_billing_subscriptions'][0]['status'] = 'active';
+		$array['v_billing_subscriptions'][0]['end_date'] = $new_end;
+		$array['v_billing_subscriptions'][0]['next_billing_date'] = $new_end;
+		$array['v_billing_subscriptions'][0]['mod_date'] = date('Y-m-d H:i:s');
 
 		$p = new permissions;
 		$p->add('billing_subscription_edit', 'temp');
@@ -535,9 +535,9 @@ class billing {
 		if (is_array($expired)) {
 			foreach ($expired as $sub) {
 				//mark as expired
-				$array['billing_subscriptions'][0]['subscription_uuid'] = $sub['subscription_uuid'];
-				$array['billing_subscriptions'][0]['status'] = 'expired';
-				$array['billing_subscriptions'][0]['mod_date'] = date('Y-m-d H:i:s');
+				$array['v_billing_subscriptions'][0]['subscription_uuid'] = $sub['subscription_uuid'];
+				$array['v_billing_subscriptions'][0]['status'] = 'expired';
+				$array['v_billing_subscriptions'][0]['mod_date'] = date('Y-m-d H:i:s');
 
 				$p = new permissions;
 				$p->add('billing_subscription_edit', 'temp');
@@ -574,9 +574,9 @@ class billing {
 			if (is_array($to_suspend)) {
 				foreach ($to_suspend as $sub) {
 					//update status
-					$array['billing_subscriptions'][0]['subscription_uuid'] = $sub['subscription_uuid'];
-					$array['billing_subscriptions'][0]['status'] = 'suspended';
-					$array['billing_subscriptions'][0]['mod_date'] = date('Y-m-d H:i:s');
+					$array['v_billing_subscriptions'][0]['subscription_uuid'] = $sub['subscription_uuid'];
+					$array['v_billing_subscriptions'][0]['status'] = 'suspended';
+					$array['v_billing_subscriptions'][0]['mod_date'] = date('Y-m-d H:i:s');
 
 					$p = new permissions;
 					$p->add('billing_subscription_edit', 'temp');
@@ -707,15 +707,15 @@ class billing {
 		}
 
 		//record the notice
-		$array['billing_notices'][0]['notice_uuid'] = uuid();
-		$array['billing_notices'][0]['subscription_uuid'] = $subscription_uuid;
-		$array['billing_notices'][0]['domain_uuid'] = $sub['domain_uuid'];
-		$array['billing_notices'][0]['notice_type'] = $notice_type;
-		$array['billing_notices'][0]['sent_date'] = date('Y-m-d H:i:s');
-		$array['billing_notices'][0]['sent_to'] = $email ?? '';
-		$array['billing_notices'][0]['sent_via'] = 'email';
-		$array['billing_notices'][0]['template_used'] = $template['template_name'];
-		$array['billing_notices'][0]['status'] = $sent ? 'sent' : 'failed';
+		$array['v_billing_notices'][0]['notice_uuid'] = uuid();
+		$array['v_billing_notices'][0]['subscription_uuid'] = $subscription_uuid;
+		$array['v_billing_notices'][0]['domain_uuid'] = $sub['domain_uuid'];
+		$array['v_billing_notices'][0]['notice_type'] = $notice_type;
+		$array['v_billing_notices'][0]['sent_date'] = date('Y-m-d H:i:s');
+		$array['v_billing_notices'][0]['sent_to'] = $email ?? '';
+		$array['v_billing_notices'][0]['sent_via'] = 'email';
+		$array['v_billing_notices'][0]['template_used'] = $template['template_name'];
+		$array['v_billing_notices'][0]['status'] = $sent ? 'sent' : 'failed';
 
 		$p = new permissions;
 		$p->add('billing_notice_template_add', 'temp');

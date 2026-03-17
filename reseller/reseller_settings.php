@@ -66,20 +66,20 @@
 		];
 		$branding_json = json_encode($branding);
 
-		$array['reseller_profiles'][0]['reseller_uuid'] = $reseller_uuid;
-		$array['reseller_profiles'][0]['contact_name'] = $contact_name;
-		$array['reseller_profiles'][0]['contact_email'] = $contact_email;
-		$array['reseller_profiles'][0]['contact_phone'] = $contact_phone;
-		$array['reseller_profiles'][0]['address'] = $address;
-		$array['reseller_profiles'][0]['branding_json'] = $branding_json;
-		$array['reseller_profiles'][0]['mod_date'] = 'now()';
-		$array['reseller_profiles'][0]['mod_user'] = $_SESSION['user_uuid'];
+		$array['v_reseller_profiles'][0]['reseller_uuid'] = $reseller_uuid;
+		$array['v_reseller_profiles'][0]['contact_name'] = $contact_name;
+		$array['v_reseller_profiles'][0]['contact_email'] = $contact_email;
+		$array['v_reseller_profiles'][0]['contact_phone'] = $contact_phone;
+		$array['v_reseller_profiles'][0]['address'] = $address;
+		$array['v_reseller_profiles'][0]['branding_json'] = $branding_json;
+		$array['v_reseller_profiles'][0]['mod_date'] = 'now()';
+		$array['v_reseller_profiles'][0]['mod_user'] = $_SESSION['user_uuid'];
 
 		//handle API key generation
 		if (isset($_POST['generate_api_key']) && $_POST['generate_api_key'] === 'true') {
 			$keys = $reseller_obj->generate_api_key();
-			$array['reseller_profiles'][0]['api_key'] = $keys['api_key'];
-			$array['reseller_profiles'][0]['api_secret'] = hash('sha256', $keys['api_secret']);
+			$array['v_reseller_profiles'][0]['api_key'] = $keys['api_key'];
+			$array['v_reseller_profiles'][0]['api_secret'] = hash('sha256', $keys['api_secret']);
 			$_SESSION['reseller_new_api_secret'] = $keys['api_secret'];
 		}
 

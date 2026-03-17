@@ -33,7 +33,7 @@
 				$x = 0;
 				foreach ($records as $record) {
 					if (is_uuid($record['uuid'])) {
-						$array['domain_wizard_templates'][$x]['domain_wizard_template_uuid'] = $record['uuid'];
+						$array['v_domain_wizard_templates'][$x]['domain_wizard_template_uuid'] = $record['uuid'];
 						$x++;
 					}
 				}

@@ -66,22 +66,22 @@
 			}
 		}
 
-		$array['reseller_plans'][0]['reseller_plan_uuid'] = $reseller_plan_uuid;
-		$array['reseller_plans'][0]['reseller_uuid'] = $plan_reseller_uuid;
-		$array['reseller_plans'][0]['plan_name'] = $plan_name;
-		$array['reseller_plans'][0]['description'] = $description;
-		$array['reseller_plans'][0]['base_plan_uuid'] = $base_plan_uuid;
-		$array['reseller_plans'][0]['markup_amount'] = $markup_amount;
-		$array['reseller_plans'][0]['markup_type'] = $markup_type;
-		$array['reseller_plans'][0]['max_extensions'] = $max_extensions;
-		$array['reseller_plans'][0]['max_gateways'] = $max_gateways;
-		$array['reseller_plans'][0]['max_ivrs'] = $max_ivrs;
-		$array['reseller_plans'][0]['features_json'] = $features_json;
-		$array['reseller_plans'][0]['enabled'] = $enabled;
+		$array['v_reseller_plans'][0]['reseller_plan_uuid'] = $reseller_plan_uuid;
+		$array['v_reseller_plans'][0]['reseller_uuid'] = $plan_reseller_uuid;
+		$array['v_reseller_plans'][0]['plan_name'] = $plan_name;
+		$array['v_reseller_plans'][0]['description'] = $description;
+		$array['v_reseller_plans'][0]['base_plan_uuid'] = $base_plan_uuid;
+		$array['v_reseller_plans'][0]['markup_amount'] = $markup_amount;
+		$array['v_reseller_plans'][0]['markup_type'] = $markup_type;
+		$array['v_reseller_plans'][0]['max_extensions'] = $max_extensions;
+		$array['v_reseller_plans'][0]['max_gateways'] = $max_gateways;
+		$array['v_reseller_plans'][0]['max_ivrs'] = $max_ivrs;
+		$array['v_reseller_plans'][0]['features_json'] = $features_json;
+		$array['v_reseller_plans'][0]['enabled'] = $enabled;
 
 		if ($action === 'add') {
-			$array['reseller_plans'][0]['add_date'] = 'now()';
-			$array['reseller_plans'][0]['add_user'] = $_SESSION['user_uuid'];
+			$array['v_reseller_plans'][0]['add_date'] = 'now()';
+			$array['v_reseller_plans'][0]['add_user'] = $_SESSION['user_uuid'];
 		}
 
 		$p = new permissions;

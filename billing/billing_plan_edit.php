@@ -49,27 +49,27 @@
 		$enabled = $_POST['enabled'];
 
 		//build the array
-		$array['billing_plans'][0]['plan_name'] = $plan_name;
-		$array['billing_plans'][0]['description'] = $description;
-		$array['billing_plans'][0]['price'] = $price;
-		$array['billing_plans'][0]['currency'] = $currency;
-		$array['billing_plans'][0]['billing_cycle'] = $billing_cycle;
-		$array['billing_plans'][0]['max_extensions'] = $max_extensions;
-		$array['billing_plans'][0]['max_gateways'] = $max_gateways;
-		$array['billing_plans'][0]['max_ivrs'] = $max_ivrs;
-		$array['billing_plans'][0]['max_call_recordings'] = $max_call_recordings;
-		$array['billing_plans'][0]['max_ring_groups'] = $max_ring_groups;
-		$array['billing_plans'][0]['features_json'] = $features_json;
-		$array['billing_plans'][0]['enabled'] = $enabled;
+		$array['v_billing_plans'][0]['plan_name'] = $plan_name;
+		$array['v_billing_plans'][0]['description'] = $description;
+		$array['v_billing_plans'][0]['price'] = $price;
+		$array['v_billing_plans'][0]['currency'] = $currency;
+		$array['v_billing_plans'][0]['billing_cycle'] = $billing_cycle;
+		$array['v_billing_plans'][0]['max_extensions'] = $max_extensions;
+		$array['v_billing_plans'][0]['max_gateways'] = $max_gateways;
+		$array['v_billing_plans'][0]['max_ivrs'] = $max_ivrs;
+		$array['v_billing_plans'][0]['max_call_recordings'] = $max_call_recordings;
+		$array['v_billing_plans'][0]['max_ring_groups'] = $max_ring_groups;
+		$array['v_billing_plans'][0]['features_json'] = $features_json;
+		$array['v_billing_plans'][0]['enabled'] = $enabled;
 
 		if ($action == 'add') {
 			$plan_uuid = uuid();
-			$array['billing_plans'][0]['plan_uuid'] = $plan_uuid;
-			$array['billing_plans'][0]['add_date'] = date('Y-m-d H:i:s');
-			$array['billing_plans'][0]['add_user'] = $_SESSION['user_uuid'];
+			$array['v_billing_plans'][0]['plan_uuid'] = $plan_uuid;
+			$array['v_billing_plans'][0]['add_date'] = date('Y-m-d H:i:s');
+			$array['v_billing_plans'][0]['add_user'] = $_SESSION['user_uuid'];
 		}
 		else {
-			$array['billing_plans'][0]['plan_uuid'] = $plan_uuid;
+			$array['v_billing_plans'][0]['plan_uuid'] = $plan_uuid;
 		}
 
 		//save to the database

@@ -26,7 +26,7 @@
 
 		$plan_uuid = $_REQUEST['id'];
 		if (is_uuid($plan_uuid)) {
-			$array['billing_plans'][0]['plan_uuid'] = $plan_uuid;
+			$array['v_billing_plans'][0]['plan_uuid'] = $plan_uuid;
 			$p = new permissions;
 			$p->add('billing_plan_delete', 'temp');
 			$database = new database;

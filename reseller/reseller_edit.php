@@ -77,38 +77,38 @@
 		}
 
 		//build the save array
-		$array['reseller_profiles'][0]['reseller_uuid'] = $reseller_uuid;
-		$array['reseller_profiles'][0]['user_uuid'] = $user_uuid;
-		$array['reseller_profiles'][0]['domain_uuid'] = $domain_uuid;
-		$array['reseller_profiles'][0]['company_name'] = $company_name;
-		$array['reseller_profiles'][0]['contact_name'] = $contact_name;
-		$array['reseller_profiles'][0]['contact_email'] = $contact_email;
-		$array['reseller_profiles'][0]['contact_phone'] = $contact_phone;
-		$array['reseller_profiles'][0]['address'] = $address;
-		$array['reseller_profiles'][0]['tax_id'] = $tax_id;
-		$array['reseller_profiles'][0]['commission_rate'] = $commission_rate;
-		$array['reseller_profiles'][0]['status'] = $status;
-		$array['reseller_profiles'][0]['max_domains'] = $max_domains;
-		$array['reseller_profiles'][0]['max_total_extensions'] = $max_total_extensions;
-		$array['reseller_profiles'][0]['max_total_gateways'] = $max_total_gateways;
-		$array['reseller_profiles'][0]['allowed_features_json'] = $allowed_features_json;
-		$array['reseller_profiles'][0]['branding_json'] = $branding_json;
-		$array['reseller_profiles'][0]['notes'] = $notes;
-		$array['reseller_profiles'][0]['enabled'] = $enabled;
+		$array['v_reseller_profiles'][0]['reseller_uuid'] = $reseller_uuid;
+		$array['v_reseller_profiles'][0]['user_uuid'] = $user_uuid;
+		$array['v_reseller_profiles'][0]['domain_uuid'] = $domain_uuid;
+		$array['v_reseller_profiles'][0]['company_name'] = $company_name;
+		$array['v_reseller_profiles'][0]['contact_name'] = $contact_name;
+		$array['v_reseller_profiles'][0]['contact_email'] = $contact_email;
+		$array['v_reseller_profiles'][0]['contact_phone'] = $contact_phone;
+		$array['v_reseller_profiles'][0]['address'] = $address;
+		$array['v_reseller_profiles'][0]['tax_id'] = $tax_id;
+		$array['v_reseller_profiles'][0]['commission_rate'] = $commission_rate;
+		$array['v_reseller_profiles'][0]['status'] = $status;
+		$array['v_reseller_profiles'][0]['max_domains'] = $max_domains;
+		$array['v_reseller_profiles'][0]['max_total_extensions'] = $max_total_extensions;
+		$array['v_reseller_profiles'][0]['max_total_gateways'] = $max_total_gateways;
+		$array['v_reseller_profiles'][0]['allowed_features_json'] = $allowed_features_json;
+		$array['v_reseller_profiles'][0]['branding_json'] = $branding_json;
+		$array['v_reseller_profiles'][0]['notes'] = $notes;
+		$array['v_reseller_profiles'][0]['enabled'] = $enabled;
 
 		if (!empty($api_key)) {
-			$array['reseller_profiles'][0]['api_key'] = $api_key;
+			$array['v_reseller_profiles'][0]['api_key'] = $api_key;
 		}
 		if (!empty($api_secret_hash)) {
-			$array['reseller_profiles'][0]['api_secret'] = $api_secret_hash;
+			$array['v_reseller_profiles'][0]['api_secret'] = $api_secret_hash;
 		}
 
 		if ($action === 'add') {
-			$array['reseller_profiles'][0]['add_date'] = 'now()';
-			$array['reseller_profiles'][0]['add_user'] = $_SESSION['user_uuid'];
+			$array['v_reseller_profiles'][0]['add_date'] = 'now()';
+			$array['v_reseller_profiles'][0]['add_user'] = $_SESSION['user_uuid'];
 		}
-		$array['reseller_profiles'][0]['mod_date'] = 'now()';
-		$array['reseller_profiles'][0]['mod_user'] = $_SESSION['user_uuid'];
+		$array['v_reseller_profiles'][0]['mod_date'] = 'now()';
+		$array['v_reseller_profiles'][0]['mod_user'] = $_SESSION['user_uuid'];
 
 		//grant temp permission
 		$p = new permissions;

@@ -24,7 +24,7 @@
 		}
 		$gateway_uuid = $_REQUEST['id'];
 		if (is_uuid($gateway_uuid)) {
-			$array['billing_payment_gateways'][0]['gateway_uuid'] = $gateway_uuid;
+			$array['v_billing_payment_gateways'][0]['gateway_uuid'] = $gateway_uuid;
 			$p = new permissions;
 			$p->add('billing_gateway_delete', 'temp');
 			$database = new database;

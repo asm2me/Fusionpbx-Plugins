@@ -24,7 +24,7 @@
 		}
 		$template_uuid = $_REQUEST['id'];
 		if (is_uuid($template_uuid)) {
-			$array['billing_notice_templates'][0]['template_uuid'] = $template_uuid;
+			$array['v_billing_notice_templates'][0]['template_uuid'] = $template_uuid;
 			$p = new permissions;
 			$p->add('billing_notice_template_delete', 'temp');
 			$database = new database;

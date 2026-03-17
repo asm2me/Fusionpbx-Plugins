@@ -7,9 +7,9 @@ if ($domains_processed == 1) {
 		$database = new database;
 		$row = $database->select($sql, null, 'row');
 		if (is_array($row) && $row['num'] == 0) {
-			$array['groups'][0]['group_uuid'] = uuid();
-			$array['groups'][0]['group_name'] = 'reseller';
-			$array['groups'][0]['group_description'] = 'Reseller group for managing domains within allocated limits.';
+			$array['v_groups'][0]['group_uuid'] = uuid();
+			$array['v_groups'][0]['group_name'] = 'reseller';
+			$array['v_groups'][0]['group_description'] = 'Reseller group for managing domains within allocated limits.';
 
 			$p = new permissions;
 			$p->add('group_add', 'temp');

@@ -83,10 +83,10 @@
 		$encryption_key = $_SESSION['encryption']['key'] ?? 'billing_default_key';
 
 		//build the array
-		$array['billing_payment_gateways'][0]['gateway_name'] = $gateway_name;
-		$array['billing_payment_gateways'][0]['display_name'] = $display_name;
-		$array['billing_payment_gateways'][0]['sandbox_mode'] = $sandbox_mode;
-		$array['billing_payment_gateways'][0]['enabled'] = $enabled;
+		$array['v_billing_payment_gateways'][0]['gateway_name'] = $gateway_name;
+		$array['v_billing_payment_gateways'][0]['display_name'] = $display_name;
+		$array['v_billing_payment_gateways'][0]['sandbox_mode'] = $sandbox_mode;
+		$array['v_billing_payment_gateways'][0]['enabled'] = $enabled;
 
 		//gateway-specific fields stored in config_json
 		$config = array();
@@ -94,34 +94,34 @@
 			case 'paypal':
 				$config['client_id'] = $_POST['client_id'];
 				$config['client_secret'] = $_POST['client_secret'];
-				$array['billing_payment_gateways'][0]['api_key_encrypted'] = base64_encode(openssl_encrypt($_POST['client_id'], 'aes-256-cbc', $encryption_key, 0, str_pad('', 16, "\0")));
-				$array['billing_payment_gateways'][0]['api_secret_encrypted'] = base64_encode(openssl_encrypt($_POST['client_secret'], 'aes-256-cbc', $encryption_key, 0, str_pad('', 16, "\0")));
+				$array['v_billing_payment_gateways'][0]['api_key_encrypted'] = base64_encode(openssl_encrypt($_POST['client_id'], 'aes-256-cbc', $encryption_key, 0, str_pad('', 16, "\0")));
+				$array['v_billing_payment_gateways'][0]['api_secret_encrypted'] = base64_encode(openssl_encrypt($_POST['client_secret'], 'aes-256-cbc', $encryption_key, 0, str_pad('', 16, "\0")));
 				break;
 			case 'stripe':
 				$config['publishable_key'] = $_POST['publishable_key'];
 				$config['secret_key'] = $_POST['secret_key'];
 				$config['webhook_secret'] = $_POST['webhook_secret'];
-				$array['billing_payment_gateways'][0]['api_key_encrypted'] = base64_encode(openssl_encrypt($_POST['publishable_key'], 'aes-256-cbc', $encryption_key, 0, str_pad('', 16, "\0")));
-				$array['billing_payment_gateways'][0]['api_secret_encrypted'] = base64_encode(openssl_encrypt($_POST['secret_key'], 'aes-256-cbc', $encryption_key, 0, str_pad('', 16, "\0")));
-				$array['billing_payment_gateways'][0]['webhook_secret'] = $_POST['webhook_secret'];
+				$array['v_billing_payment_gateways'][0]['api_key_encrypted'] = base64_encode(openssl_encrypt($_POST['publishable_key'], 'aes-256-cbc', $encryption_key, 0, str_pad('', 16, "\0")));
+				$array['v_billing_payment_gateways'][0]['api_secret_encrypted'] = base64_encode(openssl_encrypt($_POST['secret_key'], 'aes-256-cbc', $encryption_key, 0, str_pad('', 16, "\0")));
+				$array['v_billing_payment_gateways'][0]['webhook_secret'] = $_POST['webhook_secret'];
 				break;
 			case 'binance':
 				$config['api_key'] = $_POST['api_key'];
 				$config['api_secret'] = $_POST['api_secret'];
 				$config['merchant_id'] = $_POST['merchant_id'];
-				$array['billing_payment_gateways'][0]['api_key_encrypted'] = base64_encode(openssl_encrypt($_POST['api_key'], 'aes-256-cbc', $encryption_key, 0, str_pad('', 16, "\0")));
-				$array['billing_payment_gateways'][0]['api_secret_encrypted'] = base64_encode(openssl_encrypt($_POST['api_secret'], 'aes-256-cbc', $encryption_key, 0, str_pad('', 16, "\0")));
+				$array['v_billing_payment_gateways'][0]['api_key_encrypted'] = base64_encode(openssl_encrypt($_POST['api_key'], 'aes-256-cbc', $encryption_key, 0, str_pad('', 16, "\0")));
+				$array['v_billing_payment_gateways'][0]['api_secret_encrypted'] = base64_encode(openssl_encrypt($_POST['api_secret'], 'aes-256-cbc', $encryption_key, 0, str_pad('', 16, "\0")));
 				break;
 		}
-		$array['billing_payment_gateways'][0]['config_json'] = json_encode($config);
+		$array['v_billing_payment_gateways'][0]['config_json'] = json_encode($config);
 
 		if ($action == 'add') {
 			$gateway_uuid = uuid();
-			$array['billing_payment_gateways'][0]['gateway_uuid'] = $gateway_uuid;
-			$array['billing_payment_gateways'][0]['add_date'] = date('Y-m-d H:i:s');
+			$array['v_billing_payment_gateways'][0]['gateway_uuid'] = $gateway_uuid;
+			$array['v_billing_payment_gateways'][0]['add_date'] = date('Y-m-d H:i:s');
 		}
 		else {
-			$array['billing_payment_gateways'][0]['gateway_uuid'] = $gateway_uuid;
+			$array['v_billing_payment_gateways'][0]['gateway_uuid'] = $gateway_uuid;
 		}
 
 		$p = new permissions;

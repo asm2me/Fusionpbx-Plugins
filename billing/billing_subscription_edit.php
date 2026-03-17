@@ -46,26 +46,26 @@
 		$trial_ends_at = $_POST['trial_ends_at'];
 
 		//build array
-		$array['billing_subscriptions'][0]['domain_uuid'] = $domain_uuid;
-		$array['billing_subscriptions'][0]['plan_uuid'] = $plan_uuid;
-		$array['billing_subscriptions'][0]['reseller_uuid'] = !empty($reseller_uuid) ? $reseller_uuid : null;
-		$array['billing_subscriptions'][0]['status'] = $status;
-		$array['billing_subscriptions'][0]['start_date'] = $start_date;
-		$array['billing_subscriptions'][0]['end_date'] = $end_date;
-		$array['billing_subscriptions'][0]['next_billing_date'] = $next_billing_date;
-		$array['billing_subscriptions'][0]['auto_renew'] = $auto_renew;
-		$array['billing_subscriptions'][0]['trial_ends_at'] = !empty($trial_ends_at) ? $trial_ends_at : null;
-		$array['billing_subscriptions'][0]['mod_date'] = date('Y-m-d H:i:s');
-		$array['billing_subscriptions'][0]['mod_user'] = $_SESSION['user_uuid'];
+		$array['v_billing_subscriptions'][0]['domain_uuid'] = $domain_uuid;
+		$array['v_billing_subscriptions'][0]['plan_uuid'] = $plan_uuid;
+		$array['v_billing_subscriptions'][0]['reseller_uuid'] = !empty($reseller_uuid) ? $reseller_uuid : null;
+		$array['v_billing_subscriptions'][0]['status'] = $status;
+		$array['v_billing_subscriptions'][0]['start_date'] = $start_date;
+		$array['v_billing_subscriptions'][0]['end_date'] = $end_date;
+		$array['v_billing_subscriptions'][0]['next_billing_date'] = $next_billing_date;
+		$array['v_billing_subscriptions'][0]['auto_renew'] = $auto_renew;
+		$array['v_billing_subscriptions'][0]['trial_ends_at'] = !empty($trial_ends_at) ? $trial_ends_at : null;
+		$array['v_billing_subscriptions'][0]['mod_date'] = date('Y-m-d H:i:s');
+		$array['v_billing_subscriptions'][0]['mod_user'] = $_SESSION['user_uuid'];
 
 		if ($action == 'add') {
 			$subscription_uuid = uuid();
-			$array['billing_subscriptions'][0]['subscription_uuid'] = $subscription_uuid;
-			$array['billing_subscriptions'][0]['add_date'] = date('Y-m-d H:i:s');
-			$array['billing_subscriptions'][0]['add_user'] = $_SESSION['user_uuid'];
+			$array['v_billing_subscriptions'][0]['subscription_uuid'] = $subscription_uuid;
+			$array['v_billing_subscriptions'][0]['add_date'] = date('Y-m-d H:i:s');
+			$array['v_billing_subscriptions'][0]['add_user'] = $_SESSION['user_uuid'];
 		}
 		else {
-			$array['billing_subscriptions'][0]['subscription_uuid'] = $subscription_uuid;
+			$array['v_billing_subscriptions'][0]['subscription_uuid'] = $subscription_uuid;
 		}
 
 		//handle domain activation/suspension based on status change

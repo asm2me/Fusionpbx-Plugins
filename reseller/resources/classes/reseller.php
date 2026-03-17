@@ -104,9 +104,9 @@ if (!class_exists('reseller')) {
 
 			//create the domain
 			$new_domain_uuid = uuid();
-			$array['domains'][0]['domain_uuid'] = $new_domain_uuid;
-			$array['domains'][0]['domain_name'] = $domain_data['domain_name'];
-			$array['domains'][0]['domain_enabled'] = 'true';
+			$array['v_domains'][0]['domain_uuid'] = $new_domain_uuid;
+			$array['v_domains'][0]['domain_name'] = $domain_data['domain_name'];
+			$array['v_domains'][0]['domain_enabled'] = 'true';
 
 			$p = new permissions;
 			$p->add('domain_add', 'temp');
@@ -140,14 +140,14 @@ if (!class_exists('reseller')) {
 				$salt = uuid();
 				$password_hash = md5($salt . $domain_data['admin_password']);
 
-				$array['users'][0]['user_uuid'] = $new_user_uuid;
-				$array['users'][0]['domain_uuid'] = $new_domain_uuid;
-				$array['users'][0]['username'] = $domain_data['admin_username'];
-				$array['users'][0]['password'] = $password_hash;
-				$array['users'][0]['salt'] = $salt;
-				$array['users'][0]['user_enabled'] = 'true';
-				$array['users'][0]['add_date'] = 'now()';
-				$array['users'][0]['add_user'] = $_SESSION['user_uuid'] ?? '';
+				$array['v_users'][0]['user_uuid'] = $new_user_uuid;
+				$array['v_users'][0]['domain_uuid'] = $new_domain_uuid;
+				$array['v_users'][0]['username'] = $domain_data['admin_username'];
+				$array['v_users'][0]['password'] = $password_hash;
+				$array['v_users'][0]['salt'] = $salt;
+				$array['v_users'][0]['user_enabled'] = 'true';
+				$array['v_users'][0]['add_date'] = 'now()';
+				$array['v_users'][0]['add_user'] = $_SESSION['user_uuid'] ?? '';
 
 				$p = new permissions;
 				$p->add('user_add', 'temp');
@@ -170,11 +170,11 @@ if (!class_exists('reseller')) {
 				}
 
 				if (!empty($group_uuid)) {
-					$array['user_groups'][0]['user_group_uuid'] = uuid();
-					$array['user_groups'][0]['domain_uuid'] = $new_domain_uuid;
-					$array['user_groups'][0]['group_name'] = 'admin';
-					$array['user_groups'][0]['group_uuid'] = $group_uuid;
-					$array['user_groups'][0]['user_uuid'] = $new_user_uuid;
+					$array['v_user_groups'][0]['user_group_uuid'] = uuid();
+					$array['v_user_groups'][0]['domain_uuid'] = $new_domain_uuid;
+					$array['v_user_groups'][0]['group_name'] = 'admin';
+					$array['v_user_groups'][0]['group_uuid'] = $group_uuid;
+					$array['v_user_groups'][0]['user_uuid'] = $new_user_uuid;
 
 					$p = new permissions;
 					$p->add('user_group_add', 'temp');
@@ -199,19 +199,19 @@ if (!class_exists('reseller')) {
 
 			//record the reseller domain mapping
 			$reseller_domain_uuid = uuid();
-			$array['reseller_domains'][0]['reseller_domain_uuid'] = $reseller_domain_uuid;
-			$array['reseller_domains'][0]['reseller_uuid'] = $reseller_uuid;
-			$array['reseller_domains'][0]['domain_uuid'] = $new_domain_uuid;
-			$array['reseller_domains'][0]['status'] = 'active';
-			$array['reseller_domains'][0]['provisioned_date'] = 'now()';
-			$array['reseller_domains'][0]['add_date'] = 'now()';
-			$array['reseller_domains'][0]['add_user'] = $_SESSION['user_uuid'] ?? '';
+			$array['v_reseller_domains'][0]['reseller_domain_uuid'] = $reseller_domain_uuid;
+			$array['v_reseller_domains'][0]['reseller_uuid'] = $reseller_uuid;
+			$array['v_reseller_domains'][0]['domain_uuid'] = $new_domain_uuid;
+			$array['v_reseller_domains'][0]['status'] = 'active';
+			$array['v_reseller_domains'][0]['provisioned_date'] = 'now()';
+			$array['v_reseller_domains'][0]['add_date'] = 'now()';
+			$array['v_reseller_domains'][0]['add_user'] = $_SESSION['user_uuid'] ?? '';
 
 			//link subscription if plan_uuid provided
 			if (!empty($domain_data['plan_uuid'])) {
 				$subscription_uuid = $this->create_billing_subscription($reseller_uuid, $new_domain_uuid, $domain_data['plan_uuid']);
 				if ($subscription_uuid) {
-					$array['reseller_domains'][0]['subscription_uuid'] = $subscription_uuid;
+					$array['v_reseller_domains'][0]['subscription_uuid'] = $subscription_uuid;
 				}
 			}
 
@@ -254,9 +254,9 @@ if (!class_exists('reseller')) {
 
 			//create the domain
 			$new_domain_uuid = uuid();
-			$array['domains'][0]['domain_uuid'] = $new_domain_uuid;
-			$array['domains'][0]['domain_name'] = $domain_data['domain_name'];
-			$array['domains'][0]['domain_enabled'] = 'true';
+			$array['v_domains'][0]['domain_uuid'] = $new_domain_uuid;
+			$array['v_domains'][0]['domain_name'] = $domain_data['domain_name'];
+			$array['v_domains'][0]['domain_enabled'] = 'true';
 
 			$p = new permissions;
 			$p->add('domain_add', 'temp');
@@ -323,13 +323,13 @@ if (!class_exists('reseller')) {
 					$ext_num = 1000;
 					foreach ($extensions as $idx => $ext) {
 						$new_ext_uuid = uuid();
-						$array['extensions'][$idx]['extension_uuid'] = $new_ext_uuid;
-						$array['extensions'][$idx]['domain_uuid'] = $target_uuid;
-						$array['extensions'][$idx]['extension'] = (string)($ext_num + $idx);
-						$array['extensions'][$idx]['number_alias'] = '';
-						$array['extensions'][$idx]['password'] = bin2hex(random_bytes(8));
-						$array['extensions'][$idx]['enabled'] = 'true';
-						$array['extensions'][$idx]['description'] = 'Extension ' . ($ext_num + $idx);
+						$array['v_extensions'][$idx]['extension_uuid'] = $new_ext_uuid;
+						$array['v_extensions'][$idx]['domain_uuid'] = $target_uuid;
+						$array['v_extensions'][$idx]['extension'] = (string)($ext_num + $idx);
+						$array['v_extensions'][$idx]['number_alias'] = '';
+						$array['v_extensions'][$idx]['password'] = bin2hex(random_bytes(8));
+						$array['v_extensions'][$idx]['enabled'] = 'true';
+						$array['v_extensions'][$idx]['description'] = 'Extension ' . ($ext_num + $idx);
 					}
 
 					$p = new permissions;
@@ -355,15 +355,15 @@ if (!class_exists('reseller')) {
 				if (is_array($gateways)) {
 					foreach ($gateways as $idx => $gw) {
 						$new_gw_uuid = uuid();
-						$array['gateways'][$idx]['gateway_uuid'] = $new_gw_uuid;
-						$array['gateways'][$idx]['domain_uuid'] = $target_uuid;
-						$array['gateways'][$idx]['gateway'] = $gw['gateway'] ?? 'gateway_' . ($idx + 1);
-						$array['gateways'][$idx]['username'] = $gw['username'] ?? '';
-						$array['gateways'][$idx]['password'] = $gw['password'] ?? '';
-						$array['gateways'][$idx]['proxy'] = $gw['proxy'] ?? '';
-						$array['gateways'][$idx]['register'] = $gw['register'] ?? 'false';
-						$array['gateways'][$idx]['enabled'] = 'false';
-						$array['gateways'][$idx]['description'] = 'Cloned from source - configure before enabling';
+						$array['v_gateways'][$idx]['gateway_uuid'] = $new_gw_uuid;
+						$array['v_gateways'][$idx]['domain_uuid'] = $target_uuid;
+						$array['v_gateways'][$idx]['gateway'] = $gw['gateway'] ?? 'gateway_' . ($idx + 1);
+						$array['v_gateways'][$idx]['username'] = $gw['username'] ?? '';
+						$array['v_gateways'][$idx]['password'] = $gw['password'] ?? '';
+						$array['v_gateways'][$idx]['proxy'] = $gw['proxy'] ?? '';
+						$array['v_gateways'][$idx]['register'] = $gw['register'] ?? 'false';
+						$array['v_gateways'][$idx]['enabled'] = 'false';
+						$array['v_gateways'][$idx]['description'] = 'Cloned from source - configure before enabling';
 					}
 
 					$p = new permissions;
@@ -387,12 +387,12 @@ if (!class_exists('reseller')) {
 			if (is_array($dialplans) && sizeof($dialplans) > 0) {
 				foreach ($dialplans as $idx => $dp) {
 					$new_dp_uuid = uuid();
-					$array['dialplans'][$idx]['dialplan_uuid'] = $new_dp_uuid;
-					$array['dialplans'][$idx]['domain_uuid'] = $target_uuid;
-					$array['dialplans'][$idx]['dialplan_name'] = $dp['dialplan_name'] ?? '';
-					$array['dialplans'][$idx]['dialplan_context'] = $dp['dialplan_context'] ?? '';
-					$array['dialplans'][$idx]['dialplan_enabled'] = $dp['dialplan_enabled'] ?? 'true';
-					$array['dialplans'][$idx]['dialplan_description'] = $dp['dialplan_description'] ?? '';
+					$array['v_dialplans'][$idx]['dialplan_uuid'] = $new_dp_uuid;
+					$array['v_dialplans'][$idx]['domain_uuid'] = $target_uuid;
+					$array['v_dialplans'][$idx]['dialplan_name'] = $dp['dialplan_name'] ?? '';
+					$array['v_dialplans'][$idx]['dialplan_context'] = $dp['dialplan_context'] ?? '';
+					$array['v_dialplans'][$idx]['dialplan_enabled'] = $dp['dialplan_enabled'] ?? 'true';
+					$array['v_dialplans'][$idx]['dialplan_description'] = $dp['dialplan_description'] ?? '';
 				}
 
 				$p = new permissions;
@@ -417,14 +417,14 @@ if (!class_exists('reseller')) {
 			$salt = uuid();
 			$password_hash = md5($salt . $password);
 
-			$array['users'][0]['user_uuid'] = $new_user_uuid;
-			$array['users'][0]['domain_uuid'] = $domain_uuid;
-			$array['users'][0]['username'] = $username;
-			$array['users'][0]['password'] = $password_hash;
-			$array['users'][0]['salt'] = $salt;
-			$array['users'][0]['user_enabled'] = 'true';
-			$array['users'][0]['add_date'] = 'now()';
-			$array['users'][0]['add_user'] = $_SESSION['user_uuid'] ?? '';
+			$array['v_users'][0]['user_uuid'] = $new_user_uuid;
+			$array['v_users'][0]['domain_uuid'] = $domain_uuid;
+			$array['v_users'][0]['username'] = $username;
+			$array['v_users'][0]['password'] = $password_hash;
+			$array['v_users'][0]['salt'] = $salt;
+			$array['v_users'][0]['user_enabled'] = 'true';
+			$array['v_users'][0]['add_date'] = 'now()';
+			$array['v_users'][0]['add_user'] = $_SESSION['user_uuid'] ?? '';
 
 			$p = new permissions;
 			$p->add('user_add', 'temp');
@@ -440,11 +440,11 @@ if (!class_exists('reseller')) {
 			$database = new database;
 			$row = $database->select($sql, null, 'row');
 			if (is_array($row) && !empty($row['group_uuid'])) {
-				$array['user_groups'][0]['user_group_uuid'] = uuid();
-				$array['user_groups'][0]['domain_uuid'] = $domain_uuid;
-				$array['user_groups'][0]['group_name'] = 'admin';
-				$array['user_groups'][0]['group_uuid'] = $row['group_uuid'];
-				$array['user_groups'][0]['user_uuid'] = $new_user_uuid;
+				$array['v_user_groups'][0]['user_group_uuid'] = uuid();
+				$array['v_user_groups'][0]['domain_uuid'] = $domain_uuid;
+				$array['v_user_groups'][0]['group_name'] = 'admin';
+				$array['v_user_groups'][0]['group_uuid'] = $row['group_uuid'];
+				$array['v_user_groups'][0]['user_uuid'] = $new_user_uuid;
 
 				$p = new permissions;
 				$p->add('user_group_add', 'temp');
@@ -690,14 +690,14 @@ if (!class_exists('reseller')) {
 
 			//record the commission
 			$commission_uuid = uuid();
-			$array['reseller_commissions'][0]['commission_uuid'] = $commission_uuid;
-			$array['reseller_commissions'][0]['reseller_uuid'] = $reseller_uuid;
-			$array['reseller_commissions'][0]['payment_uuid'] = $payment_uuid;
-			$array['reseller_commissions'][0]['domain_uuid'] = $payment['domain_uuid'] ?? '';
-			$array['reseller_commissions'][0]['amount'] = $commission_amount;
-			$array['reseller_commissions'][0]['currency'] = $currency;
-			$array['reseller_commissions'][0]['status'] = 'pending';
-			$array['reseller_commissions'][0]['add_date'] = 'now()';
+			$array['v_reseller_commissions'][0]['commission_uuid'] = $commission_uuid;
+			$array['v_reseller_commissions'][0]['reseller_uuid'] = $reseller_uuid;
+			$array['v_reseller_commissions'][0]['payment_uuid'] = $payment_uuid;
+			$array['v_reseller_commissions'][0]['domain_uuid'] = $payment['domain_uuid'] ?? '';
+			$array['v_reseller_commissions'][0]['amount'] = $commission_amount;
+			$array['v_reseller_commissions'][0]['currency'] = $currency;
+			$array['v_reseller_commissions'][0]['status'] = 'pending';
+			$array['v_reseller_commissions'][0]['add_date'] = 'now()';
 
 			$p = new permissions;
 			$p->add('reseller_commissions_view', 'temp');
@@ -726,13 +726,13 @@ if (!class_exists('reseller')) {
 		 * @param string|null $domain_uuid
 		 */
 		public function log_activity($reseller_uuid, $action, $details = [], $domain_uuid = null) {
-			$array['reseller_activity_log'][0]['log_uuid'] = uuid();
-			$array['reseller_activity_log'][0]['reseller_uuid'] = $reseller_uuid;
-			$array['reseller_activity_log'][0]['domain_uuid'] = $domain_uuid ?? '';
-			$array['reseller_activity_log'][0]['action'] = $action;
-			$array['reseller_activity_log'][0]['details_json'] = json_encode($details);
-			$array['reseller_activity_log'][0]['ip_address'] = $_SERVER['REMOTE_ADDR'] ?? '';
-			$array['reseller_activity_log'][0]['add_date'] = 'now()';
+			$array['v_reseller_activity_log'][0]['log_uuid'] = uuid();
+			$array['v_reseller_activity_log'][0]['reseller_uuid'] = $reseller_uuid;
+			$array['v_reseller_activity_log'][0]['domain_uuid'] = $domain_uuid ?? '';
+			$array['v_reseller_activity_log'][0]['action'] = $action;
+			$array['v_reseller_activity_log'][0]['details_json'] = json_encode($details);
+			$array['v_reseller_activity_log'][0]['ip_address'] = $_SERVER['REMOTE_ADDR'] ?? '';
+			$array['v_reseller_activity_log'][0]['add_date'] = 'now()';
 
 			$p = new permissions;
 			$p->add('reseller_activity_view', 'temp');
@@ -874,13 +874,13 @@ if (!class_exists('reseller')) {
 		 * @param string $value
 		 */
 		private function set_domain_setting($domain_uuid, $category, $subcategory, $type, $value) {
-			$array['domain_settings'][0]['domain_setting_uuid'] = uuid();
-			$array['domain_settings'][0]['domain_uuid'] = $domain_uuid;
-			$array['domain_settings'][0]['domain_setting_category'] = $category;
-			$array['domain_settings'][0]['domain_setting_subcategory'] = $subcategory;
-			$array['domain_settings'][0]['domain_setting_name'] = $type;
-			$array['domain_settings'][0]['domain_setting_value'] = $value;
-			$array['domain_settings'][0]['domain_setting_enabled'] = 'true';
+			$array['v_domain_settings'][0]['domain_setting_uuid'] = uuid();
+			$array['v_domain_settings'][0]['domain_uuid'] = $domain_uuid;
+			$array['v_domain_settings'][0]['domain_setting_category'] = $category;
+			$array['v_domain_settings'][0]['domain_setting_subcategory'] = $subcategory;
+			$array['v_domain_settings'][0]['domain_setting_name'] = $type;
+			$array['v_domain_settings'][0]['domain_setting_value'] = $value;
+			$array['v_domain_settings'][0]['domain_setting_enabled'] = 'true';
 
 			$p = new permissions;
 			$p->add('domain_setting_add', 'temp');

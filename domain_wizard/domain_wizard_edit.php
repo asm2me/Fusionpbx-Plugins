@@ -55,23 +55,23 @@
 			}
 			else {
 				//prep the array
-					$array['domain_wizard_templates'][0]['template_name'] = $_POST['template_name'];
-					$array['domain_wizard_templates'][0]['source_domain_uuid'] = $_POST['source_domain_uuid'];
-					$array['domain_wizard_templates'][0]['default_extensions'] = (int)$_POST['default_extensions'];
-					$array['domain_wizard_templates'][0]['default_gateways'] = (int)$_POST['default_gateways'];
-					$array['domain_wizard_templates'][0]['default_ivrs'] = (int)$_POST['default_ivrs'];
-					$array['domain_wizard_templates'][0]['default_ring_groups'] = (int)$_POST['default_ring_groups'];
-					$array['domain_wizard_templates'][0]['description'] = $_POST['description'];
-					$array['domain_wizard_templates'][0]['enabled'] = $_POST['enabled'];
+					$array['v_domain_wizard_templates'][0]['template_name'] = $_POST['template_name'];
+					$array['v_domain_wizard_templates'][0]['source_domain_uuid'] = $_POST['source_domain_uuid'];
+					$array['v_domain_wizard_templates'][0]['default_extensions'] = (int)$_POST['default_extensions'];
+					$array['v_domain_wizard_templates'][0]['default_gateways'] = (int)$_POST['default_gateways'];
+					$array['v_domain_wizard_templates'][0]['default_ivrs'] = (int)$_POST['default_ivrs'];
+					$array['v_domain_wizard_templates'][0]['default_ring_groups'] = (int)$_POST['default_ring_groups'];
+					$array['v_domain_wizard_templates'][0]['description'] = $_POST['description'];
+					$array['v_domain_wizard_templates'][0]['enabled'] = $_POST['enabled'];
 
 					if ($action == 'add') {
 						$domain_wizard_template_uuid = uuid();
-						$array['domain_wizard_templates'][0]['domain_wizard_template_uuid'] = $domain_wizard_template_uuid;
-						$array['domain_wizard_templates'][0]['add_date'] = 'now()';
-						$array['domain_wizard_templates'][0]['add_user'] = $_SESSION['user_uuid'];
+						$array['v_domain_wizard_templates'][0]['domain_wizard_template_uuid'] = $domain_wizard_template_uuid;
+						$array['v_domain_wizard_templates'][0]['add_date'] = 'now()';
+						$array['v_domain_wizard_templates'][0]['add_user'] = $_SESSION['user_uuid'];
 					}
 					else {
-						$array['domain_wizard_templates'][0]['domain_wizard_template_uuid'] = $domain_wizard_template_uuid;
+						$array['v_domain_wizard_templates'][0]['domain_wizard_template_uuid'] = $domain_wizard_template_uuid;
 					}
 
 				//save to the database

@@ -192,9 +192,9 @@
 						unset($sql, $parameters);
 
 						if (is_array($payment_row) && is_uuid($payment_row['payment_uuid'])) {
-							$array['billing_payments'][0]['payment_uuid'] = $payment_row['payment_uuid'];
-							$array['billing_payments'][0]['status'] = 'failed';
-							$array['billing_payments'][0]['gateway_response_json'] = json_encode($event_data);
+							$array['v_billing_payments'][0]['payment_uuid'] = $payment_row['payment_uuid'];
+							$array['v_billing_payments'][0]['status'] = 'failed';
+							$array['v_billing_payments'][0]['gateway_response_json'] = json_encode($event_data);
 
 							$p = new permissions;
 							$p->add('billing_payment_edit', 'temp');

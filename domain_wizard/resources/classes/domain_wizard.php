@@ -39,10 +39,10 @@ class domain_wizard {
 
 		//create the new domain
 			$new_domain_uuid = uuid();
-			$array['domains'][0]['domain_uuid'] = $new_domain_uuid;
-			$array['domains'][0]['domain_name'] = $new_domain_name;
-			$array['domains'][0]['domain_enabled'] = 'true';
-			$array['domains'][0]['domain_description'] = 'Created by Domain Wizard from ' . $source_domain['domain_name'];
+			$array['v_domains'][0]['domain_uuid'] = $new_domain_uuid;
+			$array['v_domains'][0]['domain_name'] = $new_domain_name;
+			$array['v_domains'][0]['domain_enabled'] = 'true';
+			$array['v_domains'][0]['domain_description'] = 'Created by Domain Wizard from ' . $source_domain['domain_name'];
 
 			$p = new permissions;
 			$p->add('domain_add', 'temp');
@@ -154,44 +154,44 @@ class domain_wizard {
 				$ext_number = $start_number + $i;
 				$new_ext_uuid = uuid();
 
-				$array['extensions'][0]['extension_uuid'] = $new_ext_uuid;
-				$array['extensions'][0]['domain_uuid'] = $target_uuid;
-				$array['extensions'][0]['extension'] = (string)$ext_number;
-				$array['extensions'][0]['number_alias'] = '';
-				$array['extensions'][0]['password'] = generate_password(12, 4);
-				$array['extensions'][0]['accountcode'] = '';
-				$array['extensions'][0]['effective_caller_id_name'] = 'Extension ' . $ext_number;
-				$array['extensions'][0]['effective_caller_id_number'] = (string)$ext_number;
-				$array['extensions'][0]['outbound_caller_id_name'] = $source_ext['outbound_caller_id_name'] ?? '';
-				$array['extensions'][0]['outbound_caller_id_number'] = $source_ext['outbound_caller_id_number'] ?? '';
-				$array['extensions'][0]['emergency_caller_id_name'] = $source_ext['emergency_caller_id_name'] ?? '';
-				$array['extensions'][0]['emergency_caller_id_number'] = $source_ext['emergency_caller_id_number'] ?? '';
-				$array['extensions'][0]['directory_first_name'] = 'Extension';
-				$array['extensions'][0]['directory_last_name'] = (string)$ext_number;
-				$array['extensions'][0]['directory_visible'] = 'true';
-				$array['extensions'][0]['directory_exten_visible'] = 'true';
-				$array['extensions'][0]['max_registrations'] = $source_ext['max_registrations'] ?? '1';
-				$array['extensions'][0]['limit_max'] = $source_ext['limit_max'] ?? '5';
-				$array['extensions'][0]['limit_destination'] = $source_ext['limit_destination'] ?? 'error/user_busy';
-				$array['extensions'][0]['user_context'] = $target_uuid;
-				$array['extensions'][0]['missed_call_app'] = $source_ext['missed_call_app'] ?? '';
-				$array['extensions'][0]['missed_call_data'] = $source_ext['missed_call_data'] ?? '';
-				$array['extensions'][0]['toll_allow'] = $source_ext['toll_allow'] ?? '';
-				$array['extensions'][0]['call_timeout'] = $source_ext['call_timeout'] ?? '30';
-				$array['extensions'][0]['call_group'] = $source_ext['call_group'] ?? '';
-				$array['extensions'][0]['call_screen_enabled'] = $source_ext['call_screen_enabled'] ?? 'false';
-				$array['extensions'][0]['user_record'] = $source_ext['user_record'] ?? '';
-				$array['extensions'][0]['hold_music'] = $source_ext['hold_music'] ?? '';
-				$array['extensions'][0]['auth_acl'] = $source_ext['auth_acl'] ?? '';
-				$array['extensions'][0]['cidr'] = $source_ext['cidr'] ?? '';
-				$array['extensions'][0]['sip_force_contact'] = $source_ext['sip_force_contact'] ?? '';
-				$array['extensions'][0]['sip_force_expires'] = $source_ext['sip_force_expires'] ?? '';
-				$array['extensions'][0]['nibble_account'] = $source_ext['nibble_account'] ?? '';
-				$array['extensions'][0]['absolute_codec_string'] = $source_ext['absolute_codec_string'] ?? '';
-				$array['extensions'][0]['force_ping'] = $source_ext['force_ping'] ?? '';
-				$array['extensions'][0]['dial_string'] = $source_ext['dial_string'] ?? '';
-				$array['extensions'][0]['enabled'] = 'true';
-				$array['extensions'][0]['description'] = 'Created by Domain Wizard';
+				$array['v_extensions'][0]['extension_uuid'] = $new_ext_uuid;
+				$array['v_extensions'][0]['domain_uuid'] = $target_uuid;
+				$array['v_extensions'][0]['extension'] = (string)$ext_number;
+				$array['v_extensions'][0]['number_alias'] = '';
+				$array['v_extensions'][0]['password'] = generate_password(12, 4);
+				$array['v_extensions'][0]['accountcode'] = '';
+				$array['v_extensions'][0]['effective_caller_id_name'] = 'Extension ' . $ext_number;
+				$array['v_extensions'][0]['effective_caller_id_number'] = (string)$ext_number;
+				$array['v_extensions'][0]['outbound_caller_id_name'] = $source_ext['outbound_caller_id_name'] ?? '';
+				$array['v_extensions'][0]['outbound_caller_id_number'] = $source_ext['outbound_caller_id_number'] ?? '';
+				$array['v_extensions'][0]['emergency_caller_id_name'] = $source_ext['emergency_caller_id_name'] ?? '';
+				$array['v_extensions'][0]['emergency_caller_id_number'] = $source_ext['emergency_caller_id_number'] ?? '';
+				$array['v_extensions'][0]['directory_first_name'] = 'Extension';
+				$array['v_extensions'][0]['directory_last_name'] = (string)$ext_number;
+				$array['v_extensions'][0]['directory_visible'] = 'true';
+				$array['v_extensions'][0]['directory_exten_visible'] = 'true';
+				$array['v_extensions'][0]['max_registrations'] = $source_ext['max_registrations'] ?? '1';
+				$array['v_extensions'][0]['limit_max'] = $source_ext['limit_max'] ?? '5';
+				$array['v_extensions'][0]['limit_destination'] = $source_ext['limit_destination'] ?? 'error/user_busy';
+				$array['v_extensions'][0]['user_context'] = $target_uuid;
+				$array['v_extensions'][0]['missed_call_app'] = $source_ext['missed_call_app'] ?? '';
+				$array['v_extensions'][0]['missed_call_data'] = $source_ext['missed_call_data'] ?? '';
+				$array['v_extensions'][0]['toll_allow'] = $source_ext['toll_allow'] ?? '';
+				$array['v_extensions'][0]['call_timeout'] = $source_ext['call_timeout'] ?? '30';
+				$array['v_extensions'][0]['call_group'] = $source_ext['call_group'] ?? '';
+				$array['v_extensions'][0]['call_screen_enabled'] = $source_ext['call_screen_enabled'] ?? 'false';
+				$array['v_extensions'][0]['user_record'] = $source_ext['user_record'] ?? '';
+				$array['v_extensions'][0]['hold_music'] = $source_ext['hold_music'] ?? '';
+				$array['v_extensions'][0]['auth_acl'] = $source_ext['auth_acl'] ?? '';
+				$array['v_extensions'][0]['cidr'] = $source_ext['cidr'] ?? '';
+				$array['v_extensions'][0]['sip_force_contact'] = $source_ext['sip_force_contact'] ?? '';
+				$array['v_extensions'][0]['sip_force_expires'] = $source_ext['sip_force_expires'] ?? '';
+				$array['v_extensions'][0]['nibble_account'] = $source_ext['nibble_account'] ?? '';
+				$array['v_extensions'][0]['absolute_codec_string'] = $source_ext['absolute_codec_string'] ?? '';
+				$array['v_extensions'][0]['force_ping'] = $source_ext['force_ping'] ?? '';
+				$array['v_extensions'][0]['dial_string'] = $source_ext['dial_string'] ?? '';
+				$array['v_extensions'][0]['enabled'] = 'true';
+				$array['v_extensions'][0]['description'] = 'Created by Domain Wizard';
 
 				$database = new database;
 				$database->app_name = 'domain_wizard';
@@ -235,32 +235,32 @@ class domain_wizard {
 
 				$new_gw_uuid = uuid();
 
-				$array['gateways'][0]['gateway_uuid'] = $new_gw_uuid;
-				$array['gateways'][0]['domain_uuid'] = $target_uuid;
-				$array['gateways'][0]['gateway'] = $gw['gateway'] . '_clone';
-				$array['gateways'][0]['username'] = $gw['username'] ?? '';
-				$array['gateways'][0]['password'] = $gw['password'] ?? '';
-				$array['gateways'][0]['from_user'] = $gw['from_user'] ?? '';
-				$array['gateways'][0]['from_domain'] = $gw['from_domain'] ?? '';
-				$array['gateways'][0]['proxy'] = $gw['proxy'] ?? '';
-				$array['gateways'][0]['realm'] = $gw['realm'] ?? '';
-				$array['gateways'][0]['expire_seconds'] = $gw['expire_seconds'] ?? '800';
-				$array['gateways'][0]['register'] = $gw['register'] ?? 'false';
-				$array['gateways'][0]['register_transport'] = $gw['register_transport'] ?? '';
-				$array['gateways'][0]['retry_seconds'] = $gw['retry_seconds'] ?? '30';
-				$array['gateways'][0]['context'] = $target_uuid;
-				$array['gateways'][0]['profile'] = $gw['profile'] ?? 'external';
-				$array['gateways'][0]['caller_id_in_from'] = $gw['caller_id_in_from'] ?? 'false';
-				$array['gateways'][0]['supress_cng'] = $gw['supress_cng'] ?? '';
-				$array['gateways'][0]['sip_cid_type'] = $gw['sip_cid_type'] ?? '';
-				$array['gateways'][0]['codec_prefs'] = $gw['codec_prefs'] ?? '';
-				$array['gateways'][0]['extension'] = $gw['extension'] ?? '';
-				$array['gateways'][0]['extension_in_contact'] = $gw['extension_in_contact'] ?? '';
-				$array['gateways'][0]['ping'] = $gw['ping'] ?? '';
-				$array['gateways'][0]['channels'] = $gw['channels'] ?? '';
-				$array['gateways'][0]['hostname'] = $gw['hostname'] ?? '';
-				$array['gateways'][0]['enabled'] = 'false'; //disabled by default for safety
-				$array['gateways'][0]['description'] = 'Cloned by Domain Wizard from ' . ($gw['gateway'] ?? '');
+				$array['v_gateways'][0]['gateway_uuid'] = $new_gw_uuid;
+				$array['v_gateways'][0]['domain_uuid'] = $target_uuid;
+				$array['v_gateways'][0]['gateway'] = $gw['gateway'] . '_clone';
+				$array['v_gateways'][0]['username'] = $gw['username'] ?? '';
+				$array['v_gateways'][0]['password'] = $gw['password'] ?? '';
+				$array['v_gateways'][0]['from_user'] = $gw['from_user'] ?? '';
+				$array['v_gateways'][0]['from_domain'] = $gw['from_domain'] ?? '';
+				$array['v_gateways'][0]['proxy'] = $gw['proxy'] ?? '';
+				$array['v_gateways'][0]['realm'] = $gw['realm'] ?? '';
+				$array['v_gateways'][0]['expire_seconds'] = $gw['expire_seconds'] ?? '800';
+				$array['v_gateways'][0]['register'] = $gw['register'] ?? 'false';
+				$array['v_gateways'][0]['register_transport'] = $gw['register_transport'] ?? '';
+				$array['v_gateways'][0]['retry_seconds'] = $gw['retry_seconds'] ?? '30';
+				$array['v_gateways'][0]['context'] = $target_uuid;
+				$array['v_gateways'][0]['profile'] = $gw['profile'] ?? 'external';
+				$array['v_gateways'][0]['caller_id_in_from'] = $gw['caller_id_in_from'] ?? 'false';
+				$array['v_gateways'][0]['supress_cng'] = $gw['supress_cng'] ?? '';
+				$array['v_gateways'][0]['sip_cid_type'] = $gw['sip_cid_type'] ?? '';
+				$array['v_gateways'][0]['codec_prefs'] = $gw['codec_prefs'] ?? '';
+				$array['v_gateways'][0]['extension'] = $gw['extension'] ?? '';
+				$array['v_gateways'][0]['extension_in_contact'] = $gw['extension_in_contact'] ?? '';
+				$array['v_gateways'][0]['ping'] = $gw['ping'] ?? '';
+				$array['v_gateways'][0]['channels'] = $gw['channels'] ?? '';
+				$array['v_gateways'][0]['hostname'] = $gw['hostname'] ?? '';
+				$array['v_gateways'][0]['enabled'] = 'false'; //disabled by default for safety
+				$array['v_gateways'][0]['description'] = 'Cloned by Domain Wizard from ' . ($gw['gateway'] ?? '');
 
 				$database = new database;
 				$database->app_name = 'domain_wizard';
@@ -301,16 +301,16 @@ class domain_wizard {
 				$new_dp_uuid = uuid();
 
 				//clone the dialplan
-					$array['dialplans'][0]['dialplan_uuid'] = $new_dp_uuid;
-					$array['dialplans'][0]['domain_uuid'] = $target_uuid;
-					$array['dialplans'][0]['app_uuid'] = $dp['app_uuid'] ?? '';
-					$array['dialplans'][0]['dialplan_name'] = $dp['dialplan_name'];
-					$array['dialplans'][0]['dialplan_number'] = $dp['dialplan_number'] ?? '';
-					$array['dialplans'][0]['dialplan_context'] = $target_uuid;
-					$array['dialplans'][0]['dialplan_continue'] = $dp['dialplan_continue'] ?? '';
-					$array['dialplans'][0]['dialplan_order'] = $dp['dialplan_order'];
-					$array['dialplans'][0]['dialplan_enabled'] = $dp['dialplan_enabled'];
-					$array['dialplans'][0]['dialplan_description'] = $dp['dialplan_description'] ?? '';
+					$array['v_dialplans'][0]['dialplan_uuid'] = $new_dp_uuid;
+					$array['v_dialplans'][0]['domain_uuid'] = $target_uuid;
+					$array['v_dialplans'][0]['app_uuid'] = $dp['app_uuid'] ?? '';
+					$array['v_dialplans'][0]['dialplan_name'] = $dp['dialplan_name'];
+					$array['v_dialplans'][0]['dialplan_number'] = $dp['dialplan_number'] ?? '';
+					$array['v_dialplans'][0]['dialplan_context'] = $target_uuid;
+					$array['v_dialplans'][0]['dialplan_continue'] = $dp['dialplan_continue'] ?? '';
+					$array['v_dialplans'][0]['dialplan_order'] = $dp['dialplan_order'];
+					$array['v_dialplans'][0]['dialplan_enabled'] = $dp['dialplan_enabled'];
+					$array['v_dialplans'][0]['dialplan_description'] = $dp['dialplan_description'] ?? '';
 
 					$database = new database;
 					$database->app_name = 'domain_wizard';
@@ -329,17 +329,17 @@ class domain_wizard {
 					if (is_array($details)) {
 						$d = 0;
 						foreach ($details as $detail) {
-							$array['dialplan_details'][$d]['dialplan_detail_uuid'] = uuid();
-							$array['dialplan_details'][$d]['dialplan_uuid'] = $new_dp_uuid;
-							$array['dialplan_details'][$d]['domain_uuid'] = $target_uuid;
-							$array['dialplan_details'][$d]['dialplan_detail_tag'] = $detail['dialplan_detail_tag'];
-							$array['dialplan_details'][$d]['dialplan_detail_type'] = $detail['dialplan_detail_type'];
-							$array['dialplan_details'][$d]['dialplan_detail_data'] = $detail['dialplan_detail_data'];
-							$array['dialplan_details'][$d]['dialplan_detail_break'] = $detail['dialplan_detail_break'] ?? '';
-							$array['dialplan_details'][$d]['dialplan_detail_inline'] = $detail['dialplan_detail_inline'] ?? '';
-							$array['dialplan_details'][$d]['dialplan_detail_group'] = $detail['dialplan_detail_group'] ?? '0';
-							$array['dialplan_details'][$d]['dialplan_detail_order'] = $detail['dialplan_detail_order'];
-							$array['dialplan_details'][$d]['dialplan_detail_enabled'] = $detail['dialplan_detail_enabled'] ?? 'true';
+							$array['v_dialplan_details'][$d]['dialplan_detail_uuid'] = uuid();
+							$array['v_dialplan_details'][$d]['dialplan_uuid'] = $new_dp_uuid;
+							$array['v_dialplan_details'][$d]['domain_uuid'] = $target_uuid;
+							$array['v_dialplan_details'][$d]['dialplan_detail_tag'] = $detail['dialplan_detail_tag'];
+							$array['v_dialplan_details'][$d]['dialplan_detail_type'] = $detail['dialplan_detail_type'];
+							$array['v_dialplan_details'][$d]['dialplan_detail_data'] = $detail['dialplan_detail_data'];
+							$array['v_dialplan_details'][$d]['dialplan_detail_break'] = $detail['dialplan_detail_break'] ?? '';
+							$array['v_dialplan_details'][$d]['dialplan_detail_inline'] = $detail['dialplan_detail_inline'] ?? '';
+							$array['v_dialplan_details'][$d]['dialplan_detail_group'] = $detail['dialplan_detail_group'] ?? '0';
+							$array['v_dialplan_details'][$d]['dialplan_detail_order'] = $detail['dialplan_detail_order'];
+							$array['v_dialplan_details'][$d]['dialplan_detail_enabled'] = $detail['dialplan_detail_enabled'] ?? 'true';
 							$d++;
 						}
 
@@ -384,32 +384,32 @@ class domain_wizard {
 				$new_ivr_uuid = uuid();
 
 				//clone the IVR menu
-					$array['ivr_menus'][0]['ivr_menu_uuid'] = $new_ivr_uuid;
-					$array['ivr_menus'][0]['domain_uuid'] = $target_uuid;
-					$array['ivr_menus'][0]['ivr_menu_name'] = $ivr['ivr_menu_name'];
-					$array['ivr_menus'][0]['ivr_menu_extension'] = $ivr['ivr_menu_extension'] ?? '';
-					$array['ivr_menus'][0]['ivr_menu_greet_long'] = $ivr['ivr_menu_greet_long'] ?? '';
-					$array['ivr_menus'][0]['ivr_menu_greet_short'] = $ivr['ivr_menu_greet_short'] ?? '';
-					$array['ivr_menus'][0]['ivr_menu_invalid_sound'] = $ivr['ivr_menu_invalid_sound'] ?? '';
-					$array['ivr_menus'][0]['ivr_menu_exit_sound'] = $ivr['ivr_menu_exit_sound'] ?? '';
-					$array['ivr_menus'][0]['ivr_menu_confirm_macro'] = $ivr['ivr_menu_confirm_macro'] ?? '';
-					$array['ivr_menus'][0]['ivr_menu_confirm_key'] = $ivr['ivr_menu_confirm_key'] ?? '';
-					$array['ivr_menus'][0]['ivr_menu_tts_engine'] = $ivr['ivr_menu_tts_engine'] ?? '';
-					$array['ivr_menus'][0]['ivr_menu_tts_voice'] = $ivr['ivr_menu_tts_voice'] ?? '';
-					$array['ivr_menus'][0]['ivr_menu_confirm_attempts'] = $ivr['ivr_menu_confirm_attempts'] ?? '3';
-					$array['ivr_menus'][0]['ivr_menu_timeout'] = $ivr['ivr_menu_timeout'] ?? '3000';
-					$array['ivr_menus'][0]['ivr_menu_exit_app'] = $ivr['ivr_menu_exit_app'] ?? '';
-					$array['ivr_menus'][0]['ivr_menu_exit_data'] = $ivr['ivr_menu_exit_data'] ?? '';
-					$array['ivr_menus'][0]['ivr_menu_inter_digit_timeout'] = $ivr['ivr_menu_inter_digit_timeout'] ?? '2000';
-					$array['ivr_menus'][0]['ivr_menu_max_failures'] = $ivr['ivr_menu_max_failures'] ?? '3';
-					$array['ivr_menus'][0]['ivr_menu_max_timeouts'] = $ivr['ivr_menu_max_timeouts'] ?? '3';
-					$array['ivr_menus'][0]['ivr_menu_digit_len'] = $ivr['ivr_menu_digit_len'] ?? '5';
-					$array['ivr_menus'][0]['ivr_menu_direct_dial'] = $ivr['ivr_menu_direct_dial'] ?? 'false';
-					$array['ivr_menus'][0]['ivr_menu_ring_back'] = $ivr['ivr_menu_ring_back'] ?? '';
-					$array['ivr_menus'][0]['ivr_menu_cid_prefix'] = $ivr['ivr_menu_cid_prefix'] ?? '';
-					$array['ivr_menus'][0]['ivr_menu_context'] = $target_uuid;
-					$array['ivr_menus'][0]['ivr_menu_enabled'] = $ivr['ivr_menu_enabled'] ?? 'true';
-					$array['ivr_menus'][0]['ivr_menu_description'] = 'Cloned by Domain Wizard';
+					$array['v_ivr_menus'][0]['ivr_menu_uuid'] = $new_ivr_uuid;
+					$array['v_ivr_menus'][0]['domain_uuid'] = $target_uuid;
+					$array['v_ivr_menus'][0]['ivr_menu_name'] = $ivr['ivr_menu_name'];
+					$array['v_ivr_menus'][0]['ivr_menu_extension'] = $ivr['ivr_menu_extension'] ?? '';
+					$array['v_ivr_menus'][0]['ivr_menu_greet_long'] = $ivr['ivr_menu_greet_long'] ?? '';
+					$array['v_ivr_menus'][0]['ivr_menu_greet_short'] = $ivr['ivr_menu_greet_short'] ?? '';
+					$array['v_ivr_menus'][0]['ivr_menu_invalid_sound'] = $ivr['ivr_menu_invalid_sound'] ?? '';
+					$array['v_ivr_menus'][0]['ivr_menu_exit_sound'] = $ivr['ivr_menu_exit_sound'] ?? '';
+					$array['v_ivr_menus'][0]['ivr_menu_confirm_macro'] = $ivr['ivr_menu_confirm_macro'] ?? '';
+					$array['v_ivr_menus'][0]['ivr_menu_confirm_key'] = $ivr['ivr_menu_confirm_key'] ?? '';
+					$array['v_ivr_menus'][0]['ivr_menu_tts_engine'] = $ivr['ivr_menu_tts_engine'] ?? '';
+					$array['v_ivr_menus'][0]['ivr_menu_tts_voice'] = $ivr['ivr_menu_tts_voice'] ?? '';
+					$array['v_ivr_menus'][0]['ivr_menu_confirm_attempts'] = $ivr['ivr_menu_confirm_attempts'] ?? '3';
+					$array['v_ivr_menus'][0]['ivr_menu_timeout'] = $ivr['ivr_menu_timeout'] ?? '3000';
+					$array['v_ivr_menus'][0]['ivr_menu_exit_app'] = $ivr['ivr_menu_exit_app'] ?? '';
+					$array['v_ivr_menus'][0]['ivr_menu_exit_data'] = $ivr['ivr_menu_exit_data'] ?? '';
+					$array['v_ivr_menus'][0]['ivr_menu_inter_digit_timeout'] = $ivr['ivr_menu_inter_digit_timeout'] ?? '2000';
+					$array['v_ivr_menus'][0]['ivr_menu_max_failures'] = $ivr['ivr_menu_max_failures'] ?? '3';
+					$array['v_ivr_menus'][0]['ivr_menu_max_timeouts'] = $ivr['ivr_menu_max_timeouts'] ?? '3';
+					$array['v_ivr_menus'][0]['ivr_menu_digit_len'] = $ivr['ivr_menu_digit_len'] ?? '5';
+					$array['v_ivr_menus'][0]['ivr_menu_direct_dial'] = $ivr['ivr_menu_direct_dial'] ?? 'false';
+					$array['v_ivr_menus'][0]['ivr_menu_ring_back'] = $ivr['ivr_menu_ring_back'] ?? '';
+					$array['v_ivr_menus'][0]['ivr_menu_cid_prefix'] = $ivr['ivr_menu_cid_prefix'] ?? '';
+					$array['v_ivr_menus'][0]['ivr_menu_context'] = $target_uuid;
+					$array['v_ivr_menus'][0]['ivr_menu_enabled'] = $ivr['ivr_menu_enabled'] ?? 'true';
+					$array['v_ivr_menus'][0]['ivr_menu_description'] = 'Cloned by Domain Wizard';
 
 					$database = new database;
 					$database->app_name = 'domain_wizard';
@@ -428,15 +428,15 @@ class domain_wizard {
 					if (is_array($options)) {
 						$o = 0;
 						foreach ($options as $opt) {
-							$array['ivr_menu_options'][$o]['ivr_menu_option_uuid'] = uuid();
-							$array['ivr_menu_options'][$o]['ivr_menu_uuid'] = $new_ivr_uuid;
-							$array['ivr_menu_options'][$o]['domain_uuid'] = $target_uuid;
-							$array['ivr_menu_options'][$o]['ivr_menu_option_digits'] = $opt['ivr_menu_option_digits'];
-							$array['ivr_menu_options'][$o]['ivr_menu_option_action'] = $opt['ivr_menu_option_action'] ?? '';
-							$array['ivr_menu_options'][$o]['ivr_menu_option_param'] = $opt['ivr_menu_option_param'] ?? '';
-							$array['ivr_menu_options'][$o]['ivr_menu_option_order'] = $opt['ivr_menu_option_order'] ?? '0';
-							$array['ivr_menu_options'][$o]['ivr_menu_option_description'] = $opt['ivr_menu_option_description'] ?? '';
-							$array['ivr_menu_options'][$o]['ivr_menu_option_enabled'] = $opt['ivr_menu_option_enabled'] ?? 'true';
+							$array['v_ivr_menu_options'][$o]['ivr_menu_option_uuid'] = uuid();
+							$array['v_ivr_menu_options'][$o]['ivr_menu_uuid'] = $new_ivr_uuid;
+							$array['v_ivr_menu_options'][$o]['domain_uuid'] = $target_uuid;
+							$array['v_ivr_menu_options'][$o]['ivr_menu_option_digits'] = $opt['ivr_menu_option_digits'];
+							$array['v_ivr_menu_options'][$o]['ivr_menu_option_action'] = $opt['ivr_menu_option_action'] ?? '';
+							$array['v_ivr_menu_options'][$o]['ivr_menu_option_param'] = $opt['ivr_menu_option_param'] ?? '';
+							$array['v_ivr_menu_options'][$o]['ivr_menu_option_order'] = $opt['ivr_menu_option_order'] ?? '0';
+							$array['v_ivr_menu_options'][$o]['ivr_menu_option_description'] = $opt['ivr_menu_option_description'] ?? '';
+							$array['v_ivr_menu_options'][$o]['ivr_menu_option_enabled'] = $opt['ivr_menu_option_enabled'] ?? 'true';
 							$o++;
 						}
 
@@ -485,30 +485,30 @@ class domain_wizard {
 				$new_rg_uuid = uuid();
 
 				//clone the ring group
-					$array['ring_groups'][0]['ring_group_uuid'] = $new_rg_uuid;
-					$array['ring_groups'][0]['domain_uuid'] = $target_uuid;
-					$array['ring_groups'][0]['ring_group_name'] = $rg['ring_group_name'];
-					$array['ring_groups'][0]['ring_group_extension'] = $rg['ring_group_extension'] ?? '';
-					$array['ring_groups'][0]['ring_group_greeting'] = $rg['ring_group_greeting'] ?? '';
-					$array['ring_groups'][0]['ring_group_context'] = $target_uuid;
-					$array['ring_groups'][0]['ring_group_strategy'] = $rg['ring_group_strategy'] ?? 'simultaneous';
-					$array['ring_groups'][0]['ring_group_timeout_app'] = $rg['ring_group_timeout_app'] ?? '';
-					$array['ring_groups'][0]['ring_group_timeout_data'] = $rg['ring_group_timeout_data'] ?? '';
-					$array['ring_groups'][0]['ring_group_call_timeout'] = $rg['ring_group_call_timeout'] ?? '30';
-					$array['ring_groups'][0]['ring_group_caller_id_name'] = $rg['ring_group_caller_id_name'] ?? '';
-					$array['ring_groups'][0]['ring_group_caller_id_number'] = $rg['ring_group_caller_id_number'] ?? '';
-					$array['ring_groups'][0]['ring_group_cid_name_prefix'] = $rg['ring_group_cid_name_prefix'] ?? '';
-					$array['ring_groups'][0]['ring_group_cid_number_prefix'] = $rg['ring_group_cid_number_prefix'] ?? '';
-					$array['ring_groups'][0]['ring_group_distinctive_ring'] = $rg['ring_group_distinctive_ring'] ?? '';
-					$array['ring_groups'][0]['ring_group_ring_back'] = $rg['ring_group_ring_back'] ?? '';
-					$array['ring_groups'][0]['ring_group_follow_me_enabled'] = $rg['ring_group_follow_me_enabled'] ?? 'false';
-					$array['ring_groups'][0]['ring_group_missed_call_app'] = $rg['ring_group_missed_call_app'] ?? '';
-					$array['ring_groups'][0]['ring_group_missed_call_data'] = $rg['ring_group_missed_call_data'] ?? '';
-					$array['ring_groups'][0]['ring_group_forward_enabled'] = $rg['ring_group_forward_enabled'] ?? 'false';
-					$array['ring_groups'][0]['ring_group_forward_destination'] = $rg['ring_group_forward_destination'] ?? '';
-					$array['ring_groups'][0]['ring_group_forward_toll_allow'] = $rg['ring_group_forward_toll_allow'] ?? '';
-					$array['ring_groups'][0]['ring_group_enabled'] = $rg['ring_group_enabled'] ?? 'true';
-					$array['ring_groups'][0]['ring_group_description'] = 'Cloned by Domain Wizard';
+					$array['v_ring_groups'][0]['ring_group_uuid'] = $new_rg_uuid;
+					$array['v_ring_groups'][0]['domain_uuid'] = $target_uuid;
+					$array['v_ring_groups'][0]['ring_group_name'] = $rg['ring_group_name'];
+					$array['v_ring_groups'][0]['ring_group_extension'] = $rg['ring_group_extension'] ?? '';
+					$array['v_ring_groups'][0]['ring_group_greeting'] = $rg['ring_group_greeting'] ?? '';
+					$array['v_ring_groups'][0]['ring_group_context'] = $target_uuid;
+					$array['v_ring_groups'][0]['ring_group_strategy'] = $rg['ring_group_strategy'] ?? 'simultaneous';
+					$array['v_ring_groups'][0]['ring_group_timeout_app'] = $rg['ring_group_timeout_app'] ?? '';
+					$array['v_ring_groups'][0]['ring_group_timeout_data'] = $rg['ring_group_timeout_data'] ?? '';
+					$array['v_ring_groups'][0]['ring_group_call_timeout'] = $rg['ring_group_call_timeout'] ?? '30';
+					$array['v_ring_groups'][0]['ring_group_caller_id_name'] = $rg['ring_group_caller_id_name'] ?? '';
+					$array['v_ring_groups'][0]['ring_group_caller_id_number'] = $rg['ring_group_caller_id_number'] ?? '';
+					$array['v_ring_groups'][0]['ring_group_cid_name_prefix'] = $rg['ring_group_cid_name_prefix'] ?? '';
+					$array['v_ring_groups'][0]['ring_group_cid_number_prefix'] = $rg['ring_group_cid_number_prefix'] ?? '';
+					$array['v_ring_groups'][0]['ring_group_distinctive_ring'] = $rg['ring_group_distinctive_ring'] ?? '';
+					$array['v_ring_groups'][0]['ring_group_ring_back'] = $rg['ring_group_ring_back'] ?? '';
+					$array['v_ring_groups'][0]['ring_group_follow_me_enabled'] = $rg['ring_group_follow_me_enabled'] ?? 'false';
+					$array['v_ring_groups'][0]['ring_group_missed_call_app'] = $rg['ring_group_missed_call_app'] ?? '';
+					$array['v_ring_groups'][0]['ring_group_missed_call_data'] = $rg['ring_group_missed_call_data'] ?? '';
+					$array['v_ring_groups'][0]['ring_group_forward_enabled'] = $rg['ring_group_forward_enabled'] ?? 'false';
+					$array['v_ring_groups'][0]['ring_group_forward_destination'] = $rg['ring_group_forward_destination'] ?? '';
+					$array['v_ring_groups'][0]['ring_group_forward_toll_allow'] = $rg['ring_group_forward_toll_allow'] ?? '';
+					$array['v_ring_groups'][0]['ring_group_enabled'] = $rg['ring_group_enabled'] ?? 'true';
+					$array['v_ring_groups'][0]['ring_group_description'] = 'Cloned by Domain Wizard';
 
 					$database = new database;
 					$database->app_name = 'domain_wizard';
@@ -527,14 +527,14 @@ class domain_wizard {
 					if (is_array($destinations)) {
 						$d = 0;
 						foreach ($destinations as $dest) {
-							$array['ring_group_destinations'][$d]['ring_group_destination_uuid'] = uuid();
-							$array['ring_group_destinations'][$d]['ring_group_uuid'] = $new_rg_uuid;
-							$array['ring_group_destinations'][$d]['domain_uuid'] = $target_uuid;
-							$array['ring_group_destinations'][$d]['destination_number'] = $dest['destination_number'] ?? '';
-							$array['ring_group_destinations'][$d]['destination_delay'] = $dest['destination_delay'] ?? '0';
-							$array['ring_group_destinations'][$d]['destination_timeout'] = $dest['destination_timeout'] ?? '30';
-							$array['ring_group_destinations'][$d]['destination_prompt'] = $dest['destination_prompt'] ?? '';
-							$array['ring_group_destinations'][$d]['destination_enabled'] = $dest['destination_enabled'] ?? 'true';
+							$array['v_ring_group_destinations'][$d]['ring_group_destination_uuid'] = uuid();
+							$array['v_ring_group_destinations'][$d]['ring_group_uuid'] = $new_rg_uuid;
+							$array['v_ring_group_destinations'][$d]['domain_uuid'] = $target_uuid;
+							$array['v_ring_group_destinations'][$d]['destination_number'] = $dest['destination_number'] ?? '';
+							$array['v_ring_group_destinations'][$d]['destination_delay'] = $dest['destination_delay'] ?? '0';
+							$array['v_ring_group_destinations'][$d]['destination_timeout'] = $dest['destination_timeout'] ?? '30';
+							$array['v_ring_group_destinations'][$d]['destination_prompt'] = $dest['destination_prompt'] ?? '';
+							$array['v_ring_group_destinations'][$d]['destination_enabled'] = $dest['destination_enabled'] ?? 'true';
 							$d++;
 						}
 
@@ -604,11 +604,11 @@ class domain_wizard {
 
 				//save recording to database
 					$recording_uuid = uuid();
-					$array['recordings'][0]['recording_uuid'] = $recording_uuid;
-					$array['recordings'][0]['domain_uuid'] = $target_uuid;
-					$array['recordings'][0]['recording_filename'] = $filename;
-					$array['recordings'][0]['recording_name'] = pathinfo($filename, PATHINFO_FILENAME);
-					$array['recordings'][0]['recording_description'] = 'Uploaded by Domain Wizard';
+					$array['v_recordings'][0]['recording_uuid'] = $recording_uuid;
+					$array['v_recordings'][0]['domain_uuid'] = $target_uuid;
+					$array['v_recordings'][0]['recording_filename'] = $filename;
+					$array['v_recordings'][0]['recording_name'] = pathinfo($filename, PATHINFO_FILENAME);
+					$array['v_recordings'][0]['recording_description'] = 'Uploaded by Domain Wizard';
 
 					$p = new permissions;
 					$p->add('recording_add', 'temp');
@@ -639,14 +639,14 @@ class domain_wizard {
 		$user_uuid = uuid();
 
 		//create the user
-			$array['users'][0]['user_uuid'] = $user_uuid;
-			$array['users'][0]['domain_uuid'] = $domain_uuid;
-			$array['users'][0]['username'] = $username;
-			$array['users'][0]['password'] = generate_password_hash($password);
-			$array['users'][0]['salt'] = '';
-			$array['users'][0]['user_enabled'] = 'true';
-			$array['users'][0]['add_date'] = 'now()';
-			$array['users'][0]['add_user'] = $_SESSION['user_uuid'] ?? '';
+			$array['v_users'][0]['user_uuid'] = $user_uuid;
+			$array['v_users'][0]['domain_uuid'] = $domain_uuid;
+			$array['v_users'][0]['username'] = $username;
+			$array['v_users'][0]['password'] = generate_password_hash($password);
+			$array['v_users'][0]['salt'] = '';
+			$array['v_users'][0]['user_enabled'] = 'true';
+			$array['v_users'][0]['add_date'] = 'now()';
+			$array['v_users'][0]['add_user'] = $_SESSION['user_uuid'] ?? '';
 
 			$p = new permissions;
 			$p->add('user_add', 'temp');
@@ -666,11 +666,11 @@ class domain_wizard {
 			unset($sql);
 
 			if (is_array($group) && is_uuid($group['group_uuid'])) {
-				$array['user_groups'][0]['user_group_uuid'] = uuid();
-				$array['user_groups'][0]['domain_uuid'] = $domain_uuid;
-				$array['user_groups'][0]['group_name'] = 'admin';
-				$array['user_groups'][0]['group_uuid'] = $group['group_uuid'];
-				$array['user_groups'][0]['user_uuid'] = $user_uuid;
+				$array['v_user_groups'][0]['user_group_uuid'] = uuid();
+				$array['v_user_groups'][0]['domain_uuid'] = $domain_uuid;
+				$array['v_user_groups'][0]['group_name'] = 'admin';
+				$array['v_user_groups'][0]['group_uuid'] = $group['group_uuid'];
+				$array['v_user_groups'][0]['user_uuid'] = $user_uuid;
 
 				$p = new permissions;
 				$p->add('user_group_add', 'temp');
@@ -691,11 +691,11 @@ class domain_wizard {
 			unset($sql);
 
 			if (is_array($group) && is_uuid($group['group_uuid'])) {
-				$array['user_groups'][0]['user_group_uuid'] = uuid();
-				$array['user_groups'][0]['domain_uuid'] = $domain_uuid;
-				$array['user_groups'][0]['group_name'] = 'user';
-				$array['user_groups'][0]['group_uuid'] = $group['group_uuid'];
-				$array['user_groups'][0]['user_uuid'] = $user_uuid;
+				$array['v_user_groups'][0]['user_group_uuid'] = uuid();
+				$array['v_user_groups'][0]['domain_uuid'] = $domain_uuid;
+				$array['v_user_groups'][0]['group_name'] = 'user';
+				$array['v_user_groups'][0]['group_uuid'] = $group['group_uuid'];
+				$array['v_user_groups'][0]['user_uuid'] = $user_uuid;
 
 				$p = new permissions;
 				$p->add('user_group_add', 'temp');
@@ -731,17 +731,17 @@ class domain_wizard {
 	 * @param array $data  Log data
 	 */
 	public function log_action($data) {
-		$array['domain_wizard_logs'][0]['domain_wizard_log_uuid'] = uuid();
-		$array['domain_wizard_logs'][0]['domain_uuid'] = $data['domain_uuid'] ?? null;
-		$array['domain_wizard_logs'][0]['template_uuid'] = $data['template_uuid'] ?? null;
-		$array['domain_wizard_logs'][0]['created_by'] = $data['created_by'] ?? $_SESSION['user_uuid'] ?? null;
-		$array['domain_wizard_logs'][0]['extensions_count'] = (int)($data['extensions_count'] ?? 0);
-		$array['domain_wizard_logs'][0]['gateways_count'] = (int)($data['gateways_count'] ?? 0);
-		$array['domain_wizard_logs'][0]['ivrs_count'] = (int)($data['ivrs_count'] ?? 0);
-		$array['domain_wizard_logs'][0]['recordings_uploaded'] = (int)($data['recordings_uploaded'] ?? 0);
-		$array['domain_wizard_logs'][0]['status'] = $data['status'] ?? 'unknown';
-		$array['domain_wizard_logs'][0]['log_detail'] = $data['log_detail'] ?? '';
-		$array['domain_wizard_logs'][0]['add_date'] = 'now()';
+		$array['v_domain_wizard_logs'][0]['domain_wizard_log_uuid'] = uuid();
+		$array['v_domain_wizard_logs'][0]['domain_uuid'] = $data['domain_uuid'] ?? null;
+		$array['v_domain_wizard_logs'][0]['template_uuid'] = $data['template_uuid'] ?? null;
+		$array['v_domain_wizard_logs'][0]['created_by'] = $data['created_by'] ?? $_SESSION['user_uuid'] ?? null;
+		$array['v_domain_wizard_logs'][0]['extensions_count'] = (int)($data['extensions_count'] ?? 0);
+		$array['v_domain_wizard_logs'][0]['gateways_count'] = (int)($data['gateways_count'] ?? 0);
+		$array['v_domain_wizard_logs'][0]['ivrs_count'] = (int)($data['ivrs_count'] ?? 0);
+		$array['v_domain_wizard_logs'][0]['recordings_uploaded'] = (int)($data['recordings_uploaded'] ?? 0);
+		$array['v_domain_wizard_logs'][0]['status'] = $data['status'] ?? 'unknown';
+		$array['v_domain_wizard_logs'][0]['log_detail'] = $data['log_detail'] ?? '';
+		$array['v_domain_wizard_logs'][0]['add_date'] = 'now()';
 
 		$p = new permissions;
 		$p->add('domain_wizard_add', 'temp');
