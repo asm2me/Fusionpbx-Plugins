@@ -158,7 +158,7 @@ class domain_wizard {
 				$array['v_extensions'][0]['domain_uuid'] = $target_uuid;
 				$array['v_extensions'][0]['extension'] = (string)$ext_number;
 				$array['v_extensions'][0]['number_alias'] = '';
-				$array['v_extensions'][0]['password'] = generate_password(12, 4);
+				$array['v_extensions'][0]['password'] = bin2hex(random_bytes(6));
 				$array['v_extensions'][0]['accountcode'] = '';
 				$array['v_extensions'][0]['effective_caller_id_name'] = 'Extension ' . $ext_number;
 				$array['v_extensions'][0]['effective_caller_id_number'] = (string)$ext_number;
@@ -642,8 +642,9 @@ class domain_wizard {
 			$array['v_users'][0]['user_uuid'] = $user_uuid;
 			$array['v_users'][0]['domain_uuid'] = $domain_uuid;
 			$array['v_users'][0]['username'] = $username;
-			$array['v_users'][0]['password'] = generate_password_hash($password);
-			$array['v_users'][0]['salt'] = '';
+			$salt = uuid();
+			$array['v_users'][0]['password'] = md5($salt . $password);
+			$array['v_users'][0]['salt'] = $salt;
 			$array['v_users'][0]['user_enabled'] = 'true';
 			$array['v_users'][0]['add_date'] = 'now()';
 			$array['v_users'][0]['add_user'] = $_SESSION['user_uuid'] ?? '';
