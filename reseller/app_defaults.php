@@ -12,7 +12,7 @@ if ($domains_processed == 1) {
 			$array['v_groups'][0]['group_description'] = 'Reseller group for managing domains within allocated limits.';
 
 			$p = new permissions;
-			$p->add('group_add', 'temp');
+			$p->add('groups_add', 'temp');
 
 			$database = new database;
 			$database->app_name = 'reseller';
@@ -20,7 +20,7 @@ if ($domains_processed == 1) {
 			$database->save($array);
 			unset($array);
 
-			$p->delete('group_add', 'temp');
+			$p->delete('groups_add', 'temp');
 		}
 }
 

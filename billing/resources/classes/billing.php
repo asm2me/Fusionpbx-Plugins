@@ -110,13 +110,13 @@ class billing {
 		$array['v_domains'][0]['domain_enabled'] = 'false';
 
 		$p = new permissions;
-		$p->add('domain_edit', 'temp');
+		$p->add('domains_edit', 'temp');
 		$database = new database;
 		$database->app_name = 'billing';
 		$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 		$database->save($array);
 		unset($array);
-		$p->delete('domain_edit', 'temp');
+		$p->delete('domains_edit', 'temp');
 
 		//log the event
 		$this->log_event('domain_suspended', $domain_uuid);
@@ -136,13 +136,13 @@ class billing {
 		$array['v_domains'][0]['domain_enabled'] = 'true';
 
 		$p = new permissions;
-		$p->add('domain_edit', 'temp');
+		$p->add('domains_edit', 'temp');
 		$database = new database;
 		$database->app_name = 'billing';
 		$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 		$database->save($array);
 		unset($array);
-		$p->delete('domain_edit', 'temp');
+		$p->delete('domains_edit', 'temp');
 
 		//log the event
 		$this->log_event('domain_activated', $domain_uuid);
