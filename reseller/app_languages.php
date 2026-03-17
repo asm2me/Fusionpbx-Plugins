@@ -58,11 +58,19 @@
 	//domain creation
 		$text['title-reseller_domain_create']['en-us'] = 'Create Domain';
 		$text['header-reseller_domain_create']['en-us'] = 'Create Domain';
+		$text['header-create_domain_direct']['en-us'] = 'Create Domain (Superadmin)';
 		$text['description-reseller_domain_create']['en-us'] = 'Create a new domain under your reseller account.';
+		$text['description-create_domain_direct']['en-us'] = 'Create a new domain directly as superadmin. No reseller quotas apply. Optionally clone from an existing domain.';
 		$text['label-new_domain_name']['en-us'] = 'Domain Name';
+		$text['label-source_domain']['en-us'] = 'Clone From Domain';
+		$text['description-source_domain']['en-us'] = 'Optionally select an existing domain to clone settings from.';
 		$text['label-select_plan']['en-us'] = 'Select Plan';
 		$text['label-num_extensions']['en-us'] = 'Number of Extensions';
 		$text['label-num_gateways']['en-us'] = 'Number of Gateways';
+		$text['label-num_ivrs']['en-us'] = 'Number of IVRs';
+		$text['label-num_ring_groups']['en-us'] = 'Number of Ring Groups';
+		$text['label-admin_user']['en-us'] = 'Admin User';
+		$text['label-gateways_remaining']['en-us'] = 'Gateways Remaining';
 		$text['label-admin_username']['en-us'] = 'Admin Username';
 		$text['label-admin_password']['en-us'] = 'Admin Password';
 		$text['label-admin_password_confirm']['en-us'] = 'Confirm Password';

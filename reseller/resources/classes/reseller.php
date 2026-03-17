@@ -237,6 +237,227 @@ if (!class_exists('reseller')) {
 		}
 
 		/**
+		 * Create a domain directly as superadmin (no reseller context)
+		 * @param array $domain_data - keys: domain_name, num_extensions, num_gateways, num_ivrs, num_ring_groups, admin_username, admin_password, source_domain_uuid
+		 * @return array ['success' => bool, 'message' => string, 'domain_uuid' => string|null]
+		 */
+		public function create_domain_direct($domain_data) {
+			//check if domain name already exists
+			$sql = "select count(*) as num from v_domains where domain_name = :domain_name ";
+			$parameters['domain_name'] = $domain_data['domain_name'];
+			$database = new database;
+			$row = $database->select($sql, $parameters, 'row');
+			unset($parameters);
+			if (is_array($row) && (int)$row['num'] > 0) {
+				return ['success' => false, 'message' => 'Domain name already exists.', 'domain_uuid' => null];
+			}
+
+			//create the domain
+			$new_domain_uuid = uuid();
+			$array['domains'][0]['domain_uuid'] = $new_domain_uuid;
+			$array['domains'][0]['domain_name'] = $domain_data['domain_name'];
+			$array['domains'][0]['domain_enabled'] = 'true';
+
+			$p = new permissions;
+			$p->add('domain_add', 'temp');
+
+			$database = new database;
+			$database->app_name = 'reseller';
+			$database->app_uuid = 'c3d4e5f6-a7b8-9012-cdef-123456789012';
+			$database->save($array);
+			unset($array);
+
+			$p->delete('domain_add', 'temp');
+
+			if ($database->message['code'] != '200') {
+				return ['success' => false, 'message' => 'Failed to create domain in database.', 'domain_uuid' => null];
+			}
+
+			//clone from source domain if specified
+			if (!empty($domain_data['source_domain_uuid']) && is_uuid($domain_data['source_domain_uuid'])) {
+				$this->clone_domain_data($domain_data['source_domain_uuid'], $new_domain_uuid, $domain_data);
+			}
+
+			//create admin user for the new domain
+			if (!empty($domain_data['admin_username']) && !empty($domain_data['admin_password'])) {
+				$this->create_domain_admin_user($new_domain_uuid, $domain_data['admin_username'], $domain_data['admin_password']);
+			}
+
+			//set domain limits
+			if (!empty($domain_data['num_extensions'])) {
+				$this->set_domain_setting($new_domain_uuid, 'limit', 'extensions', 'numeric', $domain_data['num_extensions']);
+			}
+			if (!empty($domain_data['num_gateways'])) {
+				$this->set_domain_setting($new_domain_uuid, 'limit', 'gateways', 'numeric', $domain_data['num_gateways']);
+			}
+			if (!empty($domain_data['num_ivrs'])) {
+				$this->set_domain_setting($new_domain_uuid, 'limit', 'ivrs', 'numeric', $domain_data['num_ivrs']);
+			}
+			if (!empty($domain_data['num_ring_groups'])) {
+				$this->set_domain_setting($new_domain_uuid, 'limit', 'ring_groups', 'numeric', $domain_data['num_ring_groups']);
+			}
+
+			return ['success' => true, 'message' => 'Domain created successfully.', 'domain_uuid' => $new_domain_uuid];
+		}
+
+		/**
+		 * Clone data from a source domain to a new domain
+		 * @param string $source_uuid
+		 * @param string $target_uuid
+		 * @param array $options
+		 */
+		private function clone_domain_data($source_uuid, $target_uuid, $options = []) {
+			$num_extensions = (int) ($options['num_extensions'] ?? 0);
+			$num_gateways = (int) ($options['num_gateways'] ?? 0);
+
+			//clone extensions
+			if ($num_extensions > 0) {
+				$sql = "select * from v_extensions where domain_uuid = :domain_uuid order by extension asc limit :limit ";
+				$parameters['domain_uuid'] = $source_uuid;
+				$parameters['limit'] = $num_extensions;
+				$database = new database;
+				$extensions = $database->select($sql, $parameters, 'all');
+				unset($parameters);
+
+				if (is_array($extensions)) {
+					$ext_num = 1000;
+					foreach ($extensions as $idx => $ext) {
+						$new_ext_uuid = uuid();
+						$array['extensions'][$idx]['extension_uuid'] = $new_ext_uuid;
+						$array['extensions'][$idx]['domain_uuid'] = $target_uuid;
+						$array['extensions'][$idx]['extension'] = (string)($ext_num + $idx);
+						$array['extensions'][$idx]['number_alias'] = '';
+						$array['extensions'][$idx]['password'] = bin2hex(random_bytes(8));
+						$array['extensions'][$idx]['enabled'] = 'true';
+						$array['extensions'][$idx]['description'] = 'Extension ' . ($ext_num + $idx);
+					}
+
+					$p = new permissions;
+					$p->add('extension_add', 'temp');
+					$database = new database;
+					$database->app_name = 'reseller';
+					$database->app_uuid = 'c3d4e5f6-a7b8-9012-cdef-123456789012';
+					$database->save($array);
+					unset($array);
+					$p->delete('extension_add', 'temp');
+				}
+			}
+
+			//clone gateways
+			if ($num_gateways > 0) {
+				$sql = "select * from v_gateways where domain_uuid = :domain_uuid order by gateway asc limit :limit ";
+				$parameters['domain_uuid'] = $source_uuid;
+				$parameters['limit'] = $num_gateways;
+				$database = new database;
+				$gateways = $database->select($sql, $parameters, 'all');
+				unset($parameters);
+
+				if (is_array($gateways)) {
+					foreach ($gateways as $idx => $gw) {
+						$new_gw_uuid = uuid();
+						$array['gateways'][$idx]['gateway_uuid'] = $new_gw_uuid;
+						$array['gateways'][$idx]['domain_uuid'] = $target_uuid;
+						$array['gateways'][$idx]['gateway'] = $gw['gateway'] ?? 'gateway_' . ($idx + 1);
+						$array['gateways'][$idx]['username'] = $gw['username'] ?? '';
+						$array['gateways'][$idx]['password'] = $gw['password'] ?? '';
+						$array['gateways'][$idx]['proxy'] = $gw['proxy'] ?? '';
+						$array['gateways'][$idx]['register'] = $gw['register'] ?? 'false';
+						$array['gateways'][$idx]['enabled'] = 'false';
+						$array['gateways'][$idx]['description'] = 'Cloned from source - configure before enabling';
+					}
+
+					$p = new permissions;
+					$p->add('gateway_add', 'temp');
+					$database = new database;
+					$database->app_name = 'reseller';
+					$database->app_uuid = 'c3d4e5f6-a7b8-9012-cdef-123456789012';
+					$database->save($array);
+					unset($array);
+					$p->delete('gateway_add', 'temp');
+				}
+			}
+
+			//clone dialplan entries
+			$sql = "select * from v_dialplans where domain_uuid = :domain_uuid ";
+			$parameters['domain_uuid'] = $source_uuid;
+			$database = new database;
+			$dialplans = $database->select($sql, $parameters, 'all');
+			unset($parameters);
+
+			if (is_array($dialplans) && sizeof($dialplans) > 0) {
+				foreach ($dialplans as $idx => $dp) {
+					$new_dp_uuid = uuid();
+					$array['dialplans'][$idx]['dialplan_uuid'] = $new_dp_uuid;
+					$array['dialplans'][$idx]['domain_uuid'] = $target_uuid;
+					$array['dialplans'][$idx]['dialplan_name'] = $dp['dialplan_name'] ?? '';
+					$array['dialplans'][$idx]['dialplan_context'] = $dp['dialplan_context'] ?? '';
+					$array['dialplans'][$idx]['dialplan_enabled'] = $dp['dialplan_enabled'] ?? 'true';
+					$array['dialplans'][$idx]['dialplan_description'] = $dp['dialplan_description'] ?? '';
+				}
+
+				$p = new permissions;
+				$p->add('dialplan_add', 'temp');
+				$database = new database;
+				$database->app_name = 'reseller';
+				$database->app_uuid = 'c3d4e5f6-a7b8-9012-cdef-123456789012';
+				$database->save($array);
+				unset($array);
+				$p->delete('dialplan_add', 'temp');
+			}
+		}
+
+		/**
+		 * Create an admin user for a domain
+		 * @param string $domain_uuid
+		 * @param string $username
+		 * @param string $password
+		 */
+		private function create_domain_admin_user($domain_uuid, $username, $password) {
+			$new_user_uuid = uuid();
+			$salt = uuid();
+			$password_hash = md5($salt . $password);
+
+			$array['users'][0]['user_uuid'] = $new_user_uuid;
+			$array['users'][0]['domain_uuid'] = $domain_uuid;
+			$array['users'][0]['username'] = $username;
+			$array['users'][0]['password'] = $password_hash;
+			$array['users'][0]['salt'] = $salt;
+			$array['users'][0]['user_enabled'] = 'true';
+			$array['users'][0]['add_date'] = 'now()';
+			$array['users'][0]['add_user'] = $_SESSION['user_uuid'] ?? '';
+
+			$p = new permissions;
+			$p->add('user_add', 'temp');
+			$database = new database;
+			$database->app_name = 'reseller';
+			$database->app_uuid = 'c3d4e5f6-a7b8-9012-cdef-123456789012';
+			$database->save($array);
+			unset($array);
+			$p->delete('user_add', 'temp');
+
+			//assign admin group to user
+			$sql = "select group_uuid from v_groups where group_name = 'admin' limit 1 ";
+			$database = new database;
+			$row = $database->select($sql, null, 'row');
+			if (is_array($row) && !empty($row['group_uuid'])) {
+				$array['user_groups'][0]['user_group_uuid'] = uuid();
+				$array['user_groups'][0]['domain_uuid'] = $domain_uuid;
+				$array['user_groups'][0]['group_name'] = 'admin';
+				$array['user_groups'][0]['group_uuid'] = $row['group_uuid'];
+				$array['user_groups'][0]['user_uuid'] = $new_user_uuid;
+
+				$p = new permissions;
+				$p->add('user_group_add', 'temp');
+				$database = new database;
+				$database->app_name = 'reseller';
+				$database->app_uuid = 'c3d4e5f6-a7b8-9012-cdef-123456789012';
+				$database->save($array);
+				unset($array);
+				$p->delete('user_group_add', 'temp');
+			}
+		}
+
+		/**
 		 * Suspend a domain owned by the reseller
 		 * @param string $reseller_uuid
 		 * @param string $domain_uuid
