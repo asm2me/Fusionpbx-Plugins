@@ -15,7 +15,7 @@
 	$text = $language->get();
 
 //handle delete
-	if ($_REQUEST['action'] == 'delete' && permission_exists('billing_subscription_delete')) {
+	if ($_REQUEST['action'] == 'delete' && permission_exists('v_billing_subscription_delete')) {
 		$token = new token;
 		if (!$token->validate($_SERVER['PHP_SELF'])) {
 			message::add($text['message-error'], 'negative');
@@ -26,13 +26,13 @@
 		if (is_uuid($subscription_uuid)) {
 			$array['v_billing_subscriptions'][0]['subscription_uuid'] = $subscription_uuid;
 			$p = new permissions;
-			$p->add('billing_subscription_delete', 'temp');
+			$p->add('v_billing_subscription_delete', 'temp');
 			$database = new database;
 			$database->app_name = 'billing';
 			$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 			$database->delete($array);
 			unset($array);
-			$p->delete('billing_subscription_delete', 'temp');
+			$p->delete('v_billing_subscription_delete', 'temp');
 			message::add($text['message-deleted']);
 		}
 		header('Location: billing_subscriptions.php');
@@ -69,7 +69,7 @@
 	echo "		<b>".$text['header-billing_subscriptions']."</b>\n";
 	echo "	</div>\n";
 	echo "	<div class='actions'>\n";
-	if (permission_exists('billing_subscription_add')) {
+	if (permission_exists('v_billing_subscription_add')) {
 		echo button::create(['type'=>'button','label'=>$text['button-add'],'icon'=>'plus','link'=>'billing_subscription_edit.php']);
 	}
 	echo "	</div>\n";
@@ -101,7 +101,7 @@
 	echo "	<th>".$text['label-start_date']."</th>\n";
 	echo "	<th>".$text['label-end_date']."</th>\n";
 	echo "	<th>".$text['label-auto_renew']."</th>\n";
-	if (permission_exists('billing_subscription_edit') || permission_exists('billing_subscription_delete')) {
+	if (permission_exists('v_billing_subscription_edit') || permission_exists('v_billing_subscription_delete')) {
 		echo "	<th class='action-button'>&nbsp;</th>\n";
 	}
 	echo "</tr>\n";
@@ -116,7 +116,7 @@
 				case 'expired': $status_color = '#FF9800'; break;
 			}
 			echo "<tr class='list-row'>\n";
-			if (permission_exists('billing_subscription_edit')) {
+			if (permission_exists('v_billing_subscription_edit')) {
 				echo "	<td><a href='billing_subscription_edit.php?id=".urlencode($row['subscription_uuid'])."'>".escape($row['domain_name'])."</a></td>\n";
 			}
 			else {
@@ -128,12 +128,12 @@
 			echo "	<td>".escape($row['start_date'])."</td>\n";
 			echo "	<td>".escape($row['end_date'])."</td>\n";
 			echo "	<td>".escape($row['auto_renew'] == 'true' ? 'Yes' : 'No')."</td>\n";
-			if (permission_exists('billing_subscription_edit') || permission_exists('billing_subscription_delete')) {
+			if (permission_exists('v_billing_subscription_edit') || permission_exists('v_billing_subscription_delete')) {
 				echo "	<td class='action-button'>\n";
-				if (permission_exists('billing_subscription_edit')) {
+				if (permission_exists('v_billing_subscription_edit')) {
 					echo button::create(['type'=>'button','title'=>$text['button-edit'],'icon'=>'pencil-alt','link'=>'billing_subscription_edit.php?id='.urlencode($row['subscription_uuid'])]);
 				}
-				if (permission_exists('billing_subscription_delete')) {
+				if (permission_exists('v_billing_subscription_delete')) {
 					echo button::create(['type'=>'button','title'=>$text['button-delete'],'icon'=>'trash','link'=>'billing_subscriptions.php?action=delete&id='.urlencode($row['subscription_uuid']).'&token='.$token,'onclick'=>"return confirm('".$text['confirm-delete']."');"]);
 				}
 				echo "	</td>\n";

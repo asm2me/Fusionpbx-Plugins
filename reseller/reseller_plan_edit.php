@@ -5,7 +5,7 @@
 	require_once dirname(__DIR__, 2) . "/resources/check_auth.php";
 
 //check permissions
-	if (!permission_exists('reseller_plans_add') && !permission_exists('reseller_plans_edit')) {
+	if (!permission_exists('v_reseller_plan_add') && !permission_exists('v_reseller_plan_edit')) {
 		echo "access denied";
 		exit;
 	}
@@ -85,8 +85,8 @@
 		}
 
 		$p = new permissions;
-		$p->add('reseller_plans_add', 'temp');
-		$p->add('reseller_plans_edit', 'temp');
+		$p->add('v_reseller_plan_add', 'temp');
+		$p->add('v_reseller_plan_edit', 'temp');
 
 		$database = new database;
 		$database->app_name = 'reseller';
@@ -94,8 +94,8 @@
 		$database->save($array);
 		unset($array);
 
-		$p->delete('reseller_plans_add', 'temp');
-		$p->delete('reseller_plans_edit', 'temp');
+		$p->delete('v_reseller_plan_add', 'temp');
+		$p->delete('v_reseller_plan_edit', 'temp');
 
 		message::add($text['message-settings_saved']);
 		header('Location: reseller_plans.php');

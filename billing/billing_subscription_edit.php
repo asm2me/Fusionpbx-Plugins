@@ -5,7 +5,7 @@
 	require_once dirname(__DIR__, 2) . "/resources/check_auth.php";
 
 //check permissions
-	if (!permission_exists('billing_subscription_add') && !permission_exists('billing_subscription_edit')) {
+	if (!permission_exists('v_billing_subscription_add') && !permission_exists('v_billing_subscription_edit')) {
 		echo "access denied";
 		exit;
 	}
@@ -80,13 +80,13 @@
 
 		//save
 		$p = new permissions;
-		$p->add('billing_subscription_'.($action == 'add' ? 'add' : 'edit'), 'temp');
+		$p->add('v_billing_subscription_'.($action == 'add' ? 'add' : 'edit'), 'temp');
 		$database = new database;
 		$database->app_name = 'billing';
 		$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 		$database->save($array);
 		unset($array);
-		$p->delete('billing_subscription_'.($action == 'add' ? 'add' : 'edit'), 'temp');
+		$p->delete('v_billing_subscription_'.($action == 'add' ? 'add' : 'edit'), 'temp');
 
 		message::add($text['message-saved']);
 		header('Location: billing_subscriptions.php');

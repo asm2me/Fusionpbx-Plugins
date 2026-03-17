@@ -15,7 +15,7 @@
 	$text = $language->get();
 
 //handle generate invoice
-	if ($_REQUEST['action'] == 'generate' && permission_exists('billing_invoice_add')) {
+	if ($_REQUEST['action'] == 'generate' && permission_exists('v_billing_invoice_add')) {
 		$token_obj = new token;
 		if ($token_obj->validate($_SERVER['PHP_SELF'])) {
 			$subscription_uuid = $_REQUEST['subscription_uuid'];

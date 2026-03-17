@@ -197,13 +197,13 @@
 							$array['v_billing_payments'][0]['gateway_response_json'] = json_encode($event_data);
 
 							$p = new permissions;
-							$p->add('billing_payment_edit', 'temp');
+							$p->add('v_billing_payment_edit', 'temp');
 							$database = new database;
 							$database->app_name = 'billing';
 							$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 							$database->save($array);
 							unset($array);
-							$p->delete('billing_payment_edit', 'temp');
+							$p->delete('v_billing_payment_edit', 'temp');
 
 							//send payment failed notice
 							if (is_uuid($payment_row['subscription_uuid'])) {

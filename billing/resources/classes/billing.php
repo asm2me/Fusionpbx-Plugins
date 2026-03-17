@@ -84,13 +84,13 @@ class billing {
 		$array['v_billing_subscriptions'][0]['add_user'] = $options['user_uuid'] ?? ($_SESSION['user_uuid'] ?? null);
 
 		$p = new permissions;
-		$p->add('billing_subscription_add', 'temp');
+		$p->add('v_billing_subscription_add', 'temp');
 		$database = new database;
 		$database->app_name = 'billing';
 		$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 		$database->save($array);
 		unset($array);
-		$p->delete('billing_subscription_add', 'temp');
+		$p->delete('v_billing_subscription_add', 'temp');
 
 		//activate the domain
 		$this->activate_domain($domain_uuid);
@@ -110,13 +110,13 @@ class billing {
 		$array['v_domains'][0]['domain_enabled'] = 'false';
 
 		$p = new permissions;
-		$p->add('domains_edit', 'temp');
+		$p->add('v_domain_edit', 'temp');
 		$database = new database;
 		$database->app_name = 'billing';
 		$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 		$database->save($array);
 		unset($array);
-		$p->delete('domains_edit', 'temp');
+		$p->delete('v_domain_edit', 'temp');
 
 		//log the event
 		$this->log_event('domain_suspended', $domain_uuid);
@@ -136,13 +136,13 @@ class billing {
 		$array['v_domains'][0]['domain_enabled'] = 'true';
 
 		$p = new permissions;
-		$p->add('domains_edit', 'temp');
+		$p->add('v_domain_edit', 'temp');
 		$database = new database;
 		$database->app_name = 'billing';
 		$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 		$database->save($array);
 		unset($array);
-		$p->delete('domains_edit', 'temp');
+		$p->delete('v_domain_edit', 'temp');
 
 		//log the event
 		$this->log_event('domain_activated', $domain_uuid);
@@ -201,13 +201,13 @@ class billing {
 		$array['v_billing_invoices'][0]['add_date'] = date('Y-m-d H:i:s');
 
 		$p = new permissions;
-		$p->add('billing_invoice_add', 'temp');
+		$p->add('v_billing_invoice_add', 'temp');
 		$database = new database;
 		$database->app_name = 'billing';
 		$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 		$database->save($array);
 		unset($array);
-		$p->delete('billing_invoice_add', 'temp');
+		$p->delete('v_billing_invoice_add', 'temp');
 
 		return $invoice_uuid;
 	}
@@ -297,13 +297,13 @@ class billing {
 			$array['v_billing_payments'][0]['add_date'] = date('Y-m-d H:i:s');
 
 			$p = new permissions;
-			$p->add('billing_payment_add', 'temp');
+			$p->add('v_billing_payment_add', 'temp');
 			$database = new database;
 			$database->app_name = 'billing';
 			$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 			$database->save($array);
 			unset($array);
-			$p->delete('billing_payment_add', 'temp');
+			$p->delete('v_billing_payment_add', 'temp');
 
 			return $result;
 		}
@@ -340,13 +340,13 @@ class billing {
 		$array['v_billing_payments'][0]['gateway_response_json'] = json_encode($gateway_response);
 
 		$p = new permissions;
-		$p->add('billing_payment_edit', 'temp');
+		$p->add('v_billing_payment_edit', 'temp');
 		$database = new database;
 		$database->app_name = 'billing';
 		$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 		$database->save($array);
 		unset($array);
-		$p->delete('billing_payment_edit', 'temp');
+		$p->delete('v_billing_payment_edit', 'temp');
 
 		//update invoice status
 		$array2['billing_invoices'][0]['invoice_uuid'] = $payment['invoice_uuid'];
@@ -356,13 +356,13 @@ class billing {
 		$array2['billing_invoices'][0]['payment_reference'] = $transaction_id;
 
 		$p = new permissions;
-		$p->add('billing_invoice_edit', 'temp');
+		$p->add('v_billing_invoice_edit', 'temp');
 		$database = new database;
 		$database->app_name = 'billing';
 		$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 		$database->save($array2);
 		unset($array2);
-		$p->delete('billing_invoice_edit', 'temp');
+		$p->delete('v_billing_invoice_edit', 'temp');
 
 		//extend subscription
 		if (is_uuid($payment['subscription_uuid'])) {
@@ -385,13 +385,13 @@ class billing {
 		$array3['billing_credits'][0]['add_date'] = date('Y-m-d H:i:s');
 
 		$p = new permissions;
-		$p->add('billing_credit_add', 'temp');
+		$p->add('v_billing_credit_add', 'temp');
 		$database = new database;
 		$database->app_name = 'billing';
 		$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 		$database->save($array3);
 		unset($array3);
-		$p->delete('billing_credit_add', 'temp');
+		$p->delete('v_billing_credit_add', 'temp');
 
 		return true;
 	}
@@ -439,13 +439,13 @@ class billing {
 		$array['v_billing_subscriptions'][0]['mod_date'] = date('Y-m-d H:i:s');
 
 		$p = new permissions;
-		$p->add('billing_subscription_edit', 'temp');
+		$p->add('v_billing_subscription_edit', 'temp');
 		$database = new database;
 		$database->app_name = 'billing';
 		$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 		$database->save($array);
 		unset($array);
-		$p->delete('billing_subscription_edit', 'temp');
+		$p->delete('v_billing_subscription_edit', 'temp');
 
 		return true;
 	}
@@ -540,13 +540,13 @@ class billing {
 				$array['v_billing_subscriptions'][0]['mod_date'] = date('Y-m-d H:i:s');
 
 				$p = new permissions;
-				$p->add('billing_subscription_edit', 'temp');
+				$p->add('v_billing_subscription_edit', 'temp');
 				$database = new database;
 				$database->app_name = 'billing';
 				$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 				$database->save($array);
 				unset($array);
-				$p->delete('billing_subscription_edit', 'temp');
+				$p->delete('v_billing_subscription_edit', 'temp');
 
 				$this->send_notice($sub['subscription_uuid'], 'expired');
 				$summary['subscriptions_expired']++;
@@ -579,13 +579,13 @@ class billing {
 					$array['v_billing_subscriptions'][0]['mod_date'] = date('Y-m-d H:i:s');
 
 					$p = new permissions;
-					$p->add('billing_subscription_edit', 'temp');
+					$p->add('v_billing_subscription_edit', 'temp');
 					$database = new database;
 					$database->app_name = 'billing';
 					$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 					$database->save($array);
 					unset($array);
-					$p->delete('billing_subscription_edit', 'temp');
+					$p->delete('v_billing_subscription_edit', 'temp');
 
 					$this->suspend_domain($sub['domain_uuid']);
 					$this->send_notice($sub['subscription_uuid'], 'suspended');
@@ -718,13 +718,13 @@ class billing {
 		$array['v_billing_notices'][0]['status'] = $sent ? 'sent' : 'failed';
 
 		$p = new permissions;
-		$p->add('billing_notice_template_add', 'temp');
+		$p->add('v_billing_notice_template_add', 'temp');
 		$database = new database;
 		$database->app_name = 'billing';
 		$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 		$database->save($array);
 		unset($array);
-		$p->delete('billing_notice_template_add', 'temp');
+		$p->delete('v_billing_notice_template_add', 'temp');
 
 		return true;
 	}

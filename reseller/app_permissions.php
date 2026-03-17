@@ -5,10 +5,10 @@
 		$apps[$x]['permissions'][$y]['name'] = 'reseller_view';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'reseller_add';
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_profiles_add';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'reseller_edit';
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_profiles_edit';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
 		$apps[$x]['permissions'][$y]['name'] = 'reseller_delete';
@@ -65,7 +65,7 @@
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
 		$y++;
-		$apps[$x]['permissions'][$y]['name'] = 'reseller_settings_edit';
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_profiles_edit';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
 		$y++;

@@ -5,7 +5,7 @@
 	require_once dirname(__DIR__, 2) . "/resources/check_auth.php";
 
 //check permissions
-	if (!permission_exists('reseller_add') && !permission_exists('reseller_edit')) {
+	if (!permission_exists('v_reseller_profile_add') && !permission_exists('v_reseller_profile_edit')) {
 		echo "access denied";
 		exit;
 	}
@@ -112,8 +112,8 @@
 
 		//grant temp permission
 		$p = new permissions;
-		$p->add('reseller_add', 'temp');
-		$p->add('reseller_edit', 'temp');
+		$p->add('v_reseller_profile_add', 'temp');
+		$p->add('v_reseller_profile_edit', 'temp');
 
 		//save to the database
 		$database = new database;
@@ -122,8 +122,8 @@
 		$database->save($array);
 		unset($array);
 
-		$p->delete('reseller_add', 'temp');
-		$p->delete('reseller_edit', 'temp');
+		$p->delete('v_reseller_profile_add', 'temp');
+		$p->delete('v_reseller_profile_edit', 'temp');
 
 		//redirect
 		message::add($text['message-settings_saved']);

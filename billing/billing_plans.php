@@ -15,7 +15,7 @@
 	$text = $language->get();
 
 //handle delete
-	if ($_REQUEST['action'] == 'delete' && permission_exists('billing_plan_delete')) {
+	if ($_REQUEST['action'] == 'delete' && permission_exists('v_billing_plan_delete')) {
 		//validate the token
 		$token = new token;
 		if (!$token->validate($_SERVER['PHP_SELF'])) {
@@ -28,13 +28,13 @@
 		if (is_uuid($plan_uuid)) {
 			$array['v_billing_plans'][0]['plan_uuid'] = $plan_uuid;
 			$p = new permissions;
-			$p->add('billing_plan_delete', 'temp');
+			$p->add('v_billing_plan_delete', 'temp');
 			$database = new database;
 			$database->app_name = 'billing';
 			$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 			$database->delete($array);
 			unset($array);
-			$p->delete('billing_plan_delete', 'temp');
+			$p->delete('v_billing_plan_delete', 'temp');
 			message::add($text['message-deleted']);
 		}
 		header('Location: billing_plans.php');
@@ -61,7 +61,7 @@
 	echo "		<b>".$text['header-billing_plans']."</b>\n";
 	echo "	</div>\n";
 	echo "	<div class='actions'>\n";
-	if (permission_exists('billing_plan_add')) {
+	if (permission_exists('v_billing_plan_add')) {
 		echo button::create(['type'=>'button','label'=>$text['button-add'],'icon'=>'plus','link'=>'billing_plan_edit.php']);
 	}
 	echo "	</div>\n";
@@ -82,7 +82,7 @@
 	echo "	<th>".$text['label-max_ivrs']."</th>\n";
 	echo "	<th>".$text['label-max_ring_groups']."</th>\n";
 	echo "	<th>".$text['label-enabled']."</th>\n";
-	if (permission_exists('billing_plan_edit') || permission_exists('billing_plan_delete')) {
+	if (permission_exists('v_billing_plan_edit') || permission_exists('v_billing_plan_delete')) {
 		echo "	<th class='action-button'>&nbsp;</th>\n";
 	}
 	echo "</tr>\n";
@@ -90,7 +90,7 @@
 	if (is_array($plans) && count($plans) > 0) {
 		foreach ($plans as $row) {
 			echo "<tr class='list-row'>\n";
-			if (permission_exists('billing_plan_edit')) {
+			if (permission_exists('v_billing_plan_edit')) {
 				echo "	<td><a href='billing_plan_edit.php?id=".urlencode($row['plan_uuid'])."'>".escape($row['plan_name'])."</a></td>\n";
 			}
 			else {
@@ -104,12 +104,12 @@
 			echo "	<td>".escape($row['max_ivrs'])."</td>\n";
 			echo "	<td>".escape($row['max_ring_groups'])."</td>\n";
 			echo "	<td>".escape($row['enabled'])."</td>\n";
-			if (permission_exists('billing_plan_edit') || permission_exists('billing_plan_delete')) {
+			if (permission_exists('v_billing_plan_edit') || permission_exists('v_billing_plan_delete')) {
 				echo "	<td class='action-button'>\n";
-				if (permission_exists('billing_plan_edit')) {
+				if (permission_exists('v_billing_plan_edit')) {
 					echo button::create(['type'=>'button','title'=>$text['button-edit'],'icon'=>'pencil-alt','link'=>'billing_plan_edit.php?id='.urlencode($row['plan_uuid'])]);
 				}
-				if (permission_exists('billing_plan_delete')) {
+				if (permission_exists('v_billing_plan_delete')) {
 					echo button::create(['type'=>'button','title'=>$text['button-delete'],'icon'=>'trash','link'=>'billing_plans.php?action=delete&id='.urlencode($row['plan_uuid']).'&token='.$token,'onclick'=>"return confirm('".$text['confirm-delete']."');"]);
 				}
 				echo "	</td>\n";

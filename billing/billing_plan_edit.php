@@ -5,7 +5,7 @@
 	require_once dirname(__DIR__, 2) . "/resources/check_auth.php";
 
 //check permissions
-	if (!permission_exists('billing_plan_add') && !permission_exists('billing_plan_edit')) {
+	if (!permission_exists('v_billing_plan_add') && !permission_exists('v_billing_plan_edit')) {
 		echo "access denied";
 		exit;
 	}
@@ -74,13 +74,13 @@
 
 		//save to the database
 		$p = new permissions;
-		$p->add('billing_plan_'.($action == 'add' ? 'add' : 'edit'), 'temp');
+		$p->add('v_billing_plan_'.($action == 'add' ? 'add' : 'edit'), 'temp');
 		$database = new database;
 		$database->app_name = 'billing';
 		$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
 		$database->save($array);
 		unset($array);
-		$p->delete('billing_plan_'.($action == 'add' ? 'add' : 'edit'), 'temp');
+		$p->delete('v_billing_plan_'.($action == 'add' ? 'add' : 'edit'), 'temp');
 
 		//redirect
 		message::add($text['message-saved']);

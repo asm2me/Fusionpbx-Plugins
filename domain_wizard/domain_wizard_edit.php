@@ -76,8 +76,8 @@
 
 				//save to the database
 					$p = new permissions;
-					$p->add('domain_wizard_templates_add', 'temp');
-					$p->add('domain_wizard_templates_edit', 'temp');
+					$p->add('v_domain_wizard_template_add', 'temp');
+					$p->add('v_domain_wizard_template_edit', 'temp');
 
 					$database = new database;
 					$database->app_name = 'domain_wizard';
@@ -86,8 +86,8 @@
 					$db_response = $database->message;
 					unset($array);
 
-					$p->delete('domain_wizard_templates_add', 'temp');
-					$p->delete('domain_wizard_templates_edit', 'temp');
+					$p->delete('v_domain_wizard_template_add', 'temp');
+					$p->delete('v_domain_wizard_template_edit', 'temp');
 
 				//check result and show debug info
 					if (isset($db_response['code']) && $db_response['code'] == '200') {
