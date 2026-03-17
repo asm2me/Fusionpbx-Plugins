@@ -8,8 +8,7 @@
  */
 
 //includes
-	require_once "root.php";
-	require_once "resources/require.php";
+	require_once dirname(__DIR__, 2) . "/resources/require.php";
 
 //determine the gateway
 	$gateway = $_REQUEST['gateway'] ?? '';
@@ -35,14 +34,14 @@
 	$config = json_decode($gateway_config['config_json'], true) ?? [];
 
 //load billing class
-	require_once "resources/classes/billing.php";
+	require_once __DIR__ . "/resources/classes/billing.php";
 	$billing = new billing;
 
 //handle gateway-specific webhooks
 	switch ($gateway) {
 
 		case 'paypal':
-			require_once "resources/classes/billing_paypal.php";
+			require_once __DIR__ . "/resources/classes/billing_paypal.php";
 			$paypal = new billing_paypal;
 			$paypal->set_config($config, $gateway_config['sandbox_mode'] == 'true');
 
@@ -145,7 +144,7 @@
 			break;
 
 		case 'stripe':
-			require_once "resources/classes/billing_stripe.php";
+			require_once __DIR__ . "/resources/classes/billing_stripe.php";
 			$stripe = new billing_stripe;
 			$stripe->set_config($config);
 
@@ -236,7 +235,7 @@
 			break;
 
 		case 'binance':
-			require_once "resources/classes/billing_binance.php";
+			require_once __DIR__ . "/resources/classes/billing_binance.php";
 			$binance = new billing_binance;
 			$binance->set_config($config);
 

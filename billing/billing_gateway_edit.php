@@ -1,9 +1,8 @@
 <?php
 
 //includes
-	require_once "root.php";
-	require_once "resources/require.php";
-	require_once "resources/check_auth.php";
+	require_once dirname(__DIR__, 2) . "/resources/require.php";
+	require_once dirname(__DIR__, 2) . "/resources/check_auth.php";
 
 //check permissions
 	if (!permission_exists('billing_gateway_add') && !permission_exists('billing_gateway_edit')) {
@@ -37,17 +36,17 @@
 		if (is_array($gw)) {
 			switch ($gw['gateway_name']) {
 				case 'paypal':
-					require_once "resources/classes/billing_paypal.php";
+					require_once __DIR__ . "/resources/classes/billing_paypal.php";
 					$paypal = new billing_paypal;
 					$test_result = $paypal->test_connection($gw);
 					break;
 				case 'stripe':
-					require_once "resources/classes/billing_stripe.php";
+					require_once __DIR__ . "/resources/classes/billing_stripe.php";
 					$stripe = new billing_stripe;
 					$test_result = $stripe->test_connection($gw);
 					break;
 				case 'binance':
-					require_once "resources/classes/billing_binance.php";
+					require_once __DIR__ . "/resources/classes/billing_binance.php";
 					$binance = new billing_binance;
 					$test_result = $binance->test_connection($gw);
 					break;

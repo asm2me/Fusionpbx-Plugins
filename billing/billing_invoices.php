@@ -1,9 +1,8 @@
 <?php
 
 //includes
-	require_once "root.php";
-	require_once "resources/require.php";
-	require_once "resources/check_auth.php";
+	require_once dirname(__DIR__, 2) . "/resources/require.php";
+	require_once dirname(__DIR__, 2) . "/resources/check_auth.php";
 
 //check permissions
 	if (!permission_exists('billing_invoice_view')) {
@@ -21,7 +20,7 @@
 		if ($token_obj->validate($_SERVER['PHP_SELF'])) {
 			$subscription_uuid = $_REQUEST['subscription_uuid'];
 			if (is_uuid($subscription_uuid)) {
-				require_once "resources/classes/billing.php";
+				require_once __DIR__ . "/resources/classes/billing.php";
 				$billing = new billing;
 				$result = $billing->generate_invoice($subscription_uuid);
 				if ($result) {

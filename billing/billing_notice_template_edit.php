@@ -1,9 +1,8 @@
 <?php
 
 //includes
-	require_once "root.php";
-	require_once "resources/require.php";
-	require_once "resources/check_auth.php";
+	require_once dirname(__DIR__, 2) . "/resources/require.php";
+	require_once dirname(__DIR__, 2) . "/resources/check_auth.php";
 
 //check permissions
 	if (!permission_exists('billing_notice_template_add') && !permission_exists('billing_notice_template_edit')) {

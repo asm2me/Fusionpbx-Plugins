@@ -246,7 +246,7 @@ class billing {
 		$result = false;
 		switch ($gateway_name) {
 			case 'paypal':
-				require_once "resources/classes/billing_paypal.php";
+				require_once __DIR__ . "/billing_paypal.php";
 				$paypal = new billing_paypal;
 				$paypal->set_config($config, $gateway['sandbox_mode'] == 'true');
 				$result = $paypal->create_order(
@@ -257,7 +257,7 @@ class billing {
 				break;
 
 			case 'stripe':
-				require_once "resources/classes/billing_stripe.php";
+				require_once __DIR__ . "/billing_stripe.php";
 				$stripe = new billing_stripe;
 				$stripe->set_config($config);
 				$base_url = ($_SERVER['HTTPS'] == 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
@@ -271,7 +271,7 @@ class billing {
 				break;
 
 			case 'binance':
-				require_once "resources/classes/billing_binance.php";
+				require_once __DIR__ . "/billing_binance.php";
 				$binance = new billing_binance;
 				$binance->set_config($config);
 				$result = $binance->create_order(

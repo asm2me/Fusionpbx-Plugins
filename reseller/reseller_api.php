@@ -9,15 +9,14 @@
  */
 
 //includes
-	require_once "root.php";
-	require_once "resources/require.php";
+	require_once dirname(__DIR__, 2) . "/resources/require.php";
 
 //set JSON content type
 	header('Content-Type: application/json');
 
 //include the reseller classes
-	require_once "resources/classes/reseller.php";
-	require_once "resources/classes/reseller_api.php";
+	require_once __DIR__ . "/resources/classes/reseller.php";
+	require_once __DIR__ . "/resources/classes/reseller_api.php";
 
 //get authentication credentials
 	$api_key = '';

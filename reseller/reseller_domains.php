@@ -1,9 +1,8 @@
 <?php
 
 //includes
-	require_once "root.php";
-	require_once "resources/require.php";
-	require_once "resources/check_auth.php";
+	require_once dirname(__DIR__, 2) . "/resources/require.php";
+	require_once dirname(__DIR__, 2) . "/resources/check_auth.php";
 
 //check permissions
 	if (!permission_exists('reseller_domains_view')) {
@@ -16,7 +15,7 @@
 	$text = $language->get();
 
 //include the reseller class
-	require_once "resources/classes/reseller.php";
+	require_once __DIR__ . "/resources/classes/reseller.php";
 	$reseller_obj = new reseller;
 
 //handle actions (suspend, activate, delete)

@@ -19,8 +19,7 @@
 	set_include_path(parse_ini_file($conf[0])['document.path']);
 
 //includes
-	require_once "root.php";
-	require_once "resources/require.php";
+	require_once dirname(__DIR__, 2) . "/resources/require.php";
 
 //increase time limit for cron execution
 	set_time_limit(300);
@@ -36,7 +35,7 @@
 	billing_cron_log("Starting billing cron job...");
 
 //load billing class
-	require_once "resources/classes/billing.php";
+	require_once __DIR__ . "/resources/classes/billing.php";
 	$billing = new billing;
 
 //step 1: check expirations and send notices
