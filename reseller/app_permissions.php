@@ -1,0 +1,80 @@
+<?php
+
+	//admin permissions - manage all resellers
+		$y = 0;
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_view';
+		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
+		$y++;
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_add';
+		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
+		$y++;
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_edit';
+		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
+		$y++;
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_delete';
+		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
+		$y++;
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_all';
+		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
+
+	//reseller permissions - manage own domains within limits
+		$y++;
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_dashboard';
+		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
+		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
+		$y++;
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_domains_view';
+		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
+		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
+		$y++;
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_domains_add';
+		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
+		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
+		$y++;
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_domains_edit';
+		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
+		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
+		$y++;
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_domains_delete';
+		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
+		$y++;
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_plans_view';
+		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
+		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
+		$y++;
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_plans_add';
+		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
+		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
+		$y++;
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_plans_edit';
+		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
+		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
+		$y++;
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_plans_delete';
+		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
+		$y++;
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_commissions_view';
+		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
+		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
+		$y++;
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_activity_view';
+		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
+		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
+		$y++;
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_settings_view';
+		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
+		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
+		$y++;
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_settings_edit';
+		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
+		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
+		$y++;
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_api_view';
+		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
+		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
+		$y++;
+		$apps[$x]['permissions'][$y]['name'] = 'reseller_portal_view';
+		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
+		$apps[$x]['permissions'][$y]['groups'][] = 'reseller';
+
+?>
