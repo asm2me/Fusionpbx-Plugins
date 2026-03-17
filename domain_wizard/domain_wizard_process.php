@@ -1,25 +1,27 @@
 <?php
 
+//set content type early to ensure JSON response
+	header('Content-Type: application/json');
+
+//capture any PHP errors/warnings that would break JSON
+	ob_start();
+
 //includes
 	require_once dirname(__DIR__, 2) . "/resources/require.php";
 	require_once dirname(__DIR__, 2) . "/resources/check_auth.php";
 
 //check permissions
-	if (permission_exists('domain_wizard_add')) {
-		//access granted
-	}
-	else {
+	if (!permission_exists('domain_wizard_add')) {
+		ob_end_clean();
 		echo json_encode(['status' => 'error', 'message' => 'Access denied.']);
 		exit;
 	}
 
-//set content type
-	header('Content-Type: application/json');
-
 //validate the token
 	$token = new token;
 	if (!$token->validate('domain_wizard_process.php')) {
-		echo json_encode(['status' => 'error', 'message' => 'Invalid token.']);
+		ob_end_clean();
+		echo json_encode(['status' => 'error', 'message' => 'Invalid token. Please reload the page and try again.']);
 		exit;
 	}
 
@@ -65,12 +67,13 @@
 		$database = new database;
 		$row = $database->select($sql, $parameters, 'row');
 		if (is_array($row) && $row['cnt'] > 0) {
-			$errors[] = 'Domain name already exists.';
+			$errors[] = 'Domain name "' . $domain_name . '" already exists.';
 		}
 		unset($sql, $parameters, $row);
 	}
 
 	if (count($errors) > 0) {
+		ob_end_clean();
 		echo json_encode(['status' => 'error', 'message' => implode(' ', $errors)]);
 		exit;
 	}
@@ -93,40 +96,59 @@
 		$wizard = new domain_wizard;
 		$result = $wizard->clone_domain($source_domain_uuid, $domain_name, $options);
 
-		if ($result['status'] == 'success') {
-			echo json_encode([
+		//capture any stray output from the clone process
+		$stray_output = ob_get_clean();
+
+		if (isset($result['status']) && $result['status'] == 'success') {
+			$response = [
 				'status' => 'success',
 				'message' => 'Domain created successfully.',
-				'domain_uuid' => $result['domain_uuid'],
+				'domain_uuid' => $result['domain_uuid'] ?? null,
 				'log' => $result['log'] ?? [],
-			]);
-		}
-		else {
-			echo json_encode([
+			];
+		} else {
+			$response = [
 				'status' => 'error',
-				'message' => $result['message'] ?? 'Domain creation failed.',
+				'message' => $result['message'] ?? 'Domain creation failed. Check the log below.',
 				'log' => $result['log'] ?? [],
-			]);
+			];
 		}
+
+		//append stray output to log if any
+		if (!empty($stray_output)) {
+			$response['log'][] = 'PHP Output: ' . substr(strip_tags($stray_output), 0, 2000);
+		}
+
+		echo json_encode($response);
 	}
 	catch (Exception $e) {
-		//log the error
-			$wizard_log = new domain_wizard;
-			$wizard_log->log_action([
-				'domain_uuid' => null,
-				'template_uuid' => $template_uuid,
-				'created_by' => $_SESSION['user_uuid'],
-				'extensions_count' => $extensions_count,
-				'gateways_count' => $gateways_count,
-				'ivrs_count' => $ivrs_count,
-				'recordings_uploaded' => 0,
-				'status' => 'failed',
-				'log_detail' => $e->getMessage(),
-			]);
+		$stray_output = ob_get_clean();
+
+		$log = ['FAILED: Exception thrown - ' . $e->getMessage()];
+		if (!empty($stray_output)) {
+			$log[] = 'PHP Output: ' . substr(strip_tags($stray_output), 0, 2000);
+		}
+		$log[] = 'File: ' . $e->getFile() . ':' . $e->getLine();
 
 		echo json_encode([
 			'status' => 'error',
-			'message' => 'An error occurred: ' . $e->getMessage(),
+			'message' => $e->getMessage(),
+			'log' => $log,
+		]);
+	}
+	catch (\Throwable $e) {
+		$stray_output = ob_get_clean();
+
+		$log = ['FATAL: ' . $e->getMessage()];
+		if (!empty($stray_output)) {
+			$log[] = 'PHP Output: ' . substr(strip_tags($stray_output), 0, 2000);
+		}
+		$log[] = 'File: ' . $e->getFile() . ':' . $e->getLine();
+
+		echo json_encode([
+			'status' => 'error',
+			'message' => $e->getMessage(),
+			'log' => $log,
 		]);
 	}
 
