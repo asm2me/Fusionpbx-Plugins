@@ -45,7 +45,7 @@ class domain_wizard {
 			$array['v_domains'][0]['domain_description'] = 'Created by Domain Wizard from ' . $source_domain['domain_name'];
 
 			$p = new permissions;
-			$p->add('v_domain_add', 'temp');
+			$p->add('v_domains_add', 'temp');
 
 			$database = new database;
 			$database->app_name = 'domain_wizard';
@@ -53,7 +53,7 @@ class domain_wizard {
 			$database->save($array);
 			unset($array);
 
-			$p->delete('v_domain_add', 'temp');
+			$p->delete('v_domains_add', 'temp');
 
 			$this->log[] = 'New domain created: ' . $new_domain_name . ' (' . $new_domain_uuid . ')';
 
@@ -148,7 +148,7 @@ class domain_wizard {
 		$created = 0;
 		if (is_array($source_ext)) {
 			$p = new permissions;
-			$p->add('v_extension_add', 'temp');
+			$p->add('v_extensions_add', 'temp');
 
 			for ($i = 0; $i < $count; $i++) {
 				$ext_number = $start_number + $i;
@@ -202,7 +202,7 @@ class domain_wizard {
 				$created++;
 			}
 
-			$p->delete('v_extension_add', 'temp');
+			$p->delete('v_extensions_add', 'temp');
 		}
 
 		return $created;
@@ -228,7 +228,7 @@ class domain_wizard {
 		$created = 0;
 		if (is_array($source_gateways)) {
 			$p = new permissions;
-			$p->add('v_gateway_add', 'temp');
+			$p->add('v_gateways_add', 'temp');
 
 			foreach ($source_gateways as $gw) {
 				if ($created >= $count) break;
@@ -271,7 +271,7 @@ class domain_wizard {
 				$created++;
 			}
 
-			$p->delete('v_gateway_add', 'temp');
+			$p->delete('v_gateways_add', 'temp');
 		}
 
 		return $created;
@@ -294,7 +294,7 @@ class domain_wizard {
 
 		if (is_array($source_dialplans)) {
 			$p = new permissions;
-			$p->add('v_dialplan_add', 'temp');
+			$p->add('v_dialplans_add', 'temp');
 
 			foreach ($source_dialplans as $dp) {
 				$old_dp_uuid = $dp['dialplan_uuid'];
@@ -326,7 +326,7 @@ class domain_wizard {
 					$details = $database->select($sql2, $parameters2, 'all');
 					unset($sql2, $parameters2);
 
-					if (is_array($details)) {
+					if (is_array($details) && sizeof($details) > 0) {
 						$d = 0;
 						foreach ($details as $detail) {
 							$array['v_dialplan_details'][$d]['dialplan_detail_uuid'] = uuid();
@@ -343,15 +343,18 @@ class domain_wizard {
 							$d++;
 						}
 
+						$p2 = new permissions;
+						$p2->add('v_dialplan_details_add', 'temp');
 						$database = new database;
 						$database->app_name = 'domain_wizard';
 						$database->app_uuid = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890';
 						$database->save($array);
 						unset($array);
+						$p2->delete('v_dialplan_details_add', 'temp');
 					}
 			}
 
-			$p->delete('v_dialplan_add', 'temp');
+			$p->delete('v_dialplans_add', 'temp');
 		}
 	}
 
@@ -375,7 +378,7 @@ class domain_wizard {
 		$created = 0;
 		if (is_array($source_ivrs)) {
 			$p = new permissions;
-			$p->add('v_ivr_menu_add', 'temp');
+			$p->add('v_ivr_menus_add', 'temp');
 
 			foreach ($source_ivrs as $ivr) {
 				if ($created >= $count) break;
@@ -425,7 +428,7 @@ class domain_wizard {
 					$options = $database->select($sql2, $parameters2, 'all');
 					unset($sql2, $parameters2);
 
-					if (is_array($options)) {
+					if (is_array($options) && sizeof($options) > 0) {
 						$o = 0;
 						foreach ($options as $opt) {
 							$array['v_ivr_menu_options'][$o]['ivr_menu_option_uuid'] = uuid();
@@ -440,17 +443,20 @@ class domain_wizard {
 							$o++;
 						}
 
+						$p2 = new permissions;
+						$p2->add('v_ivr_menu_options_add', 'temp');
 						$database = new database;
 						$database->app_name = 'domain_wizard';
 						$database->app_uuid = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890';
 						$database->save($array);
 						unset($array);
+						$p2->delete('v_ivr_menu_options_add', 'temp');
 					}
 
 				$created++;
 			}
 
-			$p->delete('v_ivr_menu_add', 'temp');
+			$p->delete('v_ivr_menus_add', 'temp');
 		}
 
 		return $created;
@@ -476,7 +482,7 @@ class domain_wizard {
 		$created = 0;
 		if (is_array($source_rgs)) {
 			$p = new permissions;
-			$p->add('v_ring_group_add', 'temp');
+			$p->add('v_ring_groups_add', 'temp');
 
 			foreach ($source_rgs as $rg) {
 				if ($created >= $count) break;
@@ -524,7 +530,7 @@ class domain_wizard {
 					$destinations = $database->select($sql2, $parameters2, 'all');
 					unset($sql2, $parameters2);
 
-					if (is_array($destinations)) {
+					if (is_array($destinations) && sizeof($destinations) > 0) {
 						$d = 0;
 						foreach ($destinations as $dest) {
 							$array['v_ring_group_destinations'][$d]['ring_group_destination_uuid'] = uuid();
@@ -538,17 +544,20 @@ class domain_wizard {
 							$d++;
 						}
 
+						$p2 = new permissions;
+						$p2->add('v_ring_group_destinations_add', 'temp');
 						$database = new database;
 						$database->app_name = 'domain_wizard';
 						$database->app_uuid = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890';
 						$database->save($array);
 						unset($array);
+						$p2->delete('v_ring_group_destinations_add', 'temp');
 					}
 
 				$created++;
 			}
 
-			$p->delete('v_ring_group_add', 'temp');
+			$p->delete('v_ring_groups_add', 'temp');
 		}
 
 		return $created;
@@ -611,7 +620,7 @@ class domain_wizard {
 					$array['v_recordings'][0]['recording_description'] = 'Uploaded by Domain Wizard';
 
 					$p = new permissions;
-					$p->add('v_recording_add', 'temp');
+					$p->add('v_recordings_add', 'temp');
 
 					$database = new database;
 					$database->app_name = 'domain_wizard';
@@ -619,7 +628,7 @@ class domain_wizard {
 					$database->save($array);
 					unset($array);
 
-					$p->delete('v_recording_add', 'temp');
+					$p->delete('v_recordings_add', 'temp');
 
 				$uploaded++;
 			}
@@ -650,7 +659,7 @@ class domain_wizard {
 			$array['v_users'][0]['add_user'] = $_SESSION['user_uuid'] ?? '';
 
 			$p = new permissions;
-			$p->add('v_user_add', 'temp');
+			$p->add('v_users_add', 'temp');
 
 			$database = new database;
 			$database->app_name = 'domain_wizard';
@@ -658,7 +667,7 @@ class domain_wizard {
 			$database->save($array);
 			unset($array);
 
-			$p->delete('v_user_add', 'temp');
+			$p->delete('v_users_add', 'temp');
 
 		//assign the admin group
 			$sql = "select group_uuid from v_groups where group_name = 'admin' limit 1";
@@ -674,7 +683,7 @@ class domain_wizard {
 				$array['v_user_groups'][0]['user_uuid'] = $user_uuid;
 
 				$p = new permissions;
-				$p->add('v_user_group_add', 'temp');
+				$p->add('v_user_groups_add', 'temp');
 
 				$database = new database;
 				$database->app_name = 'domain_wizard';
@@ -682,7 +691,7 @@ class domain_wizard {
 				$database->save($array);
 				unset($array);
 
-				$p->delete('v_user_group_add', 'temp');
+				$p->delete('v_user_groups_add', 'temp');
 			}
 
 		//assign the user group
@@ -699,7 +708,7 @@ class domain_wizard {
 				$array['v_user_groups'][0]['user_uuid'] = $user_uuid;
 
 				$p = new permissions;
-				$p->add('v_user_group_add', 'temp');
+				$p->add('v_user_groups_add', 'temp');
 
 				$database = new database;
 				$database->app_name = 'domain_wizard';
@@ -707,7 +716,7 @@ class domain_wizard {
 				$database->save($array);
 				unset($array);
 
-				$p->delete('v_user_group_add', 'temp');
+				$p->delete('v_user_groups_add', 'temp');
 			}
 
 		return $user_uuid;
@@ -745,7 +754,7 @@ class domain_wizard {
 		$array['v_domain_wizard_logs'][0]['add_date'] = 'now()';
 
 		$p = new permissions;
-		$p->add('v_domain_wizard_log_add', 'temp');
+		$p->add('v_domain_wizard_logs_add', 'temp');
 
 		$database = new database;
 		$database->app_name = 'domain_wizard';
@@ -753,7 +762,7 @@ class domain_wizard {
 		$database->save($array);
 		unset($array);
 
-		$p->delete('v_domain_wizard_log_add', 'temp');
+		$p->delete('v_domain_wizard_logs_add', 'temp');
 	}
 
 }
