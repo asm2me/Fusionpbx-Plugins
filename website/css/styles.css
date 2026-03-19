@@ -1930,13 +1930,36 @@ body.rtl .billing-toggle {
 }
 
 /* FAQ */
+body.rtl .faq-grid {
+    direction: rtl;
+}
+
+body.rtl .faq-item {
+    direction: rtl;
+}
+
 body.rtl .faq-question {
     flex-direction: row-reverse;
     text-align: right;
 }
 
+body.rtl .faq-question span {
+    text-align: right;
+}
+
+body.rtl .faq-question i {
+    margin-left: 0;
+    margin-right: auto;
+}
+
 body.rtl .faq-answer {
     text-align: right;
+    direction: rtl;
+}
+
+body.rtl .faq-answer p {
+    text-align: right;
+    direction: rtl;
 }
 
 body.rtl .faq-answer code {
