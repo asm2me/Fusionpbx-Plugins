@@ -47,12 +47,6 @@
             <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
         </ul>
         <div class="nav-actions">
-            <div class="lang-switcher">
-                <button class="lang-toggle" onclick="document.getElementById('langDropdown').classList.toggle('show')" aria-label="Change language">
-                    <i class="fas fa-globe"></i> <span id="currentLangName">🇬🇧 EN</span> <i class="fas fa-chevron-down" style="font-size:0.6em"></i>
-                </button>
-                <div class="lang-dropdown" id="langDropdown"></div>
-            </div>
             <a href="https://mt.voipat.com" class="btn btn-ghost" target="_blank" data-i18n="nav.login">Login</a>
             <a href="register.html" class="btn btn-primary" data-i18n="nav.startTrial">Start Free Trial</a>
         </div>
@@ -899,6 +893,19 @@
     ]
 }
 </script>
+
+<!-- Floating Language Switcher -->
+<div class="lang-fab" id="langFab">
+    <button class="lang-fab-btn" id="langFabBtn" aria-label="Change language">
+        <span class="lang-fab-flag" id="langFabFlag">🇬🇧</span>
+    </button>
+    <div class="lang-panel" id="langPanel">
+        <div class="lang-panel-header">
+            <i class="fas fa-globe"></i> <span data-i18n="nav.features">Language</span>
+        </div>
+        <div class="lang-grid" id="langGrid"></div>
+    </div>
+</div>
 
 <script src="js/translations.js"></script>
 <script src="js/main.js"></script>

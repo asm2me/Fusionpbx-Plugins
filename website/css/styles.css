@@ -1673,70 +1673,153 @@ h4 { font-size: 1.125rem; }
 }
 
 /* ========================================
-   Language Switcher
+   Floating Language Switcher (FAB)
    ======================================== */
 
-.lang-switcher {
-    position: relative;
-    margin-right: 0.5rem;
+.lang-fab {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 9999;
 }
 
-.lang-toggle {
-    background: none;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: var(--text);
-    padding: 0.4rem 0.8rem;
-    border-radius: 6px;
+.lang-fab-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark, #5b21b6));
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
     cursor: pointer;
-    font-size: 0.85rem;
     display: flex;
     align-items: center;
-    gap: 0.4rem;
-    transition: all 0.2s;
-    white-space: nowrap;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
 }
 
-.lang-toggle:hover {
-    border-color: var(--primary);
-    color: var(--primary);
+.lang-fab-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 28px rgba(124, 58, 237, 0.5);
 }
 
-.lang-dropdown {
-    display: none;
+.lang-fab-flag {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.lang-panel {
     position: absolute;
-    top: 100%;
+    bottom: calc(100% + 12px);
     right: 0;
-    margin-top: 0.5rem;
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-    min-width: 160px;
-    z-index: 1000;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    width: 280px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px) scale(0.95);
+    transform-origin: bottom right;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
 }
 
-.lang-dropdown.show {
-    display: block;
+.lang-panel.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
 }
 
-.lang-option {
-    display: block;
-    padding: 0.6rem 1rem;
-    color: var(--text);
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: background 0.15s;
-    white-space: nowrap;
+.lang-panel-header {
+    padding: 0.8rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #f3f4f6;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-.lang-option:hover {
-    background: var(--bg-light);
+.lang-panel-header i {
     color: var(--primary);
 }
 
-.lang-option.active {
-    background: var(--primary);
-    color: white;
+.lang-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    padding: 6px;
+}
+
+.lang-grid-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.85rem;
+    border: 2px solid transparent;
+}
+
+.lang-grid-item:hover {
+    background: #f5f3ff;
+    color: var(--primary);
+}
+
+.lang-grid-item.active {
+    background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+    border-color: var(--primary);
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.lang-grid-item .flag {
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.lang-grid-item .name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+body.rtl .lang-fab {
+    right: auto;
+    left: 2rem;
+}
+
+body.rtl .lang-panel {
+    right: auto;
+    left: 0;
+    transform-origin: bottom left;
+}
+
+@media (max-width: 480px) {
+    .lang-fab {
+        bottom: 1rem;
+        right: 1rem;
+    }
+
+    .lang-panel {
+        width: 260px;
+    }
+
+    .lang-fab-btn {
+        width: 46px;
+        height: 46px;
+    }
+
+    .lang-fab-flag {
+        font-size: 1.3rem;
+    }
 }
 
 /* ========================================

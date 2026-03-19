@@ -975,16 +975,16 @@ const i18n = {
       }
     });
 
-    // Update active language in switcher
-    document.querySelectorAll('.lang-option').forEach(opt => {
-      opt.classList.toggle('active', opt.dataset.lang === lang);
+    // Update active language in switcher grid
+    document.querySelectorAll('.lang-grid-item').forEach(item => {
+      item.classList.toggle('active', item.dataset.lang === lang);
     });
 
-    // Update the current language display
-    const currentDisplay = document.getElementById('currentLangName');
-    if (currentDisplay) {
+    // Update the FAB flag
+    const fabFlag = document.getElementById('langFabFlag');
+    if (fabFlag) {
       const flags = { en: '🇬🇧', ar: '🇸🇦', es: '🇪🇸', fr: '🇫🇷', de: '🇩🇪', pt: '🇧🇷', zh: '🇨🇳', ja: '🇯🇵', tr: '🇹🇷', ru: '🇷🇺' };
-      currentDisplay.textContent = flags[lang] + ' ' + (lang === 'en' ? 'EN' : lang.toUpperCase());
+      fabFlag.textContent = flags[lang];
     }
   },
 
@@ -992,23 +992,38 @@ const i18n = {
     const flags = { en: '🇬🇧', ar: '🇸🇦', es: '🇪🇸', fr: '🇫🇷', de: '🇩🇪', pt: '🇧🇷', zh: '🇨🇳', ja: '🇯🇵', tr: '🇹🇷', ru: '🇷🇺' };
     const names = { en: 'English', ar: 'العربية', es: 'Español', fr: 'Français', de: 'Deutsch', pt: 'Português', zh: '中文', ja: '日本語', tr: 'Türkçe', ru: 'Русский' };
 
-    const dropdown = document.getElementById('langDropdown');
-    if (!dropdown) return;
+    const grid = document.getElementById('langGrid');
+    const fabBtn = document.getElementById('langFabBtn');
+    const panel = document.getElementById('langPanel');
+    if (!grid) return;
 
-    dropdown.innerHTML = '';
+    grid.innerHTML = '';
     Object.keys(flags).forEach(code => {
-      const opt = document.createElement('a');
-      opt.href = '#';
-      opt.className = 'lang-option' + (code === this.currentLang ? ' active' : '');
-      opt.dataset.lang = code;
-      opt.textContent = flags[code] + ' ' + names[code];
-      opt.onclick = (e) => {
+      const item = document.createElement('a');
+      item.href = '#';
+      item.className = 'lang-grid-item' + (code === this.currentLang ? ' active' : '');
+      item.dataset.lang = code;
+      item.innerHTML = '<span class="flag">' + flags[code] + '</span><span class="name">' + names[code] + '</span>';
+      item.onclick = (e) => {
         e.preventDefault();
         this.currentLang = code;
         this.apply();
-        dropdown.classList.remove('show');
+        panel.classList.remove('open');
       };
-      dropdown.appendChild(opt);
+      grid.appendChild(item);
+    });
+
+    // FAB toggle
+    if (fabBtn) {
+      fabBtn.onclick = () => panel.classList.toggle('open');
+    }
+
+    // Close panel when clicking outside
+    document.addEventListener('click', (e) => {
+      const fab = document.getElementById('langFab');
+      if (fab && !fab.contains(e.target)) {
+        panel.classList.remove('open');
+      }
     });
   },
 
