@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers - VOIP@ Cloud</title>
+    <meta name="description" content="Join the VOIP@ Cloud team. We are hiring talented people to help build the future of cloud communications.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .careers-page { padding: 100px 0 60px; }
+        .careers-hero { text-align: center; max-width: 700px; margin: 0 auto 3rem; }
+        .careers-hero h1 { margin-bottom: 1rem; }
+        .careers-hero p { color: var(--gray-500); font-size: 1.125rem; line-height: 1.7; }
+        .culture-section { margin-bottom: 3rem; }
+        .culture-section h2 { font-size: 1.5rem; margin-bottom: 1.5rem; text-align: center; }
+        .culture-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+        .culture-card { text-align: center; padding: 1.5rem; background: var(--gray-50); border-radius: var(--radius-sm); border: 1px solid var(--gray-200); }
+        .culture-card i { font-size: 2rem; color: var(--primary); margin-bottom: 0.75rem; }
+        .culture-card h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+        .culture-card p { font-size: 0.8125rem; color: var(--gray-500); line-height: 1.6; margin-bottom: 0; }
+        .jobs-section h2 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .jobs-section > p { color: var(--gray-500); margin-bottom: 2rem; }
+        .job-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 1.5rem 2rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; transition: var(--transition); }
+        .job-card:hover { border-color: var(--primary-light); box-shadow: var(--shadow-sm); }
+        .job-info h3 { font-size: 1.125rem; margin-bottom: 0.25rem; }
+        .job-info .job-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .job-info .job-meta span { font-size: 0.8125rem; color: var(--gray-500); display: flex; align-items: center; gap: 0.35rem; }
+        .job-info .job-meta i { color: var(--primary); font-size: 0.75rem; }
+        .job-desc { color: var(--gray-500); font-size: 0.875rem; line-height: 1.6; margin-top: 0.5rem; max-width: 600px; }
+        .job-card .btn { white-space: nowrap; flex-shrink: 0; }
+        .no-positions { text-align: center; padding: 3rem; color: var(--gray-400); }
+        @media (max-width: 992px) { .culture-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) {
+            .culture-grid { grid-template-columns: 1fr; }
+            .job-card { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Language Bar -->
+<div class="lang-bar">
+    <div class="container lang-bar-inner">
+        <a href="#" class="lang-item active" data-lang="en"><img class="lang-flag-img" src="https://flagcdn.com/w40/gb.png" width="20" height="10" alt="English"> English</a>
+        <a href="#" class="lang-item" data-lang="ar"><img class="lang-flag-img" src="https://flagcdn.com/w40/sa.png" width="20" height="13" alt="العربية"> العربية</a>
+        <a href="#" class="lang-item" data-lang="es"><img class="lang-flag-img" src="https://flagcdn.com/w40/es.png" width="20" height="13" alt="Español"> Español</a>
+        <a href="#" class="lang-item" data-lang="fr"><img class="lang-flag-img" src="https://flagcdn.com/w40/fr.png" width="20" height="13" alt="Français"> Français</a>
+        <a href="#" class="lang-item" data-lang="de"><img class="lang-flag-img" src="https://flagcdn.com/w40/de.png" width="20" height="12" alt="Deutsch"> Deutsch</a>
+        <a href="#" class="lang-item" data-lang="pt"><img class="lang-flag-img" src="https://flagcdn.com/w40/br.png" width="20" height="14" alt="Português"> Português</a>
+        <a href="#" class="lang-item" data-lang="zh"><img class="lang-flag-img" src="https://flagcdn.com/w40/cn.png" width="20" height="13" alt="中文"> 中文</a>
+        <a href="#" class="lang-item" data-lang="ja"><img class="lang-flag-img" src="https://flagcdn.com/w40/jp.png" width="20" height="13" alt="日本語"> 日本語</a>
+        <a href="#" class="lang-item" data-lang="tr"><img class="lang-flag-img" src="https://flagcdn.com/w40/tr.png" width="20" height="13" alt="Türkçe"> Türkçe</a>
+        <a href="#" class="lang-item" data-lang="ru"><img class="lang-flag-img" src="https://flagcdn.com/w40/ru.png" width="20" height="13" alt="Русский"> Русский</a>
+    </div>
+</div>
+
+<!-- Navigation -->
+<nav class="navbar scrolled" id="navbar">
+    <div class="container nav-container">
+        <a href="/" class="logo">
+            <span class="logo-icon"><i class="fas fa-cloud-arrow-up"></i></span>
+            <span class="logo-text">VOIP<span class="logo-at">@</span> Cloud</span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html#features" data-i18n="nav.features">Features</a></li>
+            <li><a href="index.html#how-it-works" data-i18n="nav.howItWorks">How It Works</a></li>
+            <li><a href="index.html#pricing" data-i18n="nav.pricing">Pricing</a></li>
+            <li><a href="index.html#dns-setup" data-i18n="nav.dnsSetup">DNS Setup</a></li>
+            <li><a href="index.html#faq" data-i18n="nav.faq">FAQ</a></li>
+            <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="https://mt.voipat.com" class="btn btn-ghost" target="_blank" data-i18n="nav.login">Login</a>
+            <a href="register.html" class="btn btn-primary" data-i18n="nav.startTrial">Start Free Trial</a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<section class="careers-page">
+    <div class="container">
+        <div class="careers-hero">
+            <h1 data-i18n="careers.title">Join Our <span class="gradient-text">Team</span></h1>
+            <p data-i18n="careers.subtitle">Help us build the future of cloud communications. We are a remote-first team that values talent, creativity, and a passion for great technology.</p>
+        </div>
+
+        <!-- Culture Section -->
+        <div class="culture-section">
+            <h2 data-i18n="careers.culture.title">Why Work at VOIP@ Cloud?</h2>
+            <div class="culture-grid">
+                <div class="culture-card">
+                    <i class="fas fa-globe"></i>
+                    <h3 data-i18n="careers.culture.remote.title">100% Remote</h3>
+                    <p data-i18n="careers.culture.remote.desc">Work from anywhere in the world. We believe great talent is not limited by geography.</p>
+                </div>
+                <div class="culture-card">
+                    <i class="fas fa-clock"></i>
+                    <h3 data-i18n="careers.culture.flexible.title">Flexible Hours</h3>
+                    <p data-i18n="careers.culture.flexible.desc">We focus on results, not hours. Set your own schedule and work when you are most productive.</p>
+                </div>
+                <div class="culture-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3 data-i18n="careers.culture.growth.title">Learning Budget</h3>
+                    <p data-i18n="careers.culture.growth.desc">Annual learning stipend for courses, conferences, and certifications to grow your skills.</p>
+                </div>
+                <div class="culture-card">
+                    <i class="fas fa-heart"></i>
+                    <h3 data-i18n="careers.culture.benefits.title">Great Benefits</h3>
+                    <p data-i18n="careers.culture.benefits.desc">Competitive salary, health coverage, generous PTO, and equity options for all team members.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Open Positions -->
+        <div class="jobs-section">
+            <h2 data-i18n="careers.positions.title">Open Positions</h2>
+            <p data-i18n="careers.positions.subtitle">We are currently hiring for the following roles. Do not see a fit? Send us your resume anyway -- we are always looking for exceptional people.</p>
+
+            <!-- Job 1 -->
+            <div class="job-card">
+                <div class="job-info">
+                    <h3 data-i18n="careers.job1.title">Senior Backend Developer</h3>
+                    <div class="job-meta">
+                        <span><i class="fas fa-briefcase"></i> Engineering</span>
+                        <span><i class="fas fa-map-marker-alt"></i> Remote</span>
+                        <span><i class="fas fa-clock"></i> Full-time</span>
+                    </div>
+                    <p class="job-desc" data-i18n="careers.job1.desc">Build and scale our core PBX provisioning platform. Experience with PHP, PostgreSQL, FreeSWITCH, and REST API design required. VoIP/SIP experience is a strong plus.</p>
+                </div>
+                <a href="mailto:careers@voipat.com?subject=Application: Senior Backend Developer" class="btn btn-primary" data-i18n="careers.apply">Apply Now</a>
+            </div>
+
+            <!-- Job 2 -->
+            <div class="job-card">
+                <div class="job-info">
+                    <h3 data-i18n="careers.job2.title">DevOps Engineer</h3>
+                    <div class="job-meta">
+                        <span><i class="fas fa-briefcase"></i> Infrastructure</span>
+                        <span><i class="fas fa-map-marker-alt"></i> Remote</span>
+                        <span><i class="fas fa-clock"></i> Full-time</span>
+                    </div>
+                    <p class="job-desc" data-i18n="careers.job2.desc">Manage and optimize our cloud infrastructure across multiple regions. Experience with Linux, Docker, Ansible, CI/CD pipelines, and high-availability architectures required.</p>
+                </div>
+                <a href="mailto:careers@voipat.com?subject=Application: DevOps Engineer" class="btn btn-primary" data-i18n="careers.apply">Apply Now</a>
+            </div>
+
+            <!-- Job 3 -->
+            <div class="job-card">
+                <div class="job-info">
+                    <h3 data-i18n="careers.job3.title">Customer Support Lead</h3>
+                    <div class="job-meta">
+                        <span><i class="fas fa-briefcase"></i> Support</span>
+                        <span><i class="fas fa-map-marker-alt"></i> Remote</span>
+                        <span><i class="fas fa-clock"></i> Full-time</span>
+                    </div>
+                    <p class="job-desc" data-i18n="careers.job3.desc">Lead our customer support team and ensure exceptional service. Experience in VoIP/telecom support, team management, and a customer-first mentality are essential.</p>
+                </div>
+                <a href="mailto:careers@voipat.com?subject=Application: Customer Support Lead" class="btn btn-primary" data-i18n="careers.apply">Apply Now</a>
+            </div>
+
+            <!-- Job 4 -->
+            <div class="job-card">
+                <div class="job-info">
+                    <h3 data-i18n="careers.job4.title">Sales Manager</h3>
+                    <div class="job-meta">
+                        <span><i class="fas fa-briefcase"></i> Sales</span>
+                        <span><i class="fas fa-map-marker-alt"></i> Remote</span>
+                        <span><i class="fas fa-clock"></i> Full-time</span>
+                    </div>
+                    <p class="job-desc" data-i18n="careers.job4.desc">Drive revenue growth by acquiring new customers and expanding existing accounts. Experience selling SaaS or telecom solutions to SMBs and enterprises required.</p>
+                </div>
+                <a href="mailto:careers@voipat.com?subject=Application: Sales Manager" class="btn btn-primary" data-i18n="careers.apply">Apply Now</a>
+            </div>
+
+            <!-- Job 5 -->
+            <div class="job-card">
+                <div class="job-info">
+                    <h3 data-i18n="careers.job5.title">UI/UX Designer</h3>
+                    <div class="job-meta">
+                        <span><i class="fas fa-briefcase"></i> Design</span>
+                        <span><i class="fas fa-map-marker-alt"></i> Remote</span>
+                        <span><i class="fas fa-clock"></i> Full-time</span>
+                    </div>
+                    <p class="job-desc" data-i18n="careers.job5.desc">Design intuitive interfaces for our PBX dashboard, WebRTC softphone, and marketing site. Proficiency in Figma, responsive design, and a strong portfolio required.</p>
+                </div>
+                <a href="mailto:careers@voipat.com?subject=Application: UI/UX Designer" class="btn btn-primary" data-i18n="careers.apply">Apply Now</a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="/" class="logo">
+                    <span class="logo-icon"><i class="fas fa-cloud-arrow-up"></i></span>
+                    <span class="logo-text">VOIP<span class="logo-at">@</span> Cloud</span>
+                </a>
+                <p data-i18n="footer.desc">Enterprise cloud PBX platform with instant provisioning, smart IVR, and unlimited scalability.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3 data-i18n="footer.product">Product</h3>
+                <ul>
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="index.html#dns-setup">DNS Setup</a></li>
+                    <li><a href="register.html">Sign Up</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3 data-i18n="footer.support">Support</h3>
+                <ul>
+                    <li><a href="index.html#faq">FAQ</a></li>
+                    <li><a href="index.html#contact">Contact Us</a></li>
+                    <li><a href="index.html#dns-setup">DNS Guide</a></li>
+                    <li><a href="api-docs.html">API Docs</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3 data-i18n="footer.company">Company</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="partners.html">Partners</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3 data-i18n="footer.legal">Legal</h3>
+                <ul>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="terms.html#10-service-level-agreement-sla">SLA</a></li>
+                    <li><a href="privacy.html#9-international-data-transfers">GDPR</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 VOIP@ Cloud. All rights reserved.</p>
+            <div class="payment-methods">
+                <i class="fab fa-cc-visa"></i>
+                <i class="fab fa-cc-mastercard"></i>
+                <i class="fab fa-cc-paypal"></i>
+                <i class="fab fa-cc-stripe"></i>
+                <i class="fab fa-bitcoin"></i>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="js/translations.min.js" defer></script>
+<script src="js/main.min.js" defer></script>
+</body>
+</html>

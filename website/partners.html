@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Program - VOIP@ Cloud</title>
+    <meta name="description" content="Join the VOIP@ Cloud partner and reseller program. Earn commissions, get white-label solutions, and grow your business with our cloud PBX platform.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .partners-page { padding: 100px 0 60px; }
+        .partners-hero { text-align: center; max-width: 750px; margin: 0 auto 3rem; }
+        .partners-hero h1 { margin-bottom: 1rem; }
+        .partners-hero p { color: var(--gray-500); font-size: 1.125rem; line-height: 1.7; }
+        .benefits-section { margin-bottom: 3rem; }
+        .benefits-section h2 { font-size: 1.5rem; margin-bottom: 1.5rem; text-align: center; }
+        .benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+        .benefit-card { padding: 1.5rem; background: var(--gray-50); border-radius: var(--radius-sm); border: 1px solid var(--gray-200); text-align: center; }
+        .benefit-card i { font-size: 2rem; color: var(--primary); margin-bottom: 0.75rem; }
+        .benefit-card h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+        .benefit-card p { font-size: 0.875rem; color: var(--gray-500); line-height: 1.6; margin-bottom: 0; }
+        .tiers-section { margin-bottom: 3rem; }
+        .tiers-section h2 { font-size: 1.5rem; margin-bottom: 0.5rem; text-align: center; }
+        .tiers-section > p { text-align: center; color: var(--gray-500); margin-bottom: 2rem; }
+        .tiers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .tier-card { background: var(--white); border-radius: var(--radius-sm); border: 1px solid var(--gray-200); overflow: hidden; transition: var(--transition); }
+        .tier-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+        .tier-card.featured { border-color: var(--primary); position: relative; }
+        .tier-card.featured::before { content: "Most Popular"; position: absolute; top: 12px; right: -30px; background: var(--primary); color: white; font-size: 0.7rem; font-weight: 700; padding: 4px 36px; transform: rotate(45deg); z-index: 1; }
+        .tier-header { padding: 2rem 1.5rem 1rem; text-align: center; }
+        .tier-header .tier-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .tier-header.silver .tier-icon { color: #9CA3AF; }
+        .tier-header.gold .tier-icon { color: #F59E0B; }
+        .tier-header.platinum .tier-icon { color: #6366F1; }
+        .tier-header h3 { font-size: 1.25rem; margin-bottom: 0.25rem; }
+        .tier-header .commission { font-size: 2rem; font-weight: 800; color: var(--primary); }
+        .tier-header .commission span { font-size: 0.875rem; font-weight: 500; color: var(--gray-500); }
+        .tier-body { padding: 0 1.5rem 2rem; }
+        .tier-body ul { list-style: none; padding: 0; }
+        .tier-body li { padding: 0.5rem 0; font-size: 0.875rem; color: var(--gray-600); border-bottom: 1px solid var(--gray-100); display: flex; align-items: center; gap: 0.5rem; }
+        .tier-body li:last-child { border-bottom: none; }
+        .tier-body li i { color: var(--primary); font-size: 0.75rem; flex-shrink: 0; }
+        .commission-section { margin-bottom: 3rem; }
+        .commission-section h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+        .commission-section p { color: var(--gray-600); line-height: 1.8; font-size: 0.9375rem; margin-bottom: 1rem; }
+        .commission-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .commission-table th, .commission-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--gray-200); font-size: 0.875rem; }
+        .commission-table th { background: var(--gray-50); font-weight: 600; color: var(--gray-700); }
+        .commission-table td { color: var(--gray-600); }
+        .cta-box { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: var(--radius-lg); padding: 3rem; text-align: center; color: var(--white); margin-top: 2rem; }
+        .cta-box h2 { color: var(--white); margin-bottom: 1rem; font-size: 1.75rem; }
+        .cta-box p { color: rgba(255,255,255,0.85); margin-bottom: 2rem; font-size: 1rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .cta-box .btn-white { background: var(--white); color: var(--primary); border-color: var(--white); font-weight: 700; }
+        .cta-box .btn-white:hover { background: var(--gray-100); }
+        @media (max-width: 768px) {
+            .benefits-grid, .tiers-grid { grid-template-columns: 1fr; }
+            .tier-card.featured::before { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Language Bar -->
+<div class="lang-bar">
+    <div class="container lang-bar-inner">
+        <a href="#" class="lang-item active" data-lang="en"><img class="lang-flag-img" src="https://flagcdn.com/w40/gb.png" width="20" height="10" alt="English"> English</a>
+        <a href="#" class="lang-item" data-lang="ar"><img class="lang-flag-img" src="https://flagcdn.com/w40/sa.png" width="20" height="13" alt="العربية"> العربية</a>
+        <a href="#" class="lang-item" data-lang="es"><img class="lang-flag-img" src="https://flagcdn.com/w40/es.png" width="20" height="13" alt="Español"> Español</a>
+        <a href="#" class="lang-item" data-lang="fr"><img class="lang-flag-img" src="https://flagcdn.com/w40/fr.png" width="20" height="13" alt="Français"> Français</a>
+        <a href="#" class="lang-item" data-lang="de"><img class="lang-flag-img" src="https://flagcdn.com/w40/de.png" width="20" height="12" alt="Deutsch"> Deutsch</a>
+        <a href="#" class="lang-item" data-lang="pt"><img class="lang-flag-img" src="https://flagcdn.com/w40/br.png" width="20" height="14" alt="Português"> Português</a>
+        <a href="#" class="lang-item" data-lang="zh"><img class="lang-flag-img" src="https://flagcdn.com/w40/cn.png" width="20" height="13" alt="中文"> 中文</a>
+        <a href="#" class="lang-item" data-lang="ja"><img class="lang-flag-img" src="https://flagcdn.com/w40/jp.png" width="20" height="13" alt="日本語"> 日本語</a>
+        <a href="#" class="lang-item" data-lang="tr"><img class="lang-flag-img" src="https://flagcdn.com/w40/tr.png" width="20" height="13" alt="Türkçe"> Türkçe</a>
+        <a href="#" class="lang-item" data-lang="ru"><img class="lang-flag-img" src="https://flagcdn.com/w40/ru.png" width="20" height="13" alt="Русский"> Русский</a>
+    </div>
+</div>
+
+<!-- Navigation -->
+<nav class="navbar scrolled" id="navbar">
+    <div class="container nav-container">
+        <a href="/" class="logo">
+            <span class="logo-icon"><i class="fas fa-cloud-arrow-up"></i></span>
+            <span class="logo-text">VOIP<span class="logo-at">@</span> Cloud</span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html#features" data-i18n="nav.features">Features</a></li>
+            <li><a href="index.html#how-it-works" data-i18n="nav.howItWorks">How It Works</a></li>
+            <li><a href="index.html#pricing" data-i18n="nav.pricing">Pricing</a></li>
+            <li><a href="index.html#dns-setup" data-i18n="nav.dnsSetup">DNS Setup</a></li>
+            <li><a href="index.html#faq" data-i18n="nav.faq">FAQ</a></li>
+            <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="https://mt.voipat.com" class="btn btn-ghost" target="_blank" data-i18n="nav.login">Login</a>
+            <a href="register.html" class="btn btn-primary" data-i18n="nav.startTrial">Start Free Trial</a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<section class="partners-page">
+    <div class="container">
+        <div class="partners-hero">
+            <h1 data-i18n="partners.title">Partner & <span class="gradient-text">Reseller Program</span></h1>
+            <p data-i18n="partners.subtitle">Grow your business by reselling VOIP@ Cloud. Offer your clients a world-class cloud PBX under your own brand, earn recurring commissions, and get dedicated partner support.</p>
+        </div>
+
+        <!-- Benefits -->
+        <div class="benefits-section">
+            <h2 data-i18n="partners.benefits.title">Why Partner with Us?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <i class="fas fa-money-bill-trend-up"></i>
+                    <h3 data-i18n="partners.benefits.recurring.title">Recurring Revenue</h3>
+                    <p data-i18n="partners.benefits.recurring.desc">Earn monthly commissions for every active customer you bring. Revenue grows as your clients grow.</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-tag"></i>
+                    <h3 data-i18n="partners.benefits.whitelabel.title">White-Label Ready</h3>
+                    <p data-i18n="partners.benefits.whitelabel.desc">Brand the platform as your own. Your clients see your logo, your domain, your brand -- powered by our technology.</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-headset"></i>
+                    <h3 data-i18n="partners.benefits.support.title">Dedicated Support</h3>
+                    <p data-i18n="partners.benefits.support.desc">Get priority access to our technical team, a dedicated partner manager, and co-marketing resources.</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-chart-pie"></i>
+                    <h3 data-i18n="partners.benefits.dashboard.title">Partner Dashboard</h3>
+                    <p data-i18n="partners.benefits.dashboard.desc">Manage all your clients from a single dashboard. Provision domains, monitor usage, and track commissions.</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-rocket"></i>
+                    <h3 data-i18n="partners.benefits.noInvestment.title">No Upfront Investment</h3>
+                    <p data-i18n="partners.benefits.noInvestment.desc">No hardware, no infrastructure costs. Start reselling immediately with zero capital expenditure.</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-users-gear"></i>
+                    <h3 data-i18n="partners.benefits.training.title">Training & Certification</h3>
+                    <p data-i18n="partners.benefits.training.desc">Free technical training and certification program to ensure your team can support clients effectively.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tiers -->
+        <div class="tiers-section">
+            <h2 data-i18n="partners.tiers.title">Partner Tiers</h2>
+            <p data-i18n="partners.tiers.subtitle">Choose the tier that matches your business goals. Upgrade anytime as you grow.</p>
+
+            <div class="tiers-grid">
+                <!-- Silver -->
+                <div class="tier-card">
+                    <div class="tier-header silver">
+                        <div class="tier-icon"><i class="fas fa-medal"></i></div>
+                        <h3 data-i18n="partners.tier.silver.name">Silver</h3>
+                        <div class="commission">15% <span data-i18n="partners.tier.commission">commission</span></div>
+                    </div>
+                    <div class="tier-body">
+                        <ul>
+                            <li><i class="fas fa-check"></i> <span data-i18n="partners.tier.silver.f1">Up to 10 client domains</span></li>
+                            <li><i class="fas fa-check"></i> <span data-i18n="partners.tier.silver.f2">Basic partner dashboard</span></li>
+                            <li><i class="fas fa-check"></i> <span data-i18n="partners.tier.silver.f3">Email support</span></li>
+                            <li><i class="fas fa-check"></i> <span data-i18n="partners.tier.silver.f4">Marketing materials kit</span></li>
+                            <li><i class="fas fa-check"></i> <span data-i18n="partners.tier.silver.f5">Monthly commission payouts</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Gold -->
+                <div class="tier-card featured">
+                    <div class="tier-header gold">
+                        <div class="tier-icon"><i class="fas fa-trophy"></i></div>
+                        <h3 data-i18n="partners.tier.gold.name">Gold</h3>
+                        <div class="commission">25% <span data-i18n="partners.tier.commission">commission</span></div>
+                    </div>
+                    <div class="tier-body">
+                        <ul>
+                            <li><i class="fas fa-check"></i> <span data-i18n="partners.tier.gold.f1">Up to 50 client domains</span></li>
+                            <li><i class="fas fa-check"></i> <span data-i18n="partners.tier.gold.f2">Full white-label branding</span></li>
+                            <li><i class="fas fa-check"></i> <span data-i18n="partners.tier.gold.f3">Priority phone & email support</span></li>
+                            <li><i class="fas fa-check"></i> <span data-i18n="partners.tier.gold.f4">Co-marketing opportunities</span></li>
+                            <li><i class="fas fa-check"></i> <span data-i18n="partners.tier.gold.f5">Bi-weekly commission payouts</span></li>
+                            <li><i class="fas fa-check"></i> <span data-i18n="partners.tier.gold.f6">Dedicated partner manager</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Platinum -->
+                <div class="tier-card">
+                    <div class="tier-header platinum">
+                        <div class="tier-icon"><i class="fas fa-crown"></i></div>
+                        <h3 data-i18n="partners.tier.platinum.name">Platinum</h3>
+                        <div class="commission">35% <span data-i18n="partners.tier.commission">commission</span></div>
+                    </div>
+                    <div class="tier-body">
+                        <ul>
+                            <li><i class="fas fa-check"></i> <span data-i18n="partners.tier.platinum.f1">Unlimited client domains</span></li>
+                            <li><i class="fas fa-check"></i> <span data-i18n="partners.tier.platinum.f2">Full white-label + custom features</span></li>
+                            <li><i class="fas fa-check"></i> <span data-i18n="partners.tier.platinum.f3">24/7 dedicated support line</span></li>
+                            <li><i class="fas fa-check"></i> <span data-i18n="partners.tier.platinum.f4">Joint sales & marketing campaigns</span></li>
+                            <li><i class="fas fa-check"></i> <span data-i18n="partners.tier.platinum.f5">Weekly commission payouts</span></li>
+                            <li><i class="fas fa-check"></i> <span data-i18n="partners.tier.platinum.f6">API access for automation</span></li>
+                            <li><i class="fas fa-check"></i> <span data-i18n="partners.tier.platinum.f7">Custom pricing for clients</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Commission Overview -->
+        <div class="commission-section">
+            <h2 data-i18n="partners.commission.title"><i class="fas fa-hand-holding-dollar" style="color: var(--primary); margin-right: 0.5rem;"></i> Commission Structure</h2>
+            <p data-i18n="partners.commission.desc">Earn a percentage of every subscription payment made by your referred clients. Commissions are recurring for the entire lifetime of the customer account. The more clients you bring, the higher your tier and commission rate.</p>
+
+            <table class="commission-table">
+                <thead>
+                    <tr>
+                        <th data-i18n="partners.table.tier">Tier</th>
+                        <th data-i18n="partners.table.clients">Min. Active Clients</th>
+                        <th data-i18n="partners.table.rate">Commission Rate</th>
+                        <th data-i18n="partners.table.payout">Payout Frequency</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Silver</td>
+                        <td>1 - 10</td>
+                        <td><strong>15%</strong></td>
+                        <td>Monthly</td>
+                    </tr>
+                    <tr>
+                        <td>Gold</td>
+                        <td>11 - 50</td>
+                        <td><strong>25%</strong></td>
+                        <td>Bi-weekly</td>
+                    </tr>
+                    <tr>
+                        <td>Platinum</td>
+                        <td>51+</td>
+                        <td><strong>35%</strong></td>
+                        <td>Weekly</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-box">
+            <h2 data-i18n="partners.cta.title">Ready to Become a Partner?</h2>
+            <p data-i18n="partners.cta.desc">Join our growing network of resellers and start earning recurring revenue today. No upfront costs, no risk.</p>
+            <a href="mailto:partners@voipat.com?subject=Partner Program Inquiry" class="btn btn-white btn-lg" data-i18n="partners.cta.button"><i class="fas fa-handshake"></i> Contact Our Partner Team</a>
+        </div>
+
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="/" class="logo">
+                    <span class="logo-icon"><i class="fas fa-cloud-arrow-up"></i></span>
+                    <span class="logo-text">VOIP<span class="logo-at">@</span> Cloud</span>
+                </a>
+                <p data-i18n="footer.desc">Enterprise cloud PBX platform with instant provisioning, smart IVR, and unlimited scalability.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3 data-i18n="footer.product">Product</h3>
+                <ul>
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="index.html#dns-setup">DNS Setup</a></li>
+                    <li><a href="register.html">Sign Up</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3 data-i18n="footer.support">Support</h3>
+                <ul>
+                    <li><a href="index.html#faq">FAQ</a></li>
+                    <li><a href="index.html#contact">Contact Us</a></li>
+                    <li><a href="index.html#dns-setup">DNS Guide</a></li>
+                    <li><a href="api-docs.html">API Docs</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3 data-i18n="footer.company">Company</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="partners.html">Partners</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3 data-i18n="footer.legal">Legal</h3>
+                <ul>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="terms.html#10-service-level-agreement-sla">SLA</a></li>
+                    <li><a href="privacy.html#9-international-data-transfers">GDPR</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 VOIP@ Cloud. All rights reserved.</p>
+            <div class="payment-methods">
+                <i class="fab fa-cc-visa"></i>
+                <i class="fab fa-cc-mastercard"></i>
+                <i class="fab fa-cc-paypal"></i>
+                <i class="fab fa-cc-stripe"></i>
+                <i class="fab fa-bitcoin"></i>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="js/translations.min.js" defer></script>
+<script src="js/main.min.js" defer></script>
+</body>
+</html>

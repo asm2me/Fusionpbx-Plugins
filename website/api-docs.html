@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - VOIP@ Cloud</title>
+    <meta name="description" content="VOIP@ Cloud REST API documentation. Manage domains, extensions, gateways, and call records programmatically.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .api-page { padding: 100px 0 60px; }
+        .api-hero { text-align: center; max-width: 750px; margin: 0 auto 3rem; }
+        .api-hero h1 { margin-bottom: 1rem; }
+        .api-hero p { color: var(--gray-500); font-size: 1.125rem; line-height: 1.7; }
+        .api-content { max-width: 900px; margin: 0 auto; }
+        .api-section { margin-bottom: 3rem; }
+        .api-section h2 { font-size: 1.5rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--gray-200); }
+        .api-section h3 { font-size: 1.125rem; margin-bottom: 0.5rem; margin-top: 1.5rem; }
+        .api-section p { color: var(--gray-600); line-height: 1.8; font-size: 0.9375rem; margin-bottom: 1rem; }
+        .api-section ul { padding-left: 24px; margin-bottom: 1rem; }
+        .api-section li { color: var(--gray-600); font-size: 0.9375rem; margin-bottom: 0.5rem; line-height: 1.6; }
+        .api-section code { background: var(--gray-100); padding: 2px 8px; border-radius: 4px; font-size: 0.8125rem; color: var(--primary-dark); font-family: 'Courier New', monospace; }
+        .code-block { background: var(--gray-900); color: #E5E7EB; padding: 1.25rem; border-radius: var(--radius-sm); overflow-x: auto; margin: 1rem 0; font-family: 'Courier New', monospace; font-size: 0.8125rem; line-height: 1.7; }
+        .code-block .comment { color: #6B7280; }
+        .code-block .string { color: #34D399; }
+        .code-block .keyword { color: #818CF8; }
+        .endpoint-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); margin-bottom: 1.5rem; overflow: hidden; }
+        .endpoint-header { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; background: var(--gray-50); border-bottom: 1px solid var(--gray-200); }
+        .method-badge { padding: 4px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; font-family: 'Courier New', monospace; }
+        .method-badge.get { background: #D1FAE5; color: #047857; }
+        .method-badge.post { background: #DBEAFE; color: #1D4ED8; }
+        .method-badge.put { background: #FEF3C7; color: #92400E; }
+        .method-badge.delete { background: #FEE2E2; color: #991B1B; }
+        .endpoint-url { font-family: 'Courier New', monospace; font-size: 0.875rem; font-weight: 600; color: var(--gray-800); }
+        .endpoint-desc { font-size: 0.8125rem; color: var(--gray-500); margin-left: auto; }
+        .endpoint-body { padding: 1.25rem 1.5rem; }
+        .endpoint-body p { margin-bottom: 0.75rem; }
+        .rate-limit-box { background: #FFF7ED; border: 1px solid #FED7AA; border-radius: var(--radius-sm); padding: 1.5rem; margin-top: 1rem; }
+        .rate-limit-box h3 { color: #9A3412; font-size: 1rem; margin-bottom: 0.5rem; margin-top: 0; }
+        .rate-limit-box p { color: #9A3412; font-size: 0.875rem; margin-bottom: 0; }
+        .auth-box { background: var(--primary-50); border: 1px solid var(--primary-100); border-radius: var(--radius-sm); padding: 1.5rem; }
+        .auth-box p { margin-bottom: 0.5rem; }
+        .auth-box p:last-child { margin-bottom: 0; }
+        .response-example { margin-top: 0.75rem; }
+        .response-label { font-size: 0.75rem; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }
+        @media (max-width: 600px) {
+            .endpoint-header { flex-wrap: wrap; }
+            .endpoint-desc { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Language Bar -->
+<div class="lang-bar">
+    <div class="container lang-bar-inner">
+        <a href="#" class="lang-item active" data-lang="en"><img class="lang-flag-img" src="https://flagcdn.com/w40/gb.png" width="20" height="10" alt="English"> English</a>
+        <a href="#" class="lang-item" data-lang="ar"><img class="lang-flag-img" src="https://flagcdn.com/w40/sa.png" width="20" height="13" alt="العربية"> العربية</a>
+        <a href="#" class="lang-item" data-lang="es"><img class="lang-flag-img" src="https://flagcdn.com/w40/es.png" width="20" height="13" alt="Español"> Español</a>
+        <a href="#" class="lang-item" data-lang="fr"><img class="lang-flag-img" src="https://flagcdn.com/w40/fr.png" width="20" height="13" alt="Français"> Français</a>
+        <a href="#" class="lang-item" data-lang="de"><img class="lang-flag-img" src="https://flagcdn.com/w40/de.png" width="20" height="12" alt="Deutsch"> Deutsch</a>
+        <a href="#" class="lang-item" data-lang="pt"><img class="lang-flag-img" src="https://flagcdn.com/w40/br.png" width="20" height="14" alt="Português"> Português</a>
+        <a href="#" class="lang-item" data-lang="zh"><img class="lang-flag-img" src="https://flagcdn.com/w40/cn.png" width="20" height="13" alt="中文"> 中文</a>
+        <a href="#" class="lang-item" data-lang="ja"><img class="lang-flag-img" src="https://flagcdn.com/w40/jp.png" width="20" height="13" alt="日本語"> 日本語</a>
+        <a href="#" class="lang-item" data-lang="tr"><img class="lang-flag-img" src="https://flagcdn.com/w40/tr.png" width="20" height="13" alt="Türkçe"> Türkçe</a>
+        <a href="#" class="lang-item" data-lang="ru"><img class="lang-flag-img" src="https://flagcdn.com/w40/ru.png" width="20" height="13" alt="Русский"> Русский</a>
+    </div>
+</div>
+
+<!-- Navigation -->
+<nav class="navbar scrolled" id="navbar">
+    <div class="container nav-container">
+        <a href="/" class="logo">
+            <span class="logo-icon"><i class="fas fa-cloud-arrow-up"></i></span>
+            <span class="logo-text">VOIP<span class="logo-at">@</span> Cloud</span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html#features" data-i18n="nav.features">Features</a></li>
+            <li><a href="index.html#how-it-works" data-i18n="nav.howItWorks">How It Works</a></li>
+            <li><a href="index.html#pricing" data-i18n="nav.pricing">Pricing</a></li>
+            <li><a href="index.html#dns-setup" data-i18n="nav.dnsSetup">DNS Setup</a></li>
+            <li><a href="index.html#faq" data-i18n="nav.faq">FAQ</a></li>
+            <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="https://mt.voipat.com" class="btn btn-ghost" target="_blank" data-i18n="nav.login">Login</a>
+            <a href="register.html" class="btn btn-primary" data-i18n="nav.startTrial">Start Free Trial</a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<section class="api-page">
+    <div class="container">
+        <div class="api-hero">
+            <h1 data-i18n="api.title">API <span class="gradient-text">Documentation</span></h1>
+            <p data-i18n="api.subtitle">Integrate VOIP@ Cloud into your applications. Manage domains, extensions, gateways, and call records programmatically with our REST API.</p>
+        </div>
+
+        <div class="api-content">
+
+            <!-- Overview -->
+            <div class="api-section">
+                <h2 data-i18n="api.overview.title"><i class="fas fa-book" style="color: var(--primary); margin-right: 0.5rem;"></i> Overview</h2>
+                <p data-i18n="api.overview.desc">The VOIP@ Cloud API is a RESTful API that uses JSON for request and response bodies. All API endpoints are served over HTTPS. The base URL for all API requests is:</p>
+                <div class="code-block">https://api.voipat.com/v1</div>
+                <p>All requests must include the <code>Content-Type: application/json</code> header. Responses follow standard HTTP status codes: <code>200</code> for success, <code>201</code> for created, <code>400</code> for bad request, <code>401</code> for unauthorized, <code>404</code> for not found, and <code>429</code> for rate limited.</p>
+            </div>
+
+            <!-- Authentication -->
+            <div class="api-section">
+                <h2 data-i18n="api.auth.title"><i class="fas fa-key" style="color: var(--primary); margin-right: 0.5rem;"></i> Authentication</h2>
+                <p data-i18n="api.auth.desc">All API requests require authentication using a Bearer token. You can generate API keys from your VOIP@ Cloud dashboard under <strong>Settings &gt; API Keys</strong>.</p>
+
+                <div class="auth-box">
+                    <p><strong>How to authenticate:</strong></p>
+                    <p>Include your API key in the <code>Authorization</code> header of every request:</p>
+                </div>
+
+                <div class="code-block"><span class="comment"># Include this header in every request</span>
+Authorization: Bearer <span class="string">YOUR_API_KEY</span></div>
+
+                <h3>Generating API Keys</h3>
+                <ul>
+                    <li>Log in to your VOIP@ Cloud dashboard</li>
+                    <li>Navigate to <strong>Settings &gt; API Keys</strong></li>
+                    <li>Click <strong>Generate New Key</strong></li>
+                    <li>Copy and store the key securely -- it will only be shown once</li>
+                </ul>
+                <p>API keys are scoped to your domain. Each key has full read/write access to all resources within your domain. You can revoke keys at any time from the dashboard.</p>
+            </div>
+
+            <!-- Endpoints -->
+            <div class="api-section">
+                <h2 data-i18n="api.endpoints.title"><i class="fas fa-code" style="color: var(--primary); margin-right: 0.5rem;"></i> Endpoints</h2>
+
+                <!-- GET /api/domains -->
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge get">GET</span>
+                        <span class="endpoint-url">/api/domains</span>
+                        <span class="endpoint-desc">List all domains</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Returns a list of all domains associated with your account. Supports pagination via <code>page</code> and <code>per_page</code> query parameters.</p>
+                        <div class="code-block"><span class="comment"># List all domains</span>
+curl -X GET https://api.voipat.com/v1/domains \
+  -H <span class="string">"Authorization: Bearer YOUR_API_KEY"</span> \
+  -H <span class="string">"Content-Type: application/json"</span></div>
+                        <div class="response-example">
+                            <div class="response-label">Response 200</div>
+                            <div class="code-block">{
+  <span class="string">"data"</span>: [
+    {
+      <span class="string">"domain_uuid"</span>: <span class="string">"a1b2c3d4-..."</span>,
+      <span class="string">"domain_name"</span>: <span class="string">"pbx.example.com"</span>,
+      <span class="string">"domain_enabled"</span>: <span class="keyword">true</span>,
+      <span class="string">"created_at"</span>: <span class="string">"2026-01-15T10:30:00Z"</span>
+    }
+  ],
+  <span class="string">"total"</span>: 1,
+  <span class="string">"page"</span>: 1,
+  <span class="string">"per_page"</span>: 25
+}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- POST /api/domains -->
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge post">POST</span>
+                        <span class="endpoint-url">/api/domains</span>
+                        <span class="endpoint-desc">Create a new domain</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Provisions a new domain on the platform. The domain will be instantly available after DNS is configured.</p>
+                        <div class="code-block"><span class="comment"># Create a new domain</span>
+curl -X POST https://api.voipat.com/v1/domains \
+  -H <span class="string">"Authorization: Bearer YOUR_API_KEY"</span> \
+  -H <span class="string">"Content-Type: application/json"</span> \
+  -d <span class="string">'{
+    "domain_name": "pbx.newclient.com",
+    "plan": "business",
+    "admin_email": "admin@newclient.com"
+  }'</span></div>
+                        <div class="response-example">
+                            <div class="response-label">Response 201</div>
+                            <div class="code-block">{
+  <span class="string">"domain_uuid"</span>: <span class="string">"e5f6g7h8-..."</span>,
+  <span class="string">"domain_name"</span>: <span class="string">"pbx.newclient.com"</span>,
+  <span class="string">"status"</span>: <span class="string">"provisioned"</span>,
+  <span class="string">"admin_password"</span>: <span class="string">"auto-generated-password"</span>
+}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GET /api/extensions -->
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge get">GET</span>
+                        <span class="endpoint-url">/api/extensions</span>
+                        <span class="endpoint-desc">List all extensions</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Returns a list of all extensions for the authenticated domain. Includes registration status, call forwarding settings, and voicemail configuration.</p>
+                        <div class="code-block"><span class="comment"># List all extensions</span>
+curl -X GET https://api.voipat.com/v1/extensions \
+  -H <span class="string">"Authorization: Bearer YOUR_API_KEY"</span> \
+  -H <span class="string">"Content-Type: application/json"</span></div>
+                        <div class="response-example">
+                            <div class="response-label">Response 200</div>
+                            <div class="code-block">{
+  <span class="string">"data"</span>: [
+    {
+      <span class="string">"extension_uuid"</span>: <span class="string">"x1y2z3-..."</span>,
+      <span class="string">"extension"</span>: <span class="string">"1001"</span>,
+      <span class="string">"effective_caller_id_name"</span>: <span class="string">"John Doe"</span>,
+      <span class="string">"enabled"</span>: <span class="keyword">true</span>,
+      <span class="string">"registered"</span>: <span class="keyword">true</span>
+    }
+  ],
+  <span class="string">"total"</span>: 12
+}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- POST /api/extensions -->
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge post">POST</span>
+                        <span class="endpoint-url">/api/extensions</span>
+                        <span class="endpoint-desc">Create a new extension</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Creates a new SIP extension on your domain. The extension is immediately available for registration by SIP phones or WebRTC clients.</p>
+                        <div class="code-block"><span class="comment"># Create extension 1010 for Jane Smith</span>
+curl -X POST https://api.voipat.com/v1/extensions \
+  -H <span class="string">"Authorization: Bearer YOUR_API_KEY"</span> \
+  -H <span class="string">"Content-Type: application/json"</span> \
+  -d <span class="string">'{
+    "extension": "1010",
+    "password": "securePassword123",
+    "effective_caller_id_name": "Jane Smith",
+    "voicemail_enabled": true,
+    "enabled": true
+  }'</span></div>
+                        <div class="response-example">
+                            <div class="response-label">Response 201</div>
+                            <div class="code-block">{
+  <span class="string">"extension_uuid"</span>: <span class="string">"a9b8c7-..."</span>,
+  <span class="string">"extension"</span>: <span class="string">"1010"</span>,
+  <span class="string">"status"</span>: <span class="string">"created"</span>
+}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GET /api/call-records -->
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge get">GET</span>
+                        <span class="endpoint-url">/api/call-records</span>
+                        <span class="endpoint-desc">Retrieve call detail records</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Returns call detail records (CDR) for your domain. Filter by date range, extension, direction, and more. Supports pagination.</p>
+                        <div class="code-block"><span class="comment"># Get call records for March 2026</span>
+curl -X GET <span class="string">"https://api.voipat.com/v1/call-records?start_date=2026-03-01&end_date=2026-03-31&per_page=50"</span> \
+  -H <span class="string">"Authorization: Bearer YOUR_API_KEY"</span> \
+  -H <span class="string">"Content-Type: application/json"</span></div>
+                        <div class="response-example">
+                            <div class="response-label">Response 200</div>
+                            <div class="code-block">{
+  <span class="string">"data"</span>: [
+    {
+      <span class="string">"call_uuid"</span>: <span class="string">"c1d2e3-..."</span>,
+      <span class="string">"caller_id_number"</span>: <span class="string">"1001"</span>,
+      <span class="string">"destination_number"</span>: <span class="string">"+14155551234"</span>,
+      <span class="string">"direction"</span>: <span class="string">"outbound"</span>,
+      <span class="string">"duration"</span>: 245,
+      <span class="string">"start_stamp"</span>: <span class="string">"2026-03-15T14:22:10Z"</span>,
+      <span class="string">"hangup_cause"</span>: <span class="string">"NORMAL_CLEARING"</span>
+    }
+  ],
+  <span class="string">"total"</span>: 342,
+  <span class="string">"page"</span>: 1,
+  <span class="string">"per_page"</span>: 50
+}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- POST /api/gateways -->
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge post">POST</span>
+                        <span class="endpoint-url">/api/gateways</span>
+                        <span class="endpoint-desc">Add a SIP gateway</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Configures a new SIP gateway (trunk) for outbound and inbound calling. Provide your SIP trunk credentials from your provider.</p>
+                        <div class="code-block"><span class="comment"># Add a SIP gateway</span>
+curl -X POST https://api.voipat.com/v1/gateways \
+  -H <span class="string">"Authorization: Bearer YOUR_API_KEY"</span> \
+  -H <span class="string">"Content-Type: application/json"</span> \
+  -d <span class="string">'{
+    "gateway_name": "my-sip-provider",
+    "proxy": "sip.provider.com",
+    "username": "myuser",
+    "password": "mypassword",
+    "register": true,
+    "enabled": true
+  }'</span></div>
+                        <div class="response-example">
+                            <div class="response-label">Response 201</div>
+                            <div class="code-block">{
+  <span class="string">"gateway_uuid"</span>: <span class="string">"g1h2i3-..."</span>,
+  <span class="string">"gateway_name"</span>: <span class="string">"my-sip-provider"</span>,
+  <span class="string">"status"</span>: <span class="string">"created"</span>,
+  <span class="string">"registration_status"</span>: <span class="string">"pending"</span>
+}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rate Limiting -->
+            <div class="api-section">
+                <h2 data-i18n="api.rateLimit.title"><i class="fas fa-gauge-high" style="color: var(--primary); margin-right: 0.5rem;"></i> Rate Limiting</h2>
+                <p data-i18n="api.rateLimit.desc">To ensure fair usage and platform stability, API requests are rate limited per API key.</p>
+
+                <div class="rate-limit-box">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Rate Limits</h3>
+                    <p><strong>Standard plans:</strong> 60 requests per minute, 1,000 requests per hour</p>
+                    <p><strong>Enterprise plans:</strong> 300 requests per minute, 10,000 requests per hour</p>
+                </div>
+
+                <p style="margin-top: 1rem;">Rate limit information is included in the response headers:</p>
+                <div class="code-block">X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 45
+X-RateLimit-Reset: 1711036800</div>
+                <p>If you exceed the rate limit, you will receive a <code>429 Too Many Requests</code> response. Wait until the <code>X-RateLimit-Reset</code> timestamp before retrying. We recommend implementing exponential backoff in your integration.</p>
+            </div>
+
+            <!-- Support -->
+            <div class="api-section">
+                <h2 data-i18n="api.support.title"><i class="fas fa-life-ring" style="color: var(--primary); margin-right: 0.5rem;"></i> Need Help?</h2>
+                <p>If you have questions about the API or need assistance with your integration, contact our developer support team:</p>
+                <ul>
+                    <li>Email: <a href="mailto:api-support@voipat.com">api-support@voipat.com</a></li>
+                    <li>Developer forum: coming soon</li>
+                    <li>API status page: <a href="#">status.voipat.com</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="/" class="logo">
+                    <span class="logo-icon"><i class="fas fa-cloud-arrow-up"></i></span>
+                    <span class="logo-text">VOIP<span class="logo-at">@</span> Cloud</span>
+                </a>
+                <p data-i18n="footer.desc">Enterprise cloud PBX platform with instant provisioning, smart IVR, and unlimited scalability.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3 data-i18n="footer.product">Product</h3>
+                <ul>
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="index.html#dns-setup">DNS Setup</a></li>
+                    <li><a href="register.html">Sign Up</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3 data-i18n="footer.support">Support</h3>
+                <ul>
+                    <li><a href="index.html#faq">FAQ</a></li>
+                    <li><a href="index.html#contact">Contact Us</a></li>
+                    <li><a href="index.html#dns-setup">DNS Guide</a></li>
+                    <li><a href="api-docs.html">API Docs</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3 data-i18n="footer.company">Company</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="partners.html">Partners</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3 data-i18n="footer.legal">Legal</h3>
+                <ul>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="terms.html#10-service-level-agreement-sla">SLA</a></li>
+                    <li><a href="privacy.html#9-international-data-transfers">GDPR</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 VOIP@ Cloud. All rights reserved.</p>
+            <div class="payment-methods">
+                <i class="fab fa-cc-visa"></i>
+                <i class="fab fa-cc-mastercard"></i>
+                <i class="fab fa-cc-paypal"></i>
+                <i class="fab fa-cc-stripe"></i>
+                <i class="fab fa-bitcoin"></i>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="js/translations.min.js" defer></script>
+<script src="js/main.min.js" defer></script>
+</body>
+</html>
