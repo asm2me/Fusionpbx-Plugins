@@ -975,55 +975,20 @@ const i18n = {
       }
     });
 
-    // Update active language in switcher grid
-    document.querySelectorAll('.lang-grid-item').forEach(item => {
-      item.classList.toggle('active', item.dataset.lang === lang);
+    // Update active flag in language bar
+    document.querySelectorAll('.lang-flag').forEach(flag => {
+      flag.classList.toggle('active', flag.dataset.lang === lang);
     });
-
-    // Update the FAB flag
-    const fabFlag = document.getElementById('langFabFlag');
-    if (fabFlag) {
-      const flags = { en: '🇬🇧', ar: '🇸🇦', es: '🇪🇸', fr: '🇫🇷', de: '🇩🇪', pt: '🇧🇷', zh: '🇨🇳', ja: '🇯🇵', tr: '🇹🇷', ru: '🇷🇺' };
-      fabFlag.textContent = flags[lang];
-    }
   },
 
   buildSwitcher() {
-    const flags = { en: '🇬🇧', ar: '🇸🇦', es: '🇪🇸', fr: '🇫🇷', de: '🇩🇪', pt: '🇧🇷', zh: '🇨🇳', ja: '🇯🇵', tr: '🇹🇷', ru: '🇷🇺' };
-    const names = { en: 'English', ar: 'العربية', es: 'Español', fr: 'Français', de: 'Deutsch', pt: 'Português', zh: '中文', ja: '日本語', tr: 'Türkçe', ru: 'Русский' };
-
-    const grid = document.getElementById('langGrid');
-    const fabBtn = document.getElementById('langFabBtn');
-    const panel = document.getElementById('langPanel');
-    if (!grid) return;
-
-    grid.innerHTML = '';
-    Object.keys(flags).forEach(code => {
-      const item = document.createElement('a');
-      item.href = '#';
-      item.className = 'lang-grid-item' + (code === this.currentLang ? ' active' : '');
-      item.dataset.lang = code;
-      item.innerHTML = '<span class="flag">' + flags[code] + '</span><span class="name">' + names[code] + '</span>';
-      item.onclick = (e) => {
+    // Bind click events to the static flag elements in the language bar
+    document.querySelectorAll('.lang-flag').forEach(flag => {
+      flag.addEventListener('click', (e) => {
         e.preventDefault();
-        this.currentLang = code;
+        this.currentLang = flag.dataset.lang;
         this.apply();
-        panel.classList.remove('open');
-      };
-      grid.appendChild(item);
-    });
-
-    // FAB toggle
-    if (fabBtn) {
-      fabBtn.onclick = () => panel.classList.toggle('open');
-    }
-
-    // Close panel when clicking outside
-    document.addEventListener('click', (e) => {
-      const fab = document.getElementById('langFab');
-      if (fab && !fab.contains(e.target)) {
-        panel.classList.remove('open');
-      }
+      });
     });
   },
 

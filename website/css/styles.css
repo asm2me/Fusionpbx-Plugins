@@ -202,7 +202,7 @@ h4 { font-size: 1.125rem; }
 
 .navbar {
     position: fixed;
-    top: 0;
+    top: 38px;
     left: 0;
     right: 0;
     z-index: 1000;
@@ -304,7 +304,7 @@ h4 { font-size: 1.125rem; }
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 120px 0 80px;
+    padding: 150px 0 80px;
     overflow: hidden;
 }
 
@@ -1673,153 +1673,83 @@ h4 { font-size: 1.125rem; }
 }
 
 /* ========================================
-   Floating Language Switcher (FAB)
+   Language Bar (above navbar)
    ======================================== */
 
-.lang-fab {
+.lang-bar {
+    background: linear-gradient(135deg, #1e1b4b, #312e81);
+    padding: 0.35rem 0;
+    text-align: center;
     position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    z-index: 9999;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1001;
+    height: 38px;
 }
 
-.lang-fab-btn {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    border: none;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark, #5b21b6));
-    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
-    cursor: pointer;
+.lang-bar-inner {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
+    gap: 0.4rem;
 }
 
-.lang-fab-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 28px rgba(124, 58, 237, 0.5);
-}
-
-.lang-fab-flag {
-    font-size: 1.5rem;
-    line-height: 1;
-}
-
-.lang-panel {
-    position: absolute;
-    bottom: calc(100% + 12px);
-    right: 0;
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.05);
-    width: 280px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px) scale(0.95);
-    transform-origin: bottom right;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
-}
-
-.lang-panel.open {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0) scale(1);
-}
-
-.lang-panel-header {
-    padding: 0.8rem 1rem;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #6b7280;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-bottom: 1px solid #f3f4f6;
-    display: flex;
+.lang-flag {
+    display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-}
-
-.lang-panel-header i {
-    color: var(--primary);
-}
-
-.lang-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-    padding: 6px;
-}
-
-.lang-grid-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.6rem 0.75rem;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.15s;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    font-size: 1.25rem;
+    border-radius: 50%;
     text-decoration: none;
-    color: var(--text);
-    font-size: 0.85rem;
+    transition: all 0.2s;
     border: 2px solid transparent;
+    opacity: 0.7;
+    filter: grayscale(30%);
 }
 
-.lang-grid-item:hover {
-    background: #f5f3ff;
-    color: var(--primary);
+.lang-flag:hover {
+    opacity: 1;
+    filter: grayscale(0%);
+    transform: scale(1.15);
+    background: rgba(255, 255, 255, 0.1);
 }
 
-.lang-grid-item.active {
-    background: linear-gradient(135deg, #f5f3ff, #ede9fe);
-    border-color: var(--primary);
-    color: var(--primary);
-    font-weight: 600;
-}
-
-.lang-grid-item .flag {
-    font-size: 1.2rem;
-    line-height: 1;
-}
-
-.lang-grid-item .name {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-body.rtl .lang-fab {
-    right: auto;
-    left: 2rem;
-}
-
-body.rtl .lang-panel {
-    right: auto;
-    left: 0;
-    transform-origin: bottom left;
+.lang-flag.active {
+    opacity: 1;
+    filter: grayscale(0%);
+    border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.1);
 }
 
 @media (max-width: 480px) {
-    .lang-fab {
-        bottom: 1rem;
-        right: 1rem;
+    .lang-flag {
+        width: 28px;
+        height: 28px;
+        font-size: 1.1rem;
     }
 
-    .lang-panel {
-        width: 260px;
+    .lang-bar-inner {
+        gap: 0.2rem;
     }
+}
 
-    .lang-fab-btn {
-        width: 46px;
-        height: 46px;
-    }
+/* ========================================
+   Scroll Animations (CSS-based, avoids CLS)
+   ======================================== */
 
-    .lang-fab-flag {
-        font-size: 1.3rem;
-    }
+.animate-ready {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.animate-in {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
 }
 
 /* ========================================
