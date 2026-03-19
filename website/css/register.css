@@ -529,6 +529,276 @@
     margin-bottom: 1.5rem;
 }
 
+/* Step Title */
+.step-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.125rem;
+    margin-bottom: 4px;
+    color: var(--gray-800);
+}
+
+.step-title i {
+    color: var(--primary);
+}
+
+.step-desc {
+    color: var(--gray-500);
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+/* Range slider */
+.range-field {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.range-field input[type="range"] {
+    flex: 1;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--gray-200);
+    border-radius: 3px;
+    outline: none;
+}
+
+.range-field input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    border: 3px solid var(--white);
+    box-shadow: 0 2px 6px rgba(108,43,217,0.3);
+}
+
+.range-value {
+    min-width: 40px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-50);
+    color: var(--primary);
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+    font-size: 0.9375rem;
+}
+
+/* IVR Config Cards */
+.ivr-config-card {
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+    background: var(--gray-50);
+}
+
+.ivr-config-card .ivr-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.ivr-config-card .ivr-header h4 {
+    font-size: 0.9375rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary);
+}
+
+.ivr-config-card .ivr-header h4 i {
+    font-size: 0.8125rem;
+}
+
+.ivr-recording-upload {
+    border: 2px dashed var(--gray-300);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.ivr-recording-upload:hover {
+    border-color: var(--primary);
+    background: var(--primary-50);
+}
+
+.ivr-recording-upload input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.ivr-recording-upload i {
+    font-size: 1.5rem;
+    color: var(--gray-400);
+    margin-bottom: 4px;
+}
+
+.ivr-recording-upload p {
+    font-size: 0.8125rem;
+    color: var(--gray-500);
+    margin: 0;
+}
+
+.ivr-recording-upload .file-name {
+    color: var(--success);
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.ivr-options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ivr-option-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 1fr auto;
+    gap: 8px;
+    align-items: center;
+}
+
+.ivr-option-row input,
+.ivr-option-row select {
+    padding: 8px 10px;
+    border: 1px solid var(--gray-300);
+    border-radius: 6px;
+    font-size: 0.8125rem;
+    font-family: inherit;
+}
+
+.ivr-option-row .digit-label {
+    text-align: center;
+    font-weight: 700;
+    color: var(--primary);
+    background: var(--primary-50);
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+}
+
+.add-ivr-option {
+    background: none;
+    border: 1px dashed var(--gray-300);
+    border-radius: 6px;
+    padding: 8px;
+    color: var(--gray-500);
+    font-size: 0.8125rem;
+    cursor: pointer;
+    width: 100%;
+    font-family: inherit;
+    transition: var(--transition);
+}
+
+.add-ivr-option:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-50);
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    color: var(--gray-400);
+    cursor: pointer;
+    padding: 4px 8px;
+    font-size: 0.875rem;
+    border-radius: 4px;
+}
+
+.remove-btn:hover {
+    color: var(--danger);
+    background: #FEE2E2;
+}
+
+/* Review Table */
+.review-table {
+    margin-bottom: 1.5rem;
+}
+
+.review-section {
+    margin-bottom: 16px;
+}
+
+.review-section h4 {
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--primary);
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.review-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 0.875rem;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.review-row:last-child {
+    border-bottom: none;
+}
+
+.review-label {
+    color: var(--gray-500);
+}
+
+.review-value {
+    font-weight: 600;
+    color: var(--gray-800);
+    text-align: right;
+}
+
+/* Config Summary sidebar */
+.config-summary {
+    margin-top: 1.5rem;
+    padding: 16px;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+}
+
+.config-summary h4 {
+    font-size: 0.875rem;
+    color: var(--gray-800);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.config-summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    font-size: 0.8125rem;
+    color: var(--gray-600);
+}
+
+.config-summary-item strong {
+    color: var(--gray-800);
+}
+
 /* ========================================
    Responsive
    ======================================== */

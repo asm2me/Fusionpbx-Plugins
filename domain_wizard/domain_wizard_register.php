@@ -280,15 +280,45 @@
 
 		$wizard = new domain_wizard;
 
+		//get user-provided counts, capped by plan max
+		$user_extensions = min((int)($_POST['extensions_count'] ?? $config['extensions']), $config['extensions']);
+		$user_extension_start = max(100, (int)($_POST['extension_start'] ?? 100));
+		$user_gateways = min((int)($_POST['gateways_count'] ?? $config['gateways']), $config['gateways']);
+		$user_ivrs = min((int)($_POST['ivrs_count'] ?? $config['ivrs']), $config['ivrs']);
+		$user_ring_groups = min((int)($_POST['ring_groups_count'] ?? $config['ring_groups']), $config['ring_groups']);
+
+		//parse IVR and gateway configs from JSON
+		$ivr_configs = [];
+		if (!empty($_POST['ivr_configs'])) {
+			$ivr_configs = json_decode($_POST['ivr_configs'], true) ?: [];
+		}
+
+		$gateway_config = null;
+		if (!empty($_POST['gateway'])) {
+			$gateway_config = json_decode($_POST['gateway'], true);
+		}
+
 		$options = [
 			'admin_username' => $admin_username,
 			'admin_password' => $admin_password,
-			'extensions_count' => $config['extensions'],
-			'extension_start' => 100,
-			'gateways_count' => $config['gateways'],
-			'ivrs_count' => $config['ivrs'],
-			'ring_groups_count' => $config['ring_groups'],
+			'extensions_count' => $user_extensions,
+			'extension_start' => $user_extension_start,
+			'gateways_count' => $user_gateways,
+			'ivrs_count' => $user_ivrs,
+			'ring_groups_count' => $user_ring_groups,
+			'ivr_configs' => $ivr_configs,
+			'gateway_config' => $gateway_config,
 		];
+
+		//handle IVR recording file uploads
+		$ivr_recordings = [];
+		foreach ($_FILES as $key => $file) {
+			if (strpos($key, 'ivr_recording_') === 0 && $file['error'] === UPLOAD_ERR_OK) {
+				$index = (int)str_replace('ivr_recording_', '', $key);
+				$ivr_recordings[$index] = $file;
+			}
+		}
+		$options['ivr_recordings'] = $ivr_recordings;
 
 		try {
 			$result = $wizard->clone_domain($source_domain_uuid, $domain_name, $options);

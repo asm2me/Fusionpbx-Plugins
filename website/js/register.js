@@ -1,73 +1,199 @@
 /* ========================================
-   VOIP@ Cloud - Registration JavaScript
+   VOIP@ Cloud - Registration Wizard JS
    ======================================== */
 
-// Configuration - UPDATE THESE VALUES
 const CONFIG = {
-    // The FusionPBX server URL where domain_wizard_register.php is deployed
     apiUrl: 'https://mt.voipat.com/app/domain_wizard/domain_wizard_register.php',
-    // The server IP users need for DNS A records
     serverIp: 'YOUR_SERVER_IP',
-    // Temporary access URL pattern
     tempUrlPattern: 'https://mt.voipat.com'
 };
 
+const PLANS = {
+    starter:    { name: 'Starter',    price: '$29/mo',  extensions: 10,  gateways: 1,  ivrs: 2,  ring_groups: 2  },
+    business:   { name: 'Business',   price: '$79/mo',  extensions: 50,  gateways: 5,  ivrs: 10, ring_groups: 10 },
+    enterprise: { name: 'Enterprise', price: '$199/mo', extensions: 100, gateways: 10, ivrs: 20, ring_groups: 20 }
+};
+
+const TOTAL_STEPS = 7;
 let currentStep = 1;
 
-// Initialize on page load
+// ============ INIT ============
 document.addEventListener('DOMContentLoaded', function() {
-    // Check URL params for pre-selected plan
     const params = new URLSearchParams(window.location.search);
     const plan = params.get('plan');
-    if (plan) {
-        const radio = document.querySelector(`input[name="plan"][value="${plan}"]`);
-        if (radio) {
-            radio.checked = true;
-        }
-        showSelectedPlan(plan);
+    if (plan && document.querySelector(`input[name="plan"][value="${plan}"]`)) {
+        document.querySelector(`input[name="plan"][value="${plan}"]`).checked = true;
     }
+    onPlanChange();
 
-    // Domain name validation on blur
     const domainInput = document.getElementById('domainName');
     if (domainInput) {
         domainInput.addEventListener('blur', checkDomain);
-        domainInput.addEventListener('input', function() {
-            document.getElementById('domainCheck').innerHTML = '';
-        });
+        domainInput.addEventListener('input', () => { document.getElementById('domainCheck').innerHTML = ''; });
     }
 
-    // Password strength indicator
     const passwordInput = document.getElementById('adminPassword');
-    if (passwordInput) {
-        passwordInput.addEventListener('input', updatePasswordStrength);
-    }
+    if (passwordInput) passwordInput.addEventListener('input', updatePasswordStrength);
+
+    updateIvrCount(1);
 });
 
-// Show selected plan info
-function showSelectedPlan(plan) {
+// ============ PLAN CHANGE ============
+function onPlanChange() {
+    const plan = getSelectedPlan();
+    const p = PLANS[plan];
+    if (!p) return;
+
+    // Update step 4 limits
+    const extSlider = document.getElementById('extensionsCount');
+    extSlider.max = p.extensions;
+    if (parseInt(extSlider.value) > p.extensions) extSlider.value = p.extensions;
+    document.getElementById('maxExtLabel').textContent = p.extensions;
+    updateRangeDisplay(extSlider, 'extensionsValue');
+
+    const rgSlider = document.getElementById('ringGroupsCount');
+    rgSlider.max = p.ring_groups;
+    if (parseInt(rgSlider.value) > p.ring_groups) rgSlider.value = p.ring_groups;
+    document.getElementById('maxRgLabel').textContent = p.ring_groups;
+    updateRangeDisplay(rgSlider, 'ringGroupsValue');
+
+    // Update step 5 limits
+    const ivrSlider = document.getElementById('ivrsCount');
+    ivrSlider.max = p.ivrs;
+    if (parseInt(ivrSlider.value) > p.ivrs) ivrSlider.value = p.ivrs;
+    document.getElementById('maxIvrLabel').textContent = p.ivrs;
+
+    document.getElementById('planNameStep4').textContent = p.name;
+
+    // Show plan summary
     const box = document.getElementById('selectedPlanBox');
     const display = document.getElementById('planDisplay');
-    if (!box || !display) return;
+    display.innerHTML = `<strong>${p.name}</strong> - ${p.price}<br><small style="color:var(--gray-500)">${p.extensions} Ext, ${p.gateways} GW, ${p.ivrs} IVRs, ${p.ring_groups} RG</small>`;
+    box.style.display = 'block';
+}
 
-    const plans = {
-        starter: { name: 'Starter', price: '$29/mo', features: '10 Extensions, 1 Gateway, 2 IVRs' },
-        business: { name: 'Business', price: '$79/mo', features: '50 Extensions, 5 Gateways, 10 IVRs' },
-        enterprise: { name: 'Enterprise', price: '$199/mo', features: 'Unlimited Extensions, Gateways, IVRs' }
-    };
+function getSelectedPlan() {
+    return document.querySelector('input[name="plan"]:checked')?.value || 'business';
+}
 
-    const p = plans[plan];
-    if (p) {
-        display.innerHTML = `<strong>${p.name}</strong> - ${p.price}<br><small style="color:var(--gray-500)">${p.features}</small>`;
-        box.style.display = 'block';
+// ============ RANGE DISPLAY ============
+function updateRangeDisplay(input, labelId) {
+    document.getElementById(labelId).textContent = input.value;
+}
+
+// ============ IVR CONFIGURATION ============
+function updateIvrCount(count) {
+    count = parseInt(count);
+    document.getElementById('ivrsValue').textContent = count;
+    const container = document.getElementById('ivrConfigs');
+    const existing = container.querySelectorAll('.ivr-config-card').length;
+
+    if (count > existing) {
+        for (let i = existing; i < count; i++) {
+            container.appendChild(createIvrCard(i));
+        }
+    } else if (count < existing) {
+        const cards = container.querySelectorAll('.ivr-config-card');
+        for (let i = existing - 1; i >= count; i--) {
+            cards[i].remove();
+        }
     }
 }
 
-// Step navigation
+function createIvrCard(index) {
+    const card = document.createElement('div');
+    card.className = 'ivr-config-card';
+    card.innerHTML = `
+        <div class="ivr-header">
+            <h4><i class="fas fa-diagram-project"></i> IVR Menu ${index + 1}</h4>
+        </div>
+        <div class="form-group">
+            <label>Menu Name</label>
+            <input type="text" class="ivr-name" placeholder="Main Menu" value="IVR Menu ${index + 1}">
+        </div>
+        <div class="form-group">
+            <label>Greeting Recording</label>
+            <div class="ivr-recording-upload" onclick="this.querySelector('input').click()">
+                <input type="file" accept="audio/wav,audio/mp3,audio/mpeg,audio/ogg,.wav,.mp3,.ogg"
+                    onchange="handleIvrFileSelect(this, ${index})">
+                <i class="fas fa-cloud-arrow-up"></i>
+                <p class="upload-label">Click to upload greeting (WAV, MP3, OGG)</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Menu Options</label>
+            <div class="ivr-options-list" id="ivrOptions${index}">
+                <div class="ivr-option-row">
+                    <span class="digit-label">1</span>
+                    <select class="ivr-opt-action">
+                        <option value="transfer">Transfer to Extension</option>
+                        <option value="ring_group">Transfer to Ring Group</option>
+                        <option value="voicemail">Send to Voicemail</option>
+                        <option value="ivr">Go to IVR Menu</option>
+                    </select>
+                    <input type="text" class="ivr-opt-param" placeholder="Extension # or destination">
+                    <button type="button" class="remove-btn" onclick="this.closest('.ivr-option-row').remove()"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="ivr-option-row">
+                    <span class="digit-label">2</span>
+                    <select class="ivr-opt-action">
+                        <option value="transfer">Transfer to Extension</option>
+                        <option value="ring_group">Transfer to Ring Group</option>
+                        <option value="voicemail">Send to Voicemail</option>
+                        <option value="ivr">Go to IVR Menu</option>
+                    </select>
+                    <input type="text" class="ivr-opt-param" placeholder="Extension # or destination">
+                    <button type="button" class="remove-btn" onclick="this.closest('.ivr-option-row').remove()"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <button type="button" class="add-ivr-option" onclick="addIvrOption(${index})">
+                <i class="fas fa-plus"></i> Add Option
+            </button>
+        </div>
+    `;
+    return card;
+}
+
+function handleIvrFileSelect(input, index) {
+    const file = input.files[0];
+    const uploadDiv = input.closest('.ivr-recording-upload');
+    if (file) {
+        uploadDiv.querySelector('.upload-label').innerHTML = `<span class="file-name"><i class="fas fa-check-circle"></i> ${file.name}</span>`;
+    }
+}
+
+function addIvrOption(ivrIndex) {
+    const list = document.getElementById('ivrOptions' + ivrIndex);
+    const rows = list.querySelectorAll('.ivr-option-row');
+    const nextDigit = rows.length + 1;
+    if (nextDigit > 9) return;
+
+    const row = document.createElement('div');
+    row.className = 'ivr-option-row';
+    row.innerHTML = `
+        <span class="digit-label">${nextDigit}</span>
+        <select class="ivr-opt-action">
+            <option value="transfer">Transfer to Extension</option>
+            <option value="ring_group">Transfer to Ring Group</option>
+            <option value="voicemail">Send to Voicemail</option>
+            <option value="ivr">Go to IVR Menu</option>
+        </select>
+        <input type="text" class="ivr-opt-param" placeholder="Extension # or destination">
+        <button type="button" class="remove-btn" onclick="this.closest('.ivr-option-row').remove()"><i class="fas fa-times"></i></button>
+    `;
+    list.appendChild(row);
+}
+
+// ============ GATEWAY TOGGLE ============
+function toggleGatewayForm() {
+    const checked = document.getElementById('configureGateway').checked;
+    document.getElementById('gatewayForm').style.display = checked ? 'block' : 'none';
+}
+
+// ============ STEP NAVIGATION ============
 function nextStep(step) {
-    // Validate current step
     if (!validateStep(currentStep)) return;
 
-    // Mark current step as completed
     const indicators = document.querySelectorAll('.form-step-indicator');
     const lines = document.querySelectorAll('.step-line');
 
@@ -75,16 +201,16 @@ function nextStep(step) {
     indicators[currentStep - 1].classList.add('completed');
     indicators[currentStep - 1].querySelector('.step-dot').innerHTML = '<i class="fas fa-check" style="font-size:0.75rem"></i>';
 
-    if (currentStep - 1 < lines.length) {
-        lines[currentStep - 1].classList.add('completed');
-    }
+    if (currentStep - 1 < lines.length) lines[currentStep - 1].classList.add('completed');
 
-    // Show next step
     document.getElementById('step' + currentStep).classList.remove('active');
     document.getElementById('step' + step).classList.add('active');
     indicators[step - 1].classList.add('active');
 
     currentStep = step;
+
+    if (step === 7) buildReviewTable();
+    updateConfigSummary();
 }
 
 function prevStep(step) {
@@ -94,20 +220,17 @@ function prevStep(step) {
     indicators[currentStep - 1].classList.remove('active');
     document.getElementById('step' + currentStep).classList.remove('active');
 
-    // Restore previous step
     indicators[step - 1].classList.remove('completed');
     indicators[step - 1].classList.add('active');
     indicators[step - 1].querySelector('.step-dot').textContent = step;
 
-    if (step - 1 < lines.length) {
-        lines[step - 1].classList.remove('completed');
-    }
+    if (step - 1 < lines.length) lines[step - 1].classList.remove('completed');
 
     document.getElementById('step' + step).classList.add('active');
     currentStep = step;
 }
 
-// Validate step fields
+// ============ VALIDATION ============
 function validateStep(step) {
     const stepEl = document.getElementById('step' + step);
     const inputs = stepEl.querySelectorAll('input[required], select[required]');
@@ -125,122 +248,160 @@ function validateStep(step) {
     });
 
     if (step === 2) {
-        // Validate domain format
         const domain = document.getElementById('domainName').value.trim();
         if (domain && !isValidDomain(domain)) {
-            document.getElementById('domainCheck').innerHTML = '<span style="color:#EF4444"><i class="fas fa-times-circle"></i> Please enter a valid domain name (e.g., pbx.yourcompany.com)</span>';
+            document.getElementById('domainCheck').innerHTML = '<span style="color:#EF4444"><i class="fas fa-times-circle"></i> Invalid domain format</span>';
             valid = false;
         }
-
-        // Validate password match
         const pass = document.getElementById('adminPassword').value;
         const confirm = document.getElementById('confirmPassword').value;
-        if (pass && confirm && pass !== confirm) {
+        if (pass !== confirm) {
             document.getElementById('confirmPassword').style.borderColor = '#EF4444';
-            valid = false;
             alert('Passwords do not match');
-        }
-
-        // Validate password length
-        if (pass && pass.length < 8) {
-            document.getElementById('adminPassword').style.borderColor = '#EF4444';
             valid = false;
+        }
+        if (pass.length < 8) {
+            document.getElementById('adminPassword').style.borderColor = '#EF4444';
             alert('Password must be at least 8 characters');
+            valid = false;
         }
     }
 
     if (!valid) {
-        // Shake the form
         const form = document.querySelector('.register-form');
         form.style.animation = 'shake 0.5s ease';
         setTimeout(() => form.style.animation = '', 500);
     }
-
     return valid;
 }
 
 function isValidDomain(domain) {
-    const pattern = /^([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;
-    return pattern.test(domain);
+    return /^([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/.test(domain);
 }
 
-// Check domain availability
+// ============ DOMAIN CHECK ============
 function checkDomain() {
     const domain = document.getElementById('domainName').value.trim();
     const checkEl = document.getElementById('domainCheck');
+    if (!domain || !isValidDomain(domain)) { checkEl.innerHTML = ''; return; }
 
-    if (!domain || !isValidDomain(domain)) {
-        checkEl.innerHTML = '';
-        return;
-    }
-
-    checkEl.innerHTML = '<span class="checking"><i class="fas fa-spinner fa-spin"></i> Checking availability...</span>';
-
-    // Call the registration API to check domain
+    checkEl.innerHTML = '<span class="checking"><i class="fas fa-spinner fa-spin"></i> Checking...</span>';
     fetch(CONFIG.apiUrl + '?action=check_domain&domain=' + encodeURIComponent(domain))
         .then(r => r.json())
         .then(data => {
-            if (data.available) {
-                checkEl.innerHTML = '<span class="available"><i class="fas fa-check-circle"></i> Domain is available!</span>';
-            } else {
-                checkEl.innerHTML = '<span class="taken"><i class="fas fa-times-circle"></i> Domain is already in use. Try another.</span>';
-            }
+            checkEl.innerHTML = data.available
+                ? '<span class="available"><i class="fas fa-check-circle"></i> Available!</span>'
+                : '<span class="taken"><i class="fas fa-times-circle"></i> Already in use</span>';
         })
         .catch(() => {
-            // If API is not reachable, skip the check
-            checkEl.innerHTML = '<span style="color:var(--gray-400)"><i class="fas fa-info-circle"></i> Domain will be verified during registration</span>';
+            checkEl.innerHTML = '<span style="color:var(--gray-400)"><i class="fas fa-info-circle"></i> Will be verified during registration</span>';
         });
 }
 
-// Password strength
+// ============ PASSWORD STRENGTH ============
 function updatePasswordStrength() {
     const password = document.getElementById('adminPassword').value;
-    const strengthEl = document.getElementById('passwordStrength');
-
-    if (!password) {
-        strengthEl.innerHTML = '';
-        return;
-    }
-
+    const el = document.getElementById('passwordStrength');
+    if (!password) { el.innerHTML = ''; return; }
     let score = 0;
     if (password.length >= 8) score++;
     if (password.length >= 12) score++;
     if (/[A-Z]/.test(password)) score++;
     if (/[0-9]/.test(password)) score++;
     if (/[^A-Za-z0-9]/.test(password)) score++;
-
     const colors = ['#EF4444', '#F59E0B', '#F59E0B', '#10B981', '#059669'];
-    const labels = ['Weak', 'Fair', 'Fair', 'Strong', 'Very Strong'];
-    const width = (score / 5) * 100;
-
-    strengthEl.innerHTML = `<div class="strength-bar" style="width:${width}%;background:${colors[score-1] || colors[0]}"></div>`;
+    el.innerHTML = `<div class="strength-bar" style="width:${(score/5)*100}%;background:${colors[score-1]||colors[0]}"></div>`;
 }
 
-// Toggle password visibility
 function togglePassword(btn) {
     const input = btn.previousElementSibling;
     const icon = btn.querySelector('i');
-
-    if (input.type === 'password') {
-        input.type = 'text';
-        icon.className = 'fas fa-eye-slash';
-    } else {
-        input.type = 'password';
-        icon.className = 'fas fa-eye';
-    }
+    input.type = input.type === 'password' ? 'text' : 'password';
+    icon.className = input.type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
 }
 
-// Registration form submission
-function handleRegistration(e) {
-    e.preventDefault();
+// ============ CONFIG SUMMARY ============
+function updateConfigSummary() {
+    const plan = PLANS[getSelectedPlan()];
+    const box = document.getElementById('configSummary');
+    const content = document.getElementById('configSummaryContent');
+    if (currentStep < 4) { box.style.display = 'none'; return; }
 
-    if (!document.getElementById('agreeTerms').checked) {
-        alert('Please agree to the Terms of Service and Privacy Policy');
-        return;
+    box.style.display = 'block';
+    const ext = document.getElementById('extensionsCount').value;
+    const rg = document.getElementById('ringGroupsCount').value;
+    const ivr = document.getElementById('ivrsCount').value;
+    const hasGw = document.getElementById('configureGateway')?.checked;
+
+    content.innerHTML = `
+        <div class="config-summary-item"><span>Plan</span><strong>${plan.name}</strong></div>
+        <div class="config-summary-item"><span>Extensions</span><strong>${ext}</strong></div>
+        <div class="config-summary-item"><span>Ring Groups</span><strong>${rg}</strong></div>
+        <div class="config-summary-item"><span>IVR Menus</span><strong>${ivr}</strong></div>
+        <div class="config-summary-item"><span>Gateway</span><strong>${hasGw ? 'Yes' : 'Skip'}</strong></div>
+    `;
+}
+
+// ============ REVIEW TABLE ============
+function buildReviewTable() {
+    const plan = PLANS[getSelectedPlan()];
+    const domain = document.getElementById('domainName').value;
+    const ext = document.getElementById('extensionsCount').value;
+    const extStart = document.getElementById('extensionStart').value;
+    const rg = document.getElementById('ringGroupsCount').value;
+    const ivr = document.getElementById('ivrsCount').value;
+    const hasGw = document.getElementById('configureGateway')?.checked;
+
+    let html = `
+        <div class="review-section">
+            <h4>Account</h4>
+            <div class="review-row"><span class="review-label">Name</span><span class="review-value">${document.getElementById('fullName').value}</span></div>
+            <div class="review-row"><span class="review-label">Email</span><span class="review-value">${document.getElementById('email').value}</span></div>
+            <div class="review-row"><span class="review-label">Company</span><span class="review-value">${document.getElementById('company').value || '-'}</span></div>
+        </div>
+        <div class="review-section">
+            <h4>Domain & Plan</h4>
+            <div class="review-row"><span class="review-label">Domain</span><span class="review-value">${domain}</span></div>
+            <div class="review-row"><span class="review-label">Admin User</span><span class="review-value">${document.getElementById('adminUsername').value}</span></div>
+            <div class="review-row"><span class="review-label">Plan</span><span class="review-value">${plan.name} (${plan.price})</span></div>
+        </div>
+        <div class="review-section">
+            <h4>Configuration</h4>
+            <div class="review-row"><span class="review-label">Extensions</span><span class="review-value">${ext} (starting at ${extStart})</span></div>
+            <div class="review-row"><span class="review-label">Ring Groups</span><span class="review-value">${rg}</span></div>
+            <div class="review-row"><span class="review-label">IVR Menus</span><span class="review-value">${ivr}</span></div>
+        </div>`;
+
+    // IVR details
+    const ivrCards = document.querySelectorAll('.ivr-config-card');
+    if (ivrCards.length > 0) {
+        html += '<div class="review-section"><h4>IVR Details</h4>';
+        ivrCards.forEach((card, i) => {
+            const name = card.querySelector('.ivr-name').value || `IVR ${i+1}`;
+            const file = card.querySelector('input[type="file"]').files[0];
+            const options = card.querySelectorAll('.ivr-option-row');
+            html += `<div class="review-row"><span class="review-label">${name}</span><span class="review-value">${file ? file.name : 'No recording'}, ${options.length} options</span></div>`;
+        });
+        html += '</div>';
     }
 
-    // Collect form data
-    const formData = {
+    // Gateway
+    if (hasGw) {
+        html += `
+        <div class="review-section">
+            <h4>SIP Gateway</h4>
+            <div class="review-row"><span class="review-label">Name</span><span class="review-value">${document.getElementById('gwName').value || '-'}</span></div>
+            <div class="review-row"><span class="review-label">Proxy</span><span class="review-value">${document.getElementById('gwProxy').value || '-'}</span></div>
+            <div class="review-row"><span class="review-label">Username</span><span class="review-value">${document.getElementById('gwUsername').value || '-'}</span></div>
+        </div>`;
+    }
+
+    document.getElementById('reviewTable').innerHTML = html;
+}
+
+// ============ COLLECT FORM DATA ============
+function collectFormData() {
+    const data = {
         full_name: document.getElementById('fullName').value.trim(),
         email: document.getElementById('email').value.trim(),
         phone: document.getElementById('phone').value.trim(),
@@ -248,72 +409,131 @@ function handleRegistration(e) {
         domain_name: document.getElementById('domainName').value.trim(),
         admin_username: document.getElementById('adminUsername').value.trim(),
         admin_password: document.getElementById('adminPassword').value,
-        plan: document.querySelector('input[name="plan"]:checked').value
+        plan: getSelectedPlan(),
+        extensions_count: document.getElementById('extensionsCount').value,
+        extension_start: document.getElementById('extensionStart').value,
+        ring_groups_count: document.getElementById('ringGroupsCount').value,
+        ivrs_count: document.getElementById('ivrsCount').value,
     };
 
-    // Show processing state
+    // IVR configs
+    const ivrCards = document.querySelectorAll('.ivr-config-card');
+    data.ivr_configs = [];
+    ivrCards.forEach((card, i) => {
+        const ivr = {
+            name: card.querySelector('.ivr-name').value || `IVR Menu ${i+1}`,
+            options: []
+        };
+        card.querySelectorAll('.ivr-option-row').forEach(row => {
+            ivr.options.push({
+                digit: row.querySelector('.digit-label').textContent,
+                action: row.querySelector('.ivr-opt-action').value,
+                param: row.querySelector('.ivr-opt-param').value
+            });
+        });
+        data.ivr_configs.push(ivr);
+    });
+
+    // Gateway
+    if (document.getElementById('configureGateway')?.checked) {
+        data.gateway = {
+            name: document.getElementById('gwName').value.trim(),
+            proxy: document.getElementById('gwProxy').value.trim(),
+            username: document.getElementById('gwUsername').value.trim(),
+            password: document.getElementById('gwPassword').value.trim(),
+            register: document.getElementById('gwRegister').value,
+            transport: document.getElementById('gwTransport').value,
+            caller_id: document.getElementById('gwCallerId').value.trim()
+        };
+    }
+
+    return data;
+}
+
+// ============ REGISTRATION ============
+function handleRegistration(e) {
+    e.preventDefault();
+    if (!document.getElementById('agreeTerms').checked) {
+        alert('Please agree to the Terms of Service and Privacy Policy');
+        return;
+    }
+    const formData = collectFormData();
     showProcessing(formData);
 }
 
 function showProcessing(formData) {
-    // Hide form steps and show processing
     document.querySelectorAll('.form-step-content').forEach(el => el.classList.remove('active'));
-    document.querySelector('.form-steps').style.display = 'none';
+    document.getElementById('formSteps').style.display = 'none';
     document.querySelector('.register-form h2').textContent = 'Creating Your PBX';
 
     const processing = document.getElementById('stepProcessing');
     processing.style.display = 'block';
     processing.classList.add('active');
-
     const log = document.getElementById('progressLog');
 
-    // Log progress
     addLog(log, 'Validating registration details...', 'info');
 
     setTimeout(() => {
         addLog(log, 'Connecting to provisioning server...', 'info');
 
-        // Send registration request
-        const body = new URLSearchParams();
+        // Build form data for POST
+        const body = new FormData();
         body.append('action', 'register');
-        for (const [key, val] of Object.entries(formData)) {
-            body.append(key, val);
+        body.append('full_name', formData.full_name);
+        body.append('email', formData.email);
+        body.append('phone', formData.phone);
+        body.append('company', formData.company);
+        body.append('domain_name', formData.domain_name);
+        body.append('admin_username', formData.admin_username);
+        body.append('admin_password', formData.admin_password);
+        body.append('plan', formData.plan);
+        body.append('extensions_count', formData.extensions_count);
+        body.append('extension_start', formData.extension_start);
+        body.append('ring_groups_count', formData.ring_groups_count);
+        body.append('ivrs_count', formData.ivrs_count);
+        body.append('ivr_configs', JSON.stringify(formData.ivr_configs));
+
+        if (formData.gateway) {
+            body.append('gateway', JSON.stringify(formData.gateway));
         }
 
-        fetch(CONFIG.apiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: body.toString()
-        })
-        .then(r => r.json())
-        .then(data => {
-            if (data.status === 'success') {
-                addLog(log, 'Domain created successfully!', 'success');
-                addLog(log, 'Extensions provisioned: ' + (data.extensions_count || 'N/A'), 'success');
-                addLog(log, 'Admin user created.', 'success');
-                addLog(log, 'Setup complete!', 'success');
-
-                setTimeout(() => showSuccess(formData, data), 1500);
-            } else {
-                addLog(log, 'Error: ' + (data.message || 'Registration failed'), 'error');
-                if (data.details) {
-                    addLog(log, 'Details: ' + data.details, 'error');
-                }
-                setTimeout(() => showError(data.message || 'Registration failed. Please try again.'), 1500);
+        // Add IVR recording files
+        const ivrCards = document.querySelectorAll('.ivr-config-card');
+        ivrCards.forEach((card, i) => {
+            const fileInput = card.querySelector('input[type="file"]');
+            if (fileInput.files[0]) {
+                body.append('ivr_recording_' + i, fileInput.files[0]);
             }
-        })
-        .catch(err => {
-            addLog(log, 'Connection error: ' + err.message, 'error');
-            setTimeout(() => showError('Could not connect to the provisioning server. Please try again later.'), 1500);
         });
+
+        fetch(CONFIG.apiUrl, { method: 'POST', body: body })
+            .then(r => r.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    addLog(log, 'Domain created successfully!', 'success');
+                    addLog(log, 'Extensions provisioned: ' + (data.extensions_count || formData.extensions_count), 'success');
+                    if (formData.ivrs_count > 0) addLog(log, 'IVR menus configured: ' + formData.ivrs_count, 'success');
+                    if (formData.gateway) addLog(log, 'SIP gateway configured.', 'success');
+                    addLog(log, 'Admin user created.', 'success');
+                    addLog(log, 'Setup complete!', 'success');
+                    setTimeout(() => showSuccess(formData, data), 1500);
+                } else {
+                    addLog(log, 'Error: ' + (data.message || 'Registration failed'), 'error');
+                    if (data.details) addLog(log, 'Details: ' + data.details, 'error');
+                    setTimeout(() => showError(data.message || 'Registration failed.'), 1500);
+                }
+            })
+            .catch(err => {
+                addLog(log, 'Connection error: ' + err.message, 'error');
+                setTimeout(() => showError('Could not connect to the server.'), 1500);
+            });
     }, 800);
 }
 
 function addLog(container, message, type) {
     const entry = document.createElement('div');
     entry.className = 'log-entry ' + (type || '');
-    const timestamp = new Date().toLocaleTimeString();
-    entry.textContent = `[${timestamp}] ${message}`;
+    entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
     container.appendChild(entry);
     container.scrollTop = container.scrollHeight;
 }
@@ -321,72 +541,48 @@ function addLog(container, message, type) {
 function showSuccess(formData, response) {
     document.getElementById('stepProcessing').style.display = 'none';
     document.getElementById('stepProcessing').classList.remove('active');
-
     const success = document.getElementById('stepSuccess');
     success.style.display = 'block';
     success.classList.add('active');
-
     document.querySelector('.register-form h2').textContent = '';
 
-    // Fill in the details
-    const domain = formData.domain_name;
-    const url = 'https://' + domain;
-
+    const url = 'https://' + formData.domain_name;
     document.getElementById('resultUrl').textContent = url;
     document.getElementById('resultUsername').textContent = formData.admin_username;
-    document.getElementById('resultDomain').textContent = domain;
+    document.getElementById('resultDomain').textContent = formData.domain_name;
     document.getElementById('resultIp').textContent = response.server_ip || CONFIG.serverIp;
-
-    const tempUrl = document.getElementById('tempUrl');
-    tempUrl.href = CONFIG.tempUrlPattern;
-    tempUrl.textContent = CONFIG.tempUrlPattern;
-
-    const loginBtn = document.getElementById('loginBtn');
-    loginBtn.href = url;
+    document.getElementById('tempUrl').href = CONFIG.tempUrlPattern;
+    document.getElementById('tempUrl').textContent = CONFIG.tempUrlPattern;
+    document.getElementById('loginBtn').href = url;
 }
 
 function showError(message) {
     document.getElementById('stepProcessing').style.display = 'none';
     document.getElementById('stepProcessing').classList.remove('active');
-
     const error = document.getElementById('stepError');
     error.style.display = 'block';
     error.classList.add('active');
-
     document.getElementById('errorMessage').textContent = message;
 }
 
 function resetForm() {
     document.getElementById('stepError').style.display = 'none';
     document.getElementById('stepError').classList.remove('active');
-
-    // Reset to step 1
     currentStep = 1;
-    document.querySelector('.form-steps').style.display = 'flex';
+    document.getElementById('formSteps').style.display = 'flex';
     document.querySelector('.register-form h2').textContent = 'Create Your Account';
 
-    // Reset step indicators
     document.querySelectorAll('.form-step-indicator').forEach((ind, i) => {
         ind.classList.remove('active', 'completed');
         ind.querySelector('.step-dot').textContent = i + 1;
         if (i === 0) ind.classList.add('active');
     });
-
-    document.querySelectorAll('.step-line').forEach(line => {
-        line.classList.remove('completed');
-    });
-
+    document.querySelectorAll('.step-line').forEach(l => l.classList.remove('completed'));
     document.getElementById('step1').classList.add('active');
     document.getElementById('progressLog').innerHTML = '';
 }
 
-// Add shake animation
-const shakeStyle = document.createElement('style');
-shakeStyle.textContent = `
-    @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-8px); }
-        75% { transform: translateX(8px); }
-    }
-`;
-document.head.appendChild(shakeStyle);
+// Shake animation
+const s = document.createElement('style');
+s.textContent = '@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}';
+document.head.appendChild(s);

@@ -32,7 +32,7 @@
 <section class="register-section">
     <div class="container">
         <div class="register-layout">
-            <!-- Left: Benefits -->
+            <!-- Left: Benefits & Plan Summary -->
             <div class="register-benefits">
                 <h1>Start Your <span class="gradient-text">14-Day Free Trial</span></h1>
                 <p>Get your enterprise cloud PBX up and running in minutes. No credit card required.</p>
@@ -72,6 +72,11 @@
                     <h4>Selected Plan</h4>
                     <div class="plan-display" id="planDisplay"></div>
                 </div>
+
+                <div class="config-summary" id="configSummary" style="display:none;">
+                    <h4><i class="fas fa-clipboard-list"></i> Your Configuration</h4>
+                    <div id="configSummaryContent"></div>
+                </div>
             </div>
 
             <!-- Right: Form -->
@@ -80,7 +85,7 @@
                     <h2>Create Your Account</h2>
 
                     <!-- Step indicators -->
-                    <div class="form-steps">
+                    <div class="form-steps" id="formSteps">
                         <div class="form-step-indicator active" data-step="1">
                             <span class="step-dot">1</span>
                             <span class="step-text">Account</span>
@@ -94,6 +99,26 @@
                         <div class="form-step-indicator" data-step="3">
                             <span class="step-dot">3</span>
                             <span class="step-text">Plan</span>
+                        </div>
+                        <div class="step-line"></div>
+                        <div class="form-step-indicator" data-step="4">
+                            <span class="step-dot">4</span>
+                            <span class="step-text">Setup</span>
+                        </div>
+                        <div class="step-line"></div>
+                        <div class="form-step-indicator" data-step="5">
+                            <span class="step-dot">5</span>
+                            <span class="step-text">IVR</span>
+                        </div>
+                        <div class="step-line"></div>
+                        <div class="form-step-indicator" data-step="6">
+                            <span class="step-dot">6</span>
+                            <span class="step-text">Gateway</span>
+                        </div>
+                        <div class="step-line"></div>
+                        <div class="form-step-indicator" data-step="7">
+                            <span class="step-dot">7</span>
+                            <span class="step-text">Review</span>
                         </div>
                     </div>
 
@@ -160,7 +185,7 @@
                     <div class="form-step-content" id="step3">
                         <div class="plan-cards">
                             <label class="plan-option" for="planStarter">
-                                <input type="radio" id="planStarter" name="plan" value="starter">
+                                <input type="radio" id="planStarter" name="plan" value="starter" onchange="onPlanChange()">
                                 <div class="plan-option-content">
                                     <div class="plan-option-header">
                                         <h4>Starter</h4>
@@ -170,11 +195,12 @@
                                         <li>10 Extensions</li>
                                         <li>1 Gateway</li>
                                         <li>2 IVRs</li>
+                                        <li>2 Ring Groups</li>
                                     </ul>
                                 </div>
                             </label>
                             <label class="plan-option" for="planBusiness">
-                                <input type="radio" id="planBusiness" name="plan" value="business" checked>
+                                <input type="radio" id="planBusiness" name="plan" value="business" checked onchange="onPlanChange()">
                                 <div class="plan-option-content popular">
                                     <div class="mini-badge">Popular</div>
                                     <div class="plan-option-header">
@@ -185,11 +211,12 @@
                                         <li>50 Extensions</li>
                                         <li>5 Gateways</li>
                                         <li>10 IVRs</li>
+                                        <li>10 Ring Groups</li>
                                     </ul>
                                 </div>
                             </label>
                             <label class="plan-option" for="planEnterprise">
-                                <input type="radio" id="planEnterprise" name="plan" value="enterprise">
+                                <input type="radio" id="planEnterprise" name="plan" value="enterprise" onchange="onPlanChange()">
                                 <div class="plan-option-content">
                                     <div class="plan-option-header">
                                         <h4>Enterprise</h4>
@@ -199,20 +226,166 @@
                                         <li>Unlimited Extensions</li>
                                         <li>Unlimited Gateways</li>
                                         <li>Unlimited IVRs</li>
+                                        <li>Unlimited Ring Groups</li>
                                     </ul>
                                 </div>
                             </label>
                         </div>
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(2)">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(4)">
+                                Continue <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Extensions & Ring Groups -->
+                    <div class="form-step-content" id="step4">
+                        <h3 class="step-title"><i class="fas fa-phone"></i> Extensions & Ring Groups</h3>
+                        <p class="step-desc">Configure extensions for your PBX based on your <strong id="planNameStep4">Business</strong> plan.</p>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-hashtag"></i> Number of Extensions</label>
+                            <div class="range-field">
+                                <input type="range" id="extensionsCount" name="extensions_count" min="1" max="50" value="10" oninput="updateRangeDisplay(this, 'extensionsValue')">
+                                <span class="range-value" id="extensionsValue">10</span>
+                            </div>
+                            <span class="form-hint">Max allowed: <strong id="maxExtLabel">50</strong></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-sort-numeric-up"></i> Extension Start Number</label>
+                            <input type="number" id="extensionStart" name="extension_start" value="100" min="100" max="9999" placeholder="100">
+                            <span class="form-hint">Extensions will be numbered starting from this number (e.g., 100, 101, 102...)</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-users-rectangle"></i> Number of Ring Groups</label>
+                            <div class="range-field">
+                                <input type="range" id="ringGroupsCount" name="ring_groups_count" min="0" max="10" value="1" oninput="updateRangeDisplay(this, 'ringGroupsValue')">
+                                <span class="range-value" id="ringGroupsValue">1</span>
+                            </div>
+                            <span class="form-hint">Max allowed: <strong id="maxRgLabel">10</strong></span>
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(3)">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(5)">
+                                Continue <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: IVR Configuration -->
+                    <div class="form-step-content" id="step5">
+                        <h3 class="step-title"><i class="fas fa-diagram-project"></i> IVR Menus</h3>
+                        <p class="step-desc">Set up your auto-attendant / IVR menus. You can configure up to <strong id="maxIvrLabel">10</strong> IVRs.</p>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-hashtag"></i> Number of IVR Menus</label>
+                            <div class="range-field">
+                                <input type="range" id="ivrsCount" name="ivrs_count" min="0" max="10" value="1" oninput="updateIvrCount(this.value)">
+                                <span class="range-value" id="ivrsValue">1</span>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic IVR configs -->
+                        <div id="ivrConfigs"></div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(4)">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(6)">
+                                Continue <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 6: Gateway Configuration -->
+                    <div class="form-step-content" id="step6">
+                        <h3 class="step-title"><i class="fas fa-globe"></i> SIP Gateway</h3>
+                        <p class="step-desc">Configure your SIP trunk for making and receiving external calls. You can skip this and configure later.</p>
+
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="configureGateway" onchange="toggleGatewayForm()">
+                                <span>I want to configure a SIP gateway now</span>
+                            </label>
+                        </div>
+
+                        <div id="gatewayForm" style="display:none;">
+                            <div class="form-group">
+                                <label><i class="fas fa-tag"></i> Gateway Name</label>
+                                <input type="text" id="gwName" name="gw_name" placeholder="My SIP Provider">
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-server"></i> Proxy / Host</label>
+                                <input type="text" id="gwProxy" name="gw_proxy" placeholder="sip.provider.com">
+                                <span class="form-hint">The SIP server address from your trunk provider</span>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label><i class="fas fa-user"></i> Username</label>
+                                    <input type="text" id="gwUsername" name="gw_username" placeholder="your_username">
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-lock"></i> Password</label>
+                                    <input type="text" id="gwPassword" name="gw_password" placeholder="your_password">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label><i class="fas fa-hashtag"></i> Register</label>
+                                    <select id="gwRegister" name="gw_register" class="formfld">
+                                        <option value="true">Yes</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-network-wired"></i> Transport</label>
+                                    <select id="gwTransport" name="gw_transport" class="formfld">
+                                        <option value="udp">UDP</option>
+                                        <option value="tcp">TCP</option>
+                                        <option value="tls">TLS</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-phone-volume"></i> Caller ID Number (optional)</label>
+                                <input type="text" id="gwCallerId" name="gw_caller_id" placeholder="+15551234567">
+                                <span class="form-hint">The outbound caller ID number for this trunk</span>
+                            </div>
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(5)">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(7)">
+                                Continue <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 7: Review & Confirm -->
+                    <div class="form-step-content" id="step7">
+                        <h3 class="step-title"><i class="fas fa-clipboard-check"></i> Review & Confirm</h3>
+                        <div class="review-table" id="reviewTable"></div>
 
                         <div class="form-group checkbox-group">
                             <label class="checkbox-label">
                                 <input type="checkbox" id="agreeTerms" required>
-                                <span>I agree to the <a href="#" target="_blank">Terms of Service</a> and <a href="#" target="_blank">Privacy Policy</a></span>
+                                <span>I agree to the <a href="terms.html" target="_blank">Terms of Service</a> and <a href="privacy.html" target="_blank">Privacy Policy</a></span>
                             </label>
                         </div>
 
                         <div class="form-buttons">
-                            <button type="button" class="btn btn-ghost" onclick="prevStep(2)">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(6)">
                                 <i class="fas fa-arrow-left"></i> Back
                             </button>
                             <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
@@ -262,10 +435,7 @@
                                         <strong>Login to your PBX</strong> &mdash; Use the credentials above. Until DNS propagates, use: <a href="#" id="tempUrl" target="_blank"></a>
                                     </li>
                                     <li>
-                                        <strong>Configure a SIP trunk</strong> &mdash; Add your SIP provider gateway to start making calls
-                                    </li>
-                                    <li>
-                                        <strong>Register SIP phones</strong> &mdash; Configure your IP phones or use the WebRTC softphone
+                                        <strong>Configure your phones</strong> &mdash; Register your SIP phones or use the WebRTC softphone
                                     </li>
                                 </ol>
                             </div>
@@ -295,7 +465,7 @@
 <!-- Footer -->
 <footer class="footer footer-simple">
     <div class="container">
-        <p>&copy; 2024 VOIP@ Cloud. All rights reserved. | <a href="#">Privacy</a> | <a href="#">Terms</a></p>
+        <p>&copy; 2024 VOIP@ Cloud. All rights reserved. | <a href="terms.html">Terms</a> | <a href="privacy.html">Privacy</a></p>
     </div>
 </footer>
 

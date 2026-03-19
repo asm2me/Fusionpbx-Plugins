@@ -104,6 +104,25 @@ class domain_wizard {
 				$this->log[] = 'Recordings uploaded: ' . $recordings_uploaded;
 			}
 
+		//handle IVR recording uploads and custom IVR configs
+			if (!empty($options['ivr_recordings']) && is_array($options['ivr_recordings'])) {
+				foreach ($options['ivr_recordings'] as $index => $file) {
+					$uploaded = $this->upload_single_recording($new_domain_uuid, $file);
+					if ($uploaded) {
+						$this->log[] = 'IVR recording uploaded: ' . $uploaded;
+					}
+				}
+			}
+
+		//create custom gateway if provided
+			if (!empty($options['gateway_config']) && is_array($options['gateway_config'])) {
+				$gw = $options['gateway_config'];
+				if (!empty($gw['proxy'])) {
+					$this->create_gateway($new_domain_uuid, $gw);
+					$this->log[] = 'SIP gateway created: ' . ($gw['name'] ?: $gw['proxy']);
+				}
+			}
+
 		//create admin user
 			if (!empty($options['admin_username']) && !empty($options['admin_password'])) {
 				$this->create_admin_user($new_domain_uuid, $options['admin_username'], $options['admin_password']);
@@ -642,6 +661,79 @@ class domain_wizard {
 		}
 
 		return $uploaded;
+	}
+
+	/**
+	 * Upload a single recording file for a domain
+	 * @param string $domain_uuid  Domain UUID
+	 * @param array  $file         Single $_FILES entry
+	 * @return string|false  Filename on success, false on failure
+	 */
+	public function upload_single_recording($domain_uuid, $file) {
+		if ($file['error'] !== UPLOAD_ERR_OK) return false;
+
+		$recordings_dir = $_SESSION['switch']['recordings']['dir'] ?? '/var/lib/freeswitch/recordings';
+		$domain_dir = $recordings_dir . '/' . $domain_uuid;
+		if (!is_dir($domain_dir)) mkdir($domain_dir, 0770, true);
+
+		$filename = basename($file['name']);
+		$ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+		if (!in_array($ext, ['wav', 'mp3', 'ogg'])) return false;
+
+		$filename = preg_replace('/[^a-zA-Z0-9_\-\.]/', '_', $filename);
+		$dest = $domain_dir . '/' . $filename;
+
+		if (move_uploaded_file($file['tmp_name'], $dest)) {
+			chmod($dest, 0664);
+
+			$sql = "insert into v_recordings (recording_uuid, domain_uuid, recording_filename, recording_name, recording_description) ";
+			$sql .= "values (:recording_uuid, :domain_uuid, :recording_filename, :recording_name, :recording_description) ";
+			$parameters['recording_uuid'] = uuid();
+			$parameters['domain_uuid'] = $domain_uuid;
+			$parameters['recording_filename'] = $filename;
+			$parameters['recording_name'] = pathinfo($filename, PATHINFO_FILENAME);
+			$parameters['recording_description'] = 'IVR recording uploaded by Domain Wizard';
+			$database = new database;
+			$database->execute($sql, $parameters);
+			unset($sql, $parameters);
+
+			return $filename;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Create a custom SIP gateway for a domain
+	 * @param string $domain_uuid  Domain UUID
+	 * @param array  $config       Gateway config [name, proxy, username, password, register, transport, caller_id]
+	 */
+	public function create_gateway($domain_uuid, $config) {
+		$gateway_uuid = uuid();
+		$gw_name = !empty($config['name']) ? $config['name'] : $config['proxy'];
+
+		$sql = "insert into v_gateways (gateway_uuid, domain_uuid, gateway, username, password, proxy, register, ";
+		$sql .= "caller_id_in_from, sip_cid_type, enabled, description) ";
+		$sql .= "values (:gateway_uuid, :domain_uuid, :gateway, :username, :password, :proxy, :register, ";
+		$sql .= ":caller_id_in_from, :sip_cid_type, :enabled, :description) ";
+
+		$parameters['gateway_uuid'] = $gateway_uuid;
+		$parameters['domain_uuid'] = $domain_uuid;
+		$parameters['gateway'] = $gw_name;
+		$parameters['username'] = $config['username'] ?? '';
+		$parameters['password'] = $config['password'] ?? '';
+		$parameters['proxy'] = $config['proxy'] ?? '';
+		$parameters['register'] = ($config['register'] ?? 'true') === 'true' ? 'true' : 'false';
+		$parameters['caller_id_in_from'] = 'false';
+		$parameters['sip_cid_type'] = 'none';
+		$parameters['enabled'] = 'true';
+		$parameters['description'] = 'Created by Domain Wizard';
+
+		$database = new database;
+		$database->execute($sql, $parameters);
+		unset($sql, $parameters);
+
+		return $gateway_uuid;
 	}
 
 	/**
