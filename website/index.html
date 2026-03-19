@@ -39,16 +39,22 @@
             <span class="logo-text">VOIP<span class="logo-at">@</span> Cloud</span>
         </a>
         <ul class="nav-links" id="navLinks">
-            <li><a href="#features">Features</a></li>
-            <li><a href="#how-it-works">How It Works</a></li>
-            <li><a href="#pricing">Pricing</a></li>
-            <li><a href="#dns-setup">DNS Setup</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#features" data-i18n="nav.features">Features</a></li>
+            <li><a href="#how-it-works" data-i18n="nav.howItWorks">How It Works</a></li>
+            <li><a href="#pricing" data-i18n="nav.pricing">Pricing</a></li>
+            <li><a href="#dns-setup" data-i18n="nav.dnsSetup">DNS Setup</a></li>
+            <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+            <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
         </ul>
         <div class="nav-actions">
-            <a href="https://mt.voipat.com" class="btn btn-ghost" target="_blank">Login</a>
-            <a href="register.html" class="btn btn-primary">Start Free Trial</a>
+            <div class="lang-switcher">
+                <button class="lang-toggle" onclick="document.getElementById('langDropdown').classList.toggle('show')" aria-label="Change language">
+                    <i class="fas fa-globe"></i> <span id="currentLangName">🇬🇧 EN</span> <i class="fas fa-chevron-down" style="font-size:0.6em"></i>
+                </button>
+                <div class="lang-dropdown" id="langDropdown"></div>
+            </div>
+            <a href="https://mt.voipat.com" class="btn btn-ghost" target="_blank" data-i18n="nav.login">Login</a>
+            <a href="register.html" class="btn btn-primary" data-i18n="nav.startTrial">Start Free Trial</a>
         </div>
         <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
             <span></span><span></span><span></span>
@@ -63,29 +69,29 @@
         <div class="hero-particles" id="particles"></div>
     </div>
     <div class="container hero-content">
-        <div class="hero-badge"><i class="fas fa-bolt"></i> Launch Your Cloud PBX in Minutes</div>
-        <h1>Your Business Phone System,<br><span class="gradient-text">Powered by the Cloud</span></h1>
-        <p class="hero-subtitle">Deploy a fully-featured enterprise PBX on your own domain. Extensions, IVR, call recording, ring groups &mdash; everything you need, instantly provisioned.</p>
+        <div class="hero-badge" data-i18n-html="hero.badge"><i class="fas fa-bolt"></i> Launch Your Cloud PBX in Minutes</div>
+        <h1><span data-i18n="hero.title1">Your Business Phone System,</span><br><span class="gradient-text" data-i18n="hero.title2">Powered by the Cloud</span></h1>
+        <p class="hero-subtitle" data-i18n="hero.subtitle">Deploy a fully-featured enterprise PBX on your own domain. Extensions, IVR, call recording, ring groups &mdash; everything you need, instantly provisioned.</p>
         <div class="hero-cta">
-            <a href="register.html" class="btn btn-primary btn-lg"><i class="fas fa-rocket"></i> Start Free Trial</a>
-            <a href="#how-it-works" class="btn btn-outline btn-lg"><i class="fas fa-play-circle"></i> See How It Works</a>
+            <a href="register.html" class="btn btn-primary btn-lg" data-i18n-html="hero.cta.trial"><i class="fas fa-rocket"></i> Start Free Trial</a>
+            <a href="#how-it-works" class="btn btn-outline btn-lg" data-i18n-html="hero.cta.how"><i class="fas fa-play-circle"></i> See How It Works</a>
         </div>
         <div class="hero-stats">
             <div class="stat">
                 <span class="stat-number">500+</span>
-                <span class="stat-label">Active Domains</span>
+                <span class="stat-label" data-i18n="hero.stat.domains">Active Domains</span>
             </div>
             <div class="stat">
                 <span class="stat-number">99.9%</span>
-                <span class="stat-label">Uptime SLA</span>
+                <span class="stat-label" data-i18n="hero.stat.uptime">Uptime SLA</span>
             </div>
             <div class="stat">
                 <span class="stat-number">24/7</span>
-                <span class="stat-label">Support</span>
+                <span class="stat-label" data-i18n="hero.stat.support">Support</span>
             </div>
             <div class="stat">
                 <span class="stat-number">50+</span>
-                <span class="stat-label">Countries</span>
+                <span class="stat-label" data-i18n="hero.stat.countries">Countries</span>
             </div>
         </div>
     </div>
@@ -106,21 +112,21 @@
                     <div class="preview-card">
                         <div class="card-icon"><i class="fas fa-phone-volume"></i></div>
                         <div class="card-info">
-                            <span class="card-title">Active Calls</span>
+                            <span class="card-title" data-i18n="preview.activeCalls">Active Calls</span>
                             <span class="card-value">12</span>
                         </div>
                     </div>
                     <div class="preview-card">
                         <div class="card-icon green"><i class="fas fa-user-check"></i></div>
                         <div class="card-info">
-                            <span class="card-title">Extensions Online</span>
+                            <span class="card-title" data-i18n="preview.extensionsOnline">Extensions Online</span>
                             <span class="card-value">48</span>
                         </div>
                     </div>
                     <div class="preview-card">
                         <div class="card-icon orange"><i class="fas fa-chart-line"></i></div>
                         <div class="card-info">
-                            <span class="card-title">Calls Today</span>
+                            <span class="card-title" data-i18n="preview.callsToday">Calls Today</span>
                             <span class="card-value">342</span>
                         </div>
                     </div>
@@ -133,7 +139,7 @@
 <!-- Trusted By -->
 <section class="trusted-by">
     <div class="container">
-        <p class="trusted-label">Trusted by businesses worldwide</p>
+        <p class="trusted-label" data-i18n="trusted.label">Trusted by businesses worldwide</p>
         <div class="trust-logos">
             <div class="trust-item"><i class="fas fa-building"></i> Enterprise Co.</div>
             <div class="trust-item"><i class="fas fa-hospital"></i> MedCall</div>
@@ -148,70 +154,70 @@
 <section class="features" id="features">
     <div class="container">
         <div class="section-header">
-            <span class="section-badge">Features</span>
-            <h2>Everything You Need to <span class="gradient-text">Communicate</span></h2>
-            <p>A complete cloud PBX platform with enterprise features at startup-friendly prices</p>
+            <span class="section-badge" data-i18n="features.badge">Features</span>
+            <h2><span data-i18n="features.title1">Everything You Need to </span><span class="gradient-text" data-i18n="features.title2">Communicate</span></h2>
+            <p data-i18n="features.subtitle">A complete cloud PBX platform with enterprise features at startup-friendly prices</p>
         </div>
         <div class="features-grid">
             <div class="feature-card">
                 <div class="feature-icon"><i class="fas fa-phone-office"></i></div>
-                <h3>Unlimited Extensions</h3>
-                <p>Create as many extensions as your plan allows. Each with voicemail, call forwarding, and presence.</p>
+                <h3 data-i18n="features.extensions.title">Unlimited Extensions</h3>
+                <p data-i18n="features.extensions.desc">Create as many extensions as your plan allows. Each with voicemail, call forwarding, and presence.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon"><i class="fas fa-diagram-project"></i></div>
-                <h3>Smart IVR</h3>
-                <p>Build multi-level interactive voice response menus with drag-and-drop simplicity.</p>
+                <h3 data-i18n="features.ivr.title">Smart IVR</h3>
+                <p data-i18n="features.ivr.desc">Build multi-level interactive voice response menus with drag-and-drop simplicity.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon"><i class="fas fa-record-vinyl"></i></div>
-                <h3>Call Recording</h3>
-                <p>Record all calls automatically. Store, search, and playback recordings from your dashboard.</p>
+                <h3 data-i18n="features.recording.title">Call Recording</h3>
+                <p data-i18n="features.recording.desc">Record all calls automatically. Store, search, and playback recordings from your dashboard.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon"><i class="fas fa-users-rectangle"></i></div>
-                <h3>Ring Groups</h3>
-                <p>Route calls to teams with simultaneous, sequential, or random ring strategies.</p>
+                <h3 data-i18n="features.ringGroups.title">Ring Groups</h3>
+                <p data-i18n="features.ringGroups.desc">Route calls to teams with simultaneous, sequential, or random ring strategies.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon"><i class="fas fa-globe"></i></div>
-                <h3>SIP Trunking</h3>
-                <p>Connect your own SIP trunks or use our pre-configured gateways for instant calling.</p>
+                <h3 data-i18n="features.sip.title">SIP Trunking</h3>
+                <p data-i18n="features.sip.desc">Connect your own SIP trunks or use our pre-configured gateways for instant calling.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
-                <h3>Security & Encryption</h3>
-                <p>TLS/SRTP encryption, fail2ban protection, and firewall management built-in.</p>
+                <h3 data-i18n="features.security.title">Security & Encryption</h3>
+                <p data-i18n="features.security.desc">TLS/SRTP encryption, fail2ban protection, and firewall management built-in.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon"><i class="fas fa-clock-rotate-left"></i></div>
-                <h3>Time Conditions</h3>
-                <p>Route calls based on business hours, holidays, and custom schedules.</p>
+                <h3 data-i18n="features.timeConditions.title">Time Conditions</h3>
+                <p data-i18n="features.timeConditions.desc">Route calls based on business hours, holidays, and custom schedules.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon"><i class="fas fa-chart-mixed"></i></div>
-                <h3>Real-time Analytics</h3>
-                <p>Monitor call volume, agent performance, and system health with live dashboards.</p>
+                <h3 data-i18n="features.analytics.title">Real-time Analytics</h3>
+                <p data-i18n="features.analytics.desc">Monitor call volume, agent performance, and system health with live dashboards.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon"><i class="fas fa-headset"></i></div>
-                <h3>Call Center</h3>
-                <p>Full call center with queues, agent management, and supervisor monitoring.</p>
+                <h3 data-i18n="features.callCenter.title">Call Center</h3>
+                <p data-i18n="features.callCenter.desc">Full call center with queues, agent management, and supervisor monitoring.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon"><i class="fas fa-mobile-screen"></i></div>
-                <h3>WebRTC Softphone</h3>
-                <p>Make and receive calls directly from your browser. No software installation needed.</p>
+                <h3 data-i18n="features.webrtc.title">WebRTC Softphone</h3>
+                <p data-i18n="features.webrtc.desc">Make and receive calls directly from your browser. No software installation needed.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon"><i class="fas fa-code-branch"></i></div>
-                <h3>REST API</h3>
-                <p>Full API access for integration with your CRM, helpdesk, or custom applications.</p>
+                <h3 data-i18n="features.api.title">REST API</h3>
+                <p data-i18n="features.api.desc">Full API access for integration with your CRM, helpdesk, or custom applications.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon"><i class="fas fa-server"></i></div>
-                <h3>Your Own Domain</h3>
-                <p>Run your PBX on your own domain. White-label ready for resellers.</p>
+                <h3 data-i18n="features.domain.title">Your Own Domain</h3>
+                <p data-i18n="features.domain.desc">Run your PBX on your own domain. White-label ready for resellers.</p>
             </div>
         </div>
     </div>
@@ -221,16 +227,16 @@
 <section class="how-it-works" id="how-it-works">
     <div class="container">
         <div class="section-header">
-            <span class="section-badge">How It Works</span>
-            <h2>Up and Running in <span class="gradient-text">3 Simple Steps</span></h2>
-            <p>From sign-up to making your first call in under 5 minutes</p>
+            <span class="section-badge" data-i18n="howItWorks.badge">How It Works</span>
+            <h2><span data-i18n="howItWorks.title1">Up and Running in </span><span class="gradient-text" data-i18n="howItWorks.title2">3 Simple Steps</span></h2>
+            <p data-i18n="howItWorks.subtitle">From sign-up to making your first call in under 5 minutes</p>
         </div>
         <div class="steps">
             <div class="step">
                 <div class="step-number">1</div>
                 <div class="step-content">
-                    <h3>Register & Choose a Plan</h3>
-                    <p>Pick the plan that fits your business. Enter your domain name and create your admin account. Your cloud PBX is instantly provisioned with extensions, IVR, and all features.</p>
+                    <h3 data-i18n="howItWorks.step1.title">Register & Choose a Plan</h3>
+                    <p data-i18n="howItWorks.step1.desc">Pick the plan that fits your business. Enter your domain name and create your admin account. Your cloud PBX is instantly provisioned with extensions, IVR, and all features.</p>
                 </div>
                 <div class="step-visual">
                     <div class="step-icon"><i class="fas fa-user-plus"></i></div>
@@ -239,8 +245,8 @@
             <div class="step reverse">
                 <div class="step-number">2</div>
                 <div class="step-content">
-                    <h3>Point Your Domain</h3>
-                    <p>Add a simple DNS record to point your domain to our servers. We provide step-by-step instructions for every DNS provider. SSL certificate is automatically provisioned.</p>
+                    <h3 data-i18n="howItWorks.step2.title">Point Your Domain</h3>
+                    <p data-i18n="howItWorks.step2.desc">Add a simple DNS record to point your domain to our servers. We provide step-by-step instructions for every DNS provider. SSL certificate is automatically provisioned.</p>
                 </div>
                 <div class="step-visual">
                     <div class="step-icon"><i class="fas fa-globe"></i></div>
@@ -249,8 +255,8 @@
             <div class="step">
                 <div class="step-number">3</div>
                 <div class="step-content">
-                    <h3>Start Making Calls</h3>
-                    <p>Configure your SIP phones or use our WebRTC softphone. Connect your SIP trunk and start making and receiving calls immediately. It's that simple.</p>
+                    <h3 data-i18n="howItWorks.step3.title">Start Making Calls</h3>
+                    <p data-i18n="howItWorks.step3.desc">Configure your SIP phones or use our WebRTC softphone. Connect your SIP trunk and start making and receiving calls immediately. It's that simple.</p>
                 </div>
                 <div class="step-visual">
                     <div class="step-icon"><i class="fas fa-phone-volume"></i></div>
@@ -264,9 +270,9 @@
 <section class="dns-setup" id="dns-setup">
     <div class="container">
         <div class="section-header">
-            <span class="section-badge">DNS Configuration</span>
-            <h2>Point Your Domain to <span class="gradient-text">VOIP@ Cloud</span></h2>
-            <p>Follow these simple steps to connect your domain to our platform</p>
+            <span class="section-badge" data-i18n="dns.badge">DNS Configuration</span>
+            <h2><span data-i18n="dns.title1">Point Your Domain to </span><span class="gradient-text">VOIP@ Cloud</span></h2>
+            <p data-i18n="dns.subtitle">Follow these simple steps to connect your domain to our platform</p>
         </div>
         <div class="dns-content">
             <div class="dns-instructions">
@@ -462,24 +468,24 @@
 <section class="pricing" id="pricing">
     <div class="container">
         <div class="section-header">
-            <span class="section-badge">Pricing</span>
-            <h2>Simple, Transparent <span class="gradient-text">Pricing</span></h2>
-            <p>No hidden fees. No long-term contracts. Cancel anytime.</p>
+            <span class="section-badge" data-i18n="pricing.badge">Pricing</span>
+            <h2><span data-i18n="pricing.title1">Simple, Transparent </span><span class="gradient-text" data-i18n="pricing.title2">Pricing</span></h2>
+            <p data-i18n="pricing.subtitle">No hidden fees. No long-term contracts. Cancel anytime.</p>
         </div>
         <div class="billing-toggle">
-            <span class="toggle-label active" data-period="monthly">Monthly</span>
+            <span class="toggle-label active" data-period="monthly" data-i18n="pricing.monthly">Monthly</span>
             <label class="toggle-switch">
                 <input type="checkbox" id="billingToggle">
                 <span class="toggle-slider"></span>
             </label>
-            <span class="toggle-label" data-period="yearly">Yearly <span class="save-badge">Save 20%</span></span>
+            <span class="toggle-label" data-period="yearly"><span data-i18n="pricing.yearly">Yearly</span> <span class="save-badge" data-i18n="pricing.save">Save 20%</span></span>
         </div>
         <div class="pricing-grid">
             <!-- Starter Plan -->
             <div class="price-card">
                 <div class="price-header">
-                    <h3>Starter</h3>
-                    <p class="price-desc">Perfect for small businesses</p>
+                    <h3 data-i18n="pricing.starter.name">Starter</h3>
+                    <p class="price-desc" data-i18n="pricing.starter.desc">Perfect for small businesses</p>
                 </div>
                 <div class="price-amount">
                     <span class="currency">$</span>
@@ -501,10 +507,10 @@
             </div>
             <!-- Business Plan -->
             <div class="price-card featured">
-                <div class="popular-badge">Most Popular</div>
+                <div class="popular-badge" data-i18n="pricing.mostPopular">Most Popular</div>
                 <div class="price-header">
-                    <h3>Business</h3>
-                    <p class="price-desc">For growing teams</p>
+                    <h3 data-i18n="pricing.business.name">Business</h3>
+                    <p class="price-desc" data-i18n="pricing.business.desc">For growing teams</p>
                 </div>
                 <div class="price-amount">
                     <span class="currency">$</span>
@@ -527,8 +533,8 @@
             <!-- Enterprise Plan -->
             <div class="price-card">
                 <div class="price-header">
-                    <h3>Enterprise</h3>
-                    <p class="price-desc">For large organizations</p>
+                    <h3 data-i18n="pricing.enterprise.name">Enterprise</h3>
+                    <p class="price-desc" data-i18n="pricing.enterprise.desc">For large organizations</p>
                 </div>
                 <div class="price-amount">
                     <span class="currency">$</span>
@@ -556,13 +562,13 @@
 <section class="faq" id="faq">
     <div class="container">
         <div class="section-header">
-            <span class="section-badge">FAQ</span>
-            <h2>Frequently Asked <span class="gradient-text">Questions</span></h2>
+            <span class="section-badge" data-i18n="faq.badge">FAQ</span>
+            <h2><span data-i18n="faq.title1">Frequently Asked </span><span class="gradient-text" data-i18n="faq.title2">Questions</span></h2>
         </div>
         <div class="faq-grid">
             <div class="faq-item">
                 <button class="faq-question" onclick="toggleFaq(this)">
-                    <span>Do I need my own domain name?</span>
+                    <span data-i18n="faq.q1">Do I need my own domain name?</span>
                     <i class="fas fa-chevron-down"></i>
                 </button>
                 <div class="faq-answer">
@@ -571,7 +577,7 @@
             </div>
             <div class="faq-item">
                 <button class="faq-question" onclick="toggleFaq(this)">
-                    <span>Do I need to buy a SIP trunk?</span>
+                    <span data-i18n="faq.q2">Do I need to buy a SIP trunk?</span>
                     <i class="fas fa-chevron-down"></i>
                 </button>
                 <div class="faq-answer">
@@ -580,7 +586,7 @@
             </div>
             <div class="faq-item">
                 <button class="faq-question" onclick="toggleFaq(this)">
-                    <span>How long does setup take?</span>
+                    <span data-i18n="faq.q3">How long does setup take?</span>
                     <i class="fas fa-chevron-down"></i>
                 </button>
                 <div class="faq-answer">
@@ -589,7 +595,7 @@
             </div>
             <div class="faq-item">
                 <button class="faq-question" onclick="toggleFaq(this)">
-                    <span>Can I port my existing phone numbers?</span>
+                    <span data-i18n="faq.q4">Can I port my existing phone numbers?</span>
                     <i class="fas fa-chevron-down"></i>
                 </button>
                 <div class="faq-answer">
@@ -598,7 +604,7 @@
             </div>
             <div class="faq-item">
                 <button class="faq-question" onclick="toggleFaq(this)">
-                    <span>What phones/devices are supported?</span>
+                    <span data-i18n="faq.q5">What phones/devices are supported?</span>
                     <i class="fas fa-chevron-down"></i>
                 </button>
                 <div class="faq-answer">
@@ -607,7 +613,7 @@
             </div>
             <div class="faq-item">
                 <button class="faq-question" onclick="toggleFaq(this)">
-                    <span>Is there a free trial?</span>
+                    <span data-i18n="faq.q6">Is there a free trial?</span>
                     <i class="fas fa-chevron-down"></i>
                 </button>
                 <div class="faq-answer">
@@ -616,7 +622,7 @@
             </div>
             <div class="faq-item">
                 <button class="faq-question" onclick="toggleFaq(this)">
-                    <span>Can I upgrade or downgrade my plan?</span>
+                    <span data-i18n="faq.q7">Can I upgrade or downgrade my plan?</span>
                     <i class="fas fa-chevron-down"></i>
                 </button>
                 <div class="faq-answer">
@@ -625,7 +631,7 @@
             </div>
             <div class="faq-item">
                 <button class="faq-question" onclick="toggleFaq(this)">
-                    <span>Do you offer reseller accounts?</span>
+                    <span data-i18n="faq.q8">Do you offer reseller accounts?</span>
                     <i class="fas fa-chevron-down"></i>
                 </button>
                 <div class="faq-answer">
@@ -640,60 +646,60 @@
 <section class="contact" id="contact">
     <div class="container">
         <div class="section-header">
-            <span class="section-badge">Contact</span>
-            <h2>Get in <span class="gradient-text">Touch</span></h2>
-            <p>Have questions? Our team is here to help.</p>
+            <span class="section-badge" data-i18n="contact.badge">Contact</span>
+            <h2><span data-i18n="contact.title1">Get in </span><span class="gradient-text" data-i18n="contact.title2">Touch</span></h2>
+            <p data-i18n="contact.subtitle">Have questions? Our team is here to help.</p>
         </div>
         <div class="contact-grid">
             <div class="contact-info">
                 <div class="contact-card">
                     <div class="contact-icon"><i class="fas fa-envelope"></i></div>
-                    <h4>Email</h4>
+                    <h4 data-i18n="contact.email">Email</h4>
                     <p>support@voipat.com</p>
                 </div>
                 <div class="contact-card">
                     <div class="contact-icon"><i class="fas fa-phone"></i></div>
-                    <h4>Phone</h4>
+                    <h4 data-i18n="contact.phone">Phone</h4>
                     <p>+1 (800) VOIPAT-1</p>
                 </div>
                 <div class="contact-card">
                     <div class="contact-icon"><i class="fas fa-comments"></i></div>
-                    <h4>Live Chat</h4>
-                    <p>Available 24/7</p>
+                    <h4 data-i18n="contact.liveChat">Live Chat</h4>
+                    <p data-i18n="contact.available247">Available 24/7</p>
                 </div>
                 <div class="contact-card">
                     <div class="contact-icon"><i class="fas fa-clock"></i></div>
-                    <h4>Support Hours</h4>
+                    <h4 data-i18n="contact.supportHours">Support Hours</h4>
                     <p>24/7/365</p>
                 </div>
             </div>
             <form class="contact-form" id="contactForm" onsubmit="handleContact(event)">
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Full Name</label>
+                        <label data-i18n="contact.form.name">Full Name</label>
                         <input type="text" name="name" required placeholder="John Doe">
                     </div>
                     <div class="form-group">
-                        <label>Email</label>
+                        <label data-i18n="contact.form.email">Email</label>
                         <input type="email" name="email" required placeholder="john@company.com">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Subject</label>
+                    <label data-i18n="contact.form.subject">Subject</label>
                     <select name="subject" required>
-                        <option value="">Select a subject...</option>
-                        <option value="sales">Sales Inquiry</option>
-                        <option value="support">Technical Support</option>
-                        <option value="billing">Billing Question</option>
-                        <option value="reseller">Reseller Program</option>
-                        <option value="other">Other</option>
+                        <option value="" data-i18n="contact.form.selectSubject">Select a subject...</option>
+                        <option value="sales" data-i18n="contact.form.sales">Sales Inquiry</option>
+                        <option value="support" data-i18n="contact.form.support">Technical Support</option>
+                        <option value="billing" data-i18n="contact.form.billing">Billing Question</option>
+                        <option value="reseller" data-i18n="contact.form.reseller">Reseller Program</option>
+                        <option value="other" data-i18n="contact.form.other">Other</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Message</label>
-                    <textarea name="message" rows="5" required placeholder="How can we help you?"></textarea>
+                    <label data-i18n="contact.form.message">Message</label>
+                    <textarea name="message" rows="5" required data-i18n="contact.form.placeholder" placeholder="How can we help you?"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                <button type="submit" class="btn btn-primary btn-lg btn-block" data-i18n-html="contact.form.send">
                     <i class="fas fa-paper-plane"></i> Send Message
                 </button>
             </form>
@@ -705,11 +711,11 @@
 <section class="cta-section">
     <div class="container">
         <div class="cta-content">
-            <h2>Ready to Transform Your Communications?</h2>
-            <p>Join hundreds of businesses already using VOIP@ Cloud. Start your 14-day free trial today.</p>
+            <h2 data-i18n="cta.title">Ready to Transform Your Communications?</h2>
+            <p data-i18n="cta.subtitle">Join hundreds of businesses already using VOIP@ Cloud. Start your 14-day free trial today.</p>
             <div class="cta-buttons">
-                <a href="register.html" class="btn btn-white btn-lg"><i class="fas fa-rocket"></i> Start Free Trial</a>
-                <a href="#contact" class="btn btn-ghost-white btn-lg"><i class="fas fa-phone"></i> Talk to Sales</a>
+                <a href="register.html" class="btn btn-white btn-lg" data-i18n-html="cta.trial"><i class="fas fa-rocket"></i> Start Free Trial</a>
+                <a href="#contact" class="btn btn-ghost-white btn-lg" data-i18n-html="cta.sales"><i class="fas fa-phone"></i> Talk to Sales</a>
             </div>
         </div>
     </div>
@@ -724,7 +730,7 @@
                     <span class="logo-icon"><i class="fas fa-cloud-arrow-up"></i></span>
                     <span class="logo-text">VOIP<span class="logo-at">@</span> Cloud</span>
                 </a>
-                <p>Enterprise cloud PBX platform with instant provisioning, smart IVR, and unlimited scalability.</p>
+                <p data-i18n="footer.desc">Enterprise cloud PBX platform with instant provisioning, smart IVR, and unlimited scalability.</p>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-twitter"></i></a>
                     <a href="#"><i class="fab fa-linkedin"></i></a>
@@ -733,7 +739,7 @@
                 </div>
             </div>
             <div class="footer-links">
-                <h4>Product</h4>
+                <h4 data-i18n="footer.product">Product</h4>
                 <ul>
                     <li><a href="#features">Features</a></li>
                     <li><a href="#pricing">Pricing</a></li>
@@ -742,7 +748,7 @@
                 </ul>
             </div>
             <div class="footer-links">
-                <h4>Support</h4>
+                <h4 data-i18n="footer.support">Support</h4>
                 <ul>
                     <li><a href="#faq">FAQ</a></li>
                     <li><a href="#contact">Contact Us</a></li>
@@ -751,7 +757,7 @@
                 </ul>
             </div>
             <div class="footer-links">
-                <h4>Company</h4>
+                <h4 data-i18n="footer.company">Company</h4>
                 <ul>
                     <li><a href="#">About Us</a></li>
                     <li><a href="#">Blog</a></li>
@@ -760,7 +766,7 @@
                 </ul>
             </div>
             <div class="footer-links">
-                <h4>Legal</h4>
+                <h4 data-i18n="footer.legal">Legal</h4>
                 <ul>
                     <li><a href="privacy.html">Privacy Policy</a></li>
                     <li><a href="terms.html">Terms of Service</a></li>
@@ -894,6 +900,7 @@
 }
 </script>
 
+<script src="js/translations.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

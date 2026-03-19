@@ -1671,3 +1671,166 @@ h4 { font-size: 1.125rem; }
         font-size: 2.5rem;
     }
 }
+
+/* ========================================
+   Language Switcher
+   ======================================== */
+
+.lang-switcher {
+    position: relative;
+    margin-right: 0.5rem;
+}
+
+.lang-toggle {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.lang-toggle:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.lang-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 0.5rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    min-width: 160px;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.lang-dropdown.show {
+    display: block;
+}
+
+.lang-option {
+    display: block;
+    padding: 0.6rem 1rem;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background 0.15s;
+    white-space: nowrap;
+}
+
+.lang-option:hover {
+    background: var(--bg-light);
+    color: var(--primary);
+}
+
+.lang-option.active {
+    background: var(--primary);
+    color: white;
+}
+
+/* ========================================
+   RTL Support
+   ======================================== */
+
+body.rtl {
+    direction: rtl;
+    text-align: right;
+}
+
+body.rtl .nav-container {
+    flex-direction: row-reverse;
+}
+
+body.rtl .nav-links {
+    flex-direction: row-reverse;
+}
+
+body.rtl .nav-actions {
+    flex-direction: row-reverse;
+}
+
+body.rtl .hero-cta {
+    flex-direction: row-reverse;
+}
+
+body.rtl .hero-stats {
+    flex-direction: row-reverse;
+}
+
+body.rtl .step {
+    flex-direction: row-reverse;
+}
+
+body.rtl .step.reverse {
+    flex-direction: row;
+}
+
+body.rtl .footer-grid {
+    direction: rtl;
+}
+
+body.rtl .feature-card,
+body.rtl .price-card,
+body.rtl .contact-card {
+    text-align: right;
+}
+
+body.rtl .price-features li {
+    text-align: right;
+}
+
+body.rtl .price-features li i {
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+
+body.rtl .faq-question {
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+body.rtl .dns-step-header {
+    flex-direction: row-reverse;
+}
+
+body.rtl .form-row {
+    flex-direction: row-reverse;
+}
+
+body.rtl .contact-grid {
+    direction: rtl;
+}
+
+body.rtl .lang-dropdown {
+    right: auto;
+    left: 0;
+}
+
+body.rtl .social-links {
+    justify-content: flex-end;
+}
+
+body.rtl .footer-bottom {
+    flex-direction: row-reverse;
+}
+
+@media (max-width: 768px) {
+    body.rtl .nav-container,
+    body.rtl .hero-cta,
+    body.rtl .hero-stats,
+    body.rtl .step,
+    body.rtl .step.reverse {
+        flex-direction: column;
+    }
+}
