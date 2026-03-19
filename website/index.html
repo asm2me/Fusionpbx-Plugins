@@ -31,7 +31,7 @@
     <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.min.css">
 </head>
 <body>
 
@@ -352,7 +352,7 @@
                         <p>You can check propagation status using:</p>
                         <div class="code-block">
                             <code>nslookup pbx.yourcompany.com</code>
-                            <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i></button>
+                            <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy to clipboard"><i class="fas fa-copy"></i></button>
                         </div>
                     </div>
                 </div>
@@ -489,7 +489,7 @@
         <div class="billing-toggle">
             <span class="toggle-label active" data-period="monthly" data-i18n="pricing.monthly">Monthly</span>
             <label class="toggle-switch">
-                <input type="checkbox" id="billingToggle">
+                <input type="checkbox" id="billingToggle" aria-label="Toggle yearly billing">
                 <span class="toggle-slider"></span>
             </label>
             <span class="toggle-label" data-period="yearly"><span data-i18n="pricing.yearly">Yearly</span> <span class="save-badge" data-i18n="pricing.save">Save 20%</span></span>
@@ -668,22 +668,22 @@
             <div class="contact-info">
                 <div class="contact-card">
                     <div class="contact-icon"><i class="fas fa-envelope"></i></div>
-                    <h4 data-i18n="contact.email">Email</h4>
+                    <h3 data-i18n="contact.email">Email</h3>
                     <p>support@voipat.com</p>
                 </div>
                 <div class="contact-card">
                     <div class="contact-icon"><i class="fas fa-phone"></i></div>
-                    <h4 data-i18n="contact.phone">Phone</h4>
+                    <h3 data-i18n="contact.phone">Phone</h3>
                     <p>+1 (800) VOIPAT-1</p>
                 </div>
                 <div class="contact-card">
                     <div class="contact-icon"><i class="fas fa-comments"></i></div>
-                    <h4 data-i18n="contact.liveChat">Live Chat</h4>
+                    <h3 data-i18n="contact.liveChat">Live Chat</h3>
                     <p data-i18n="contact.available247">Available 24/7</p>
                 </div>
                 <div class="contact-card">
                     <div class="contact-icon"><i class="fas fa-clock"></i></div>
-                    <h4 data-i18n="contact.supportHours">Support Hours</h4>
+                    <h3 data-i18n="contact.supportHours">Support Hours</h3>
                     <p>24/7/365</p>
                 </div>
             </div>
@@ -699,8 +699,8 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label data-i18n="contact.form.subject">Subject</label>
-                    <select name="subject" required>
+                    <label for="contactSubject" data-i18n="contact.form.subject">Subject</label>
+                    <select name="subject" id="contactSubject" required>
                         <option value="" data-i18n="contact.form.selectSubject">Select a subject...</option>
                         <option value="sales" data-i18n="contact.form.sales">Sales Inquiry</option>
                         <option value="support" data-i18n="contact.form.support">Technical Support</option>
@@ -746,10 +746,10 @@
                 </a>
                 <p data-i18n="footer.desc">Enterprise cloud PBX platform with instant provisioning, smart IVR, and unlimited scalability.</p>
                 <div class="social-links">
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
             <div class="footer-links">
@@ -914,7 +914,7 @@
 }
 </script>
 
-<script src="js/translations.js" defer></script>
-<script src="js/main.js" defer></script>
+<script src="js/translations.min.js" defer></script>
+<script src="js/main.min.js" defer></script>
 </body>
 </html>
