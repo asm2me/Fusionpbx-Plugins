@@ -25,7 +25,7 @@
     <meta name="twitter:image" content="https://raw.githubusercontent.com/asm2me/Fusionpbx-Plugins/main/website/og-image.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://flagcdn.com">
     <!-- Critical above-the-fold CSS inlined — matches styles.css exactly -->
     <style>
@@ -76,14 +76,6 @@ h1{font-size:3.5rem}
 .hero-visual{position:relative;z-index:1;margin-top:4rem;display:flex;justify-content:center}
 @media(max-width:768px){.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--white);flex-direction:column;padding:16px 24px;gap:16px;border-bottom:1px solid var(--gray-200);box-shadow:var(--shadow-md)}.nav-links.active{display:flex}.hamburger{display:flex}.nav-actions .btn-ghost{display:none}.hero{min-height:auto;padding:100px 0 60px}.hero-cta{flex-direction:column;align-items:center}.hero-stats{flex-wrap:wrap;gap:24px}}
 @media(max-width:480px){h1{font-size:1.75rem}.container{padding:0 16px}.hero-stats{gap:16px}.stat-number{font-size:1.5rem}}
-@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:900;font-display:swap;src:url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-solid-900.woff2") format("woff2")}
-@font-face{font-family:"Font Awesome 6 Brands";font-style:normal;font-weight:400;font-display:swap;src:url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-brands-400.woff2") format("woff2")}
-.fas,.fa-solid{font-family:"Font Awesome 6 Free";font-weight:900}
-.fab,.fa-brands{font-family:"Font Awesome 6 Brands";font-weight:400}
-.fas,.fa-solid,.fab,.fa-brands{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;display:inline-block;font-style:normal;font-variant:normal;line-height:1;text-rendering:auto}
-.fa-bolt::before{content:"\f0e7"}.fa-book::before{content:"\f02d"}.fa-building::before{content:"\f1ad"}.fa-chart-line::before{content:"\f201"}.fa-chart-mixed::before{content:"\e5d7"}.fa-check::before{content:"\f00c"}.fa-chevron-down::before{content:"\f078"}.fa-chevron-right::before{content:"\f054"}.fa-clock::before{content:"\f017"}.fa-clock-rotate-left::before{content:"\f1da"}.fa-cloud-arrow-up::before{content:"\f0ee"}.fa-code-branch::before{content:"\f126"}.fa-cog::before,.fa-gear::before{content:"\f013"}.fa-comments::before{content:"\f086"}.fa-copy::before{content:"\f0c5"}.fa-diagram-project::before{content:"\f542"}.fa-envelope::before{content:"\f0e0"}.fa-globe::before{content:"\f0ac"}.fa-graduation-cap::before{content:"\f19d"}.fa-headset::before{content:"\f590"}.fa-home::before,.fa-house::before{content:"\f015"}.fa-hospital::before{content:"\f0f8"}.fa-hotel::before{content:"\f594"}.fa-info-circle::before,.fa-circle-info::before{content:"\f05a"}.fa-mobile-screen::before{content:"\f3cf"}.fa-paper-plane::before{content:"\f1d8"}.fa-phone::before{content:"\f095"}.fa-phone-office::before{content:"\f67d"}.fa-phone-volume::before{content:"\f2a0"}.fa-play-circle::before,.fa-circle-play::before{content:"\f144"}.fa-record-vinyl::before{content:"\f8d9"}.fa-rocket::before{content:"\f135"}.fa-server::before{content:"\f233"}.fa-shield-halved::before{content:"\f3ed"}.fa-spinner::before{content:"\f110"}.fa-store::before{content:"\f54e"}.fa-triangle-exclamation::before{content:"\f071"}.fa-user-check::before{content:"\f4fc"}.fa-user-plus::before{content:"\f234"}.fa-users::before{content:"\f0c0"}.fa-users-rectangle::before{content:"\e594"}
-.fa-bitcoin::before{content:"\f379"}.fa-cc-mastercard::before{content:"\f1f1"}.fa-cc-paypal::before{content:"\f1f4"}.fa-cc-stripe::before{content:"\f1f5"}.fa-cc-visa::before{content:"\f1f0"}.fa-facebook::before{content:"\f09a"}.fa-linkedin::before{content:"\f08c"}.fa-twitter::before{content:"\f099"}.fa-youtube::before{content:"\f167"}
-.fa-spin{animation:fa-spin 2s infinite linear}@keyframes fa-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
     </style>
     <!-- Defer full stylesheet -->
     <link rel="stylesheet" href="css/styles.min.css" media="print" onload="this.media='all'">
@@ -91,6 +83,7 @@ h1{font-size:3.5rem}
     <!-- Defer font resources -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+    <link rel="stylesheet" href="css/fa-custom.min.css">
 </head>
 <body>
 
