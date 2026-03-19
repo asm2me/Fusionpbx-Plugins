@@ -928,11 +928,8 @@ const i18n = {
     const saved = localStorage.getItem('voipat_lang');
     const browserLang = navigator.language?.substring(0, 2);
     this.currentLang = saved || (translations['lang.' + browserLang] ? browserLang : 'en');
+    this.apply();
     this.buildSwitcher();
-    // Only apply translations if non-English (HTML already has English text)
-    if (this.currentLang !== 'en') {
-      this.apply();
-    }
   },
 
   apply() {
