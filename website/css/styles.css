@@ -1772,11 +1772,16 @@ body.rtl .lang-bar-inner {
    RTL Support
    ======================================== */
 
+/* ========================================
+   RTL Layout (Arabic)
+   ======================================== */
+
 body.rtl {
     direction: rtl;
     text-align: right;
 }
 
+/* Navigation */
 body.rtl .nav-container {
     flex-direction: row-reverse;
 }
@@ -1789,14 +1794,64 @@ body.rtl .nav-actions {
     flex-direction: row-reverse;
 }
 
+body.rtl .logo {
+    flex-direction: row-reverse;
+}
+
+/* Hero */
+body.rtl .hero-content {
+    text-align: right;
+    align-items: flex-end;
+}
+
+body.rtl .hero-badge {
+    direction: rtl;
+}
+
 body.rtl .hero-cta {
     flex-direction: row-reverse;
+    justify-content: flex-end;
 }
 
 body.rtl .hero-stats {
     flex-direction: row-reverse;
 }
 
+body.rtl .hero-subtitle {
+    text-align: right;
+}
+
+/* Dashboard Preview */
+body.rtl .preview-body {
+    flex-direction: row-reverse;
+}
+
+body.rtl .preview-url {
+    direction: ltr;
+    unicode-bidi: embed;
+}
+
+/* Trusted By */
+body.rtl .trust-logos {
+    flex-direction: row-reverse;
+}
+
+/* Section Headers */
+body.rtl .section-header {
+    text-align: right;
+}
+
+body.rtl .section-badge {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+/* Features */
+body.rtl .feature-card {
+    text-align: right;
+}
+
+/* How It Works - Steps */
 body.rtl .step {
     flex-direction: row-reverse;
 }
@@ -1805,17 +1860,62 @@ body.rtl .step.reverse {
     flex-direction: row;
 }
 
-body.rtl .footer-grid {
+body.rtl .step-content {
+    text-align: right;
+}
+
+body.rtl .step-number {
+    margin-left: 1.5rem;
+    margin-right: 0;
+}
+
+/* DNS Section */
+body.rtl .dns-content {
     direction: rtl;
 }
 
-body.rtl .feature-card,
-body.rtl .price-card,
-body.rtl .contact-card {
+body.rtl .dns-step-header {
+    flex-direction: row-reverse;
+}
+
+body.rtl .dns-step-body {
+    text-align: right;
+}
+
+body.rtl .dns-step-num {
+    margin-left: 0.75rem;
+    margin-right: 0;
+}
+
+body.rtl .code-block {
+    direction: ltr;
+    text-align: left;
+}
+
+body.rtl .dns-table {
+    direction: ltr;
+}
+
+body.rtl .dns-note {
+    text-align: right;
+}
+
+body.rtl .provider-toggle span {
+    flex-direction: row-reverse;
+}
+
+body.rtl .provider-content ol {
+    padding-right: 1.5rem;
+    padding-left: 0;
+}
+
+/* Pricing */
+body.rtl .price-card {
     text-align: right;
 }
 
 body.rtl .price-features li {
+    flex-direction: row-reverse;
     text-align: right;
 }
 
@@ -1824,26 +1924,75 @@ body.rtl .price-features li i {
     margin-right: 0;
 }
 
+body.rtl .price-amount {
+    direction: ltr;
+    display: flex;
+    justify-content: center;
+}
+
+body.rtl .billing-toggle {
+    flex-direction: row-reverse;
+}
+
+/* FAQ */
 body.rtl .faq-question {
     flex-direction: row-reverse;
     text-align: right;
 }
 
-body.rtl .dns-step-header {
-    flex-direction: row-reverse;
+body.rtl .faq-answer {
+    text-align: right;
+}
+
+body.rtl .faq-answer code {
+    direction: ltr;
+    unicode-bidi: embed;
+}
+
+/* Contact */
+body.rtl .contact-grid {
+    direction: rtl;
+}
+
+body.rtl .contact-card {
+    text-align: right;
+}
+
+body.rtl .contact-form label {
+    text-align: right;
+}
+
+body.rtl .contact-form input,
+body.rtl .contact-form select,
+body.rtl .contact-form textarea {
+    text-align: right;
 }
 
 body.rtl .form-row {
     flex-direction: row-reverse;
 }
 
-body.rtl .contact-grid {
+/* CTA */
+body.rtl .cta-content {
+    text-align: right;
+}
+
+body.rtl .cta-buttons {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+/* Footer */
+body.rtl .footer-grid {
     direction: rtl;
 }
 
-body.rtl .lang-dropdown {
-    right: auto;
-    left: 0;
+body.rtl .footer-brand {
+    text-align: right;
+}
+
+body.rtl .footer-links {
+    text-align: right;
 }
 
 body.rtl .social-links {
@@ -1854,12 +2003,49 @@ body.rtl .footer-bottom {
     flex-direction: row-reverse;
 }
 
+body.rtl .payment-methods {
+    flex-direction: row-reverse;
+}
+
+/* Language bar */
+body.rtl .lang-bar-inner {
+    flex-direction: row-reverse;
+}
+
+body.rtl .lang-item {
+    flex-direction: row-reverse;
+}
+
+/* Font for Arabic */
+body.rtl {
+    font-family: 'Inter', 'Segoe UI', 'Tahoma', 'Arial', sans-serif;
+    letter-spacing: 0;
+}
+
+/* Buttons with icons - flip icon position */
+body.rtl .btn i {
+    margin-left: 0.4rem;
+    margin-right: 0;
+}
+
+/* Responsive RTL */
 @media (max-width: 768px) {
     body.rtl .nav-container,
     body.rtl .hero-cta,
     body.rtl .hero-stats,
     body.rtl .step,
-    body.rtl .step.reverse {
+    body.rtl .step.reverse,
+    body.rtl .cta-buttons {
         flex-direction: column;
+        align-items: center;
+    }
+
+    body.rtl .hero-content {
+        align-items: center;
+        text-align: center;
+    }
+
+    body.rtl .section-header {
+        text-align: center;
     }
 }
