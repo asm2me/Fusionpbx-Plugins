@@ -90,110 +90,26 @@
             <p data-i18n="blog.subtitle">Insights, guides, and best practices for modern business communications.</p>
         </div>
 
-        <div class="blog-grid">
-
-            <!-- Post 1 -->
+        <div class="blog-grid" id="blogGrid">
+            <!-- Blog posts are loaded dynamically from localStorage or content.json -->
+            <!-- Fallback static content shown only if JS fails to load -->
+            <noscript>
             <article class="blog-card">
                 <div class="blog-card-img purple"><i class="fas fa-chart-line"></i></div>
                 <div class="blog-card-body">
                     <div class="blog-card-meta">
-                        <span class="tag" data-i18n="blog.tag.trends">Trends</span>
+                        <span class="tag">Trends</span>
                         <span>March 10, 2026</span>
                     </div>
-                    <h3><a href="#" data-i18n="blog.post1.title">Top VoIP Trends Shaping Business Communications in 2026</a></h3>
-                    <p data-i18n="blog.post1.excerpt">From AI-powered call routing to unified communications platforms, discover the key VoIP trends that are transforming how businesses connect with customers and teams this year.</p>
+                    <h3><a href="#">Top VoIP Trends Shaping Business Communications in 2026</a></h3>
+                    <p>From AI-powered call routing to unified communications platforms, discover the key VoIP trends that are transforming how businesses connect with customers and teams this year.</p>
                     <div class="blog-card-footer">
-                        <span class="author" data-i18n="blog.post1.author">By Ahmed Mohamed</span>
-                        <a href="#" class="read-more" data-i18n="blog.readMore">Read More &rarr;</a>
+                        <span class="author">By Ahmed Mohamed</span>
+                        <a href="#" class="read-more">Read More &rarr;</a>
                     </div>
                 </div>
             </article>
-
-            <!-- Post 2 -->
-            <article class="blog-card">
-                <div class="blog-card-img cyan"><i class="fas fa-network-wired"></i></div>
-                <div class="blog-card-body">
-                    <div class="blog-card-meta">
-                        <span class="tag" data-i18n="blog.tag.guide">Guide</span>
-                        <span>February 25, 2026</span>
-                    </div>
-                    <h3><a href="#" data-i18n="blog.post2.title">The Complete Guide to SIP Trunking for Small Business</a></h3>
-                    <p data-i18n="blog.post2.excerpt">SIP trunking can save your business up to 60% on phone bills. Learn what SIP trunking is, how it works, and how to choose the right provider for your cloud PBX setup.</p>
-                    <div class="blog-card-footer">
-                        <span class="author" data-i18n="blog.post2.author">By Sarah Khalil</span>
-                        <a href="#" class="read-more" data-i18n="blog.readMore">Read More &rarr;</a>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Post 3 -->
-            <article class="blog-card">
-                <div class="blog-card-img indigo"><i class="fas fa-cloud"></i></div>
-                <div class="blog-card-body">
-                    <div class="blog-card-meta">
-                        <span class="tag" data-i18n="blog.tag.cloudPbx">Cloud PBX</span>
-                        <span>February 12, 2026</span>
-                    </div>
-                    <h3><a href="#" data-i18n="blog.post3.title">5 Reasons to Switch from On-Premise PBX to the Cloud</a></h3>
-                    <p data-i18n="blog.post3.excerpt">Still running hardware PBX in your server room? Here are five compelling reasons why migrating to a cloud PBX will save you money, improve reliability, and future-proof your communications.</p>
-                    <div class="blog-card-footer">
-                        <span class="author" data-i18n="blog.post3.author">By Ahmed Mohamed</span>
-                        <a href="#" class="read-more" data-i18n="blog.readMore">Read More &rarr;</a>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Post 4 -->
-            <article class="blog-card">
-                <div class="blog-card-img emerald"><i class="fas fa-video"></i></div>
-                <div class="blog-card-body">
-                    <div class="blog-card-meta">
-                        <span class="tag" data-i18n="blog.tag.technology">Technology</span>
-                        <span>January 30, 2026</span>
-                    </div>
-                    <h3><a href="#" data-i18n="blog.post4.title">The Future of WebRTC: Browser-Based Calling Goes Mainstream</a></h3>
-                    <p data-i18n="blog.post4.excerpt">WebRTC is revolutionizing how we make calls. No plugins, no downloads -- just open your browser and start calling. Explore how WebRTC is being adopted across industries and what it means for your business.</p>
-                    <div class="blog-card-footer">
-                        <span class="author" data-i18n="blog.post4.author">By Sarah Khalil</span>
-                        <a href="#" class="read-more" data-i18n="blog.readMore">Read More &rarr;</a>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Post 5 -->
-            <article class="blog-card">
-                <div class="blog-card-img orange"><i class="fas fa-headset"></i></div>
-                <div class="blog-card-body">
-                    <div class="blog-card-meta">
-                        <span class="tag" data-i18n="blog.tag.callCenter">Call Center</span>
-                        <span>January 15, 2026</span>
-                    </div>
-                    <h3><a href="#" data-i18n="blog.post5.title">10 Tips to Optimize Your Cloud Call Center Performance</a></h3>
-                    <p data-i18n="blog.post5.excerpt">Running a call center in the cloud? Learn proven strategies for reducing wait times, improving agent productivity, and delivering exceptional customer experiences with your cloud PBX.</p>
-                    <div class="blog-card-footer">
-                        <span class="author" data-i18n="blog.post5.author">By Omar Hassan</span>
-                        <a href="#" class="read-more" data-i18n="blog.readMore">Read More &rarr;</a>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Post 6 -->
-            <article class="blog-card">
-                <div class="blog-card-img rose"><i class="fas fa-shield-halved"></i></div>
-                <div class="blog-card-body">
-                    <div class="blog-card-meta">
-                        <span class="tag" data-i18n="blog.tag.security">Security</span>
-                        <span>January 5, 2026</span>
-                    </div>
-                    <h3><a href="#" data-i18n="blog.post6.title">VoIP Security Best Practices: Protecting Your Business Calls</a></h3>
-                    <p data-i18n="blog.post6.excerpt">VoIP security threats are real but preventable. From TLS/SRTP encryption to fail2ban configuration, learn the essential security measures every business should implement to protect their phone system.</p>
-                    <div class="blog-card-footer">
-                        <span class="author" data-i18n="blog.post6.author">By Sarah Khalil</span>
-                        <a href="#" class="read-more" data-i18n="blog.readMore">Read More &rarr;</a>
-                    </div>
-                </div>
-            </article>
-
+            </noscript>
         </div>
     </div>
 </section>
@@ -265,6 +181,86 @@
     </div>
 </footer>
 
+<script>
+// Dynamic blog post loader - loads from localStorage or falls back to content.json
+(function() {
+    'use strict';
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+    }
+
+    function formatDate(dateStr) {
+        try {
+            var d = new Date(dateStr + 'T00:00:00');
+            return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        } catch (e) {
+            return dateStr;
+        }
+    }
+
+    function renderPosts(posts) {
+        var grid = document.getElementById('blogGrid');
+        if (!grid || !posts || posts.length === 0) return;
+
+        // Filter to published posts only
+        var published = posts.filter(function(p) { return p.published !== false; });
+        if (published.length === 0) return;
+
+        grid.innerHTML = '';
+        published.forEach(function(post) {
+            var tags = post.tags || [];
+            var firstTag = tags.length > 0 ? tags[0] : '';
+            var article = document.createElement('article');
+            article.className = 'blog-card';
+            article.innerHTML =
+                '<div class="blog-card-img ' + escapeHtml(post.color || 'purple') + '">' +
+                    '<i class="fas ' + escapeHtml(post.icon || 'fa-file-alt') + '"></i>' +
+                '</div>' +
+                '<div class="blog-card-body">' +
+                    '<div class="blog-card-meta">' +
+                        (firstTag ? '<span class="tag">' + escapeHtml(firstTag) + '</span>' : '') +
+                        '<span>' + formatDate(post.date) + '</span>' +
+                    '</div>' +
+                    '<h3><a href="#">' + escapeHtml(post.title) + '</a></h3>' +
+                    '<p>' + escapeHtml(post.excerpt) + '</p>' +
+                    '<div class="blog-card-footer">' +
+                        '<span class="author">By ' + escapeHtml(post.author) + '</span>' +
+                        '<a href="#" class="read-more">Read More &rarr;</a>' +
+                    '</div>' +
+                '</div>';
+            grid.appendChild(article);
+        });
+    }
+
+    // Try localStorage first
+    var stored = localStorage.getItem('voipat_admin_content');
+    if (stored) {
+        try {
+            var data = JSON.parse(stored);
+            if (data.blogPosts && data.blogPosts.length > 0) {
+                renderPosts(data.blogPosts);
+                return;
+            }
+        } catch (e) { /* fall through */ }
+    }
+
+    // Fall back to content.json
+    fetch('content.json')
+        .then(function(resp) { return resp.json(); })
+        .then(function(data) {
+            if (data.blogPosts && data.blogPosts.length > 0) {
+                renderPosts(data.blogPosts);
+            }
+        })
+        .catch(function(err) {
+            console.warn('Could not load blog content:', err);
+        });
+})();
+</script>
 <script src="js/translations.min.js" defer></script>
 <script src="js/main.min.js" defer></script>
 </body>

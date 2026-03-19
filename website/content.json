@@ -1,0 +1,175 @@
+{
+  "blogPosts": [
+    {
+      "id": "post-1",
+      "title": "Top VoIP Trends Shaping Business Communications in 2026",
+      "date": "2026-03-10",
+      "excerpt": "From AI-powered call routing to unified communications platforms, discover the key VoIP trends that are transforming how businesses connect with customers and teams this year.",
+      "author": "Ahmed Mohamed",
+      "content": "The VoIP landscape continues to evolve rapidly in 2026. AI-powered call routing is becoming standard, with machine learning algorithms analyzing caller intent and routing to the best available agent. Unified communications platforms are merging voice, video, messaging, and collaboration into seamless experiences.\n\nKey trends include:\n- **AI Call Analytics** - Real-time sentiment analysis and automatic call summarization\n- **Edge Computing for VoIP** - Reduced latency through distributed processing\n- **5G Integration** - Higher quality mobile VoIP with ultra-low latency\n- **Zero Trust Security** - Every call and connection verified and encrypted\n- **CPaaS Growth** - Communication Platform as a Service enabling custom workflows",
+      "tags": ["Trends", "VoIP", "AI"],
+      "color": "purple",
+      "icon": "fa-chart-line",
+      "published": true
+    },
+    {
+      "id": "post-2",
+      "title": "The Complete Guide to SIP Trunking for Small Business",
+      "date": "2026-02-25",
+      "excerpt": "SIP trunking can save your business up to 60% on phone bills. Learn what SIP trunking is, how it works, and how to choose the right provider for your cloud PBX setup.",
+      "author": "Sarah Khalil",
+      "content": "SIP trunking replaces traditional phone lines with internet-based connections, dramatically reducing costs while improving flexibility.\n\n## What is SIP Trunking?\nSIP (Session Initiation Protocol) trunking delivers voice and multimedia sessions over the internet. Instead of physical phone lines, you get virtual connections that scale instantly.\n\n## Benefits for Small Business\n- **Cost Savings** - Save 40-60% compared to traditional phone lines\n- **Scalability** - Add or remove lines instantly\n- **Geographic Flexibility** - Get local numbers in any area code\n- **Disaster Recovery** - Automatic failover to backup routes\n\n## Choosing a Provider\nLook for providers offering: competitive per-minute rates, number porting, E911 support, and good codec support (G.711, G.729).",
+      "tags": ["Guide", "SIP", "Small Business"],
+      "color": "cyan",
+      "icon": "fa-network-wired",
+      "published": true
+    },
+    {
+      "id": "post-3",
+      "title": "5 Reasons to Switch from On-Premise PBX to the Cloud",
+      "date": "2026-02-12",
+      "excerpt": "Still running hardware PBX in your server room? Here are five compelling reasons why migrating to a cloud PBX will save you money, improve reliability, and future-proof your communications.",
+      "author": "Ahmed Mohamed",
+      "content": "The era of maintaining expensive PBX hardware in your office is ending. Here are five reasons to make the switch:\n\n## 1. Dramatic Cost Reduction\nEliminate hardware purchase, maintenance, and replacement costs. Cloud PBX operates on a predictable monthly subscription.\n\n## 2. Zero Maintenance\nNo more firmware updates, hardware failures, or expansion card installations. Your provider handles all infrastructure.\n\n## 3. Work From Anywhere\nCloud PBX works wherever you have internet. Employees can use their office extension from home, a hotel, or a coffee shop.\n\n## 4. Instant Scalability\nAdd 100 extensions in minutes, not days. Scale down just as easily during slow periods.\n\n## 5. Built-in Disaster Recovery\nCloud infrastructure includes redundancy and failover. Your phone system stays up even if your office goes down.",
+      "tags": ["Cloud PBX", "Migration"],
+      "color": "indigo",
+      "icon": "fa-cloud",
+      "published": true
+    },
+    {
+      "id": "post-4",
+      "title": "The Future of WebRTC: Browser-Based Calling Goes Mainstream",
+      "date": "2026-01-30",
+      "excerpt": "WebRTC is revolutionizing how we make calls. No plugins, no downloads -- just open your browser and start calling. Explore how WebRTC is being adopted across industries and what it means for your business.",
+      "author": "Sarah Khalil",
+      "content": "WebRTC (Web Real-Time Communication) has matured into a reliable, enterprise-grade communication technology.\n\n## What Makes WebRTC Special?\n- **No plugins required** - Built into modern browsers\n- **Peer-to-peer** - Direct connections for lowest latency\n- **Encrypted by default** - SRTP and DTLS mandatory\n- **Free and open** - No licensing fees\n\n## Enterprise Adoption\nMajor companies are embedding WebRTC into their customer service portals, enabling click-to-call functionality that converts website visitors into conversations.\n\n## The VOIP@ Cloud WebRTC Softphone\nOur built-in WebRTC softphone lets your team make and receive calls from any browser. No software installation, no VPN required.",
+      "tags": ["Technology", "WebRTC"],
+      "color": "emerald",
+      "icon": "fa-video",
+      "published": true
+    },
+    {
+      "id": "post-5",
+      "title": "10 Tips to Optimize Your Cloud Call Center Performance",
+      "date": "2026-01-15",
+      "excerpt": "Running a call center in the cloud? Learn proven strategies for reducing wait times, improving agent productivity, and delivering exceptional customer experiences with your cloud PBX.",
+      "author": "Omar Hassan",
+      "content": "A well-optimized cloud call center can dramatically improve customer satisfaction and agent efficiency.\n\n## Top 10 Tips\n\n1. **Set Up Skill-Based Routing** - Match callers with the most qualified agents\n2. **Use Queue Callbacks** - Let customers request a callback instead of waiting\n3. **Monitor in Real-Time** - Use live dashboards to spot issues before they escalate\n4. **Record and Review** - Regular call reviews improve quality\n5. **Optimize IVR Menus** - Keep menus short (max 4 options per level)\n6. **Set SLA Targets** - Answer 80% of calls within 20 seconds\n7. **Train Continuously** - Use recorded calls for training\n8. **Measure First Call Resolution** - The most important metric\n9. **Use CRM Integration** - Screen pops save agents 15+ seconds per call\n10. **Plan for Peak Times** - Use historical data to staff appropriately",
+      "tags": ["Call Center", "Tips"],
+      "color": "orange",
+      "icon": "fa-headset",
+      "published": true
+    },
+    {
+      "id": "post-6",
+      "title": "VoIP Security Best Practices: Protecting Your Business Calls",
+      "date": "2026-01-05",
+      "excerpt": "VoIP security threats are real but preventable. From TLS/SRTP encryption to fail2ban configuration, learn the essential security measures every business should implement to protect their phone system.",
+      "author": "Sarah Khalil",
+      "content": "VoIP systems face unique security challenges. Here is how to protect your business communications.\n\n## Common Threats\n- **Toll Fraud** - Unauthorized use of your system for expensive calls\n- **Eavesdropping** - Intercepting unencrypted voice traffic\n- **DoS Attacks** - Flooding your system to disrupt service\n- **Vishing** - Voice phishing using spoofed caller ID\n\n## Essential Security Measures\n\n### Encryption\nAlways enable TLS for signaling and SRTP for media. This prevents eavesdropping on calls.\n\n### Fail2Ban\nConfigure fail2ban to automatically block IPs after failed authentication attempts.\n\n### Strong Passwords\nEnforce complex passwords for all SIP accounts. Never use default credentials.\n\n### Network Segmentation\nPlace your VoIP system on a dedicated VLAN separate from data traffic.\n\n### Regular Updates\nKeep your PBX software updated to patch known vulnerabilities.",
+      "tags": ["Security", "Best Practices"],
+      "color": "rose",
+      "icon": "fa-shield-halved",
+      "published": true
+    }
+  ],
+  "pricing": [
+    {
+      "id": "starter",
+      "name": "Starter",
+      "description": "Perfect for small businesses",
+      "monthlyPrice": 29,
+      "yearlyPrice": 23,
+      "featured": false,
+      "features": [
+        "Up to <strong>10 Extensions</strong>",
+        "1 SIP Gateway",
+        "2 IVR Menus",
+        "2 Ring Groups",
+        "Call Recording",
+        "Voicemail",
+        "WebRTC Softphone",
+        "Your Own Domain",
+        "Email Support"
+      ],
+      "ctaText": "Start Free Trial",
+      "ctaLink": "register.html?plan=starter"
+    },
+    {
+      "id": "business",
+      "name": "Business",
+      "description": "For growing teams",
+      "monthlyPrice": 79,
+      "yearlyPrice": 63,
+      "featured": true,
+      "features": [
+        "Up to <strong>50 Extensions</strong>",
+        "5 SIP Gateways",
+        "10 IVR Menus",
+        "10 Ring Groups",
+        "Call Recording",
+        "Call Center Queues",
+        "Time Conditions",
+        "REST API Access",
+        "Priority Support"
+      ],
+      "ctaText": "Start Free Trial",
+      "ctaLink": "register.html?plan=business"
+    },
+    {
+      "id": "enterprise",
+      "name": "Enterprise",
+      "description": "For large organizations",
+      "monthlyPrice": 199,
+      "yearlyPrice": 159,
+      "featured": false,
+      "features": [
+        "<strong>Unlimited Extensions</strong>",
+        "Unlimited Gateways",
+        "Unlimited IVR Menus",
+        "Unlimited Ring Groups",
+        "Call Recording",
+        "Full Call Center",
+        "White-Label Ready",
+        "Custom Integrations",
+        "Dedicated Account Manager"
+      ],
+      "ctaText": "Contact Sales",
+      "ctaLink": "register.html?plan=enterprise"
+    }
+  ],
+  "contact": {
+    "email": "support@voipat.com",
+    "phone": "+1 (800) VOIPAT-1",
+    "liveChat": "Available 24/7",
+    "supportHours": "24/7/365",
+    "social": {
+      "twitter": "#",
+      "linkedin": "#",
+      "facebook": "#",
+      "youtube": "#"
+    }
+  },
+  "seo": {
+    "index": {
+      "title": "VOIP@ Cloud - Enterprise Cloud PBX & Communication Platform",
+      "description": "VOIP@ Cloud - Professional cloud PBX platform with instant domain provisioning, smart IVR, call recording, and enterprise features. Start your free trial today.",
+      "ogTitle": "VOIP@ Cloud - Enterprise Cloud PBX Platform",
+      "ogDescription": "Deploy a fully-featured enterprise PBX on your own domain. Extensions, IVR, call recording, ring groups — everything you need, instantly provisioned. Start your free trial today.",
+      "ogImage": "https://raw.githubusercontent.com/asm2me/Fusionpbx-Plugins/main/website/og-image.png"
+    },
+    "blog": {
+      "title": "Blog - VOIP@ Cloud",
+      "description": "Stay updated with the latest VoIP trends, cloud PBX tips, and telecommunications insights from the VOIP@ Cloud team.",
+      "ogTitle": "VOIP@ Cloud Blog",
+      "ogDescription": "Insights, guides, and best practices for modern business communications.",
+      "ogImage": "https://raw.githubusercontent.com/asm2me/Fusionpbx-Plugins/main/website/og-image.png"
+    }
+  },
+  "settings": {
+    "siteName": "VOIP@ Cloud",
+    "serverIp": "YOUR_SERVER_IP",
+    "supportEmail": "support@voipat.com",
+    "adminPasswordHash": "f7a59e357ca5ec9a6e1ef071a7407bdfef8cf78b05d7887d8d1e9f1fb02bcaf1"
+  }
+}
