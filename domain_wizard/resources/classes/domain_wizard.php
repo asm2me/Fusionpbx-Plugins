@@ -37,23 +37,30 @@ class domain_wizard {
 			}
 			$this->log[] = 'Source domain found: ' . $source_domain['domain_name'];
 
-		//create the new domain
+		//create the new domain using direct SQL for reliability (works without session)
 			$new_domain_uuid = uuid();
-			$array['v_domains'][0]['domain_uuid'] = $new_domain_uuid;
-			$array['v_domains'][0]['domain_name'] = $new_domain_name;
-			$array['v_domains'][0]['domain_enabled'] = 'true';
-			$array['v_domains'][0]['domain_description'] = 'Created by Domain Wizard from ' . $source_domain['domain_name'];
 
-			$p = new permissions;
-			$p->add('v_domains_add', 'temp');
-
+			$sql = "insert into v_domains (domain_uuid, domain_name, domain_enabled, domain_description) ";
+			$sql .= "values (:domain_uuid, :domain_name, :domain_enabled, :domain_description) ";
+			$parameters['domain_uuid'] = $new_domain_uuid;
+			$parameters['domain_name'] = $new_domain_name;
+			$parameters['domain_enabled'] = 'true';
+			$parameters['domain_description'] = 'Created by Domain Wizard from ' . $source_domain['domain_name'];
 			$database = new database;
-			$database->app_name = 'domain_wizard';
-			$database->app_uuid = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890';
-			$database->save($array);
-			unset($array);
+			$database->execute($sql, $parameters);
+			unset($sql, $parameters);
 
-			$p->delete('v_domains_add', 'temp');
+		//verify the domain was actually created
+			$sql = "select count(*) from v_domains where domain_uuid = :domain_uuid";
+			$parameters['domain_uuid'] = $new_domain_uuid;
+			$database = new database;
+			$domain_exists = $database->select($sql, $parameters, 'column');
+			unset($sql, $parameters);
+
+			if (!$domain_exists) {
+				$this->log[] = 'FAILED: Could not create domain in database.';
+				return ['status' => 'error', 'message' => 'Could not create domain in database.', 'log' => $this->log];
+			}
 
 			$this->log[] = 'New domain created: ' . $new_domain_name . ' (' . $new_domain_uuid . ')';
 
@@ -646,28 +653,21 @@ class domain_wizard {
 	 */
 	public function create_admin_user($domain_uuid, $username, $password) {
 		$user_uuid = uuid();
+		$salt = uuid();
+		$hashed_password = md5($salt . $password);
 
-		//create the user
-			$array['v_users'][0]['user_uuid'] = $user_uuid;
-			$array['v_users'][0]['domain_uuid'] = $domain_uuid;
-			$array['v_users'][0]['username'] = $username;
-			$salt = uuid();
-			$array['v_users'][0]['password'] = md5($salt . $password);
-			$array['v_users'][0]['salt'] = $salt;
-			$array['v_users'][0]['user_enabled'] = 'true';
-			$array['v_users'][0]['add_date'] = 'now()';
-			$array['v_users'][0]['add_user'] = $_SESSION['user_uuid'] ?? '';
-
-			$p = new permissions;
-			$p->add('v_users_add', 'temp');
-
+		//create the user using direct SQL
+			$sql = "insert into v_users (user_uuid, domain_uuid, username, password, salt, user_enabled, add_date) ";
+			$sql .= "values (:user_uuid, :domain_uuid, :username, :password, :salt, :user_enabled, now()) ";
+			$parameters['user_uuid'] = $user_uuid;
+			$parameters['domain_uuid'] = $domain_uuid;
+			$parameters['username'] = $username;
+			$parameters['password'] = $hashed_password;
+			$parameters['salt'] = $salt;
+			$parameters['user_enabled'] = 'true';
 			$database = new database;
-			$database->app_name = 'domain_wizard';
-			$database->app_uuid = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890';
-			$database->save($array);
-			unset($array);
-
-			$p->delete('v_users_add', 'temp');
+			$database->execute($sql, $parameters);
+			unset($sql, $parameters);
 
 		//assign the admin group
 			$sql = "select group_uuid from v_groups where group_name = 'admin' limit 1";
@@ -676,22 +676,16 @@ class domain_wizard {
 			unset($sql);
 
 			if (is_array($group) && is_uuid($group['group_uuid'])) {
-				$array['v_user_groups'][0]['user_group_uuid'] = uuid();
-				$array['v_user_groups'][0]['domain_uuid'] = $domain_uuid;
-				$array['v_user_groups'][0]['group_name'] = 'admin';
-				$array['v_user_groups'][0]['group_uuid'] = $group['group_uuid'];
-				$array['v_user_groups'][0]['user_uuid'] = $user_uuid;
-
-				$p = new permissions;
-				$p->add('v_user_groups_add', 'temp');
-
+				$sql = "insert into v_user_groups (user_group_uuid, domain_uuid, group_name, group_uuid, user_uuid) ";
+				$sql .= "values (:user_group_uuid, :domain_uuid, :group_name, :group_uuid, :user_uuid) ";
+				$parameters['user_group_uuid'] = uuid();
+				$parameters['domain_uuid'] = $domain_uuid;
+				$parameters['group_name'] = 'admin';
+				$parameters['group_uuid'] = $group['group_uuid'];
+				$parameters['user_uuid'] = $user_uuid;
 				$database = new database;
-				$database->app_name = 'domain_wizard';
-				$database->app_uuid = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890';
-				$database->save($array);
-				unset($array);
-
-				$p->delete('v_user_groups_add', 'temp');
+				$database->execute($sql, $parameters);
+				unset($sql, $parameters);
 			}
 
 		//assign the user group
@@ -701,22 +695,16 @@ class domain_wizard {
 			unset($sql);
 
 			if (is_array($group) && is_uuid($group['group_uuid'])) {
-				$array['v_user_groups'][0]['user_group_uuid'] = uuid();
-				$array['v_user_groups'][0]['domain_uuid'] = $domain_uuid;
-				$array['v_user_groups'][0]['group_name'] = 'user';
-				$array['v_user_groups'][0]['group_uuid'] = $group['group_uuid'];
-				$array['v_user_groups'][0]['user_uuid'] = $user_uuid;
-
-				$p = new permissions;
-				$p->add('v_user_groups_add', 'temp');
-
+				$sql = "insert into v_user_groups (user_group_uuid, domain_uuid, group_name, group_uuid, user_uuid) ";
+				$sql .= "values (:user_group_uuid, :domain_uuid, :group_name, :group_uuid, :user_uuid) ";
+				$parameters['user_group_uuid'] = uuid();
+				$parameters['domain_uuid'] = $domain_uuid;
+				$parameters['group_name'] = 'user';
+				$parameters['group_uuid'] = $group['group_uuid'];
+				$parameters['user_uuid'] = $user_uuid;
 				$database = new database;
-				$database->app_name = 'domain_wizard';
-				$database->app_uuid = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890';
-				$database->save($array);
-				unset($array);
-
-				$p->delete('v_user_groups_add', 'temp');
+				$database->execute($sql, $parameters);
+				unset($sql, $parameters);
 			}
 
 		return $user_uuid;

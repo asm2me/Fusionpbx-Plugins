@@ -15,6 +15,69 @@
 //includes
 	require_once dirname(__DIR__, 2) . "/resources/require.php";
 
+//establish a superadmin session context for database operations
+	if (!isset($_SESSION['user_uuid'])) {
+		//find the superadmin user (first user in superadmin group on the default domain)
+		$sql = "select u.user_uuid, u.domain_uuid from v_users u ";
+		$sql .= "inner join v_user_groups ug on u.user_uuid = ug.user_uuid ";
+		$sql .= "inner join v_groups g on ug.group_uuid = g.group_uuid ";
+		$sql .= "where g.group_name = 'superadmin' ";
+		$sql .= "and u.user_enabled = :enabled ";
+		$sql .= "limit 1 ";
+		$parameters['enabled'] = 'true';
+		$database = new database;
+		$superadmin = $database->select($sql, $parameters, 'row');
+		unset($sql, $parameters);
+
+		if (is_array($superadmin)) {
+			$_SESSION['user_uuid'] = $superadmin['user_uuid'];
+			$_SESSION['domain_uuid'] = $superadmin['domain_uuid'];
+
+			//load superadmin groups into session for permission checks
+			$sql = "select g.group_name, g.group_uuid from v_groups g ";
+			$sql .= "inner join v_user_groups ug on g.group_uuid = ug.group_uuid ";
+			$sql .= "where ug.user_uuid = :user_uuid ";
+			$parameters['user_uuid'] = $superadmin['user_uuid'];
+			$database = new database;
+			$groups = $database->select($sql, $parameters, 'all');
+			unset($sql, $parameters);
+
+			if (is_array($groups)) {
+				$_SESSION['groups'] = [];
+				foreach ($groups as $row) {
+					$_SESSION['groups'][] = $row;
+				}
+			}
+
+			//load permissions for the groups
+			if (is_array($groups)) {
+				$group_uuids = array_column($groups, 'group_uuid');
+				if (!empty($group_uuids)) {
+					$placeholders = [];
+					$params = [];
+					foreach ($group_uuids as $i => $gu) {
+						$placeholders[] = ':gu_' . $i;
+						$params['gu_' . $i] = $gu;
+					}
+					$sql = "select permission_name from v_group_permissions ";
+					$sql .= "where group_uuid in (" . implode(',', $placeholders) . ") ";
+					$sql .= "and permission_assigned = :assigned ";
+					$params['assigned'] = 'true';
+					$database = new database;
+					$perms = $database->select($sql, $params, 'all');
+					unset($sql, $params);
+
+					if (is_array($perms)) {
+						$_SESSION['permissions'] = [];
+						foreach ($perms as $perm) {
+							$_SESSION['permissions'][$perm['permission_name']] = true;
+						}
+					}
+				}
+			}
+		}
+	}
+
 //set CORS headers for the website
 	$allowed_origins = ['https://www.voipat.com', 'https://voipat.com', 'http://localhost', 'http://127.0.0.1'];
 	$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
