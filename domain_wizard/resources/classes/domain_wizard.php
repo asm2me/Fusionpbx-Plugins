@@ -161,11 +161,8 @@ class domain_wizard {
 	 * @return int   Number of extensions created
 	 */
 	public function clone_extensions($source_uuid, $target_uuid, $count, $start_number = 1000) {
-		//get source extensions as templates
-			$sql = "select * from v_extensions ";
-			$sql .= "where domain_uuid = :domain_uuid ";
-			$sql .= "order by extension asc ";
-			$sql .= "limit 1 ";
+		//get source extension as template
+			$sql = "select * from v_extensions where domain_uuid = :domain_uuid order by extension asc limit 1";
 			$parameters['domain_uuid'] = $source_uuid;
 			$database = new database;
 			$source_ext = $database->select($sql, $parameters, 'row');
@@ -173,64 +170,44 @@ class domain_wizard {
 
 		$created = 0;
 		if (is_array($source_ext)) {
-			$p = new permissions;
-			$p->add('v_extensions_add', 'temp');
-
 			for ($i = 0; $i < $count; $i++) {
 				$ext_number = $start_number + $i;
-				$new_ext_uuid = uuid();
+				$sql = "insert into v_extensions (extension_uuid, domain_uuid, extension, password, ";
+				$sql .= "effective_caller_id_name, effective_caller_id_number, outbound_caller_id_name, outbound_caller_id_number, ";
+				$sql .= "directory_first_name, directory_last_name, directory_visible, directory_exten_visible, ";
+				$sql .= "max_registrations, limit_max, limit_destination, user_context, call_timeout, enabled, description) ";
+				$sql .= "values (:extension_uuid, :domain_uuid, :extension, :password, ";
+				$sql .= ":effective_caller_id_name, :effective_caller_id_number, :outbound_caller_id_name, :outbound_caller_id_number, ";
+				$sql .= ":directory_first_name, :directory_last_name, :directory_visible, :directory_exten_visible, ";
+				$sql .= ":max_registrations, :limit_max, :limit_destination, :user_context, :call_timeout, :enabled, :description) ";
 
-				$array['v_extensions'][0]['extension_uuid'] = $new_ext_uuid;
-				$array['v_extensions'][0]['domain_uuid'] = $target_uuid;
-				$array['v_extensions'][0]['extension'] = (string)$ext_number;
-				$array['v_extensions'][0]['number_alias'] = '';
-				$array['v_extensions'][0]['password'] = bin2hex(random_bytes(6));
-				$array['v_extensions'][0]['accountcode'] = '';
-				$array['v_extensions'][0]['effective_caller_id_name'] = 'Extension ' . $ext_number;
-				$array['v_extensions'][0]['effective_caller_id_number'] = (string)$ext_number;
-				$array['v_extensions'][0]['outbound_caller_id_name'] = $source_ext['outbound_caller_id_name'] ?? '';
-				$array['v_extensions'][0]['outbound_caller_id_number'] = $source_ext['outbound_caller_id_number'] ?? '';
-				$array['v_extensions'][0]['emergency_caller_id_name'] = $source_ext['emergency_caller_id_name'] ?? '';
-				$array['v_extensions'][0]['emergency_caller_id_number'] = $source_ext['emergency_caller_id_number'] ?? '';
-				$array['v_extensions'][0]['directory_first_name'] = 'Extension';
-				$array['v_extensions'][0]['directory_last_name'] = (string)$ext_number;
-				$array['v_extensions'][0]['directory_visible'] = 'true';
-				$array['v_extensions'][0]['directory_exten_visible'] = 'true';
-				$array['v_extensions'][0]['max_registrations'] = $source_ext['max_registrations'] ?? '1';
-				$array['v_extensions'][0]['limit_max'] = $source_ext['limit_max'] ?? '5';
-				$array['v_extensions'][0]['limit_destination'] = $source_ext['limit_destination'] ?? 'error/user_busy';
-				$array['v_extensions'][0]['user_context'] = $target_uuid;
-				$array['v_extensions'][0]['missed_call_app'] = $source_ext['missed_call_app'] ?? '';
-				$array['v_extensions'][0]['missed_call_data'] = $source_ext['missed_call_data'] ?? '';
-				$array['v_extensions'][0]['toll_allow'] = $source_ext['toll_allow'] ?? '';
-				$array['v_extensions'][0]['call_timeout'] = $source_ext['call_timeout'] ?? '30';
-				$array['v_extensions'][0]['call_group'] = $source_ext['call_group'] ?? '';
-				$array['v_extensions'][0]['call_screen_enabled'] = $source_ext['call_screen_enabled'] ?? 'false';
-				$array['v_extensions'][0]['user_record'] = $source_ext['user_record'] ?? '';
-				$array['v_extensions'][0]['hold_music'] = $source_ext['hold_music'] ?? '';
-				$array['v_extensions'][0]['auth_acl'] = $source_ext['auth_acl'] ?? '';
-				$array['v_extensions'][0]['cidr'] = $source_ext['cidr'] ?? '';
-				$array['v_extensions'][0]['sip_force_contact'] = $source_ext['sip_force_contact'] ?? '';
-				$array['v_extensions'][0]['sip_force_expires'] = $source_ext['sip_force_expires'] ?? '';
-				$array['v_extensions'][0]['nibble_account'] = $source_ext['nibble_account'] ?? '';
-				$array['v_extensions'][0]['absolute_codec_string'] = $source_ext['absolute_codec_string'] ?? '';
-				$array['v_extensions'][0]['force_ping'] = $source_ext['force_ping'] ?? '';
-				$array['v_extensions'][0]['dial_string'] = $source_ext['dial_string'] ?? '';
-				$array['v_extensions'][0]['enabled'] = 'true';
-				$array['v_extensions'][0]['description'] = 'Created by Domain Wizard';
+				$parameters = [];
+				$parameters['extension_uuid'] = uuid();
+				$parameters['domain_uuid'] = $target_uuid;
+				$parameters['extension'] = (string)$ext_number;
+				$parameters['password'] = bin2hex(random_bytes(6));
+				$parameters['effective_caller_id_name'] = 'Extension ' . $ext_number;
+				$parameters['effective_caller_id_number'] = (string)$ext_number;
+				$parameters['outbound_caller_id_name'] = $source_ext['outbound_caller_id_name'] ?? '';
+				$parameters['outbound_caller_id_number'] = $source_ext['outbound_caller_id_number'] ?? '';
+				$parameters['directory_first_name'] = 'Extension';
+				$parameters['directory_last_name'] = (string)$ext_number;
+				$parameters['directory_visible'] = 'true';
+				$parameters['directory_exten_visible'] = 'true';
+				$parameters['max_registrations'] = $source_ext['max_registrations'] ?? '1';
+				$parameters['limit_max'] = $source_ext['limit_max'] ?? '5';
+				$parameters['limit_destination'] = $source_ext['limit_destination'] ?? 'error/user_busy';
+				$parameters['user_context'] = $target_uuid;
+				$parameters['call_timeout'] = $source_ext['call_timeout'] ?? '30';
+				$parameters['enabled'] = 'true';
+				$parameters['description'] = 'Created by Domain Wizard';
 
 				$database = new database;
-				$database->app_name = 'domain_wizard';
-				$database->app_uuid = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890';
-				$database->save($array);
-				unset($array);
-
+				$database->execute($sql, $parameters);
+				unset($sql, $parameters);
 				$created++;
 			}
-
-			$p->delete('v_extensions_add', 'temp');
 		}
-
 		return $created;
 	}
 
@@ -242,64 +219,44 @@ class domain_wizard {
 	 * @return int   Number of gateways created
 	 */
 	public function clone_gateways($source_uuid, $target_uuid, $count) {
-		//get source gateways
-			$sql = "select * from v_gateways ";
-			$sql .= "where domain_uuid = :domain_uuid ";
-			$sql .= "order by gateway_uuid asc ";
-			$parameters['domain_uuid'] = $source_uuid;
-			$database = new database;
-			$source_gateways = $database->select($sql, $parameters, 'all');
-			unset($sql, $parameters);
+		$sql = "select * from v_gateways where domain_uuid = :domain_uuid order by gateway_uuid asc";
+		$parameters['domain_uuid'] = $source_uuid;
+		$database = new database;
+		$source_gateways = $database->select($sql, $parameters, 'all');
+		unset($sql, $parameters);
 
 		$created = 0;
 		if (is_array($source_gateways)) {
-			$p = new permissions;
-			$p->add('v_gateways_add', 'temp');
-
 			foreach ($source_gateways as $gw) {
 				if ($created >= $count) break;
 
-				$new_gw_uuid = uuid();
+				$sql = "insert into v_gateways (gateway_uuid, domain_uuid, gateway, username, password, proxy, register, ";
+				$sql .= "expire_seconds, retry_seconds, context, profile, caller_id_in_from, enabled, description) ";
+				$sql .= "values (:gateway_uuid, :domain_uuid, :gateway, :username, :password, :proxy, :register, ";
+				$sql .= ":expire_seconds, :retry_seconds, :context, :profile, :caller_id_in_from, :enabled, :description) ";
 
-				$array['v_gateways'][0]['gateway_uuid'] = $new_gw_uuid;
-				$array['v_gateways'][0]['domain_uuid'] = $target_uuid;
-				$array['v_gateways'][0]['gateway'] = $gw['gateway'] . '_clone';
-				$array['v_gateways'][0]['username'] = $gw['username'] ?? '';
-				$array['v_gateways'][0]['password'] = $gw['password'] ?? '';
-				$array['v_gateways'][0]['from_user'] = $gw['from_user'] ?? '';
-				$array['v_gateways'][0]['from_domain'] = $gw['from_domain'] ?? '';
-				$array['v_gateways'][0]['proxy'] = $gw['proxy'] ?? '';
-				$array['v_gateways'][0]['realm'] = $gw['realm'] ?? '';
-				$array['v_gateways'][0]['expire_seconds'] = $gw['expire_seconds'] ?? '800';
-				$array['v_gateways'][0]['register'] = $gw['register'] ?? 'false';
-				$array['v_gateways'][0]['register_transport'] = $gw['register_transport'] ?? '';
-				$array['v_gateways'][0]['retry_seconds'] = $gw['retry_seconds'] ?? '30';
-				$array['v_gateways'][0]['context'] = $target_uuid;
-				$array['v_gateways'][0]['profile'] = $gw['profile'] ?? 'external';
-				$array['v_gateways'][0]['caller_id_in_from'] = $gw['caller_id_in_from'] ?? 'false';
-				$array['v_gateways'][0]['supress_cng'] = $gw['supress_cng'] ?? '';
-				$array['v_gateways'][0]['sip_cid_type'] = $gw['sip_cid_type'] ?? '';
-				$array['v_gateways'][0]['codec_prefs'] = $gw['codec_prefs'] ?? '';
-				$array['v_gateways'][0]['extension'] = $gw['extension'] ?? '';
-				$array['v_gateways'][0]['extension_in_contact'] = $gw['extension_in_contact'] ?? '';
-				$array['v_gateways'][0]['ping'] = $gw['ping'] ?? '';
-				$array['v_gateways'][0]['channels'] = $gw['channels'] ?? '';
-				$array['v_gateways'][0]['hostname'] = $gw['hostname'] ?? '';
-				$array['v_gateways'][0]['enabled'] = 'false'; //disabled by default for safety
-				$array['v_gateways'][0]['description'] = 'Cloned by Domain Wizard from ' . ($gw['gateway'] ?? '');
+				$parameters = [];
+				$parameters['gateway_uuid'] = uuid();
+				$parameters['domain_uuid'] = $target_uuid;
+				$parameters['gateway'] = ($gw['gateway'] ?? '') . '_clone';
+				$parameters['username'] = $gw['username'] ?? '';
+				$parameters['password'] = $gw['password'] ?? '';
+				$parameters['proxy'] = $gw['proxy'] ?? '';
+				$parameters['register'] = $gw['register'] ?? 'false';
+				$parameters['expire_seconds'] = $gw['expire_seconds'] ?? '800';
+				$parameters['retry_seconds'] = $gw['retry_seconds'] ?? '30';
+				$parameters['context'] = $target_uuid;
+				$parameters['profile'] = $gw['profile'] ?? 'external';
+				$parameters['caller_id_in_from'] = $gw['caller_id_in_from'] ?? 'false';
+				$parameters['enabled'] = 'false';
+				$parameters['description'] = 'Cloned by Domain Wizard';
 
 				$database = new database;
-				$database->app_name = 'domain_wizard';
-				$database->app_uuid = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890';
-				$database->save($array);
-				unset($array);
-
+				$database->execute($sql, $parameters);
+				unset($sql, $parameters);
 				$created++;
 			}
-
-			$p->delete('v_gateways_add', 'temp');
 		}
-
 		return $created;
 	}
 
@@ -309,78 +266,62 @@ class domain_wizard {
 	 * @param string $target_uuid  Target domain UUID
 	 */
 	private function clone_dialplan($source_uuid, $target_uuid) {
-		//get source dialplan entries
-			$sql = "select * from v_dialplans ";
-			$sql .= "where domain_uuid = :domain_uuid ";
-			$sql .= "order by dialplan_order asc ";
-			$parameters['domain_uuid'] = $source_uuid;
-			$database = new database;
-			$source_dialplans = $database->select($sql, $parameters, 'all');
-			unset($sql, $parameters);
+		$sql = "select * from v_dialplans where domain_uuid = :domain_uuid order by dialplan_order asc";
+		$parameters['domain_uuid'] = $source_uuid;
+		$database = new database;
+		$source_dialplans = $database->select($sql, $parameters, 'all');
+		unset($sql, $parameters);
 
 		if (is_array($source_dialplans)) {
-			$p = new permissions;
-			$p->add('v_dialplans_add', 'temp');
-
 			foreach ($source_dialplans as $dp) {
 				$old_dp_uuid = $dp['dialplan_uuid'];
 				$new_dp_uuid = uuid();
 
-				//clone the dialplan
-					$array['v_dialplans'][0]['dialplan_uuid'] = $new_dp_uuid;
-					$array['v_dialplans'][0]['domain_uuid'] = $target_uuid;
-					$array['v_dialplans'][0]['app_uuid'] = $dp['app_uuid'] ?? '';
-					$array['v_dialplans'][0]['dialplan_name'] = $dp['dialplan_name'];
-					$array['v_dialplans'][0]['dialplan_number'] = $dp['dialplan_number'] ?? '';
-					$array['v_dialplans'][0]['dialplan_context'] = $target_uuid;
-					$array['v_dialplans'][0]['dialplan_continue'] = $dp['dialplan_continue'] ?? '';
-					$array['v_dialplans'][0]['dialplan_order'] = $dp['dialplan_order'];
-					$array['v_dialplans'][0]['dialplan_enabled'] = $dp['dialplan_enabled'];
-					$array['v_dialplans'][0]['dialplan_description'] = $dp['dialplan_description'] ?? '';
+				$sql = "insert into v_dialplans (dialplan_uuid, domain_uuid, app_uuid, dialplan_name, dialplan_number, dialplan_context, dialplan_continue, dialplan_order, dialplan_enabled, dialplan_description) ";
+				$sql .= "values (:dialplan_uuid, :domain_uuid, :app_uuid, :dialplan_name, :dialplan_number, :dialplan_context, :dialplan_continue, :dialplan_order, :dialplan_enabled, :dialplan_description) ";
+				$parameters = [];
+				$parameters['dialplan_uuid'] = $new_dp_uuid;
+				$parameters['domain_uuid'] = $target_uuid;
+				$parameters['app_uuid'] = $dp['app_uuid'] ?? '';
+				$parameters['dialplan_name'] = $dp['dialplan_name'];
+				$parameters['dialplan_number'] = $dp['dialplan_number'] ?? '';
+				$parameters['dialplan_context'] = $target_uuid;
+				$parameters['dialplan_continue'] = $dp['dialplan_continue'] ?? '';
+				$parameters['dialplan_order'] = $dp['dialplan_order'];
+				$parameters['dialplan_enabled'] = $dp['dialplan_enabled'];
+				$parameters['dialplan_description'] = $dp['dialplan_description'] ?? '';
+				$database = new database;
+				$database->execute($sql, $parameters);
+				unset($sql, $parameters);
 
-					$database = new database;
-					$database->app_name = 'domain_wizard';
-					$database->app_uuid = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890';
-					$database->save($array);
-					unset($array);
+				//clone details
+				$sql2 = "select * from v_dialplan_details where dialplan_uuid = :dialplan_uuid";
+				$parameters2['dialplan_uuid'] = $old_dp_uuid;
+				$database = new database;
+				$details = $database->select($sql2, $parameters2, 'all');
+				unset($sql2, $parameters2);
 
-				//clone the dialplan details
-					$sql2 = "select * from v_dialplan_details ";
-					$sql2 .= "where dialplan_uuid = :dialplan_uuid ";
-					$parameters2['dialplan_uuid'] = $old_dp_uuid;
-					$database = new database;
-					$details = $database->select($sql2, $parameters2, 'all');
-					unset($sql2, $parameters2);
-
-					if (is_array($details) && sizeof($details) > 0) {
-						$d = 0;
-						foreach ($details as $detail) {
-							$array['v_dialplan_details'][$d]['dialplan_detail_uuid'] = uuid();
-							$array['v_dialplan_details'][$d]['dialplan_uuid'] = $new_dp_uuid;
-							$array['v_dialplan_details'][$d]['domain_uuid'] = $target_uuid;
-							$array['v_dialplan_details'][$d]['dialplan_detail_tag'] = $detail['dialplan_detail_tag'];
-							$array['v_dialplan_details'][$d]['dialplan_detail_type'] = $detail['dialplan_detail_type'];
-							$array['v_dialplan_details'][$d]['dialplan_detail_data'] = $detail['dialplan_detail_data'];
-							$array['v_dialplan_details'][$d]['dialplan_detail_break'] = $detail['dialplan_detail_break'] ?? '';
-							$array['v_dialplan_details'][$d]['dialplan_detail_inline'] = $detail['dialplan_detail_inline'] ?? '';
-							$array['v_dialplan_details'][$d]['dialplan_detail_group'] = $detail['dialplan_detail_group'] ?? '0';
-							$array['v_dialplan_details'][$d]['dialplan_detail_order'] = $detail['dialplan_detail_order'];
-							$array['v_dialplan_details'][$d]['dialplan_detail_enabled'] = $detail['dialplan_detail_enabled'] ?? 'true';
-							$d++;
-						}
-
-						$p2 = new permissions;
-						$p2->add('v_dialplan_details_add', 'temp');
+				if (is_array($details) && sizeof($details) > 0) {
+					foreach ($details as $detail) {
+						$sql = "insert into v_dialplan_details (dialplan_detail_uuid, dialplan_uuid, domain_uuid, dialplan_detail_tag, dialplan_detail_type, dialplan_detail_data, dialplan_detail_break, dialplan_detail_group, dialplan_detail_order, dialplan_detail_enabled) ";
+						$sql .= "values (:dialplan_detail_uuid, :dialplan_uuid, :domain_uuid, :tag, :type, :data, :break, :grp, :ord, :enabled) ";
+						$parameters = [];
+						$parameters['dialplan_detail_uuid'] = uuid();
+						$parameters['dialplan_uuid'] = $new_dp_uuid;
+						$parameters['domain_uuid'] = $target_uuid;
+						$parameters['tag'] = $detail['dialplan_detail_tag'];
+						$parameters['type'] = $detail['dialplan_detail_type'];
+						$parameters['data'] = $detail['dialplan_detail_data'];
+						$parameters['break'] = $detail['dialplan_detail_break'] ?? '';
+						$parameters['grp'] = $detail['dialplan_detail_group'] ?? '0';
+						$parameters['ord'] = $detail['dialplan_detail_order'];
+						$parameters['enabled'] = $detail['dialplan_detail_enabled'] ?? 'true';
 						$database = new database;
-						$database->app_name = 'domain_wizard';
-						$database->app_uuid = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890';
-						$database->save($array);
-						unset($array);
-						$p2->delete('v_dialplan_details_add', 'temp');
+						$database->execute($sql, $parameters);
+						unset($sql, $parameters);
 					}
+				}
 			}
-
-			$p->delete('v_dialplans_add', 'temp');
 		}
 	}
 
@@ -392,99 +333,79 @@ class domain_wizard {
 	 * @return int   Number of IVRs created
 	 */
 	public function clone_ivrs($source_uuid, $target_uuid, $count) {
-		//get source IVR menus
-			$sql = "select * from v_ivr_menus ";
-			$sql .= "where domain_uuid = :domain_uuid ";
-			$sql .= "order by ivr_menu_name asc ";
-			$parameters['domain_uuid'] = $source_uuid;
-			$database = new database;
-			$source_ivrs = $database->select($sql, $parameters, 'all');
-			unset($sql, $parameters);
+		$sql = "select * from v_ivr_menus where domain_uuid = :domain_uuid order by ivr_menu_name asc";
+		$parameters['domain_uuid'] = $source_uuid;
+		$database = new database;
+		$source_ivrs = $database->select($sql, $parameters, 'all');
+		unset($sql, $parameters);
 
 		$created = 0;
 		if (is_array($source_ivrs)) {
-			$p = new permissions;
-			$p->add('v_ivr_menus_add', 'temp');
-
 			foreach ($source_ivrs as $ivr) {
 				if ($created >= $count) break;
-
 				$old_ivr_uuid = $ivr['ivr_menu_uuid'];
 				$new_ivr_uuid = uuid();
 
-				//clone the IVR menu
-					$array['v_ivr_menus'][0]['ivr_menu_uuid'] = $new_ivr_uuid;
-					$array['v_ivr_menus'][0]['domain_uuid'] = $target_uuid;
-					$array['v_ivr_menus'][0]['ivr_menu_name'] = $ivr['ivr_menu_name'];
-					$array['v_ivr_menus'][0]['ivr_menu_extension'] = $ivr['ivr_menu_extension'] ?? '';
-					$array['v_ivr_menus'][0]['ivr_menu_greet_long'] = $ivr['ivr_menu_greet_long'] ?? '';
-					$array['v_ivr_menus'][0]['ivr_menu_greet_short'] = $ivr['ivr_menu_greet_short'] ?? '';
-					$array['v_ivr_menus'][0]['ivr_menu_invalid_sound'] = $ivr['ivr_menu_invalid_sound'] ?? '';
-					$array['v_ivr_menus'][0]['ivr_menu_exit_sound'] = $ivr['ivr_menu_exit_sound'] ?? '';
-					$array['v_ivr_menus'][0]['ivr_menu_confirm_macro'] = $ivr['ivr_menu_confirm_macro'] ?? '';
-					$array['v_ivr_menus'][0]['ivr_menu_confirm_key'] = $ivr['ivr_menu_confirm_key'] ?? '';
-					$array['v_ivr_menus'][0]['ivr_menu_tts_engine'] = $ivr['ivr_menu_tts_engine'] ?? '';
-					$array['v_ivr_menus'][0]['ivr_menu_tts_voice'] = $ivr['ivr_menu_tts_voice'] ?? '';
-					$array['v_ivr_menus'][0]['ivr_menu_confirm_attempts'] = $ivr['ivr_menu_confirm_attempts'] ?? '3';
-					$array['v_ivr_menus'][0]['ivr_menu_timeout'] = $ivr['ivr_menu_timeout'] ?? '3000';
-					$array['v_ivr_menus'][0]['ivr_menu_exit_app'] = $ivr['ivr_menu_exit_app'] ?? '';
-					$array['v_ivr_menus'][0]['ivr_menu_exit_data'] = $ivr['ivr_menu_exit_data'] ?? '';
-					$array['v_ivr_menus'][0]['ivr_menu_inter_digit_timeout'] = $ivr['ivr_menu_inter_digit_timeout'] ?? '2000';
-					$array['v_ivr_menus'][0]['ivr_menu_max_failures'] = $ivr['ivr_menu_max_failures'] ?? '3';
-					$array['v_ivr_menus'][0]['ivr_menu_max_timeouts'] = $ivr['ivr_menu_max_timeouts'] ?? '3';
-					$array['v_ivr_menus'][0]['ivr_menu_digit_len'] = $ivr['ivr_menu_digit_len'] ?? '5';
-					$array['v_ivr_menus'][0]['ivr_menu_direct_dial'] = $ivr['ivr_menu_direct_dial'] ?? 'false';
-					$array['v_ivr_menus'][0]['ivr_menu_ring_back'] = $ivr['ivr_menu_ring_back'] ?? '';
-					$array['v_ivr_menus'][0]['ivr_menu_cid_prefix'] = $ivr['ivr_menu_cid_prefix'] ?? '';
-					$array['v_ivr_menus'][0]['ivr_menu_context'] = $target_uuid;
-					$array['v_ivr_menus'][0]['ivr_menu_enabled'] = $ivr['ivr_menu_enabled'] ?? 'true';
-					$array['v_ivr_menus'][0]['ivr_menu_description'] = 'Cloned by Domain Wizard';
+				$sql = "insert into v_ivr_menus (ivr_menu_uuid, domain_uuid, ivr_menu_name, ivr_menu_extension, ";
+				$sql .= "ivr_menu_greet_long, ivr_menu_greet_short, ivr_menu_timeout, ivr_menu_exit_app, ";
+				$sql .= "ivr_menu_max_failures, ivr_menu_max_timeouts, ivr_menu_digit_len, ivr_menu_direct_dial, ";
+				$sql .= "ivr_menu_context, ivr_menu_enabled, ivr_menu_description) ";
+				$sql .= "values (:ivr_menu_uuid, :domain_uuid, :name, :extension, ";
+				$sql .= ":greet_long, :greet_short, :timeout, :exit_app, ";
+				$sql .= ":max_failures, :max_timeouts, :digit_len, :direct_dial, ";
+				$sql .= ":context, :enabled, :description) ";
 
-					$database = new database;
-					$database->app_name = 'domain_wizard';
-					$database->app_uuid = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890';
-					$database->save($array);
-					unset($array);
+				$parameters = [];
+				$parameters['ivr_menu_uuid'] = $new_ivr_uuid;
+				$parameters['domain_uuid'] = $target_uuid;
+				$parameters['name'] = $ivr['ivr_menu_name'];
+				$parameters['extension'] = $ivr['ivr_menu_extension'] ?? '';
+				$parameters['greet_long'] = $ivr['ivr_menu_greet_long'] ?? '';
+				$parameters['greet_short'] = $ivr['ivr_menu_greet_short'] ?? '';
+				$parameters['timeout'] = $ivr['ivr_menu_timeout'] ?? '3000';
+				$parameters['exit_app'] = $ivr['ivr_menu_exit_app'] ?? '';
+				$parameters['max_failures'] = $ivr['ivr_menu_max_failures'] ?? '3';
+				$parameters['max_timeouts'] = $ivr['ivr_menu_max_timeouts'] ?? '3';
+				$parameters['digit_len'] = $ivr['ivr_menu_digit_len'] ?? '5';
+				$parameters['direct_dial'] = $ivr['ivr_menu_direct_dial'] ?? 'false';
+				$parameters['context'] = $target_uuid;
+				$parameters['enabled'] = $ivr['ivr_menu_enabled'] ?? 'true';
+				$parameters['description'] = 'Cloned by Domain Wizard';
+				$database = new database;
+				$database->execute($sql, $parameters);
+				unset($sql, $parameters);
 
-				//clone IVR menu options
-					$sql2 = "select * from v_ivr_menu_options ";
-					$sql2 .= "where ivr_menu_uuid = :ivr_menu_uuid ";
-					$parameters2['ivr_menu_uuid'] = $old_ivr_uuid;
-					$database = new database;
-					$options = $database->select($sql2, $parameters2, 'all');
-					unset($sql2, $parameters2);
+				//clone options
+				$sql2 = "select * from v_ivr_menu_options where ivr_menu_uuid = :ivr_menu_uuid";
+				$parameters2['ivr_menu_uuid'] = $old_ivr_uuid;
+				$database = new database;
+				$options = $database->select($sql2, $parameters2, 'all');
+				unset($sql2, $parameters2);
 
-					if (is_array($options) && sizeof($options) > 0) {
-						$o = 0;
-						foreach ($options as $opt) {
-							$array['v_ivr_menu_options'][$o]['ivr_menu_option_uuid'] = uuid();
-							$array['v_ivr_menu_options'][$o]['ivr_menu_uuid'] = $new_ivr_uuid;
-							$array['v_ivr_menu_options'][$o]['domain_uuid'] = $target_uuid;
-							$array['v_ivr_menu_options'][$o]['ivr_menu_option_digits'] = $opt['ivr_menu_option_digits'];
-							$array['v_ivr_menu_options'][$o]['ivr_menu_option_action'] = $opt['ivr_menu_option_action'] ?? '';
-							$array['v_ivr_menu_options'][$o]['ivr_menu_option_param'] = $opt['ivr_menu_option_param'] ?? '';
-							$array['v_ivr_menu_options'][$o]['ivr_menu_option_order'] = $opt['ivr_menu_option_order'] ?? '0';
-							$array['v_ivr_menu_options'][$o]['ivr_menu_option_description'] = $opt['ivr_menu_option_description'] ?? '';
-							$array['v_ivr_menu_options'][$o]['ivr_menu_option_enabled'] = $opt['ivr_menu_option_enabled'] ?? 'true';
-							$o++;
-						}
-
-						$p2 = new permissions;
-						$p2->add('v_ivr_menu_options_add', 'temp');
+				if (is_array($options) && sizeof($options) > 0) {
+					foreach ($options as $opt) {
+						$sql = "insert into v_ivr_menu_options (ivr_menu_option_uuid, ivr_menu_uuid, domain_uuid, ";
+						$sql .= "ivr_menu_option_digits, ivr_menu_option_action, ivr_menu_option_param, ";
+						$sql .= "ivr_menu_option_order, ivr_menu_option_description, ivr_menu_option_enabled) ";
+						$sql .= "values (:uuid, :ivr_uuid, :domain_uuid, :digits, :action, :param, :ord, :desc, :enabled) ";
+						$parameters = [];
+						$parameters['uuid'] = uuid();
+						$parameters['ivr_uuid'] = $new_ivr_uuid;
+						$parameters['domain_uuid'] = $target_uuid;
+						$parameters['digits'] = $opt['ivr_menu_option_digits'];
+						$parameters['action'] = $opt['ivr_menu_option_action'] ?? '';
+						$parameters['param'] = $opt['ivr_menu_option_param'] ?? '';
+						$parameters['ord'] = $opt['ivr_menu_option_order'] ?? '0';
+						$parameters['desc'] = $opt['ivr_menu_option_description'] ?? '';
+						$parameters['enabled'] = $opt['ivr_menu_option_enabled'] ?? 'true';
 						$database = new database;
-						$database->app_name = 'domain_wizard';
-						$database->app_uuid = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890';
-						$database->save($array);
-						unset($array);
-						$p2->delete('v_ivr_menu_options_add', 'temp');
+						$database->execute($sql, $parameters);
+						unset($sql, $parameters);
 					}
-
+				}
 				$created++;
 			}
-
-			$p->delete('v_ivr_menus_add', 'temp');
 		}
-
 		return $created;
 	}
 
@@ -496,94 +417,63 @@ class domain_wizard {
 	 * @return int   Number of ring groups created
 	 */
 	public function clone_ring_groups($source_uuid, $target_uuid, $count) {
-		//get source ring groups
-			$sql = "select * from v_ring_groups ";
-			$sql .= "where domain_uuid = :domain_uuid ";
-			$sql .= "order by ring_group_name asc ";
-			$parameters['domain_uuid'] = $source_uuid;
-			$database = new database;
-			$source_rgs = $database->select($sql, $parameters, 'all');
-			unset($sql, $parameters);
+		$sql = "select * from v_ring_groups where domain_uuid = :domain_uuid order by ring_group_name asc";
+		$parameters['domain_uuid'] = $source_uuid;
+		$database = new database;
+		$source_rgs = $database->select($sql, $parameters, 'all');
+		unset($sql, $parameters);
 
 		$created = 0;
 		if (is_array($source_rgs)) {
-			$p = new permissions;
-			$p->add('v_ring_groups_add', 'temp');
-
 			foreach ($source_rgs as $rg) {
 				if ($created >= $count) break;
-
 				$old_rg_uuid = $rg['ring_group_uuid'];
 				$new_rg_uuid = uuid();
 
-				//clone the ring group
-					$array['v_ring_groups'][0]['ring_group_uuid'] = $new_rg_uuid;
-					$array['v_ring_groups'][0]['domain_uuid'] = $target_uuid;
-					$array['v_ring_groups'][0]['ring_group_name'] = $rg['ring_group_name'];
-					$array['v_ring_groups'][0]['ring_group_extension'] = $rg['ring_group_extension'] ?? '';
-					$array['v_ring_groups'][0]['ring_group_greeting'] = $rg['ring_group_greeting'] ?? '';
-					$array['v_ring_groups'][0]['ring_group_context'] = $target_uuid;
-					$array['v_ring_groups'][0]['ring_group_strategy'] = $rg['ring_group_strategy'] ?? 'simultaneous';
-					$array['v_ring_groups'][0]['ring_group_timeout_app'] = $rg['ring_group_timeout_app'] ?? '';
-					$array['v_ring_groups'][0]['ring_group_timeout_data'] = $rg['ring_group_timeout_data'] ?? '';
-					$array['v_ring_groups'][0]['ring_group_call_timeout'] = $rg['ring_group_call_timeout'] ?? '30';
-					$array['v_ring_groups'][0]['ring_group_caller_id_name'] = $rg['ring_group_caller_id_name'] ?? '';
-					$array['v_ring_groups'][0]['ring_group_caller_id_number'] = $rg['ring_group_caller_id_number'] ?? '';
-					$array['v_ring_groups'][0]['ring_group_cid_name_prefix'] = $rg['ring_group_cid_name_prefix'] ?? '';
-					$array['v_ring_groups'][0]['ring_group_cid_number_prefix'] = $rg['ring_group_cid_number_prefix'] ?? '';
-					$array['v_ring_groups'][0]['ring_group_distinctive_ring'] = $rg['ring_group_distinctive_ring'] ?? '';
-					$array['v_ring_groups'][0]['ring_group_ring_back'] = $rg['ring_group_ring_back'] ?? '';
-					$array['v_ring_groups'][0]['ring_group_follow_me_enabled'] = $rg['ring_group_follow_me_enabled'] ?? 'false';
-					$array['v_ring_groups'][0]['ring_group_missed_call_app'] = $rg['ring_group_missed_call_app'] ?? '';
-					$array['v_ring_groups'][0]['ring_group_missed_call_data'] = $rg['ring_group_missed_call_data'] ?? '';
-					$array['v_ring_groups'][0]['ring_group_forward_enabled'] = $rg['ring_group_forward_enabled'] ?? 'false';
-					$array['v_ring_groups'][0]['ring_group_forward_destination'] = $rg['ring_group_forward_destination'] ?? '';
-					$array['v_ring_groups'][0]['ring_group_forward_toll_allow'] = $rg['ring_group_forward_toll_allow'] ?? '';
-					$array['v_ring_groups'][0]['ring_group_enabled'] = $rg['ring_group_enabled'] ?? 'true';
-					$array['v_ring_groups'][0]['ring_group_description'] = 'Cloned by Domain Wizard';
+				$sql = "insert into v_ring_groups (ring_group_uuid, domain_uuid, ring_group_name, ring_group_extension, ";
+				$sql .= "ring_group_context, ring_group_strategy, ring_group_call_timeout, ring_group_enabled, ring_group_description) ";
+				$sql .= "values (:ring_group_uuid, :domain_uuid, :name, :extension, :context, :strategy, :call_timeout, :enabled, :description) ";
+				$parameters = [];
+				$parameters['ring_group_uuid'] = $new_rg_uuid;
+				$parameters['domain_uuid'] = $target_uuid;
+				$parameters['name'] = $rg['ring_group_name'];
+				$parameters['extension'] = $rg['ring_group_extension'] ?? '';
+				$parameters['context'] = $target_uuid;
+				$parameters['strategy'] = $rg['ring_group_strategy'] ?? 'simultaneous';
+				$parameters['call_timeout'] = $rg['ring_group_call_timeout'] ?? '30';
+				$parameters['enabled'] = $rg['ring_group_enabled'] ?? 'true';
+				$parameters['description'] = 'Cloned by Domain Wizard';
+				$database = new database;
+				$database->execute($sql, $parameters);
+				unset($sql, $parameters);
 
-					$database = new database;
-					$database->app_name = 'domain_wizard';
-					$database->app_uuid = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890';
-					$database->save($array);
-					unset($array);
+				//clone destinations
+				$sql2 = "select * from v_ring_group_destinations where ring_group_uuid = :ring_group_uuid";
+				$parameters2['ring_group_uuid'] = $old_rg_uuid;
+				$database = new database;
+				$destinations = $database->select($sql2, $parameters2, 'all');
+				unset($sql2, $parameters2);
 
-				//clone ring group destinations
-					$sql2 = "select * from v_ring_group_destinations ";
-					$sql2 .= "where ring_group_uuid = :ring_group_uuid ";
-					$parameters2['ring_group_uuid'] = $old_rg_uuid;
-					$database = new database;
-					$destinations = $database->select($sql2, $parameters2, 'all');
-					unset($sql2, $parameters2);
-
-					if (is_array($destinations) && sizeof($destinations) > 0) {
-						$d = 0;
-						foreach ($destinations as $dest) {
-							$array['v_ring_group_destinations'][$d]['ring_group_destination_uuid'] = uuid();
-							$array['v_ring_group_destinations'][$d]['ring_group_uuid'] = $new_rg_uuid;
-							$array['v_ring_group_destinations'][$d]['domain_uuid'] = $target_uuid;
-							$array['v_ring_group_destinations'][$d]['destination_number'] = $dest['destination_number'] ?? '';
-							$array['v_ring_group_destinations'][$d]['destination_delay'] = $dest['destination_delay'] ?? '0';
-							$array['v_ring_group_destinations'][$d]['destination_timeout'] = $dest['destination_timeout'] ?? '30';
-							$array['v_ring_group_destinations'][$d]['destination_prompt'] = $dest['destination_prompt'] ?? '';
-							$array['v_ring_group_destinations'][$d]['destination_enabled'] = $dest['destination_enabled'] ?? 'true';
-							$d++;
-						}
-
-						$p2 = new permissions;
-						$p2->add('v_ring_group_destinations_add', 'temp');
+				if (is_array($destinations) && sizeof($destinations) > 0) {
+					foreach ($destinations as $dest) {
+						$sql = "insert into v_ring_group_destinations (ring_group_destination_uuid, ring_group_uuid, domain_uuid, ";
+						$sql .= "destination_number, destination_delay, destination_timeout, destination_enabled) ";
+						$sql .= "values (:uuid, :rg_uuid, :domain_uuid, :number, :delay, :timeout, :enabled) ";
+						$parameters = [];
+						$parameters['uuid'] = uuid();
+						$parameters['rg_uuid'] = $new_rg_uuid;
+						$parameters['domain_uuid'] = $target_uuid;
+						$parameters['number'] = $dest['destination_number'] ?? '';
+						$parameters['delay'] = $dest['destination_delay'] ?? '0';
+						$parameters['timeout'] = $dest['destination_timeout'] ?? '30';
+						$parameters['enabled'] = $dest['destination_enabled'] ?? 'true';
 						$database = new database;
-						$database->app_name = 'domain_wizard';
-						$database->app_uuid = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890';
-						$database->save($array);
-						unset($array);
-						$p2->delete('v_ring_group_destinations_add', 'temp');
+						$database->execute($sql, $parameters);
+						unset($sql, $parameters);
 					}
-
+				}
 				$created++;
 			}
-
-			$p->delete('v_ring_groups_add', 'temp');
 		}
 
 		return $created;
