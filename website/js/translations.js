@@ -975,18 +975,18 @@ const i18n = {
       }
     });
 
-    // Update active flag in language bar
-    document.querySelectorAll('.lang-flag').forEach(flag => {
-      flag.classList.toggle('active', flag.dataset.lang === lang);
+    // Update active item in language bar
+    document.querySelectorAll('.lang-item').forEach(item => {
+      item.classList.toggle('active', item.dataset.lang === lang);
     });
   },
 
   buildSwitcher() {
-    // Bind click events to the static flag elements in the language bar
-    document.querySelectorAll('.lang-flag').forEach(flag => {
-      flag.addEventListener('click', (e) => {
+    // Bind click events to the language bar items
+    document.querySelectorAll('.lang-item').forEach(item => {
+      item.addEventListener('click', (e) => {
         e.preventDefault();
-        this.currentLang = flag.dataset.lang;
+        this.currentLang = item.dataset.lang;
         this.apply();
       });
     });
