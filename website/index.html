@@ -27,46 +27,74 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://flagcdn.com">
-    <!-- Critical above-the-fold CSS inlined to eliminate render-blocking -->
+    <!-- Critical above-the-fold CSS inlined — matches styles.css exactly -->
     <style>
-    :root{--primary:#7C3AED;--primary-light:#A78BFA;--text:#1F2937;--white:#ffffff;--gray-200:#E5E7EB;--gray-400:#6B7280;--gray-900:#111827;--shadow-sm:0 1px 2px rgba(0,0,0,0.05);--transition:all 0.3s ease}
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--text);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-    .container{max-width:1200px;margin:0 auto;padding:0 24px}
-    .lang-bar{background:#fff;border-bottom:1px solid var(--gray-200);position:fixed;top:0;left:0;right:0;z-index:1001;height:36px;overflow-x:auto;overflow-y:hidden}
-    .lang-bar::-webkit-scrollbar{display:none}
-    .lang-bar-inner{display:flex;align-items:center;justify-content:center;gap:0;height:36px;white-space:nowrap}
-    .lang-item{display:inline-flex;align-items:center;gap:0.3rem;padding:0.3rem 0.7rem;color:#4b5563;text-decoration:none;font-size:0.78rem;font-weight:500;border-bottom:2px solid transparent;height:36px;box-sizing:border-box}
-    .lang-item.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:600}
-    .lang-flag-img{display:inline-block;vertical-align:middle;border-radius:2px}
-    .navbar{position:fixed;top:36px;left:0;right:0;z-index:1000;padding:16px 0;background:transparent;transition:var(--transition)}
-    .navbar.scrolled{background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--gray-200);padding:10px 0;box-shadow:var(--shadow-sm)}
-    .nav-container{display:flex;align-items:center;justify-content:space-between}
-    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:1.25rem;color:var(--text)}
-    .logo-icon{color:var(--primary);font-size:1.5rem}
-    .logo-at{color:var(--primary)}
-    .nav-links{display:flex;list-style:none;gap:32px}
-    .nav-links a{text-decoration:none;color:var(--text);font-weight:500;font-size:0.9375rem}
-    .nav-actions{display:flex;align-items:center;gap:12px}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;font-weight:600;font-size:0.9375rem;text-decoration:none;transition:var(--transition);border:2px solid transparent;cursor:pointer;font-family:inherit}
-    .btn-primary{background:var(--primary);color:var(--white);border-color:var(--primary)}
-    .btn-ghost{color:var(--text);border-color:var(--gray-200)}
-    .btn-lg{padding:14px 28px;font-size:1rem}
-    .btn-outline{color:var(--white);border-color:rgba(255,255,255,0.3)}
-    .hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:150px 0 80px;overflow:hidden}
-    .hero-bg{position:absolute;top:0;left:0;right:0;bottom:0;z-index:0}
-    .hero-gradient{position:absolute;inset:0;background:radial-gradient(ellipse at 80% 30%,rgba(108,43,217,0.08) 0%,transparent 70%);pointer-events:none;contain:strict}
-    .hero-content{position:relative;z-index:1;max-width:680px}
-    .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.15);border-radius:50px;font-size:0.875rem;font-weight:500;color:var(--primary);margin-bottom:24px}
-    h1{font-size:3.5rem;line-height:1.1;font-weight:800;letter-spacing:-0.02em;margin-bottom:24px}
-    .gradient-text{background:linear-gradient(135deg,var(--primary),#EC4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    .hero-subtitle{font-size:1.25rem;color:var(--gray-400);line-height:1.7;margin-bottom:32px;max-width:560px}
-    .hero-cta{display:flex;gap:16px;margin-bottom:48px}
-    .hero-stats{display:flex;gap:48px}
-    .stat-number{display:block;font-size:1.75rem;font-weight:800;color:var(--text)}
-    .stat-label{font-size:0.8125rem;color:var(--gray-400)}
-    .hamburger{display:none}
-    @media(max-width:768px){.nav-links,.nav-actions{display:none}.hamburger{display:flex}h1{font-size:2rem}.hero{padding:100px 0 60px}.hero-stats{flex-wrap:wrap;gap:24px}.hero-cta{flex-direction:column}}
+:root{--primary:#6C2BD9;--primary-light:#8B5CF6;--primary-dark:#5B21B6;--primary-50:#F5F3FF;--primary-100:#EDE9FE;--accent:#06B6D4;--gray-50:#F9FAFB;--gray-100:#F3F4F6;--gray-200:#E5E7EB;--gray-300:#D1D5DB;--gray-400:#6B7280;--gray-500:#6B7280;--gray-600:#4B5563;--gray-700:#374151;--gray-800:#1F2937;--gray-900:#111827;--white:#FFFFFF;--radius-sm:8px;--radius-lg:16px;--shadow-sm:0 1px 2px rgba(0,0,0,0.05);--shadow-md:0 10px 15px -3px rgba(0,0,0,0.1);--transition:all 0.3s ease}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--gray-800);line-height:1.6;background:var(--white);overflow-x:hidden}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;color:var(--gray-900)}
+h1{font-size:3.5rem}
+.gradient-text{background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.lang-bar{background:#fff;border-bottom:1px solid var(--gray-200);position:fixed;top:0;left:0;right:0;z-index:1001;height:36px;overflow-x:auto;overflow-y:hidden}
+.lang-bar::-webkit-scrollbar{display:none}
+.lang-bar-inner{display:flex;align-items:center;justify-content:center;gap:0;height:36px;white-space:nowrap}
+.lang-item{display:inline-flex;align-items:center;gap:0.3rem;padding:0.3rem 0.7rem;color:#4b5563;text-decoration:none;font-size:0.78rem;font-weight:500;border-bottom:2px solid transparent;height:36px;box-sizing:border-box;transition:all 0.15s}
+.lang-item.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:600}
+.lang-flag-img{display:inline-block;vertical-align:middle;border-radius:2px;box-shadow:0 0 1px rgba(0,0,0,0.2)}
+.navbar{position:fixed;top:36px;left:0;right:0;z-index:1000;padding:16px 0;transition:var(--transition);background:transparent}
+.navbar.scrolled{background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--gray-200);padding:10px 0;box-shadow:var(--shadow-sm)}
+.nav-container{display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{font-size:1.75rem;color:var(--primary)}
+.logo-text{font-size:1.5rem;font-weight:800;color:var(--gray-900)}
+.logo-at{color:var(--primary)}
+.nav-links{display:flex;list-style:none;gap:32px}
+.nav-links a{text-decoration:none;color:var(--gray-600);font-weight:500;font-size:0.9375rem;transition:var(--transition)}
+.nav-actions{display:flex;align-items:center;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 24px;border-radius:var(--radius-sm);font-weight:600;font-size:0.9375rem;text-decoration:none;border:2px solid transparent;cursor:pointer;transition:var(--transition);white-space:nowrap;font-family:inherit}
+.btn-primary{background:var(--primary);color:var(--white);border-color:var(--primary)}
+.btn-outline{background:transparent;color:var(--primary);border-color:var(--primary)}
+.btn-ghost{background:transparent;color:var(--gray-700);border-color:transparent}
+.btn-lg{padding:14px 32px;font-size:1rem}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px}
+.hamburger span{display:block;width:24px;height:2px;background:var(--gray-700);transition:var(--transition)}
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:150px 0 80px;overflow:hidden}
+.hero-bg{position:absolute;top:0;left:0;right:0;bottom:0;z-index:0}
+.hero-gradient{position:absolute;inset:0;background:radial-gradient(ellipse at 80% 30%,rgba(108,43,217,0.08) 0%,transparent 70%);pointer-events:none;contain:strict}
+.hero-particles{position:absolute;top:0;left:0;right:0;bottom:0}
+.hero-content{position:relative;z-index:1;text-align:center;max-width:800px;margin:0 auto}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;background:var(--primary-50);color:var(--primary);border-radius:50px;font-size:0.875rem;font-weight:600;margin-bottom:2rem;border:1px solid var(--primary-100)}
+.hero h1{margin-bottom:1.5rem;letter-spacing:-0.02em}
+.hero-subtitle{font-size:1.25rem;color:var(--gray-500);max-width:600px;margin:0 auto 2.5rem;line-height:1.7}
+.hero-cta{display:flex;gap:16px;justify-content:center;margin-bottom:3rem}
+.hero-stats{display:flex;justify-content:center;gap:48px;padding-top:2rem;border-top:1px solid var(--gray-200)}
+.stat{display:flex;flex-direction:column}
+.stat-number{font-size:2rem;font-weight:800;color:var(--primary)}
+.stat-label{font-size:0.875rem;color:var(--gray-500);font-weight:500}
+.hero-visual{position:relative;z-index:1;margin-top:4rem;display:flex;justify-content:center}
+@media(max-width:768px){.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--white);flex-direction:column;padding:16px 24px;gap:16px;border-bottom:1px solid var(--gray-200);box-shadow:var(--shadow-md)}.nav-links.active{display:flex}.hamburger{display:flex}.nav-actions .btn-ghost{display:none}.hero{min-height:auto;padding:100px 0 60px}.hero-cta{flex-direction:column;align-items:center}.hero-stats{flex-wrap:wrap;gap:24px}}
+@media(max-width:480px){h1{font-size:1.75rem}.container{padding:0 16px}.hero-stats{gap:16px}.stat-number{font-size:1.5rem}}
+.dashboard-preview{background:var(--white);border-radius:var(--radius-lg);box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);border:1px solid var(--gray-200);width:100%;max-width:700px;overflow:hidden}
+.preview-header{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--gray-50);border-bottom:1px solid var(--gray-200)}
+.preview-dots{display:flex;gap:6px}
+.preview-dots span{width:10px;height:10px;border-radius:50%;background:var(--gray-300)}
+.preview-dots span:first-child{background:#EF4444}.preview-dots span:nth-child(2){background:#F59E0B}.preview-dots span:last-child{background:#10B981}
+.preview-url{font-size:0.75rem;color:var(--gray-500);background:var(--white);padding:4px 12px;border-radius:4px;border:1px solid var(--gray-200);flex:1;text-align:center}
+.preview-body{display:flex;min-height:180px}
+.preview-sidebar{width:50px;background:#2E1065;display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:4px}
+.sidebar-item{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.75);font-size:0.875rem}
+.sidebar-item.active{background:var(--primary);color:var(--white)}
+.preview-content{flex:1;padding:20px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-content:start}
+.preview-card{display:flex;gap:12px;align-items:center;padding:16px;background:var(--gray-50);border-radius:var(--radius-sm);border:1px solid var(--gray-200)}
+.card-icon{width:40px;height:40px;border-radius:8px;background:var(--primary-100);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:1rem}
+.card-icon.green{background:#D1FAE5;color:#047857}
+.card-icon.orange{background:#FEF3C7;color:#92400E}
+.card-title{font-size:0.75rem;color:var(--gray-500)}
+.card-value{font-size:1.25rem;font-weight:700;color:var(--gray-900)}
+.card-info{display:flex;flex-direction:column}
+@media(max-width:768px){.preview-content{grid-template-columns:1fr}}
     </style>
     <!-- Defer full stylesheet -->
     <link rel="stylesheet" href="css/styles.min.css" media="print" onload="this.media='all'">
@@ -88,16 +116,16 @@
 <!-- Language Bar -->
 <div class="lang-bar">
     <div class="container lang-bar-inner">
-        <a href="#" class="lang-item active" data-lang="en"><img class="lang-flag-img" src="https://flagcdn.com/w20/gb.png" width="20" height="10" alt="English"> English</a>
-        <a href="#" class="lang-item" data-lang="ar"><img class="lang-flag-img" src="https://flagcdn.com/w20/sa.png" width="20" height="13" alt="العربية"> العربية</a>
-        <a href="#" class="lang-item" data-lang="es"><img class="lang-flag-img" src="https://flagcdn.com/w20/es.png" width="20" height="13" alt="Español"> Español</a>
-        <a href="#" class="lang-item" data-lang="fr"><img class="lang-flag-img" src="https://flagcdn.com/w20/fr.png" width="20" height="13" alt="Français"> Français</a>
-        <a href="#" class="lang-item" data-lang="de"><img class="lang-flag-img" src="https://flagcdn.com/w20/de.png" width="20" height="12" alt="Deutsch"> Deutsch</a>
-        <a href="#" class="lang-item" data-lang="pt"><img class="lang-flag-img" src="https://flagcdn.com/w20/br.png" width="20" height="14" alt="Português"> Português</a>
-        <a href="#" class="lang-item" data-lang="zh"><img class="lang-flag-img" src="https://flagcdn.com/w20/cn.png" width="20" height="13" alt="中文"> 中文</a>
-        <a href="#" class="lang-item" data-lang="ja"><img class="lang-flag-img" src="https://flagcdn.com/w20/jp.png" width="20" height="13" alt="日本語"> 日本語</a>
-        <a href="#" class="lang-item" data-lang="tr"><img class="lang-flag-img" src="https://flagcdn.com/w20/tr.png" width="20" height="13" alt="Türkçe"> Türkçe</a>
-        <a href="#" class="lang-item" data-lang="ru"><img class="lang-flag-img" src="https://flagcdn.com/w20/ru.png" width="20" height="13" alt="Русский"> Русский</a>
+        <a href="#" class="lang-item active" data-lang="en"><img class="lang-flag-img" src="https://flagcdn.com/w40/gb.png" width="20" height="10" alt="English"> English</a>
+        <a href="#" class="lang-item" data-lang="ar"><img class="lang-flag-img" src="https://flagcdn.com/w40/sa.png" width="20" height="13" alt="العربية"> العربية</a>
+        <a href="#" class="lang-item" data-lang="es"><img class="lang-flag-img" src="https://flagcdn.com/w40/es.png" width="20" height="13" alt="Español"> Español</a>
+        <a href="#" class="lang-item" data-lang="fr"><img class="lang-flag-img" src="https://flagcdn.com/w40/fr.png" width="20" height="13" alt="Français"> Français</a>
+        <a href="#" class="lang-item" data-lang="de"><img class="lang-flag-img" src="https://flagcdn.com/w40/de.png" width="20" height="12" alt="Deutsch"> Deutsch</a>
+        <a href="#" class="lang-item" data-lang="pt"><img class="lang-flag-img" src="https://flagcdn.com/w40/br.png" width="20" height="14" alt="Português"> Português</a>
+        <a href="#" class="lang-item" data-lang="zh"><img class="lang-flag-img" src="https://flagcdn.com/w40/cn.png" width="20" height="13" alt="中文"> 中文</a>
+        <a href="#" class="lang-item" data-lang="ja"><img class="lang-flag-img" src="https://flagcdn.com/w40/jp.png" width="20" height="13" alt="日本語"> 日本語</a>
+        <a href="#" class="lang-item" data-lang="tr"><img class="lang-flag-img" src="https://flagcdn.com/w40/tr.png" width="20" height="13" alt="Türkçe"> Türkçe</a>
+        <a href="#" class="lang-item" data-lang="ru"><img class="lang-flag-img" src="https://flagcdn.com/w40/ru.png" width="20" height="13" alt="Русский"> Русский</a>
     </div>
 </div>
 
