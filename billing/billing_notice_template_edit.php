@@ -95,14 +95,27 @@
 			$array['v_billing_notice_templates'][0]['template_uuid'] = $template_uuid;
 		}
 
-		$p = new permissions;
-		$p->add('v_billing_notice_templates_'.($action == 'add' ? 'add' : 'edit'), 'temp');
+		//save using direct SQL
+		if ($action == 'add') {
+			$sql = "insert into v_billing_notice_templates (template_uuid, template_name, notice_type, subject, body_html, body_text, variables_json, enabled, add_date) ";
+			$sql .= "values (:template_uuid, :template_name, :notice_type, :subject, :body_html, :body_text, :variables_json, :enabled, :add_date) ";
+			$parameters['add_date'] = date('Y-m-d H:i:s');
+		}
+		else {
+			$sql = "update v_billing_notice_templates set template_name = :template_name, notice_type = :notice_type, subject = :subject, body_html = :body_html, body_text = :body_text, variables_json = :variables_json, enabled = :enabled ";
+			$sql .= "where template_uuid = :template_uuid ";
+		}
+		$parameters['template_uuid'] = $template_uuid;
+		$parameters['template_name'] = $template_name;
+		$parameters['notice_type'] = $notice_type;
+		$parameters['subject'] = $subject;
+		$parameters['body_html'] = $body_html;
+		$parameters['body_text'] = $body_text;
+		$parameters['variables_json'] = $default_variables;
+		$parameters['enabled'] = $enabled;
 		$database = new database;
-		$database->app_name = 'billing';
-		$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
-		$database->save($array);
-		unset($array);
-		$p->delete('v_billing_notice_template_'.($action == 'add' ? 'add' : 'edit'), 'temp');
+		$database->execute($sql, $parameters);
+		unset($sql, $parameters, $array);
 
 		message::add($text['message-saved']);
 		header('Location: billing_notice_templates.php');

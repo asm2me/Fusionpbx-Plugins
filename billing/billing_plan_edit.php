@@ -72,15 +72,33 @@
 			$array['v_billing_plans'][0]['plan_uuid'] = $plan_uuid;
 		}
 
-		//save to the database
-		$p = new permissions;
-		$p->add('v_billing_plans_'.($action == 'add' ? 'add' : 'edit'), 'temp');
+		//save to the database using direct SQL for reliability
+		if ($action == 'add') {
+			$sql = "insert into v_billing_plans (plan_uuid, plan_name, description, price, currency, billing_cycle, max_extensions, max_gateways, max_ivrs, max_call_recordings, max_ring_groups, features_json, enabled, add_date, add_user) ";
+			$sql .= "values (:plan_uuid, :plan_name, :description, :price, :currency, :billing_cycle, :max_extensions, :max_gateways, :max_ivrs, :max_call_recordings, :max_ring_groups, :features_json, :enabled, :add_date, :add_user) ";
+			$parameters['add_date'] = date('Y-m-d H:i:s');
+			$parameters['add_user'] = $_SESSION['user_uuid'];
+		}
+		else {
+			$sql = "update v_billing_plans set plan_name = :plan_name, description = :description, price = :price, currency = :currency, billing_cycle = :billing_cycle, max_extensions = :max_extensions, max_gateways = :max_gateways, max_ivrs = :max_ivrs, max_call_recordings = :max_call_recordings, max_ring_groups = :max_ring_groups, features_json = :features_json, enabled = :enabled ";
+			$sql .= "where plan_uuid = :plan_uuid ";
+		}
+		$parameters['plan_uuid'] = $plan_uuid;
+		$parameters['plan_name'] = $plan_name;
+		$parameters['description'] = $description;
+		$parameters['price'] = $price;
+		$parameters['currency'] = $currency;
+		$parameters['billing_cycle'] = $billing_cycle;
+		$parameters['max_extensions'] = $max_extensions;
+		$parameters['max_gateways'] = $max_gateways;
+		$parameters['max_ivrs'] = $max_ivrs;
+		$parameters['max_call_recordings'] = $max_call_recordings;
+		$parameters['max_ring_groups'] = $max_ring_groups;
+		$parameters['features_json'] = $features_json;
+		$parameters['enabled'] = $enabled;
 		$database = new database;
-		$database->app_name = 'billing';
-		$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
-		$database->save($array);
-		unset($array);
-		$p->delete('v_billing_plan_'.($action == 'add' ? 'add' : 'edit'), 'temp');
+		$database->execute($sql, $parameters);
+		unset($sql, $parameters, $array);
 
 		//redirect
 		message::add($text['message-saved']);

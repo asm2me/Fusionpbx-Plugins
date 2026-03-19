@@ -78,15 +78,32 @@
 			$billing->activate_domain($domain_uuid);
 		}
 
-		//save
-		$p = new permissions;
-		$p->add('v_billing_subscriptions_'.($action == 'add' ? 'add' : 'edit'), 'temp');
+		//save to the database using direct SQL
+		if ($action == 'add') {
+			$sql = "insert into v_billing_subscriptions (subscription_uuid, domain_uuid, plan_uuid, reseller_uuid, status, start_date, end_date, next_billing_date, auto_renew, trial_ends_at, add_date, add_user, mod_date, mod_user) ";
+			$sql .= "values (:subscription_uuid, :domain_uuid, :plan_uuid, :reseller_uuid, :status, :start_date, :end_date, :next_billing_date, :auto_renew, :trial_ends_at, :add_date, :add_user, :mod_date, :mod_user) ";
+			$parameters['add_date'] = date('Y-m-d H:i:s');
+			$parameters['add_user'] = $_SESSION['user_uuid'];
+		}
+		else {
+			$sql = "update v_billing_subscriptions set domain_uuid = :domain_uuid, plan_uuid = :plan_uuid, reseller_uuid = :reseller_uuid, status = :status, start_date = :start_date, end_date = :end_date, next_billing_date = :next_billing_date, auto_renew = :auto_renew, trial_ends_at = :trial_ends_at, mod_date = :mod_date, mod_user = :mod_user ";
+			$sql .= "where subscription_uuid = :subscription_uuid ";
+		}
+		$parameters['subscription_uuid'] = $subscription_uuid;
+		$parameters['domain_uuid'] = $domain_uuid;
+		$parameters['plan_uuid'] = $plan_uuid;
+		$parameters['reseller_uuid'] = !empty($reseller_uuid) ? $reseller_uuid : null;
+		$parameters['status'] = $status;
+		$parameters['start_date'] = $start_date;
+		$parameters['end_date'] = $end_date;
+		$parameters['next_billing_date'] = $next_billing_date;
+		$parameters['auto_renew'] = $auto_renew;
+		$parameters['trial_ends_at'] = !empty($trial_ends_at) ? $trial_ends_at : null;
+		$parameters['mod_date'] = date('Y-m-d H:i:s');
+		$parameters['mod_user'] = $_SESSION['user_uuid'];
 		$database = new database;
-		$database->app_name = 'billing';
-		$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
-		$database->save($array);
-		unset($array);
-		$p->delete('v_billing_subscription_'.($action == 'add' ? 'add' : 'edit'), 'temp');
+		$database->execute($sql, $parameters);
+		unset($sql, $parameters, $array);
 
 		message::add($text['message-saved']);
 		header('Location: billing_subscriptions.php');

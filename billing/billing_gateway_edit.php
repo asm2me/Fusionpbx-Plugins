@@ -124,14 +124,29 @@
 			$array['v_billing_payment_gateways'][0]['gateway_uuid'] = $gateway_uuid;
 		}
 
-		$p = new permissions;
-		$p->add('v_billing_payment_gateways_'.($action == 'add' ? 'add' : 'edit'), 'temp');
+		//save using direct SQL
+		$gw = $array['v_billing_payment_gateways'][0];
+		if ($action == 'add') {
+			$sql = "insert into v_billing_payment_gateways (gateway_uuid, gateway_name, display_name, api_key_encrypted, api_secret_encrypted, webhook_secret, sandbox_mode, enabled, config_json, add_date) ";
+			$sql .= "values (:gateway_uuid, :gateway_name, :display_name, :api_key_encrypted, :api_secret_encrypted, :webhook_secret, :sandbox_mode, :enabled, :config_json, :add_date) ";
+			$parameters['add_date'] = date('Y-m-d H:i:s');
+		}
+		else {
+			$sql = "update v_billing_payment_gateways set gateway_name = :gateway_name, display_name = :display_name, api_key_encrypted = :api_key_encrypted, api_secret_encrypted = :api_secret_encrypted, webhook_secret = :webhook_secret, sandbox_mode = :sandbox_mode, enabled = :enabled, config_json = :config_json ";
+			$sql .= "where gateway_uuid = :gateway_uuid ";
+		}
+		$parameters['gateway_uuid'] = $gateway_uuid;
+		$parameters['gateway_name'] = $gw['gateway_name'];
+		$parameters['display_name'] = $gw['display_name'];
+		$parameters['api_key_encrypted'] = $gw['api_key_encrypted'] ?? '';
+		$parameters['api_secret_encrypted'] = $gw['api_secret_encrypted'] ?? '';
+		$parameters['webhook_secret'] = $gw['webhook_secret'] ?? '';
+		$parameters['sandbox_mode'] = $gw['sandbox_mode'];
+		$parameters['enabled'] = $gw['enabled'];
+		$parameters['config_json'] = $gw['config_json'] ?? '';
 		$database = new database;
-		$database->app_name = 'billing';
-		$database->app_uuid = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
-		$database->save($array);
-		unset($array);
-		$p->delete('v_billing_payment_gateway_'.($action == 'add' ? 'add' : 'edit'), 'temp');
+		$database->execute($sql, $parameters);
+		unset($sql, $parameters, $array);
 
 		message::add($text['message-saved']);
 		header('Location: billing_gateways.php');
