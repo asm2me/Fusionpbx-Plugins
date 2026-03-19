@@ -7,6 +7,22 @@
     <meta name="description" content="VOIP@ Cloud - Professional cloud PBX platform with instant domain provisioning, smart IVR, call recording, and enterprise features. Start your free trial today.">
     <meta name="keywords" content="cloud PBX, VoIP, business phone system, call center, IVR, SIP trunking">
     <link rel="canonical" href="https://www.voipat.com/">
+
+    <!-- Open Graph / WhatsApp / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.voipat.com/">
+    <meta property="og:title" content="VOIP@ Cloud - Enterprise Cloud PBX Platform">
+    <meta property="og:description" content="Deploy a fully-featured enterprise PBX on your own domain. Extensions, IVR, call recording, ring groups — everything you need, instantly provisioned. Start your free trial today.">
+    <meta property="og:image" content="https://www.voipat.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="VOIP@ Cloud">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="VOIP@ Cloud - Enterprise Cloud PBX Platform">
+    <meta name="twitter:description" content="Deploy a fully-featured enterprise PBX on your own domain. Start your free trial today.">
+    <meta name="twitter:image" content="https://www.voipat.com/og-image.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -337,14 +353,96 @@
             <div class="dns-sidebar">
                 <div class="dns-provider-guide">
                     <h4><i class="fas fa-book"></i> Provider-Specific Guides</h4>
-                    <ul class="provider-list">
-                        <li><i class="fas fa-chevron-right"></i> GoDaddy</li>
-                        <li><i class="fas fa-chevron-right"></i> Cloudflare</li>
-                        <li><i class="fas fa-chevron-right"></i> Namecheap</li>
-                        <li><i class="fas fa-chevron-right"></i> Google Domains</li>
-                        <li><i class="fas fa-chevron-right"></i> AWS Route 53</li>
-                        <li><i class="fas fa-chevron-right"></i> DigitalOcean</li>
-                    </ul>
+                    <div class="provider-accordion">
+                        <div class="provider-item">
+                            <button class="provider-toggle" onclick="toggleProvider(this)">
+                                <span><i class="fas fa-chevron-right"></i> GoDaddy</span>
+                            </button>
+                            <div class="provider-content">
+                                <ol>
+                                    <li>Log in to <strong>GoDaddy.com</strong> and go to <strong>My Products</strong></li>
+                                    <li>Click <strong>DNS</strong> next to your domain</li>
+                                    <li>Click <strong>Add New Record</strong></li>
+                                    <li>Select Type: <strong>A</strong>, Name: <strong>pbx</strong> (or <strong>@</strong>), Value: <strong>your server IP</strong>, TTL: <strong>1 Hour</strong></li>
+                                    <li>Click <strong>Save</strong></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="provider-item">
+                            <button class="provider-toggle" onclick="toggleProvider(this)">
+                                <span><i class="fas fa-chevron-right"></i> Cloudflare</span>
+                            </button>
+                            <div class="provider-content">
+                                <ol>
+                                    <li>Log in to <strong>Cloudflare Dashboard</strong></li>
+                                    <li>Select your domain and click <strong>DNS</strong> in the sidebar</li>
+                                    <li>Click <strong>Add Record</strong></li>
+                                    <li>Type: <strong>A</strong>, Name: <strong>pbx</strong>, IPv4: <strong>your server IP</strong></li>
+                                    <li><strong>Important:</strong> Set Proxy status to <strong>DNS Only</strong> (grey cloud icon). Do NOT proxy SIP traffic through Cloudflare.</li>
+                                    <li>Click <strong>Save</strong></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="provider-item">
+                            <button class="provider-toggle" onclick="toggleProvider(this)">
+                                <span><i class="fas fa-chevron-right"></i> Namecheap</span>
+                            </button>
+                            <div class="provider-content">
+                                <ol>
+                                    <li>Log in to <strong>Namecheap.com</strong> and go to <strong>Domain List</strong></li>
+                                    <li>Click <strong>Manage</strong> next to your domain</li>
+                                    <li>Go to <strong>Advanced DNS</strong> tab</li>
+                                    <li>Click <strong>Add New Record</strong></li>
+                                    <li>Type: <strong>A Record</strong>, Host: <strong>pbx</strong>, Value: <strong>your server IP</strong>, TTL: <strong>Automatic</strong></li>
+                                    <li>Click the <strong>checkmark</strong> to save</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="provider-item">
+                            <button class="provider-toggle" onclick="toggleProvider(this)">
+                                <span><i class="fas fa-chevron-right"></i> Google Domains / Squarespace</span>
+                            </button>
+                            <div class="provider-content">
+                                <ol>
+                                    <li>Go to <strong>domains.squarespace.com</strong> (Google Domains migrated here)</li>
+                                    <li>Select your domain, then click <strong>DNS</strong> in the left menu</li>
+                                    <li>Scroll to <strong>Custom Records</strong></li>
+                                    <li>Host: <strong>pbx</strong>, Type: <strong>A</strong>, Data: <strong>your server IP</strong></li>
+                                    <li>Click <strong>Add</strong>, then <strong>Save</strong></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="provider-item">
+                            <button class="provider-toggle" onclick="toggleProvider(this)">
+                                <span><i class="fas fa-chevron-right"></i> AWS Route 53</span>
+                            </button>
+                            <div class="provider-content">
+                                <ol>
+                                    <li>Open <strong>Route 53</strong> in the AWS Console</li>
+                                    <li>Click <strong>Hosted zones</strong> and select your domain</li>
+                                    <li>Click <strong>Create record</strong></li>
+                                    <li>Record name: <strong>pbx</strong>, Record type: <strong>A</strong></li>
+                                    <li>Value: <strong>your server IP</strong>, TTL: <strong>300</strong></li>
+                                    <li>Click <strong>Create records</strong></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="provider-item">
+                            <button class="provider-toggle" onclick="toggleProvider(this)">
+                                <span><i class="fas fa-chevron-right"></i> DigitalOcean</span>
+                            </button>
+                            <div class="provider-content">
+                                <ol>
+                                    <li>Go to <strong>Networking &gt; Domains</strong> in your DO dashboard</li>
+                                    <li>Select your domain</li>
+                                    <li>Under <strong>Create new record</strong>, select <strong>A</strong></li>
+                                    <li>Hostname: <strong>pbx</strong>, Will direct to: <strong>your server IP</strong></li>
+                                    <li>TTL: <strong>3600</strong></li>
+                                    <li>Click <strong>Create Record</strong></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="dns-help-box">
                     <h4><i class="fas fa-headset"></i> Need Help?</h4>
@@ -683,6 +781,118 @@
         </div>
     </div>
 </footer>
+
+<!-- Structured Data - Organization -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "VOIP@ Cloud",
+    "url": "https://www.voipat.com",
+    "logo": "https://www.voipat.com/og-image.png",
+    "description": "Enterprise cloud PBX platform with instant domain provisioning, smart IVR, call recording, and enterprise features.",
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "email": "support@voipat.com",
+        "availableLanguage": ["English", "Arabic"]
+    },
+    "sameAs": []
+}
+</script>
+
+<!-- Structured Data - SaaS Product -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "VOIP@ Cloud PBX",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Cloud-hosted PBX system with extensions, IVR, call recording, ring groups, and SIP trunking on your own domain.",
+    "offers": [
+        {
+            "@type": "Offer",
+            "name": "Starter",
+            "price": "29.00",
+            "priceCurrency": "USD",
+            "priceValidUntil": "2027-12-31",
+            "description": "Up to 10 extensions, 1 SIP gateway, 2 IVR menus"
+        },
+        {
+            "@type": "Offer",
+            "name": "Business",
+            "price": "79.00",
+            "priceCurrency": "USD",
+            "priceValidUntil": "2027-12-31",
+            "description": "Up to 50 extensions, 5 SIP gateways, 10 IVR menus"
+        },
+        {
+            "@type": "Offer",
+            "name": "Enterprise",
+            "price": "199.00",
+            "priceCurrency": "USD",
+            "priceValidUntil": "2027-12-31",
+            "description": "Unlimited extensions, gateways, and IVR menus"
+        }
+    ],
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "124"
+    }
+}
+</script>
+
+<!-- Structured Data - FAQ -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {
+            "@type": "Question",
+            "name": "Do I need my own domain name?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, you need your own domain name (e.g., yourcompany.com). You can use a subdomain like pbx.yourcompany.com. If you don't have a domain, you can purchase one from any registrar like GoDaddy, Namecheap, or Cloudflare for as low as $10/year."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Do I need to buy a SIP trunk?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, to make and receive external phone calls, you need a SIP trunk provider. We support any standard SIP trunk. Popular providers include Twilio, Telnyx, VoIP.ms, and many others."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "How long does setup take?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Your cloud PBX is provisioned instantly after registration. DNS propagation typically takes 5-30 minutes."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Is there a free trial?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes! All plans come with a 14-day free trial. No credit card required. You get full access to all features during the trial period."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Do you offer reseller accounts?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes! We offer a full white-label reseller program. You can create and manage domains for your clients, set your own pricing, and earn commissions."
+            }
+        }
+    ]
+}
+</script>
 
 <script src="js/main.js"></script>
 </body>

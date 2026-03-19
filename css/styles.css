@@ -933,6 +933,72 @@ h4 { font-size: 1.125rem; }
     color: #78350F;
 }
 
+/* Provider Accordion */
+.provider-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.provider-item {
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+.provider-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--gray-700);
+    text-align: left;
+    transition: var(--transition);
+}
+
+.provider-toggle:hover {
+    background: var(--gray-50);
+    color: var(--primary);
+}
+
+.provider-toggle i {
+    font-size: 0.625rem;
+    transition: transform 0.2s ease;
+    margin-right: 8px;
+}
+
+.provider-item.active .provider-toggle i {
+    transform: rotate(90deg);
+}
+
+.provider-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.provider-item.active .provider-content {
+    max-height: 400px;
+}
+
+.provider-content ol {
+    padding: 8px 12px 12px 28px;
+    font-size: 0.8125rem;
+    color: var(--gray-600);
+    line-height: 1.7;
+}
+
+.provider-content li {
+    margin-bottom: 4px;
+}
+
 /* ========================================
    Pricing Section
    ======================================== */

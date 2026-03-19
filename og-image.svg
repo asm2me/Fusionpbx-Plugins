@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5B21B6"/>
+      <stop offset="50%" style="stop-color:#6C2BD9"/>
+      <stop offset="100%" style="stop-color:#7C3AED"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#06B6D4"/>
+      <stop offset="100%" style="stop-color:#8B5CF6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- Decorative circles -->
+  <circle cx="1050" cy="100" r="200" fill="rgba(255,255,255,0.03)"/>
+  <circle cx="150" cy="530" r="150" fill="rgba(255,255,255,0.03)"/>
+  <circle cx="900" cy="500" r="100" fill="rgba(255,255,255,0.05)"/>
+  <!-- Cloud icon -->
+  <text x="600" y="200" text-anchor="middle" font-family="Arial" font-size="80" fill="rgba(255,255,255,0.15)">&#9729;</text>
+  <!-- Logo text -->
+  <text x="600" y="290" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="72" fill="white">VOIP<tspan fill="#06B6D4">@</tspan> Cloud</text>
+  <!-- Tagline -->
+  <text x="600" y="360" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="400" font-size="32" fill="rgba(255,255,255,0.85)">Enterprise Cloud PBX Platform</text>
+  <!-- Divider line -->
+  <rect x="450" y="390" width="300" height="3" rx="2" fill="url(#accent)"/>
+  <!-- Features -->
+  <text x="600" y="450" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="300" font-size="24" fill="rgba(255,255,255,0.7)">Smart IVR  &#8226;  Call Recording  &#8226;  SIP Trunking</text>
+  <!-- CTA -->
+  <rect x="430" y="490" width="340" height="56" rx="28" fill="white"/>
+  <text x="600" y="527" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="22" fill="#6C2BD9">Start Your Free Trial</text>
+  <!-- URL -->
+  <text x="600" y="600" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="400" font-size="18" fill="rgba(255,255,255,0.4)">www.voipat.com</text>
+</svg>

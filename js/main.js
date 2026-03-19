@@ -72,6 +72,21 @@ function toggleFaq(button) {
     }
 }
 
+// Provider accordion toggle
+function toggleProvider(btn) {
+    const item = btn.closest('.provider-item');
+    const isActive = item.classList.contains('active');
+
+    // Close all in same accordion
+    item.closest('.provider-accordion').querySelectorAll('.provider-item').forEach(el => {
+        el.classList.remove('active');
+    });
+
+    if (!isActive) {
+        item.classList.add('active');
+    }
+}
+
 // Copy code block
 function copyCode(btn) {
     const code = btn.closest('.code-block').querySelector('code');
