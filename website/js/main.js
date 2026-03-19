@@ -138,22 +138,19 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Intersection Observer for animations — deferred to avoid forced reflow
+// Intersection Observer for animations (uses CSS classes to avoid CLS)
 if ('IntersectionObserver' in window) {
-    requestAnimationFrame(() => {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-        const els = document.querySelectorAll('.feature-card, .step, .price-card, .dns-step');
-        for (let i = 0; i < els.length; i++) {
-            els[i].classList.add('animate-ready');
-            observer.observe(els[i]);
-        }
+    document.querySelectorAll('.feature-card, .step, .price-card, .dns-step').forEach(el => {
+        el.classList.add('animate-ready');
+        observer.observe(el);
     });
 }
