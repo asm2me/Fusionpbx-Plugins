@@ -11,7 +11,7 @@
     --primary-900: #2E1065;
     --accent: #06B6D4;
     --accent-light: #22D3EE;
-    --success: #10B981;
+    --success: #047857;
     --warning: #F59E0B;
     --danger: #EF4444;
     --gray-50: #F9FAFB;
@@ -1416,7 +1416,7 @@ h4 { font-size: 1.125rem; }
 .footer {
     padding: 4rem 0 2rem;
     background: var(--gray-900);
-    color: var(--gray-400);
+    color: #9CA3AF;
 }
 
 .footer-grid {
@@ -1478,7 +1478,7 @@ h4 { font-size: 1.125rem; }
 }
 
 .footer-links a {
-    color: var(--gray-400);
+    color: #9CA3AF;
     text-decoration: none;
     font-size: 0.875rem;
     transition: var(--transition);
