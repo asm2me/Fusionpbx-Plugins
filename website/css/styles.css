@@ -1730,9 +1730,11 @@ h4 { font-size: 1.125rem; }
     font-weight: 600;
 }
 
-.lang-item-flag {
-    font-size: 1rem;
-    line-height: 1;
+.lang-flag-img {
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 2px;
+    box-shadow: 0 0 1px rgba(0,0,0,0.2);
 }
 
 body.rtl .lang-bar-inner {
