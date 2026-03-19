@@ -9,8 +9,5 @@
         { "key": "X-Content-Type-Options", "value": "nosniff" }
       ]
     }
-  ],
-  "challenges": {
-    "mode": "managed"
-  }
+  ]
 }
