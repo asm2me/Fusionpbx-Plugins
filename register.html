@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - VOIP@ Cloud</title>
+    <meta name="description" content="Create your VOIP@ Cloud PBX account. Instant provisioning, 14-day free trial, no credit card required.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/register.css">
+</head>
+<body class="register-page">
+
+<!-- Navbar -->
+<nav class="navbar navbar-dark">
+    <div class="container nav-container">
+        <a href="/" class="logo">
+            <span class="logo-icon"><i class="fas fa-cloud-arrow-up"></i></span>
+            <span class="logo-text">VOIP<span class="logo-at">@</span> Cloud</span>
+        </a>
+        <div class="nav-actions">
+            <span class="nav-text">Already have an account?</span>
+            <a href="https://mt.voipat.com" class="btn btn-ghost" target="_blank">Login</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Registration Form -->
+<section class="register-section">
+    <div class="container">
+        <div class="register-layout">
+            <!-- Left: Benefits -->
+            <div class="register-benefits">
+                <h1>Start Your <span class="gradient-text">14-Day Free Trial</span></h1>
+                <p>Get your enterprise cloud PBX up and running in minutes. No credit card required.</p>
+
+                <div class="benefit-list">
+                    <div class="benefit-item">
+                        <div class="benefit-icon"><i class="fas fa-check-circle"></i></div>
+                        <div>
+                            <strong>Instant Provisioning</strong>
+                            <p>Your PBX is ready in seconds after registration</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon"><i class="fas fa-check-circle"></i></div>
+                        <div>
+                            <strong>Your Own Domain</strong>
+                            <p>Run your PBX on your company's domain name</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon"><i class="fas fa-check-circle"></i></div>
+                        <div>
+                            <strong>Full Features</strong>
+                            <p>Extensions, IVR, ring groups, recordings &mdash; everything included</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon"><i class="fas fa-check-circle"></i></div>
+                        <div>
+                            <strong>No Lock-In</strong>
+                            <p>Cancel anytime. Export your data whenever you want</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="selected-plan-box" id="selectedPlanBox" style="display:none;">
+                    <h4>Selected Plan</h4>
+                    <div class="plan-display" id="planDisplay"></div>
+                </div>
+            </div>
+
+            <!-- Right: Form -->
+            <div class="register-form-wrap">
+                <form class="register-form" id="registerForm" onsubmit="handleRegistration(event)">
+                    <h2>Create Your Account</h2>
+
+                    <!-- Step indicators -->
+                    <div class="form-steps">
+                        <div class="form-step-indicator active" data-step="1">
+                            <span class="step-dot">1</span>
+                            <span class="step-text">Account</span>
+                        </div>
+                        <div class="step-line"></div>
+                        <div class="form-step-indicator" data-step="2">
+                            <span class="step-dot">2</span>
+                            <span class="step-text">Domain</span>
+                        </div>
+                        <div class="step-line"></div>
+                        <div class="form-step-indicator" data-step="3">
+                            <span class="step-dot">3</span>
+                            <span class="step-text">Plan</span>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Account Info -->
+                    <div class="form-step-content active" id="step1">
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> Full Name</label>
+                            <input type="text" id="fullName" name="full_name" required placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-envelope"></i> Email Address</label>
+                            <input type="email" id="email" name="email" required placeholder="john@company.com">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-phone"></i> Phone Number</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-building"></i> Company Name</label>
+                            <input type="text" id="company" name="company" placeholder="Acme Corp">
+                        </div>
+                        <button type="button" class="btn btn-primary btn-block" onclick="nextStep(2)">
+                            Continue <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Step 2: Domain Setup -->
+                    <div class="form-step-content" id="step2">
+                        <div class="form-group">
+                            <label><i class="fas fa-globe"></i> Your Domain Name</label>
+                            <input type="text" id="domainName" name="domain_name" required placeholder="pbx.yourcompany.com">
+                            <span class="form-hint">Enter the domain/subdomain you want to use for your PBX</span>
+                            <div class="domain-check" id="domainCheck"></div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-user-shield"></i> Admin Username</label>
+                            <input type="text" id="adminUsername" name="admin_username" required placeholder="admin" value="admin">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-lock"></i> Admin Password</label>
+                            <div class="password-field">
+                                <input type="password" id="adminPassword" name="admin_password" required minlength="8" placeholder="Minimum 8 characters">
+                                <button type="button" class="toggle-password" onclick="togglePassword(this)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="password-strength" id="passwordStrength"></div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-lock"></i> Confirm Password</label>
+                            <input type="password" id="confirmPassword" name="confirm_password" required placeholder="Re-enter password">
+                        </div>
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(1)">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(3)">
+                                Continue <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Plan Selection -->
+                    <div class="form-step-content" id="step3">
+                        <div class="plan-cards">
+                            <label class="plan-option" for="planStarter">
+                                <input type="radio" id="planStarter" name="plan" value="starter">
+                                <div class="plan-option-content">
+                                    <div class="plan-option-header">
+                                        <h4>Starter</h4>
+                                        <span class="plan-price">$29<small>/mo</small></span>
+                                    </div>
+                                    <ul>
+                                        <li>10 Extensions</li>
+                                        <li>1 Gateway</li>
+                                        <li>2 IVRs</li>
+                                    </ul>
+                                </div>
+                            </label>
+                            <label class="plan-option" for="planBusiness">
+                                <input type="radio" id="planBusiness" name="plan" value="business" checked>
+                                <div class="plan-option-content popular">
+                                    <div class="mini-badge">Popular</div>
+                                    <div class="plan-option-header">
+                                        <h4>Business</h4>
+                                        <span class="plan-price">$79<small>/mo</small></span>
+                                    </div>
+                                    <ul>
+                                        <li>50 Extensions</li>
+                                        <li>5 Gateways</li>
+                                        <li>10 IVRs</li>
+                                    </ul>
+                                </div>
+                            </label>
+                            <label class="plan-option" for="planEnterprise">
+                                <input type="radio" id="planEnterprise" name="plan" value="enterprise">
+                                <div class="plan-option-content">
+                                    <div class="plan-option-header">
+                                        <h4>Enterprise</h4>
+                                        <span class="plan-price">$199<small>/mo</small></span>
+                                    </div>
+                                    <ul>
+                                        <li>Unlimited Extensions</li>
+                                        <li>Unlimited Gateways</li>
+                                        <li>Unlimited IVRs</li>
+                                    </ul>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="agreeTerms" required>
+                                <span>I agree to the <a href="#" target="_blank">Terms of Service</a> and <a href="#" target="_blank">Privacy Policy</a></span>
+                            </label>
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(2)">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
+                                <i class="fas fa-rocket"></i> Create My PBX
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Processing State -->
+                    <div class="form-step-content" id="stepProcessing" style="display:none;">
+                        <div class="processing-state">
+                            <div class="spinner"></div>
+                            <h3>Creating Your Cloud PBX...</h3>
+                            <div class="progress-log" id="progressLog"></div>
+                        </div>
+                    </div>
+
+                    <!-- Success State -->
+                    <div class="form-step-content" id="stepSuccess" style="display:none;">
+                        <div class="success-state">
+                            <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+                            <h3>Your PBX is Ready!</h3>
+                            <p>Your cloud PBX has been created successfully.</p>
+                            <div class="credentials-box">
+                                <h4>Your Login Details</h4>
+                                <div class="credential-row">
+                                    <span class="credential-label">URL:</span>
+                                    <span class="credential-value" id="resultUrl"></span>
+                                </div>
+                                <div class="credential-row">
+                                    <span class="credential-label">Username:</span>
+                                    <span class="credential-value" id="resultUsername"></span>
+                                </div>
+                                <div class="credential-row">
+                                    <span class="credential-label">Password:</span>
+                                    <span class="credential-value">********</span>
+                                </div>
+                            </div>
+                            <div class="next-steps">
+                                <h4><i class="fas fa-list-check"></i> Next Steps</h4>
+                                <ol>
+                                    <li>
+                                        <strong>Point your domain</strong> &mdash; Add a DNS A record for <code id="resultDomain"></code> pointing to <code id="resultIp"></code>
+                                        <a href="index.html#dns-setup" target="_blank">See DNS guide</a>
+                                    </li>
+                                    <li>
+                                        <strong>Login to your PBX</strong> &mdash; Use the credentials above. Until DNS propagates, use: <a href="#" id="tempUrl" target="_blank"></a>
+                                    </li>
+                                    <li>
+                                        <strong>Configure a SIP trunk</strong> &mdash; Add your SIP provider gateway to start making calls
+                                    </li>
+                                    <li>
+                                        <strong>Register SIP phones</strong> &mdash; Configure your IP phones or use the WebRTC softphone
+                                    </li>
+                                </ol>
+                            </div>
+                            <a href="#" id="loginBtn" class="btn btn-primary btn-lg btn-block" target="_blank">
+                                <i class="fas fa-sign-in-alt"></i> Login to Your PBX
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Error State -->
+                    <div class="form-step-content" id="stepError" style="display:none;">
+                        <div class="error-state">
+                            <div class="error-icon"><i class="fas fa-exclamation-circle"></i></div>
+                            <h3>Something Went Wrong</h3>
+                            <p id="errorMessage">An error occurred during registration. Please try again.</p>
+                            <button type="button" class="btn btn-primary" onclick="resetForm()">
+                                <i class="fas fa-redo"></i> Try Again
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer footer-simple">
+    <div class="container">
+        <p>&copy; 2024 VOIP@ Cloud. All rights reserved. | <a href="#">Privacy</a> | <a href="#">Terms</a></p>
+    </div>
+</footer>
+
+<script src="js/register.js"></script>
+</body>
+</html>
