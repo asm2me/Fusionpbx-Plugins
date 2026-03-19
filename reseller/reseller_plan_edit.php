@@ -85,8 +85,8 @@
 		}
 
 		$p = new permissions;
-		$p->add('v_reseller_plan_add', 'temp');
-		$p->add('v_reseller_plan_edit', 'temp');
+		$p->add('v_reseller_plans_add', 'temp');
+		$p->add('v_reseller_plans_edit', 'temp');
 
 		$database = new database;
 		$database->app_name = 'reseller';
@@ -94,8 +94,8 @@
 		$database->save($array);
 		unset($array);
 
-		$p->delete('v_reseller_plan_add', 'temp');
-		$p->delete('v_reseller_plan_edit', 'temp');
+		$p->delete('v_reseller_plans_add', 'temp');
+		$p->delete('v_reseller_plans_edit', 'temp');
 
 		message::add($text['message-settings_saved']);
 		header('Location: reseller_plans.php');

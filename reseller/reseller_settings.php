@@ -84,7 +84,7 @@
 		}
 
 		$p = new permissions;
-		$p->add('v_reseller_profile_edit', 'temp');
+		$p->add('v_reseller_profiles_edit', 'temp');
 
 		$database = new database;
 		$database->app_name = 'reseller';
@@ -92,7 +92,7 @@
 		$database->save($array);
 		unset($array);
 
-		$p->delete('v_reseller_profile_edit', 'temp');
+		$p->delete('v_reseller_profiles_edit', 'temp');
 
 		//log the change
 		$reseller_obj->log_activity($reseller_uuid, 'settings_changed', [

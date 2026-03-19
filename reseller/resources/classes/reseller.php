@@ -113,7 +113,7 @@ if (!class_exists('reseller')) {
 			$array['v_domains'][0]['domain_enabled'] = 'true';
 
 			$p = new permissions;
-			$p->add('v_domain_add', 'temp');
+			$p->add('v_domains_add', 'temp');
 
 			$database = new database;
 			$database->app_name = 'reseller';
@@ -121,7 +121,7 @@ if (!class_exists('reseller')) {
 			$database->save($array);
 			unset($array);
 
-			$p->delete('v_domain_add', 'temp');
+			$p->delete('v_domains_add', 'temp');
 
 			//check if domain was created
 			if ($database->message['code'] != '200') {
@@ -154,7 +154,7 @@ if (!class_exists('reseller')) {
 				$array['v_users'][0]['add_user'] = $_SESSION['user_uuid'] ?? '';
 
 				$p = new permissions;
-				$p->add('v_user_add', 'temp');
+				$p->add('v_users_add', 'temp');
 
 				$database = new database;
 				$database->app_name = 'reseller';
@@ -162,7 +162,7 @@ if (!class_exists('reseller')) {
 				$database->save($array);
 				unset($array);
 
-				$p->delete('v_user_add', 'temp');
+				$p->delete('v_users_add', 'temp');
 
 				//assign admin group to user
 				$group_uuid = '';
@@ -181,7 +181,7 @@ if (!class_exists('reseller')) {
 					$array['v_user_groups'][0]['user_uuid'] = $new_user_uuid;
 
 					$p = new permissions;
-					$p->add('v_user_group_add', 'temp');
+					$p->add('v_user_groups_add', 'temp');
 
 					$database = new database;
 					$database->app_name = 'reseller';
@@ -189,7 +189,7 @@ if (!class_exists('reseller')) {
 					$database->save($array);
 					unset($array);
 
-					$p->delete('v_user_group_add', 'temp');
+					$p->delete('v_user_groups_add', 'temp');
 				}
 			}
 
@@ -220,7 +220,7 @@ if (!class_exists('reseller')) {
 			}
 
 			$p = new permissions;
-			$p->add('v_reseller_domain_add', 'temp');
+			$p->add('v_reseller_domains_add', 'temp');
 
 			$database = new database;
 			$database->app_name = 'reseller';
@@ -228,7 +228,7 @@ if (!class_exists('reseller')) {
 			$database->save($array);
 			unset($array);
 
-			$p->delete('v_reseller_domain_add', 'temp');
+			$p->delete('v_reseller_domains_add', 'temp');
 
 			//log activity
 			$this->log_activity($reseller_uuid, 'domain_created', [
@@ -270,7 +270,7 @@ if (!class_exists('reseller')) {
 			$array['v_domains'][0]['domain_enabled'] = 'true';
 
 			$p = new permissions;
-			$p->add('v_domain_add', 'temp');
+			$p->add('v_domains_add', 'temp');
 
 			$database = new database;
 			$database->app_name = 'reseller';
@@ -279,7 +279,7 @@ if (!class_exists('reseller')) {
 			$db_message = $database->message;
 			unset($array);
 
-			$p->delete('v_domain_add', 'temp');
+			$p->delete('v_domains_add', 'temp');
 
 			if (!isset($db_message['code']) || $db_message['code'] != '200') {
 				$error_detail = isset($db_message['message']) ? $db_message['message'] : json_encode($db_message);
@@ -362,13 +362,13 @@ if (!class_exists('reseller')) {
 					}
 
 					$p = new permissions;
-					$p->add('v_extension_add', 'temp');
+					$p->add('v_extensions_add', 'temp');
 					$database = new database;
 					$database->app_name = 'reseller';
 					$database->app_uuid = 'c3d4e5f6-a7b8-9012-cdef-123456789012';
 					$database->save($array);
 					unset($array);
-					$p->delete('v_extension_add', 'temp');
+					$p->delete('v_extensions_add', 'temp');
 					$log[] = 'OK: Cloned ' . sizeof($extensions) . ' extensions (starting at ' . $ext_num . ').';
 				} else {
 					$log[] = 'WARNING: No extensions found in source domain to clone.';
@@ -399,13 +399,13 @@ if (!class_exists('reseller')) {
 					}
 
 					$p = new permissions;
-					$p->add('v_gateway_add', 'temp');
+					$p->add('v_gateways_add', 'temp');
 					$database = new database;
 					$database->app_name = 'reseller';
 					$database->app_uuid = 'c3d4e5f6-a7b8-9012-cdef-123456789012';
 					$database->save($array);
 					unset($array);
-					$p->delete('v_gateway_add', 'temp');
+					$p->delete('v_gateways_add', 'temp');
 					$log[] = 'OK: Cloned ' . sizeof($gateways) . ' gateways (disabled by default).';
 				} else {
 					$log[] = 'WARNING: No gateways found in source domain to clone.';
@@ -431,13 +431,13 @@ if (!class_exists('reseller')) {
 				}
 
 				$p = new permissions;
-				$p->add('v_dialplan_add', 'temp');
+				$p->add('v_dialplans_add', 'temp');
 				$database = new database;
 				$database->app_name = 'reseller';
 				$database->app_uuid = 'c3d4e5f6-a7b8-9012-cdef-123456789012';
 				$database->save($array);
 				unset($array);
-				$p->delete('v_dialplan_add', 'temp');
+				$p->delete('v_dialplans_add', 'temp');
 				$log[] = 'OK: Cloned ' . sizeof($dialplans) . ' dialplan entries.';
 			} else {
 				$log[] = 'INFO: No dialplan entries found in source domain.';
@@ -468,14 +468,14 @@ if (!class_exists('reseller')) {
 			$array['v_users'][0]['add_user'] = $_SESSION['user_uuid'] ?? '';
 
 			$p = new permissions;
-			$p->add('v_user_add', 'temp');
+			$p->add('v_users_add', 'temp');
 			$database = new database;
 			$database->app_name = 'reseller';
 			$database->app_uuid = 'c3d4e5f6-a7b8-9012-cdef-123456789012';
 			$database->save($array);
 			$db_msg = $database->message;
 			unset($array);
-			$p->delete('v_user_add', 'temp');
+			$p->delete('v_users_add', 'temp');
 
 			if (isset($db_msg['code']) && $db_msg['code'] == '200') {
 				$log[] = 'OK: Admin user "' . $username . '" created (UUID: ' . $new_user_uuid . ').';
@@ -497,13 +497,13 @@ if (!class_exists('reseller')) {
 				$array['v_user_groups'][0]['user_uuid'] = $new_user_uuid;
 
 				$p = new permissions;
-				$p->add('v_user_group_add', 'temp');
+				$p->add('v_user_groups_add', 'temp');
 				$database = new database;
 				$database->app_name = 'reseller';
 				$database->app_uuid = 'c3d4e5f6-a7b8-9012-cdef-123456789012';
 				$database->save($array);
 				unset($array);
-				$p->delete('v_user_group_add', 'temp');
+				$p->delete('v_user_groups_add', 'temp');
 				$log[] = 'OK: Assigned admin group to user.';
 			} else {
 				$log[] = 'WARNING: Could not find admin group to assign to user.';
@@ -540,13 +540,13 @@ if (!class_exists('reseller')) {
 			$parameters['domain_uuid'] = $domain_uuid;
 
 			$p = new permissions;
-			$p->add('v_domain_edit', 'temp');
+			$p->add('v_domains_edit', 'temp');
 
 			$database = new database;
 			$database->execute($sql, $parameters);
 			unset($parameters);
 
-			$p->delete('v_domain_edit', 'temp');
+			$p->delete('v_domains_edit', 'temp');
 
 			$this->log_activity($reseller_uuid, 'domain_suspended', [
 				'domain_uuid' => $domain_uuid,
@@ -580,13 +580,13 @@ if (!class_exists('reseller')) {
 			$parameters['domain_uuid'] = $domain_uuid;
 
 			$p = new permissions;
-			$p->add('v_domain_edit', 'temp');
+			$p->add('v_domains_edit', 'temp');
 
 			$database = new database;
 			$database->execute($sql, $parameters);
 			unset($parameters);
 
-			$p->delete('v_domain_edit', 'temp');
+			$p->delete('v_domains_edit', 'temp');
 
 			$this->log_activity($reseller_uuid, 'domain_activated', [
 				'domain_uuid' => $domain_uuid,
@@ -629,13 +629,13 @@ if (!class_exists('reseller')) {
 			$parameters['domain_uuid'] = $domain_uuid;
 
 			$p = new permissions;
-			$p->add('v_domain_delete', 'temp');
+			$p->add('v_domains_delete', 'temp');
 
 			$database = new database;
 			$database->execute($sql, $parameters);
 			unset($parameters);
 
-			$p->delete('v_domain_delete', 'temp');
+			$p->delete('v_domains_delete', 'temp');
 
 			$this->log_activity($reseller_uuid, 'domain_deleted', [
 				'domain_uuid' => $domain_uuid,
@@ -755,7 +755,7 @@ if (!class_exists('reseller')) {
 			$array['v_reseller_commissions'][0]['add_date'] = 'now()';
 
 			$p = new permissions;
-			$p->add('v_reseller_commission_add', 'temp');
+			$p->add('v_reseller_commissions_add', 'temp');
 
 			$database = new database;
 			$database->app_name = 'reseller';
@@ -763,7 +763,7 @@ if (!class_exists('reseller')) {
 			$database->save($array);
 			unset($array);
 
-			$p->delete('v_reseller_commission_add', 'temp');
+			$p->delete('v_reseller_commissions_add', 'temp');
 
 			return [
 				'commission_uuid' => $commission_uuid,
@@ -938,7 +938,7 @@ if (!class_exists('reseller')) {
 			$array['v_domain_settings'][0]['domain_setting_enabled'] = 'true';
 
 			$p = new permissions;
-			$p->add('v_domain_setting_add', 'temp');
+			$p->add('v_domain_settings_add', 'temp');
 
 			$database = new database;
 			$database->app_name = 'reseller';
@@ -946,7 +946,7 @@ if (!class_exists('reseller')) {
 			$database->save($array);
 			unset($array);
 
-			$p->delete('v_domain_setting_add', 'temp');
+			$p->delete('v_domain_settings_add', 'temp');
 		}
 
 		/**
@@ -986,7 +986,7 @@ if (!class_exists('reseller')) {
 			$array['billing_subscriptions'][0]['add_date'] = 'now()';
 
 			$p = new permissions;
-			$p->add('v_billing_subscription_add', 'temp');
+			$p->add('v_billing_subscriptions_add', 'temp');
 
 			$database = new database;
 			$database->app_name = 'reseller';
@@ -994,7 +994,7 @@ if (!class_exists('reseller')) {
 			$database->save($array);
 			unset($array);
 
-			$p->delete('v_billing_subscription_add', 'temp');
+			$p->delete('v_billing_subscriptions_add', 'temp');
 
 			return $subscription_uuid;
 		}

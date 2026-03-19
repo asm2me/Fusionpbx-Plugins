@@ -112,8 +112,8 @@
 
 		//grant temp permission
 		$p = new permissions;
-		$p->add('v_reseller_profile_add', 'temp');
-		$p->add('v_reseller_profile_edit', 'temp');
+		$p->add('v_reseller_profiles_add', 'temp');
+		$p->add('v_reseller_profiles_edit', 'temp');
 
 		//save to the database
 		$database = new database;
@@ -122,8 +122,8 @@
 		$database->save($array);
 		unset($array);
 
-		$p->delete('v_reseller_profile_add', 'temp');
-		$p->delete('v_reseller_profile_edit', 'temp');
+		$p->delete('v_reseller_profiles_add', 'temp');
+		$p->delete('v_reseller_profiles_edit', 'temp');
 
 		//redirect
 		message::add($text['message-settings_saved']);
