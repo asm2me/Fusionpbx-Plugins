@@ -14,16 +14,32 @@
 </head>
 <body class="register-page">
 
+<!-- Language Bar -->
+<div class="lang-bar">
+    <div class="container lang-bar-inner">
+        <a href="#" class="lang-item active" data-lang="en"><img class="lang-flag-img" src="https://flagcdn.com/w40/gb.png" width="20" height="10" alt="English"> English</a>
+        <a href="#" class="lang-item" data-lang="ar"><img class="lang-flag-img" src="https://flagcdn.com/w40/sa.png" width="20" height="13" alt="العربية"> العربية</a>
+        <a href="#" class="lang-item" data-lang="es"><img class="lang-flag-img" src="https://flagcdn.com/w40/es.png" width="20" height="13" alt="Español"> Español</a>
+        <a href="#" class="lang-item" data-lang="fr"><img class="lang-flag-img" src="https://flagcdn.com/w40/fr.png" width="20" height="13" alt="Français"> Français</a>
+        <a href="#" class="lang-item" data-lang="de"><img class="lang-flag-img" src="https://flagcdn.com/w40/de.png" width="20" height="12" alt="Deutsch"> Deutsch</a>
+        <a href="#" class="lang-item" data-lang="pt"><img class="lang-flag-img" src="https://flagcdn.com/w40/br.png" width="20" height="14" alt="Português"> Português</a>
+        <a href="#" class="lang-item" data-lang="zh"><img class="lang-flag-img" src="https://flagcdn.com/w40/cn.png" width="20" height="13" alt="中文"> 中文</a>
+        <a href="#" class="lang-item" data-lang="ja"><img class="lang-flag-img" src="https://flagcdn.com/w40/jp.png" width="20" height="13" alt="日本語"> 日本語</a>
+        <a href="#" class="lang-item" data-lang="tr"><img class="lang-flag-img" src="https://flagcdn.com/w40/tr.png" width="20" height="13" alt="Türkçe"> Türkçe</a>
+        <a href="#" class="lang-item" data-lang="ru"><img class="lang-flag-img" src="https://flagcdn.com/w40/ru.png" width="20" height="13" alt="Русский"> Русский</a>
+    </div>
+</div>
+
 <!-- Navbar -->
-<nav class="navbar navbar-dark">
+<nav class="navbar navbar-dark" style="margin-top: 36px;">
     <div class="container nav-container">
         <a href="/" class="logo">
             <span class="logo-icon"><i class="fas fa-cloud-arrow-up"></i></span>
             <span class="logo-text">VOIP<span class="logo-at">@</span> Cloud</span>
         </a>
         <div class="nav-actions">
-            <span class="nav-text">Already have an account?</span>
-            <a href="https://mt.voipat.com" class="btn btn-ghost" target="_blank">Login</a>
+            <span class="nav-text" data-i18n="reg.alreadyHaveAccount">Already have an account?</span>
+            <a href="https://mt.voipat.com" class="btn btn-ghost" target="_blank" data-i18n="nav.login">Login</a>
         </div>
     </div>
 </nav>
@@ -34,47 +50,47 @@
         <div class="register-layout">
             <!-- Left: Benefits & Plan Summary -->
             <div class="register-benefits">
-                <h1>Start Your <span class="gradient-text">14-Day Free Trial</span></h1>
-                <p>Get your enterprise cloud PBX up and running in minutes. No credit card required.</p>
+                <h1 data-i18n-html="reg.trialTitle">Start Your <span class="gradient-text">14-Day Free Trial</span></h1>
+                <p data-i18n="reg.trialSubtitle">Get your enterprise cloud PBX up and running in minutes. No credit card required.</p>
 
                 <div class="benefit-list">
                     <div class="benefit-item">
                         <div class="benefit-icon"><i class="fas fa-check-circle"></i></div>
                         <div>
-                            <strong>Instant Provisioning</strong>
-                            <p>Your PBX is ready in seconds after registration</p>
+                            <strong data-i18n="reg.benefit.provisioning.title">Instant Provisioning</strong>
+                            <p data-i18n="reg.benefit.provisioning.desc">Your PBX is ready in seconds after registration</p>
                         </div>
                     </div>
                     <div class="benefit-item">
                         <div class="benefit-icon"><i class="fas fa-check-circle"></i></div>
                         <div>
-                            <strong>Your Own Domain</strong>
-                            <p>Run your PBX on your company's domain name</p>
+                            <strong data-i18n="reg.benefit.domain.title">Your Own Domain</strong>
+                            <p data-i18n="reg.benefit.domain.desc">Run your PBX on your company's domain name</p>
                         </div>
                     </div>
                     <div class="benefit-item">
                         <div class="benefit-icon"><i class="fas fa-check-circle"></i></div>
                         <div>
-                            <strong>Full Features</strong>
-                            <p>Extensions, IVR, ring groups, recordings &mdash; everything included</p>
+                            <strong data-i18n="reg.benefit.features.title">Full Features</strong>
+                            <p data-i18n="reg.benefit.features.desc">Extensions, IVR, ring groups, recordings — everything included</p>
                         </div>
                     </div>
                     <div class="benefit-item">
                         <div class="benefit-icon"><i class="fas fa-check-circle"></i></div>
                         <div>
-                            <strong>No Lock-In</strong>
-                            <p>Cancel anytime. Export your data whenever you want</p>
+                            <strong data-i18n="reg.benefit.nolockin.title">No Lock-In</strong>
+                            <p data-i18n="reg.benefit.nolockin.desc">Cancel anytime. Export your data whenever you want</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="selected-plan-box" id="selectedPlanBox" style="display:none;">
-                    <h4>Selected Plan</h4>
+                    <h4 data-i18n="reg.selectedPlan">Selected Plan</h4>
                     <div class="plan-display" id="planDisplay"></div>
                 </div>
 
                 <div class="config-summary" id="configSummary" style="display:none;">
-                    <h4><i class="fas fa-clipboard-list"></i> Your Configuration</h4>
+                    <h4 data-i18n-html="reg.configSummary"><i class="fas fa-clipboard-list"></i> Your Configuration</h4>
                     <div id="configSummaryContent"></div>
                 </div>
             </div>
@@ -82,65 +98,65 @@
             <!-- Right: Form -->
             <div class="register-form-wrap">
                 <form class="register-form" id="registerForm" onsubmit="handleRegistration(event)">
-                    <h2>Create Your Account</h2>
+                    <h2 data-i18n="reg.createAccount">Create Your Account</h2>
 
                     <!-- Step indicators -->
                     <div class="form-steps" id="formSteps">
                         <div class="form-step-indicator active" data-step="1">
                             <span class="step-dot">1</span>
-                            <span class="step-text">Account</span>
+                            <span class="step-text" data-i18n="reg.step.account">Account</span>
                         </div>
                         <div class="step-line"></div>
                         <div class="form-step-indicator" data-step="2">
                             <span class="step-dot">2</span>
-                            <span class="step-text">Domain</span>
+                            <span class="step-text" data-i18n="reg.step.domain">Domain</span>
                         </div>
                         <div class="step-line"></div>
                         <div class="form-step-indicator" data-step="3">
                             <span class="step-dot">3</span>
-                            <span class="step-text">Plan</span>
+                            <span class="step-text" data-i18n="reg.step.plan">Plan</span>
                         </div>
                         <div class="step-line"></div>
                         <div class="form-step-indicator" data-step="4">
                             <span class="step-dot">4</span>
-                            <span class="step-text">Setup</span>
+                            <span class="step-text" data-i18n="reg.step.setup">Setup</span>
                         </div>
                         <div class="step-line"></div>
                         <div class="form-step-indicator" data-step="5">
                             <span class="step-dot">5</span>
-                            <span class="step-text">IVR</span>
+                            <span class="step-text" data-i18n="reg.step.ivr">IVR</span>
                         </div>
                         <div class="step-line"></div>
                         <div class="form-step-indicator" data-step="6">
                             <span class="step-dot">6</span>
-                            <span class="step-text">Gateway</span>
+                            <span class="step-text" data-i18n="reg.step.gateway">Gateway</span>
                         </div>
                         <div class="step-line"></div>
                         <div class="form-step-indicator" data-step="7">
                             <span class="step-dot">7</span>
-                            <span class="step-text">Review</span>
+                            <span class="step-text" data-i18n="reg.step.review">Review</span>
                         </div>
                     </div>
 
                     <!-- Step 1: Account Info -->
                     <div class="form-step-content active" id="step1">
                         <div class="form-group">
-                            <label><i class="fas fa-user"></i> Full Name</label>
-                            <input type="text" id="fullName" name="full_name" required placeholder="John Doe">
+                            <label data-i18n-html="reg.label.fullName"><i class="fas fa-user"></i> Full Name</label>
+                            <input type="text" id="fullName" name="full_name" required data-i18n="reg.placeholder.fullName" placeholder="John Doe">
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-envelope"></i> Email Address</label>
-                            <input type="email" id="email" name="email" required placeholder="john@company.com">
+                            <label data-i18n-html="reg.label.email"><i class="fas fa-envelope"></i> Email Address</label>
+                            <input type="email" id="email" name="email" required data-i18n="reg.placeholder.email" placeholder="john@company.com">
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-phone"></i> Phone Number</label>
-                            <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000">
+                            <label data-i18n-html="reg.label.phone"><i class="fas fa-phone"></i> Phone Number</label>
+                            <input type="tel" id="phone" name="phone" data-i18n="reg.placeholder.phone" placeholder="+1 (555) 000-0000">
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-building"></i> Company Name</label>
-                            <input type="text" id="company" name="company" placeholder="Acme Corp">
+                            <label data-i18n-html="reg.label.company"><i class="fas fa-building"></i> Company Name</label>
+                            <input type="text" id="company" name="company" data-i18n="reg.placeholder.company" placeholder="Acme Corp">
                         </div>
-                        <button type="button" class="btn btn-primary btn-block" onclick="nextStep(2)">
+                        <button type="button" class="btn btn-primary btn-block" onclick="nextStep(2)" data-i18n-html="reg.btn.continue">
                             Continue <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
@@ -148,19 +164,19 @@
                     <!-- Step 2: Domain Setup -->
                     <div class="form-step-content" id="step2">
                         <div class="form-group">
-                            <label><i class="fas fa-globe"></i> Your Domain Name</label>
-                            <input type="text" id="domainName" name="domain_name" required placeholder="pbx.yourcompany.com">
-                            <span class="form-hint">Enter the domain/subdomain you want to use for your PBX</span>
+                            <label data-i18n-html="reg.label.domainName"><i class="fas fa-globe"></i> Your Domain Name</label>
+                            <input type="text" id="domainName" name="domain_name" required data-i18n="reg.placeholder.domainName" placeholder="pbx.yourcompany.com">
+                            <span class="form-hint" data-i18n="reg.hint.domainName">Enter the domain/subdomain you want to use for your PBX</span>
                             <div class="domain-check" id="domainCheck"></div>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-user-shield"></i> Admin Username</label>
-                            <input type="text" id="adminUsername" name="admin_username" required placeholder="admin" value="admin">
+                            <label data-i18n-html="reg.label.adminUsername"><i class="fas fa-user-shield"></i> Admin Username</label>
+                            <input type="text" id="adminUsername" name="admin_username" required data-i18n="reg.placeholder.adminUsername" placeholder="admin" value="admin">
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-lock"></i> Admin Password</label>
+                            <label data-i18n-html="reg.label.adminPassword"><i class="fas fa-lock"></i> Admin Password</label>
                             <div class="password-field">
-                                <input type="password" id="adminPassword" name="admin_password" required minlength="8" placeholder="Minimum 8 characters">
+                                <input type="password" id="adminPassword" name="admin_password" required minlength="8" data-i18n="reg.placeholder.adminPassword" placeholder="Minimum 8 characters">
                                 <button type="button" class="toggle-password" onclick="togglePassword(this)">
                                     <i class="fas fa-eye"></i>
                                 </button>
@@ -168,14 +184,14 @@
                             <div class="password-strength" id="passwordStrength"></div>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-lock"></i> Confirm Password</label>
-                            <input type="password" id="confirmPassword" name="confirm_password" required placeholder="Re-enter password">
+                            <label data-i18n-html="reg.label.confirmPassword"><i class="fas fa-lock"></i> Confirm Password</label>
+                            <input type="password" id="confirmPassword" name="confirm_password" required data-i18n="reg.placeholder.confirmPassword" placeholder="Re-enter password">
                         </div>
                         <div class="form-buttons">
-                            <button type="button" class="btn btn-ghost" onclick="prevStep(1)">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(1)" data-i18n-html="reg.btn.back">
                                 <i class="fas fa-arrow-left"></i> Back
                             </button>
-                            <button type="button" class="btn btn-primary" onclick="nextStep(3)">
+                            <button type="button" class="btn btn-primary" onclick="nextStep(3)" data-i18n-html="reg.btn.continue">
                                 Continue <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
@@ -188,30 +204,30 @@
                                 <input type="radio" id="planStarter" name="plan" value="starter" onchange="onPlanChange()">
                                 <div class="plan-option-content">
                                     <div class="plan-option-header">
-                                        <h4>Starter</h4>
+                                        <h4 data-i18n="reg.plan.starter">Starter</h4>
                                         <span class="plan-price">$29<small>/mo</small></span>
                                     </div>
                                     <ul>
-                                        <li>10 Extensions</li>
-                                        <li>1 Gateway</li>
-                                        <li>2 IVRs</li>
-                                        <li>2 Ring Groups</li>
+                                        <li data-i18n="reg.plan.starter.ext">10 Extensions</li>
+                                        <li data-i18n="reg.plan.starter.gw">1 Gateway</li>
+                                        <li data-i18n="reg.plan.starter.ivr">2 IVRs</li>
+                                        <li data-i18n="reg.plan.starter.rg">2 Ring Groups</li>
                                     </ul>
                                 </div>
                             </label>
                             <label class="plan-option" for="planBusiness">
                                 <input type="radio" id="planBusiness" name="plan" value="business" checked onchange="onPlanChange()">
                                 <div class="plan-option-content popular">
-                                    <div class="mini-badge">Popular</div>
+                                    <div class="mini-badge" data-i18n="reg.plan.popular">Popular</div>
                                     <div class="plan-option-header">
-                                        <h4>Business</h4>
+                                        <h4 data-i18n="reg.plan.business">Business</h4>
                                         <span class="plan-price">$79<small>/mo</small></span>
                                     </div>
                                     <ul>
-                                        <li>50 Extensions</li>
-                                        <li>5 Gateways</li>
-                                        <li>10 IVRs</li>
-                                        <li>10 Ring Groups</li>
+                                        <li data-i18n="reg.plan.business.ext">50 Extensions</li>
+                                        <li data-i18n="reg.plan.business.gw">5 Gateways</li>
+                                        <li data-i18n="reg.plan.business.ivr">10 IVRs</li>
+                                        <li data-i18n="reg.plan.business.rg">10 Ring Groups</li>
                                     </ul>
                                 </div>
                             </label>
@@ -219,23 +235,23 @@
                                 <input type="radio" id="planEnterprise" name="plan" value="enterprise" onchange="onPlanChange()">
                                 <div class="plan-option-content">
                                     <div class="plan-option-header">
-                                        <h4>Enterprise</h4>
+                                        <h4 data-i18n="reg.plan.enterprise">Enterprise</h4>
                                         <span class="plan-price">$199<small>/mo</small></span>
                                     </div>
                                     <ul>
-                                        <li>Unlimited Extensions</li>
-                                        <li>Unlimited Gateways</li>
-                                        <li>Unlimited IVRs</li>
-                                        <li>Unlimited Ring Groups</li>
+                                        <li data-i18n="reg.plan.enterprise.ext">Unlimited Extensions</li>
+                                        <li data-i18n="reg.plan.enterprise.gw">Unlimited Gateways</li>
+                                        <li data-i18n="reg.plan.enterprise.ivr">Unlimited IVRs</li>
+                                        <li data-i18n="reg.plan.enterprise.rg">Unlimited Ring Groups</li>
                                     </ul>
                                 </div>
                             </label>
                         </div>
                         <div class="form-buttons">
-                            <button type="button" class="btn btn-ghost" onclick="prevStep(2)">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(2)" data-i18n-html="reg.btn.back">
                                 <i class="fas fa-arrow-left"></i> Back
                             </button>
-                            <button type="button" class="btn btn-primary" onclick="nextStep(4)">
+                            <button type="button" class="btn btn-primary" onclick="nextStep(4)" data-i18n-html="reg.btn.continue">
                                 Continue <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
@@ -243,38 +259,38 @@
 
                     <!-- Step 4: Extensions & Ring Groups -->
                     <div class="form-step-content" id="step4">
-                        <h3 class="step-title"><i class="fas fa-phone"></i> Extensions & Ring Groups</h3>
-                        <p class="step-desc">Configure extensions for your PBX based on your <strong id="planNameStep4">Business</strong> plan.</p>
+                        <h3 class="step-title" data-i18n-html="reg.step4.title"><i class="fas fa-phone"></i> Extensions & Ring Groups</h3>
+                        <p class="step-desc" data-i18n-html="reg.step4.desc">Configure extensions for your PBX based on your <strong id="planNameStep4">Business</strong> plan.</p>
 
                         <div class="form-group">
-                            <label><i class="fas fa-hashtag"></i> Number of Extensions</label>
+                            <label data-i18n-html="reg.label.extensionsCount"><i class="fas fa-hashtag"></i> Number of Extensions</label>
                             <div class="range-field">
                                 <input type="range" id="extensionsCount" name="extensions_count" min="1" max="50" value="10" oninput="updateRangeDisplay(this, 'extensionsValue')">
                                 <span class="range-value" id="extensionsValue">10</span>
                             </div>
-                            <span class="form-hint">Max allowed: <strong id="maxExtLabel">50</strong></span>
+                            <span class="form-hint" data-i18n-html="reg.hint.maxExtensions">Max allowed: <strong id="maxExtLabel">50</strong></span>
                         </div>
 
                         <div class="form-group">
-                            <label><i class="fas fa-sort-numeric-up"></i> Extension Start Number</label>
+                            <label data-i18n-html="reg.label.extensionStart"><i class="fas fa-sort-numeric-up"></i> Extension Start Number</label>
                             <input type="number" id="extensionStart" name="extension_start" value="100" min="100" max="9999" placeholder="100">
-                            <span class="form-hint">Extensions will be numbered starting from this number (e.g., 100, 101, 102...)</span>
+                            <span class="form-hint" data-i18n="reg.hint.extensionStart">Extensions will be numbered starting from this number (e.g., 100, 101, 102...)</span>
                         </div>
 
                         <div class="form-group">
-                            <label><i class="fas fa-users-rectangle"></i> Number of Ring Groups</label>
+                            <label data-i18n-html="reg.label.ringGroupsCount"><i class="fas fa-users-rectangle"></i> Number of Ring Groups</label>
                             <div class="range-field">
                                 <input type="range" id="ringGroupsCount" name="ring_groups_count" min="0" max="10" value="1" oninput="updateRangeDisplay(this, 'ringGroupsValue')">
                                 <span class="range-value" id="ringGroupsValue">1</span>
                             </div>
-                            <span class="form-hint">Max allowed: <strong id="maxRgLabel">10</strong></span>
+                            <span class="form-hint" data-i18n-html="reg.hint.maxRingGroups">Max allowed: <strong id="maxRgLabel">10</strong></span>
                         </div>
 
                         <div class="form-buttons">
-                            <button type="button" class="btn btn-ghost" onclick="prevStep(3)">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(3)" data-i18n-html="reg.btn.back">
                                 <i class="fas fa-arrow-left"></i> Back
                             </button>
-                            <button type="button" class="btn btn-primary" onclick="nextStep(5)">
+                            <button type="button" class="btn btn-primary" onclick="nextStep(5)" data-i18n-html="reg.btn.continue">
                                 Continue <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
@@ -282,11 +298,11 @@
 
                     <!-- Step 5: IVR Configuration -->
                     <div class="form-step-content" id="step5">
-                        <h3 class="step-title"><i class="fas fa-diagram-project"></i> IVR Menus</h3>
-                        <p class="step-desc">Set up your auto-attendant / IVR menus. You can configure up to <strong id="maxIvrLabel">10</strong> IVRs.</p>
+                        <h3 class="step-title" data-i18n-html="reg.step5.title"><i class="fas fa-diagram-project"></i> IVR Menus</h3>
+                        <p class="step-desc" data-i18n-html="reg.step5.desc">Set up your auto-attendant / IVR menus. You can configure up to <strong id="maxIvrLabel">10</strong> IVRs.</p>
 
                         <div class="form-group">
-                            <label><i class="fas fa-hashtag"></i> Number of IVR Menus</label>
+                            <label data-i18n-html="reg.label.ivrsCount"><i class="fas fa-hashtag"></i> Number of IVR Menus</label>
                             <div class="range-field">
                                 <input type="range" id="ivrsCount" name="ivrs_count" min="0" max="10" value="1" oninput="updateIvrCount(this.value)">
                                 <span class="range-value" id="ivrsValue">1</span>
@@ -297,10 +313,10 @@
                         <div id="ivrConfigs"></div>
 
                         <div class="form-buttons">
-                            <button type="button" class="btn btn-ghost" onclick="prevStep(4)">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(4)" data-i18n-html="reg.btn.back">
                                 <i class="fas fa-arrow-left"></i> Back
                             </button>
-                            <button type="button" class="btn btn-primary" onclick="nextStep(6)">
+                            <button type="button" class="btn btn-primary" onclick="nextStep(6)" data-i18n-html="reg.btn.continue">
                                 Continue <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
@@ -308,46 +324,46 @@
 
                     <!-- Step 6: Gateway Configuration -->
                     <div class="form-step-content" id="step6">
-                        <h3 class="step-title"><i class="fas fa-globe"></i> SIP Gateway</h3>
-                        <p class="step-desc">Configure your SIP trunk for making and receiving external calls. You can skip this and configure later.</p>
+                        <h3 class="step-title" data-i18n-html="reg.step6.title"><i class="fas fa-globe"></i> SIP Gateway</h3>
+                        <p class="step-desc" data-i18n="reg.step6.desc">Configure your SIP trunk for making and receiving external calls. You can skip this and configure later.</p>
 
                         <div class="form-group">
                             <label class="checkbox-label">
                                 <input type="checkbox" id="configureGateway" onchange="toggleGatewayForm()">
-                                <span>I want to configure a SIP gateway now</span>
+                                <span data-i18n="reg.label.configureGateway">I want to configure a SIP gateway now</span>
                             </label>
                         </div>
 
                         <div id="gatewayForm" style="display:none;">
                             <div class="form-group">
-                                <label><i class="fas fa-tag"></i> Gateway Name</label>
-                                <input type="text" id="gwName" name="gw_name" placeholder="My SIP Provider">
+                                <label data-i18n-html="reg.label.gwName"><i class="fas fa-tag"></i> Gateway Name</label>
+                                <input type="text" id="gwName" name="gw_name" data-i18n="reg.placeholder.gwName" placeholder="My SIP Provider">
                             </div>
                             <div class="form-group">
-                                <label><i class="fas fa-server"></i> Proxy / Host</label>
-                                <input type="text" id="gwProxy" name="gw_proxy" placeholder="sip.provider.com">
-                                <span class="form-hint">The SIP server address from your trunk provider</span>
+                                <label data-i18n-html="reg.label.gwProxy"><i class="fas fa-server"></i> Proxy / Host</label>
+                                <input type="text" id="gwProxy" name="gw_proxy" data-i18n="reg.placeholder.gwProxy" placeholder="sip.provider.com">
+                                <span class="form-hint" data-i18n="reg.hint.gwProxy">The SIP server address from your trunk provider</span>
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label><i class="fas fa-user"></i> Username</label>
-                                    <input type="text" id="gwUsername" name="gw_username" placeholder="your_username">
+                                    <label data-i18n-html="reg.label.gwUsername"><i class="fas fa-user"></i> Username</label>
+                                    <input type="text" id="gwUsername" name="gw_username" data-i18n="reg.placeholder.gwUsername" placeholder="your_username">
                                 </div>
                                 <div class="form-group">
-                                    <label><i class="fas fa-lock"></i> Password</label>
-                                    <input type="text" id="gwPassword" name="gw_password" placeholder="your_password">
+                                    <label data-i18n-html="reg.label.gwPassword"><i class="fas fa-lock"></i> Password</label>
+                                    <input type="text" id="gwPassword" name="gw_password" data-i18n="reg.placeholder.gwPassword" placeholder="your_password">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label><i class="fas fa-hashtag"></i> Register</label>
+                                    <label data-i18n-html="reg.label.gwRegister"><i class="fas fa-hashtag"></i> Register</label>
                                     <select id="gwRegister" name="gw_register" class="formfld">
-                                        <option value="true">Yes</option>
-                                        <option value="false">No</option>
+                                        <option value="true" data-i18n="reg.option.yes">Yes</option>
+                                        <option value="false" data-i18n="reg.option.no">No</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label><i class="fas fa-network-wired"></i> Transport</label>
+                                    <label data-i18n-html="reg.label.gwTransport"><i class="fas fa-network-wired"></i> Transport</label>
                                     <select id="gwTransport" name="gw_transport" class="formfld">
                                         <option value="udp">UDP</option>
                                         <option value="tcp">TCP</option>
@@ -356,17 +372,17 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label><i class="fas fa-phone-volume"></i> Caller ID Number (optional)</label>
-                                <input type="text" id="gwCallerId" name="gw_caller_id" placeholder="+15551234567">
-                                <span class="form-hint">The outbound caller ID number for this trunk</span>
+                                <label data-i18n-html="reg.label.gwCallerId"><i class="fas fa-phone-volume"></i> Caller ID Number (optional)</label>
+                                <input type="text" id="gwCallerId" name="gw_caller_id" data-i18n="reg.placeholder.gwCallerId" placeholder="+15551234567">
+                                <span class="form-hint" data-i18n="reg.hint.gwCallerId">The outbound caller ID number for this trunk</span>
                             </div>
                         </div>
 
                         <div class="form-buttons">
-                            <button type="button" class="btn btn-ghost" onclick="prevStep(5)">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(5)" data-i18n-html="reg.btn.back">
                                 <i class="fas fa-arrow-left"></i> Back
                             </button>
-                            <button type="button" class="btn btn-primary" onclick="nextStep(7)">
+                            <button type="button" class="btn btn-primary" onclick="nextStep(7)" data-i18n-html="reg.btn.continue">
                                 Continue <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
@@ -374,21 +390,21 @@
 
                     <!-- Step 7: Review & Confirm -->
                     <div class="form-step-content" id="step7">
-                        <h3 class="step-title"><i class="fas fa-clipboard-check"></i> Review & Confirm</h3>
+                        <h3 class="step-title" data-i18n-html="reg.step7.title"><i class="fas fa-clipboard-check"></i> Review & Confirm</h3>
                         <div class="review-table" id="reviewTable"></div>
 
                         <div class="form-group checkbox-group">
                             <label class="checkbox-label">
                                 <input type="checkbox" id="agreeTerms" required>
-                                <span>I agree to the <a href="terms.html" target="_blank">Terms of Service</a> and <a href="privacy.html" target="_blank">Privacy Policy</a></span>
+                                <span data-i18n-html="reg.agreeTerms">I agree to the <a href="terms.html" target="_blank">Terms of Service</a> and <a href="privacy.html" target="_blank">Privacy Policy</a></span>
                             </label>
                         </div>
 
                         <div class="form-buttons">
-                            <button type="button" class="btn btn-ghost" onclick="prevStep(6)">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(6)" data-i18n-html="reg.btn.back">
                                 <i class="fas fa-arrow-left"></i> Back
                             </button>
-                            <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
+                            <button type="submit" class="btn btn-primary btn-lg" id="submitBtn" data-i18n-html="reg.btn.createPbx">
                                 <i class="fas fa-rocket"></i> Create My PBX
                             </button>
                         </div>
@@ -398,7 +414,7 @@
                     <div class="form-step-content" id="stepProcessing" style="display:none;">
                         <div class="processing-state">
                             <div class="spinner"></div>
-                            <h3>Creating Your Cloud PBX...</h3>
+                            <h3 data-i18n="reg.processing.title">Creating Your Cloud PBX...</h3>
                             <div class="progress-log" id="progressLog"></div>
                         </div>
                     </div>
@@ -407,39 +423,40 @@
                     <div class="form-step-content" id="stepSuccess" style="display:none;">
                         <div class="success-state">
                             <div class="success-icon"><i class="fas fa-check-circle"></i></div>
-                            <h3>Your PBX is Ready!</h3>
-                            <p>Your cloud PBX has been created successfully.</p>
+                            <h3 data-i18n="reg.success.title">Your PBX is Ready!</h3>
+                            <p data-i18n="reg.success.subtitle">Your cloud PBX has been created successfully.</p>
                             <div class="credentials-box">
-                                <h4>Your Login Details</h4>
+                                <h4 data-i18n="reg.success.loginDetails">Your Login Details</h4>
                                 <div class="credential-row">
-                                    <span class="credential-label">URL:</span>
+                                    <span class="credential-label" data-i18n="reg.success.url">URL:</span>
                                     <span class="credential-value" id="resultUrl"></span>
                                 </div>
                                 <div class="credential-row">
-                                    <span class="credential-label">Username:</span>
+                                    <span class="credential-label" data-i18n="reg.success.username">Username:</span>
                                     <span class="credential-value" id="resultUsername"></span>
                                 </div>
                                 <div class="credential-row">
-                                    <span class="credential-label">Password:</span>
+                                    <span class="credential-label" data-i18n="reg.success.password">Password:</span>
                                     <span class="credential-value">********</span>
                                 </div>
                             </div>
                             <div class="next-steps">
-                                <h4><i class="fas fa-list-check"></i> Next Steps</h4>
+                                <h4 data-i18n-html="reg.success.nextSteps"><i class="fas fa-list-check"></i> Next Steps</h4>
                                 <ol>
                                     <li>
-                                        <strong>Point your domain</strong> &mdash; Add a DNS A record for <code id="resultDomain"></code> pointing to <code id="resultIp"></code>
-                                        <a href="index.html#dns-setup" target="_blank">See DNS guide</a>
+                                        <strong data-i18n="reg.success.step1.title">Point your domain</strong> &mdash; <span data-i18n="reg.success.step1.desc">Add a DNS A record for your domain pointing to the server IP</span>
+                                        <code id="resultDomain"></code> <code id="resultIp"></code>
+                                        <a href="index.html#dns-setup" target="_blank" data-i18n="reg.success.step1.link">See DNS guide</a>
                                     </li>
                                     <li>
-                                        <strong>Login to your PBX</strong> &mdash; Use the credentials above. Until DNS propagates, use: <a href="#" id="tempUrl" target="_blank"></a>
+                                        <strong data-i18n="reg.success.step2.title">Login to your PBX</strong> &mdash; <span data-i18n="reg.success.step2.desc">Use the credentials above. Until DNS propagates, use:</span> <a href="#" id="tempUrl" target="_blank"></a>
                                     </li>
                                     <li>
-                                        <strong>Configure your phones</strong> &mdash; Register your SIP phones or use the WebRTC softphone
+                                        <strong data-i18n="reg.success.step3.title">Configure your phones</strong> &mdash; <span data-i18n="reg.success.step3.desc">Register your SIP phones or use the WebRTC softphone</span>
                                     </li>
                                 </ol>
                             </div>
-                            <a href="#" id="loginBtn" class="btn btn-primary btn-lg btn-block" target="_blank">
+                            <a href="#" id="loginBtn" class="btn btn-primary btn-lg btn-block" target="_blank" data-i18n-html="reg.btn.loginToPbx">
                                 <i class="fas fa-sign-in-alt"></i> Login to Your PBX
                             </a>
                         </div>
@@ -449,9 +466,9 @@
                     <div class="form-step-content" id="stepError" style="display:none;">
                         <div class="error-state">
                             <div class="error-icon"><i class="fas fa-exclamation-circle"></i></div>
-                            <h3>Something Went Wrong</h3>
-                            <p id="errorMessage">An error occurred during registration. Please try again.</p>
-                            <button type="button" class="btn btn-primary" onclick="resetForm()">
+                            <h3 data-i18n="reg.error.title">Something Went Wrong</h3>
+                            <p id="errorMessage" data-i18n="reg.error.message">An error occurred during registration. Please try again.</p>
+                            <button type="button" class="btn btn-primary" onclick="resetForm()" data-i18n-html="reg.btn.tryAgain">
                                 <i class="fas fa-redo"></i> Try Again
                             </button>
                         </div>
@@ -465,10 +482,11 @@
 <!-- Footer -->
 <footer class="footer footer-simple">
     <div class="container">
-        <p>&copy; 2024 VOIP@ Cloud. All rights reserved. | <a href="terms.html">Terms</a> | <a href="privacy.html">Privacy</a></p>
+        <p data-i18n-html="reg.footer">&copy; 2024 VOIP@ Cloud. All rights reserved. | <a href="terms.html">Terms</a> | <a href="privacy.html">Privacy</a></p>
     </div>
 </footer>
 
+<script src="js/translations.js"></script>
 <script src="js/register.js"></script>
 </body>
 </html>

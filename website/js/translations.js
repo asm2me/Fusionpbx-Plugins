@@ -906,6 +906,638 @@ const translations = {
     de: "VOIP@ Cloud. Alle Rechte vorbehalten.", pt: "VOIP@ Cloud. Todos os direitos reservados.", zh: "VOIP@ Cloud. 保留所有权利。", ja: "VOIP@ Cloud. All rights reserved.", tr: "VOIP@ Cloud. Tüm hakları saklıdır.", ru: "VOIP@ Cloud. Все права защищены."
   },
 
+  // ========================================
+  // Registration Page
+  // ========================================
+
+  // Navbar
+  "reg.alreadyHaveAccount": {
+    en: "Already have an account?", ar: "لديك حساب بالفعل؟", es: "¿Ya tienes una cuenta?", fr: "Vous avez déjà un compte ?",
+    de: "Bereits ein Konto?", pt: "Já tem uma conta?", zh: "已有账户？", ja: "アカウントをお持ちですか？", tr: "Zaten hesabınız var mı?", ru: "Уже есть аккаунт?"
+  },
+
+  // Benefits section
+  "reg.trialTitle": {
+    en: "Start Your <span class=\"gradient-text\">14-Day Free Trial</span>",
+    ar: "ابدأ <span class=\"gradient-text\">تجربتك المجانية لمدة 14 يومًا</span>",
+    es: "Comience su <span class=\"gradient-text\">prueba gratuita de 14 días</span>",
+    fr: "Démarrez votre <span class=\"gradient-text\">essai gratuit de 14 jours</span>",
+    de: "Starten Sie Ihre <span class=\"gradient-text\">14-tägige kostenlose Testphase</span>",
+    pt: "Comece seu <span class=\"gradient-text\">teste gratuito de 14 dias</span>",
+    zh: "开始您的<span class=\"gradient-text\">14天免费试用</span>",
+    ja: "<span class=\"gradient-text\">14日間の無料トライアル</span>を始めましょう",
+    tr: "<span class=\"gradient-text\">14 Günlük Ücretsiz Denemenizi</span> Başlatın",
+    ru: "Начните <span class=\"gradient-text\">14-дневный бесплатный пробный период</span>"
+  },
+  "reg.trialSubtitle": {
+    en: "Get your enterprise cloud PBX up and running in minutes. No credit card required.",
+    ar: "احصل على نظام PBX السحابي للمؤسسات وقم بتشغيله في دقائق. لا حاجة لبطاقة ائتمان.",
+    es: "Ponga en marcha su PBX en la nube empresarial en minutos. No se requiere tarjeta de crédito.",
+    fr: "Mettez en service votre PBX cloud d'entreprise en quelques minutes. Aucune carte de crédit requise.",
+    de: "Starten Sie Ihre Enterprise-Cloud-PBX in wenigen Minuten. Keine Kreditkarte erforderlich.",
+    pt: "Coloque seu PBX empresarial na nuvem em funcionamento em minutos. Sem necessidade de cartão de crédito.",
+    zh: "几分钟内启动您的企业云PBX。无需信用卡。",
+    ja: "数分でエンタープライズクラウドPBXを稼働させましょう。クレジットカード不要。",
+    tr: "Kurumsal bulut PBX'inizi dakikalar içinde çalıştırın. Kredi kartı gerekmez.",
+    ru: "Запустите корпоративную облачную АТС за считанные минуты. Кредитная карта не требуется."
+  },
+  "reg.benefit.provisioning.title": {
+    en: "Instant Provisioning", ar: "إعداد فوري", es: "Aprovisionamiento Instantáneo", fr: "Provisionnement Instantané",
+    de: "Sofortige Bereitstellung", pt: "Provisionamento Instantâneo", zh: "即时配置", ja: "即時プロビジョニング", tr: "Anında Kurulum", ru: "Мгновенное развёртывание"
+  },
+  "reg.benefit.provisioning.desc": {
+    en: "Your PBX is ready in seconds after registration",
+    ar: "نظام PBX الخاص بك جاهز في ثوانٍ بعد التسجيل",
+    es: "Su PBX estará listo en segundos después del registro",
+    fr: "Votre PBX est prêt en quelques secondes après l'inscription",
+    de: "Ihre PBX ist Sekunden nach der Registrierung einsatzbereit",
+    pt: "Seu PBX estará pronto em segundos após o registro",
+    zh: "注册后几秒钟即可使用您的PBX",
+    ja: "登録後、数秒でPBXが利用可能に",
+    tr: "PBX'iniz kayıt olduktan saniyeler sonra hazır",
+    ru: "Ваша АТС готова через секунды после регистрации"
+  },
+  "reg.benefit.domain.title": {
+    en: "Your Own Domain", ar: "نطاقك الخاص", es: "Su Propio Dominio", fr: "Votre Propre Domaine",
+    de: "Ihre Eigene Domain", pt: "Seu Próprio Domínio", zh: "您自己的域名", ja: "独自ドメイン", tr: "Kendi Alan Adınız", ru: "Ваш собственный домен"
+  },
+  "reg.benefit.domain.desc": {
+    en: "Run your PBX on your company's domain name",
+    ar: "قم بتشغيل PBX على اسم نطاق شركتك",
+    es: "Ejecute su PBX en el nombre de dominio de su empresa",
+    fr: "Exécutez votre PBX sur le nom de domaine de votre entreprise",
+    de: "Betreiben Sie Ihre PBX auf dem Domainnamen Ihres Unternehmens",
+    pt: "Execute seu PBX no nome de domínio da sua empresa",
+    zh: "在您公司的域名上运行PBX",
+    ja: "自社ドメインでPBXを運用",
+    tr: "PBX'inizi şirketinizin alan adında çalıştırın",
+    ru: "Запустите АТС на домене вашей компании"
+  },
+  "reg.benefit.features.title": {
+    en: "Full Features", ar: "جميع المميزات", es: "Funciones Completas", fr: "Fonctionnalités Complètes",
+    de: "Alle Funktionen", pt: "Recursos Completos", zh: "完整功能", ja: "フル機能", tr: "Tüm Özellikler", ru: "Полный функционал"
+  },
+  "reg.benefit.features.desc": {
+    en: "Extensions, IVR, ring groups, recordings — everything included",
+    ar: "تحويلات، رد آلي، مجموعات رنين، تسجيلات — كل شيء متضمن",
+    es: "Extensiones, IVR, grupos de timbrado, grabaciones — todo incluido",
+    fr: "Postes, SVI, groupes d'appels, enregistrements — tout est inclus",
+    de: "Nebenstellen, IVR, Rufgruppen, Aufzeichnungen — alles inklusive",
+    pt: "Ramais, URA, grupos de toque, gravações — tudo incluído",
+    zh: "分机、IVR、振铃组、录音——全部包含",
+    ja: "内線、IVR、リンググループ、録音——すべて含まれています",
+    tr: "Dahililer, IVR, çalma grupları, kayıtlar — her şey dahil",
+    ru: "Добавочные, IVR, группы вызова, записи — всё включено"
+  },
+  "reg.benefit.nolockin.title": {
+    en: "No Lock-In", ar: "بدون التزام", es: "Sin Compromiso", fr: "Sans Engagement",
+    de: "Keine Bindung", pt: "Sem Compromisso", zh: "无锁定", ja: "ロックインなし", tr: "Bağlayıcılık Yok", ru: "Без привязки"
+  },
+  "reg.benefit.nolockin.desc": {
+    en: "Cancel anytime. Export your data whenever you want",
+    ar: "إلغاء في أي وقت. صدّر بياناتك متى شئت",
+    es: "Cancele en cualquier momento. Exporte sus datos cuando quiera",
+    fr: "Annulez à tout moment. Exportez vos données quand vous le souhaitez",
+    de: "Jederzeit kündbar. Exportieren Sie Ihre Daten wann immer Sie möchten",
+    pt: "Cancele a qualquer momento. Exporte seus dados quando quiser",
+    zh: "随时取消。随时导出您的数据",
+    ja: "いつでもキャンセル可能。データはいつでもエクスポートできます",
+    tr: "İstediğiniz zaman iptal edin. Verilerinizi istediğiniz zaman dışa aktarın",
+    ru: "Отмена в любое время. Экспортируйте данные когда угодно"
+  },
+  "reg.selectedPlan": {
+    en: "Selected Plan", ar: "الخطة المختارة", es: "Plan Seleccionado", fr: "Forfait Sélectionné",
+    de: "Gewählter Plan", pt: "Plano Selecionado", zh: "已选套餐", ja: "選択プラン", tr: "Seçili Plan", ru: "Выбранный план"
+  },
+  "reg.configSummary": {
+    en: "<i class=\"fas fa-clipboard-list\"></i> Your Configuration",
+    ar: "<i class=\"fas fa-clipboard-list\"></i> إعداداتك",
+    es: "<i class=\"fas fa-clipboard-list\"></i> Su Configuración",
+    fr: "<i class=\"fas fa-clipboard-list\"></i> Votre Configuration",
+    de: "<i class=\"fas fa-clipboard-list\"></i> Ihre Konfiguration",
+    pt: "<i class=\"fas fa-clipboard-list\"></i> Sua Configuração",
+    zh: "<i class=\"fas fa-clipboard-list\"></i> 您的配置",
+    ja: "<i class=\"fas fa-clipboard-list\"></i> 設定内容",
+    tr: "<i class=\"fas fa-clipboard-list\"></i> Yapılandırmanız",
+    ru: "<i class=\"fas fa-clipboard-list\"></i> Ваша конфигурация"
+  },
+
+  // Form heading & steps
+  "reg.createAccount": {
+    en: "Create Your Account", ar: "أنشئ حسابك", es: "Cree Su Cuenta", fr: "Créez Votre Compte",
+    de: "Konto Erstellen", pt: "Crie Sua Conta", zh: "创建您的账户", ja: "アカウントを作成", tr: "Hesabınızı Oluşturun", ru: "Создайте аккаунт"
+  },
+  "reg.step.account": {
+    en: "Account", ar: "الحساب", es: "Cuenta", fr: "Compte",
+    de: "Konto", pt: "Conta", zh: "账户", ja: "アカウント", tr: "Hesap", ru: "Аккаунт"
+  },
+  "reg.step.domain": {
+    en: "Domain", ar: "النطاق", es: "Dominio", fr: "Domaine",
+    de: "Domain", pt: "Domínio", zh: "域名", ja: "ドメイン", tr: "Alan Adı", ru: "Домен"
+  },
+  "reg.step.plan": {
+    en: "Plan", ar: "الخطة", es: "Plan", fr: "Forfait",
+    de: "Plan", pt: "Plano", zh: "套餐", ja: "プラン", tr: "Plan", ru: "План"
+  },
+  "reg.step.setup": {
+    en: "Setup", ar: "الإعداد", es: "Configuración", fr: "Configuration",
+    de: "Einrichtung", pt: "Configuração", zh: "设置", ja: "セットアップ", tr: "Kurulum", ru: "Настройка"
+  },
+  "reg.step.ivr": {
+    en: "IVR", ar: "الرد الآلي", es: "IVR", fr: "SVI",
+    de: "IVR", pt: "URA", zh: "IVR", ja: "IVR", tr: "IVR", ru: "IVR"
+  },
+  "reg.step.gateway": {
+    en: "Gateway", ar: "البوابة", es: "Puerta de Enlace", fr: "Passerelle",
+    de: "Gateway", pt: "Gateway", zh: "网关", ja: "ゲートウェイ", tr: "Ağ Geçidi", ru: "Шлюз"
+  },
+  "reg.step.review": {
+    en: "Review", ar: "المراجعة", es: "Revisión", fr: "Vérification",
+    de: "Überprüfung", pt: "Revisão", zh: "审核", ja: "確認", tr: "İnceleme", ru: "Обзор"
+  },
+
+  // Step 1: Account Info - Labels
+  "reg.label.fullName": {
+    en: "<i class=\"fas fa-user\"></i> Full Name", ar: "<i class=\"fas fa-user\"></i> الاسم الكامل", es: "<i class=\"fas fa-user\"></i> Nombre Completo", fr: "<i class=\"fas fa-user\"></i> Nom Complet",
+    de: "<i class=\"fas fa-user\"></i> Vollständiger Name", pt: "<i class=\"fas fa-user\"></i> Nome Completo", zh: "<i class=\"fas fa-user\"></i> 全名", ja: "<i class=\"fas fa-user\"></i> 氏名", tr: "<i class=\"fas fa-user\"></i> Ad Soyad", ru: "<i class=\"fas fa-user\"></i> Полное имя"
+  },
+  "reg.label.email": {
+    en: "<i class=\"fas fa-envelope\"></i> Email Address", ar: "<i class=\"fas fa-envelope\"></i> البريد الإلكتروني", es: "<i class=\"fas fa-envelope\"></i> Correo Electrónico", fr: "<i class=\"fas fa-envelope\"></i> Adresse E-mail",
+    de: "<i class=\"fas fa-envelope\"></i> E-Mail-Adresse", pt: "<i class=\"fas fa-envelope\"></i> Endereço de E-mail", zh: "<i class=\"fas fa-envelope\"></i> 电子邮箱", ja: "<i class=\"fas fa-envelope\"></i> メールアドレス", tr: "<i class=\"fas fa-envelope\"></i> E-posta Adresi", ru: "<i class=\"fas fa-envelope\"></i> Электронная почта"
+  },
+  "reg.label.phone": {
+    en: "<i class=\"fas fa-phone\"></i> Phone Number", ar: "<i class=\"fas fa-phone\"></i> رقم الهاتف", es: "<i class=\"fas fa-phone\"></i> Número de Teléfono", fr: "<i class=\"fas fa-phone\"></i> Numéro de Téléphone",
+    de: "<i class=\"fas fa-phone\"></i> Telefonnummer", pt: "<i class=\"fas fa-phone\"></i> Número de Telefone", zh: "<i class=\"fas fa-phone\"></i> 电话号码", ja: "<i class=\"fas fa-phone\"></i> 電話番号", tr: "<i class=\"fas fa-phone\"></i> Telefon Numarası", ru: "<i class=\"fas fa-phone\"></i> Номер телефона"
+  },
+  "reg.label.company": {
+    en: "<i class=\"fas fa-building\"></i> Company Name", ar: "<i class=\"fas fa-building\"></i> اسم الشركة", es: "<i class=\"fas fa-building\"></i> Nombre de la Empresa", fr: "<i class=\"fas fa-building\"></i> Nom de l'Entreprise",
+    de: "<i class=\"fas fa-building\"></i> Firmenname", pt: "<i class=\"fas fa-building\"></i> Nome da Empresa", zh: "<i class=\"fas fa-building\"></i> 公司名称", ja: "<i class=\"fas fa-building\"></i> 会社名", tr: "<i class=\"fas fa-building\"></i> Şirket Adı", ru: "<i class=\"fas fa-building\"></i> Название компании"
+  },
+
+  // Step 1: Placeholders
+  "reg.placeholder.fullName": {
+    en: "John Doe", ar: "محمد أحمد", es: "Juan Pérez", fr: "Jean Dupont",
+    de: "Max Mustermann", pt: "João Silva", zh: "张三", ja: "山田太郎", tr: "Ahmet Yılmaz", ru: "Иван Иванов"
+  },
+  "reg.placeholder.email": {
+    en: "john@company.com", ar: "mohammed@company.com", es: "juan@empresa.com", fr: "jean@entreprise.com",
+    de: "max@firma.com", pt: "joao@empresa.com", zh: "zhang@company.com", ja: "yamada@company.co.jp", tr: "ahmet@sirket.com", ru: "ivan@company.ru"
+  },
+  "reg.placeholder.phone": {
+    en: "+1 (555) 000-0000", ar: "+966 5X XXX XXXX", es: "+34 600 000 000", fr: "+33 6 00 00 00 00",
+    de: "+49 170 0000000", pt: "+55 11 90000-0000", zh: "+86 138 0000 0000", ja: "+81 90-0000-0000", tr: "+90 5XX XXX XXXX", ru: "+7 900 000-00-00"
+  },
+  "reg.placeholder.company": {
+    en: "Acme Corp", ar: "شركة أكمي", es: "Acme Corp", fr: "Acme SARL",
+    de: "Acme GmbH", pt: "Acme Ltda", zh: "Acme公司", ja: "Acme株式会社", tr: "Acme Ltd", ru: "ООО Акме"
+  },
+
+  // Step 2: Domain Setup - Labels
+  "reg.label.domainName": {
+    en: "<i class=\"fas fa-globe\"></i> Your Domain Name", ar: "<i class=\"fas fa-globe\"></i> اسم النطاق الخاص بك", es: "<i class=\"fas fa-globe\"></i> Su Nombre de Dominio", fr: "<i class=\"fas fa-globe\"></i> Votre Nom de Domaine",
+    de: "<i class=\"fas fa-globe\"></i> Ihr Domainname", pt: "<i class=\"fas fa-globe\"></i> Seu Nome de Domínio", zh: "<i class=\"fas fa-globe\"></i> 您的域名", ja: "<i class=\"fas fa-globe\"></i> ドメイン名", tr: "<i class=\"fas fa-globe\"></i> Alan Adınız", ru: "<i class=\"fas fa-globe\"></i> Ваше доменное имя"
+  },
+  "reg.label.adminUsername": {
+    en: "<i class=\"fas fa-user-shield\"></i> Admin Username", ar: "<i class=\"fas fa-user-shield\"></i> اسم مستخدم المدير", es: "<i class=\"fas fa-user-shield\"></i> Usuario Administrador", fr: "<i class=\"fas fa-user-shield\"></i> Nom d'Utilisateur Admin",
+    de: "<i class=\"fas fa-user-shield\"></i> Admin-Benutzername", pt: "<i class=\"fas fa-user-shield\"></i> Nome de Usuário Admin", zh: "<i class=\"fas fa-user-shield\"></i> 管理员用户名", ja: "<i class=\"fas fa-user-shield\"></i> 管理者ユーザー名", tr: "<i class=\"fas fa-user-shield\"></i> Yönetici Kullanıcı Adı", ru: "<i class=\"fas fa-user-shield\"></i> Имя администратора"
+  },
+  "reg.label.adminPassword": {
+    en: "<i class=\"fas fa-lock\"></i> Admin Password", ar: "<i class=\"fas fa-lock\"></i> كلمة مرور المدير", es: "<i class=\"fas fa-lock\"></i> Contraseña de Administrador", fr: "<i class=\"fas fa-lock\"></i> Mot de Passe Admin",
+    de: "<i class=\"fas fa-lock\"></i> Admin-Passwort", pt: "<i class=\"fas fa-lock\"></i> Senha do Admin", zh: "<i class=\"fas fa-lock\"></i> 管理员密码", ja: "<i class=\"fas fa-lock\"></i> 管理者パスワード", tr: "<i class=\"fas fa-lock\"></i> Yönetici Şifresi", ru: "<i class=\"fas fa-lock\"></i> Пароль администратора"
+  },
+  "reg.label.confirmPassword": {
+    en: "<i class=\"fas fa-lock\"></i> Confirm Password", ar: "<i class=\"fas fa-lock\"></i> تأكيد كلمة المرور", es: "<i class=\"fas fa-lock\"></i> Confirmar Contraseña", fr: "<i class=\"fas fa-lock\"></i> Confirmer le Mot de Passe",
+    de: "<i class=\"fas fa-lock\"></i> Passwort Bestätigen", pt: "<i class=\"fas fa-lock\"></i> Confirmar Senha", zh: "<i class=\"fas fa-lock\"></i> 确认密码", ja: "<i class=\"fas fa-lock\"></i> パスワード確認", tr: "<i class=\"fas fa-lock\"></i> Şifreyi Onayla", ru: "<i class=\"fas fa-lock\"></i> Подтвердите пароль"
+  },
+
+  // Step 2: Placeholders
+  "reg.placeholder.domainName": {
+    en: "pbx.yourcompany.com", ar: "pbx.yourcompany.com", es: "pbx.suempresa.com", fr: "pbx.votreentreprise.com",
+    de: "pbx.ihrefirma.com", pt: "pbx.suaempresa.com", zh: "pbx.yourcompany.com", ja: "pbx.yourcompany.com", tr: "pbx.sirketiniz.com", ru: "pbx.вашакомпания.com"
+  },
+  "reg.placeholder.adminUsername": {
+    en: "admin", ar: "admin", es: "admin", fr: "admin",
+    de: "admin", pt: "admin", zh: "admin", ja: "admin", tr: "admin", ru: "admin"
+  },
+  "reg.placeholder.adminPassword": {
+    en: "Minimum 8 characters", ar: "8 أحرف على الأقل", es: "Mínimo 8 caracteres", fr: "8 caractères minimum",
+    de: "Mindestens 8 Zeichen", pt: "Mínimo 8 caracteres", zh: "至少8个字符", ja: "8文字以上", tr: "En az 8 karakter", ru: "Минимум 8 символов"
+  },
+  "reg.placeholder.confirmPassword": {
+    en: "Re-enter password", ar: "أعد إدخال كلمة المرور", es: "Reingrese la contraseña", fr: "Ressaisissez le mot de passe",
+    de: "Passwort erneut eingeben", pt: "Digite a senha novamente", zh: "重新输入密码", ja: "パスワードを再入力", tr: "Şifreyi tekrar girin", ru: "Повторите пароль"
+  },
+
+  // Step 2: Hints
+  "reg.hint.domainName": {
+    en: "Enter the domain/subdomain you want to use for your PBX",
+    ar: "أدخل النطاق/النطاق الفرعي الذي تريد استخدامه لنظام PBX الخاص بك",
+    es: "Ingrese el dominio/subdominio que desea usar para su PBX",
+    fr: "Entrez le domaine/sous-domaine que vous souhaitez utiliser pour votre PBX",
+    de: "Geben Sie die Domain/Subdomain ein, die Sie für Ihre PBX verwenden möchten",
+    pt: "Insira o domínio/subdomínio que deseja usar para seu PBX",
+    zh: "输入您想用于PBX的域名/子域名",
+    ja: "PBXに使用するドメイン/サブドメインを入力してください",
+    tr: "PBX'iniz için kullanmak istediğiniz alan adını/alt alan adını girin",
+    ru: "Введите домен/поддомен, который хотите использовать для АТС"
+  },
+
+  // Buttons
+  "reg.btn.continue": {
+    en: "Continue <i class=\"fas fa-arrow-right\"></i>", ar: "متابعة <i class=\"fas fa-arrow-left\"></i>", es: "Continuar <i class=\"fas fa-arrow-right\"></i>", fr: "Continuer <i class=\"fas fa-arrow-right\"></i>",
+    de: "Weiter <i class=\"fas fa-arrow-right\"></i>", pt: "Continuar <i class=\"fas fa-arrow-right\"></i>", zh: "继续 <i class=\"fas fa-arrow-right\"></i>", ja: "続ける <i class=\"fas fa-arrow-right\"></i>", tr: "Devam <i class=\"fas fa-arrow-right\"></i>", ru: "Далее <i class=\"fas fa-arrow-right\"></i>"
+  },
+  "reg.btn.back": {
+    en: "<i class=\"fas fa-arrow-left\"></i> Back", ar: "<i class=\"fas fa-arrow-right\"></i> رجوع", es: "<i class=\"fas fa-arrow-left\"></i> Atrás", fr: "<i class=\"fas fa-arrow-left\"></i> Retour",
+    de: "<i class=\"fas fa-arrow-left\"></i> Zurück", pt: "<i class=\"fas fa-arrow-left\"></i> Voltar", zh: "<i class=\"fas fa-arrow-left\"></i> 返回", ja: "<i class=\"fas fa-arrow-left\"></i> 戻る", tr: "<i class=\"fas fa-arrow-left\"></i> Geri", ru: "<i class=\"fas fa-arrow-left\"></i> Назад"
+  },
+
+  // Step 3: Plan Selection
+  "reg.plan.starter": {
+    en: "Starter", ar: "المبتدئ", es: "Inicial", fr: "Démarrage",
+    de: "Starter", pt: "Inicial", zh: "入门版", ja: "スターター", tr: "Başlangıç", ru: "Стартовый"
+  },
+  "reg.plan.business": {
+    en: "Business", ar: "الأعمال", es: "Empresarial", fr: "Business",
+    de: "Business", pt: "Empresarial", zh: "商务版", ja: "ビジネス", tr: "İşletme", ru: "Бизнес"
+  },
+  "reg.plan.enterprise": {
+    en: "Enterprise", ar: "المؤسسات", es: "Empresa", fr: "Entreprise",
+    de: "Enterprise", pt: "Enterprise", zh: "企业版", ja: "エンタープライズ", tr: "Kurumsal", ru: "Корпоративный"
+  },
+  "reg.plan.popular": {
+    en: "Popular", ar: "الأكثر شعبية", es: "Popular", fr: "Populaire",
+    de: "Beliebt", pt: "Popular", zh: "热门", ja: "人気", tr: "Popüler", ru: "Популярный"
+  },
+  "reg.plan.starter.ext": {
+    en: "10 Extensions", ar: "10 تحويلات", es: "10 Extensiones", fr: "10 Postes",
+    de: "10 Nebenstellen", pt: "10 Ramais", zh: "10个分机", ja: "10内線", tr: "10 Dahili", ru: "10 добавочных"
+  },
+  "reg.plan.starter.gw": {
+    en: "1 Gateway", ar: "1 بوابة", es: "1 Puerta de Enlace", fr: "1 Passerelle",
+    de: "1 Gateway", pt: "1 Gateway", zh: "1个网关", ja: "1ゲートウェイ", tr: "1 Ağ Geçidi", ru: "1 шлюз"
+  },
+  "reg.plan.starter.ivr": {
+    en: "2 IVRs", ar: "2 رد آلي", es: "2 IVRs", fr: "2 SVI",
+    de: "2 IVRs", pt: "2 URAs", zh: "2个IVR", ja: "2 IVR", tr: "2 IVR", ru: "2 IVR"
+  },
+  "reg.plan.starter.rg": {
+    en: "2 Ring Groups", ar: "2 مجموعة رنين", es: "2 Grupos de Timbrado", fr: "2 Groupes d'Appels",
+    de: "2 Rufgruppen", pt: "2 Grupos de Toque", zh: "2个振铃组", ja: "2リンググループ", tr: "2 Çalma Grubu", ru: "2 группы вызова"
+  },
+  "reg.plan.business.ext": {
+    en: "50 Extensions", ar: "50 تحويلة", es: "50 Extensiones", fr: "50 Postes",
+    de: "50 Nebenstellen", pt: "50 Ramais", zh: "50个分机", ja: "50内線", tr: "50 Dahili", ru: "50 добавочных"
+  },
+  "reg.plan.business.gw": {
+    en: "5 Gateways", ar: "5 بوابات", es: "5 Puertas de Enlace", fr: "5 Passerelles",
+    de: "5 Gateways", pt: "5 Gateways", zh: "5个网关", ja: "5ゲートウェイ", tr: "5 Ağ Geçidi", ru: "5 шлюзов"
+  },
+  "reg.plan.business.ivr": {
+    en: "10 IVRs", ar: "10 رد آلي", es: "10 IVRs", fr: "10 SVI",
+    de: "10 IVRs", pt: "10 URAs", zh: "10个IVR", ja: "10 IVR", tr: "10 IVR", ru: "10 IVR"
+  },
+  "reg.plan.business.rg": {
+    en: "10 Ring Groups", ar: "10 مجموعات رنين", es: "10 Grupos de Timbrado", fr: "10 Groupes d'Appels",
+    de: "10 Rufgruppen", pt: "10 Grupos de Toque", zh: "10个振铃组", ja: "10リンググループ", tr: "10 Çalma Grubu", ru: "10 групп вызова"
+  },
+  "reg.plan.enterprise.ext": {
+    en: "Unlimited Extensions", ar: "تحويلات غير محدودة", es: "Extensiones Ilimitadas", fr: "Postes Illimités",
+    de: "Unbegrenzte Nebenstellen", pt: "Ramais Ilimitados", zh: "无限分机", ja: "無制限内線", tr: "Sınırsız Dahili", ru: "Безлимитные добавочные"
+  },
+  "reg.plan.enterprise.gw": {
+    en: "Unlimited Gateways", ar: "بوابات غير محدودة", es: "Puertas de Enlace Ilimitadas", fr: "Passerelles Illimitées",
+    de: "Unbegrenzte Gateways", pt: "Gateways Ilimitados", zh: "无限网关", ja: "無制限ゲートウェイ", tr: "Sınırsız Ağ Geçidi", ru: "Безлимитные шлюзы"
+  },
+  "reg.plan.enterprise.ivr": {
+    en: "Unlimited IVRs", ar: "رد آلي غير محدود", es: "IVRs Ilimitados", fr: "SVI Illimités",
+    de: "Unbegrenzte IVRs", pt: "URAs Ilimitadas", zh: "无限IVR", ja: "無制限IVR", tr: "Sınırsız IVR", ru: "Безлимитные IVR"
+  },
+  "reg.plan.enterprise.rg": {
+    en: "Unlimited Ring Groups", ar: "مجموعات رنين غير محدودة", es: "Grupos de Timbrado Ilimitados", fr: "Groupes d'Appels Illimités",
+    de: "Unbegrenzte Rufgruppen", pt: "Grupos de Toque Ilimitados", zh: "无限振铃组", ja: "無制限リンググループ", tr: "Sınırsız Çalma Grubu", ru: "Безлимитные группы вызова"
+  },
+
+  // Step 4: Extensions & Ring Groups
+  "reg.step4.title": {
+    en: "<i class=\"fas fa-phone\"></i> Extensions & Ring Groups", ar: "<i class=\"fas fa-phone\"></i> التحويلات ومجموعات الرنين", es: "<i class=\"fas fa-phone\"></i> Extensiones y Grupos de Timbrado", fr: "<i class=\"fas fa-phone\"></i> Postes et Groupes d'Appels",
+    de: "<i class=\"fas fa-phone\"></i> Nebenstellen & Rufgruppen", pt: "<i class=\"fas fa-phone\"></i> Ramais e Grupos de Toque", zh: "<i class=\"fas fa-phone\"></i> 分机和振铃组", ja: "<i class=\"fas fa-phone\"></i> 内線とリンググループ", tr: "<i class=\"fas fa-phone\"></i> Dahililer ve Çalma Grupları", ru: "<i class=\"fas fa-phone\"></i> Добавочные и группы вызова"
+  },
+  "reg.step4.desc": {
+    en: "Configure extensions for your PBX based on your <strong id=\"planNameStep4\">Business</strong> plan.",
+    ar: "قم بتكوين التحويلات لنظام PBX بناءً على خطة <strong id=\"planNameStep4\">الأعمال</strong> الخاصة بك.",
+    es: "Configure las extensiones de su PBX según su plan <strong id=\"planNameStep4\">Empresarial</strong>.",
+    fr: "Configurez les postes de votre PBX en fonction de votre forfait <strong id=\"planNameStep4\">Business</strong>.",
+    de: "Konfigurieren Sie Nebenstellen für Ihre PBX basierend auf Ihrem <strong id=\"planNameStep4\">Business</strong>-Plan.",
+    pt: "Configure os ramais do seu PBX com base no seu plano <strong id=\"planNameStep4\">Empresarial</strong>.",
+    zh: "根据您的<strong id=\"planNameStep4\">商务</strong>套餐配置PBX分机。",
+    ja: "<strong id=\"planNameStep4\">ビジネス</strong>プランに基づいてPBXの内線を設定してください。",
+    tr: "<strong id=\"planNameStep4\">İşletme</strong> planınıza göre PBX dahililerini yapılandırın.",
+    ru: "Настройте добавочные номера АТС на основе вашего плана <strong id=\"planNameStep4\">Бизнес</strong>."
+  },
+  "reg.label.extensionsCount": {
+    en: "<i class=\"fas fa-hashtag\"></i> Number of Extensions", ar: "<i class=\"fas fa-hashtag\"></i> عدد التحويلات", es: "<i class=\"fas fa-hashtag\"></i> Número de Extensiones", fr: "<i class=\"fas fa-hashtag\"></i> Nombre de Postes",
+    de: "<i class=\"fas fa-hashtag\"></i> Anzahl der Nebenstellen", pt: "<i class=\"fas fa-hashtag\"></i> Número de Ramais", zh: "<i class=\"fas fa-hashtag\"></i> 分机数量", ja: "<i class=\"fas fa-hashtag\"></i> 内線数", tr: "<i class=\"fas fa-hashtag\"></i> Dahili Sayısı", ru: "<i class=\"fas fa-hashtag\"></i> Количество добавочных"
+  },
+  "reg.hint.maxExtensions": {
+    en: "Max allowed: <strong id=\"maxExtLabel\">50</strong>", ar: "الحد الأقصى: <strong id=\"maxExtLabel\">50</strong>", es: "Máximo permitido: <strong id=\"maxExtLabel\">50</strong>", fr: "Maximum autorisé : <strong id=\"maxExtLabel\">50</strong>",
+    de: "Maximal erlaubt: <strong id=\"maxExtLabel\">50</strong>", pt: "Máximo permitido: <strong id=\"maxExtLabel\">50</strong>", zh: "最大允许数: <strong id=\"maxExtLabel\">50</strong>", ja: "最大許可数: <strong id=\"maxExtLabel\">50</strong>", tr: "İzin verilen maksimum: <strong id=\"maxExtLabel\">50</strong>", ru: "Максимум: <strong id=\"maxExtLabel\">50</strong>"
+  },
+  "reg.label.extensionStart": {
+    en: "<i class=\"fas fa-sort-numeric-up\"></i> Extension Start Number", ar: "<i class=\"fas fa-sort-numeric-up\"></i> رقم بداية التحويلة", es: "<i class=\"fas fa-sort-numeric-up\"></i> Número Inicial de Extensión", fr: "<i class=\"fas fa-sort-numeric-up\"></i> Numéro de Départ des Postes",
+    de: "<i class=\"fas fa-sort-numeric-up\"></i> Startnummer der Nebenstellen", pt: "<i class=\"fas fa-sort-numeric-up\"></i> Número Inicial do Ramal", zh: "<i class=\"fas fa-sort-numeric-up\"></i> 分机起始号码", ja: "<i class=\"fas fa-sort-numeric-up\"></i> 内線開始番号", tr: "<i class=\"fas fa-sort-numeric-up\"></i> Dahili Başlangıç Numarası", ru: "<i class=\"fas fa-sort-numeric-up\"></i> Начальный номер добавочного"
+  },
+  "reg.hint.extensionStart": {
+    en: "Extensions will be numbered starting from this number (e.g., 100, 101, 102...)",
+    ar: "سيتم ترقيم التحويلات بدءًا من هذا الرقم (مثال: 100، 101، 102...)",
+    es: "Las extensiones se numerarán a partir de este número (ej., 100, 101, 102...)",
+    fr: "Les postes seront numérotés à partir de ce numéro (ex., 100, 101, 102...)",
+    de: "Nebenstellen werden ab dieser Nummer nummeriert (z.B. 100, 101, 102...)",
+    pt: "Os ramais serão numerados a partir deste número (ex., 100, 101, 102...)",
+    zh: "分机将从此号码开始编号（例如：100、101、102...）",
+    ja: "内線はこの番号から番号付けされます（例: 100, 101, 102...）",
+    tr: "Dahililer bu numaradan başlayarak numaralandırılacak (ör., 100, 101, 102...)",
+    ru: "Добавочные будут нумероваться начиная с этого номера (напр., 100, 101, 102...)"
+  },
+  "reg.label.ringGroupsCount": {
+    en: "<i class=\"fas fa-users-rectangle\"></i> Number of Ring Groups", ar: "<i class=\"fas fa-users-rectangle\"></i> عدد مجموعات الرنين", es: "<i class=\"fas fa-users-rectangle\"></i> Número de Grupos de Timbrado", fr: "<i class=\"fas fa-users-rectangle\"></i> Nombre de Groupes d'Appels",
+    de: "<i class=\"fas fa-users-rectangle\"></i> Anzahl der Rufgruppen", pt: "<i class=\"fas fa-users-rectangle\"></i> Número de Grupos de Toque", zh: "<i class=\"fas fa-users-rectangle\"></i> 振铃组数量", ja: "<i class=\"fas fa-users-rectangle\"></i> リンググループ数", tr: "<i class=\"fas fa-users-rectangle\"></i> Çalma Grubu Sayısı", ru: "<i class=\"fas fa-users-rectangle\"></i> Количество групп вызова"
+  },
+  "reg.hint.maxRingGroups": {
+    en: "Max allowed: <strong id=\"maxRgLabel\">10</strong>", ar: "الحد الأقصى: <strong id=\"maxRgLabel\">10</strong>", es: "Máximo permitido: <strong id=\"maxRgLabel\">10</strong>", fr: "Maximum autorisé : <strong id=\"maxRgLabel\">10</strong>",
+    de: "Maximal erlaubt: <strong id=\"maxRgLabel\">10</strong>", pt: "Máximo permitido: <strong id=\"maxRgLabel\">10</strong>", zh: "最大允许数: <strong id=\"maxRgLabel\">10</strong>", ja: "最大許可数: <strong id=\"maxRgLabel\">10</strong>", tr: "İzin verilen maksimum: <strong id=\"maxRgLabel\">10</strong>", ru: "Максимум: <strong id=\"maxRgLabel\">10</strong>"
+  },
+
+  // Step 5: IVR Configuration
+  "reg.step5.title": {
+    en: "<i class=\"fas fa-diagram-project\"></i> IVR Menus", ar: "<i class=\"fas fa-diagram-project\"></i> قوائم الرد الآلي", es: "<i class=\"fas fa-diagram-project\"></i> Menús IVR", fr: "<i class=\"fas fa-diagram-project\"></i> Menus SVI",
+    de: "<i class=\"fas fa-diagram-project\"></i> IVR-Menüs", pt: "<i class=\"fas fa-diagram-project\"></i> Menus URA", zh: "<i class=\"fas fa-diagram-project\"></i> IVR菜单", ja: "<i class=\"fas fa-diagram-project\"></i> IVRメニュー", tr: "<i class=\"fas fa-diagram-project\"></i> IVR Menüleri", ru: "<i class=\"fas fa-diagram-project\"></i> Меню IVR"
+  },
+  "reg.step5.desc": {
+    en: "Set up your auto-attendant / IVR menus. You can configure up to <strong id=\"maxIvrLabel\">10</strong> IVRs.",
+    ar: "قم بإعداد قوائم الرد الآلي / IVR. يمكنك تكوين ما يصل إلى <strong id=\"maxIvrLabel\">10</strong> قوائم.",
+    es: "Configure sus menús de auto-atención / IVR. Puede configurar hasta <strong id=\"maxIvrLabel\">10</strong> IVRs.",
+    fr: "Configurez vos menus SVI / standard automatique. Vous pouvez configurer jusqu'à <strong id=\"maxIvrLabel\">10</strong> SVI.",
+    de: "Richten Sie Ihre Automatische Vermittlung / IVR-Menüs ein. Sie können bis zu <strong id=\"maxIvrLabel\">10</strong> IVRs konfigurieren.",
+    pt: "Configure seus menus de URA / atendimento automático. Você pode configurar até <strong id=\"maxIvrLabel\">10</strong> URAs.",
+    zh: "设置您的自动话务员/IVR菜单。您可以配置最多<strong id=\"maxIvrLabel\">10</strong>个IVR。",
+    ja: "自動応答/IVRメニューを設定してください。最大<strong id=\"maxIvrLabel\">10</strong>個のIVRを設定できます。",
+    tr: "Otomatik karşılama / IVR menülerinizi kurun. En fazla <strong id=\"maxIvrLabel\">10</strong> IVR yapılandırabilirsiniz.",
+    ru: "Настройте меню автосекретаря / IVR. Вы можете настроить до <strong id=\"maxIvrLabel\">10</strong> IVR."
+  },
+  "reg.label.ivrsCount": {
+    en: "<i class=\"fas fa-hashtag\"></i> Number of IVR Menus", ar: "<i class=\"fas fa-hashtag\"></i> عدد قوائم الرد الآلي", es: "<i class=\"fas fa-hashtag\"></i> Número de Menús IVR", fr: "<i class=\"fas fa-hashtag\"></i> Nombre de Menus SVI",
+    de: "<i class=\"fas fa-hashtag\"></i> Anzahl der IVR-Menüs", pt: "<i class=\"fas fa-hashtag\"></i> Número de Menus URA", zh: "<i class=\"fas fa-hashtag\"></i> IVR菜单数量", ja: "<i class=\"fas fa-hashtag\"></i> IVRメニュー数", tr: "<i class=\"fas fa-hashtag\"></i> IVR Menü Sayısı", ru: "<i class=\"fas fa-hashtag\"></i> Количество меню IVR"
+  },
+
+  // Step 6: Gateway Configuration
+  "reg.step6.title": {
+    en: "<i class=\"fas fa-globe\"></i> SIP Gateway", ar: "<i class=\"fas fa-globe\"></i> بوابة SIP", es: "<i class=\"fas fa-globe\"></i> Puerta de Enlace SIP", fr: "<i class=\"fas fa-globe\"></i> Passerelle SIP",
+    de: "<i class=\"fas fa-globe\"></i> SIP-Gateway", pt: "<i class=\"fas fa-globe\"></i> Gateway SIP", zh: "<i class=\"fas fa-globe\"></i> SIP网关", ja: "<i class=\"fas fa-globe\"></i> SIPゲートウェイ", tr: "<i class=\"fas fa-globe\"></i> SIP Ağ Geçidi", ru: "<i class=\"fas fa-globe\"></i> SIP-шлюз"
+  },
+  "reg.step6.desc": {
+    en: "Configure your SIP trunk for making and receiving external calls. You can skip this and configure later.",
+    ar: "قم بتكوين خط SIP لإجراء واستقبال المكالمات الخارجية. يمكنك تخطي هذا والإعداد لاحقًا.",
+    es: "Configure su troncal SIP para realizar y recibir llamadas externas. Puede omitir esto y configurarlo después.",
+    fr: "Configurez votre trunk SIP pour passer et recevoir des appels externes. Vous pouvez ignorer cette étape.",
+    de: "Konfigurieren Sie Ihren SIP-Trunk für externe Anrufe. Sie können dies überspringen und später einrichten.",
+    pt: "Configure seu tronco SIP para fazer e receber chamadas externas. Você pode pular e configurar depois.",
+    zh: "配置您的SIP中继以拨打和接听外部电话。您可以跳过此步骤，稍后配置。",
+    ja: "外線発着信用のSIPトランクを設定してください。スキップして後から設定することもできます。",
+    tr: "Harici arama yapmak ve almak için SIP trunk'ınızı yapılandırın. Bunu atlayıp daha sonra yapılandırabilirsiniz.",
+    ru: "Настройте SIP-транк для внешних вызовов. Можете пропустить и настроить позже."
+  },
+  "reg.label.configureGateway": {
+    en: "I want to configure a SIP gateway now", ar: "أريد تكوين بوابة SIP الآن", es: "Quiero configurar una puerta de enlace SIP ahora", fr: "Je souhaite configurer une passerelle SIP maintenant",
+    de: "Ich möchte jetzt ein SIP-Gateway konfigurieren", pt: "Quero configurar um gateway SIP agora", zh: "我想现在配置SIP网关", ja: "今すぐSIPゲートウェイを設定したい", tr: "Şimdi bir SIP ağ geçidi yapılandırmak istiyorum", ru: "Я хочу настроить SIP-шлюз сейчас"
+  },
+  "reg.label.gwName": {
+    en: "<i class=\"fas fa-tag\"></i> Gateway Name", ar: "<i class=\"fas fa-tag\"></i> اسم البوابة", es: "<i class=\"fas fa-tag\"></i> Nombre de la Puerta de Enlace", fr: "<i class=\"fas fa-tag\"></i> Nom de la Passerelle",
+    de: "<i class=\"fas fa-tag\"></i> Gateway-Name", pt: "<i class=\"fas fa-tag\"></i> Nome do Gateway", zh: "<i class=\"fas fa-tag\"></i> 网关名称", ja: "<i class=\"fas fa-tag\"></i> ゲートウェイ名", tr: "<i class=\"fas fa-tag\"></i> Ağ Geçidi Adı", ru: "<i class=\"fas fa-tag\"></i> Имя шлюза"
+  },
+  "reg.label.gwProxy": {
+    en: "<i class=\"fas fa-server\"></i> Proxy / Host", ar: "<i class=\"fas fa-server\"></i> الخادم الوكيل / المضيف", es: "<i class=\"fas fa-server\"></i> Proxy / Host", fr: "<i class=\"fas fa-server\"></i> Proxy / Hôte",
+    de: "<i class=\"fas fa-server\"></i> Proxy / Host", pt: "<i class=\"fas fa-server\"></i> Proxy / Host", zh: "<i class=\"fas fa-server\"></i> 代理 / 主机", ja: "<i class=\"fas fa-server\"></i> プロキシ / ホスト", tr: "<i class=\"fas fa-server\"></i> Proxy / Sunucu", ru: "<i class=\"fas fa-server\"></i> Прокси / Хост"
+  },
+  "reg.label.gwUsername": {
+    en: "<i class=\"fas fa-user\"></i> Username", ar: "<i class=\"fas fa-user\"></i> اسم المستخدم", es: "<i class=\"fas fa-user\"></i> Usuario", fr: "<i class=\"fas fa-user\"></i> Nom d'Utilisateur",
+    de: "<i class=\"fas fa-user\"></i> Benutzername", pt: "<i class=\"fas fa-user\"></i> Usuário", zh: "<i class=\"fas fa-user\"></i> 用户名", ja: "<i class=\"fas fa-user\"></i> ユーザー名", tr: "<i class=\"fas fa-user\"></i> Kullanıcı Adı", ru: "<i class=\"fas fa-user\"></i> Имя пользователя"
+  },
+  "reg.label.gwPassword": {
+    en: "<i class=\"fas fa-lock\"></i> Password", ar: "<i class=\"fas fa-lock\"></i> كلمة المرور", es: "<i class=\"fas fa-lock\"></i> Contraseña", fr: "<i class=\"fas fa-lock\"></i> Mot de Passe",
+    de: "<i class=\"fas fa-lock\"></i> Passwort", pt: "<i class=\"fas fa-lock\"></i> Senha", zh: "<i class=\"fas fa-lock\"></i> 密码", ja: "<i class=\"fas fa-lock\"></i> パスワード", tr: "<i class=\"fas fa-lock\"></i> Şifre", ru: "<i class=\"fas fa-lock\"></i> Пароль"
+  },
+  "reg.label.gwRegister": {
+    en: "<i class=\"fas fa-hashtag\"></i> Register", ar: "<i class=\"fas fa-hashtag\"></i> التسجيل", es: "<i class=\"fas fa-hashtag\"></i> Registrar", fr: "<i class=\"fas fa-hashtag\"></i> Enregistrer",
+    de: "<i class=\"fas fa-hashtag\"></i> Registrieren", pt: "<i class=\"fas fa-hashtag\"></i> Registrar", zh: "<i class=\"fas fa-hashtag\"></i> 注册", ja: "<i class=\"fas fa-hashtag\"></i> 登録", tr: "<i class=\"fas fa-hashtag\"></i> Kayıt", ru: "<i class=\"fas fa-hashtag\"></i> Регистрация"
+  },
+  "reg.label.gwTransport": {
+    en: "<i class=\"fas fa-network-wired\"></i> Transport", ar: "<i class=\"fas fa-network-wired\"></i> بروتوكول النقل", es: "<i class=\"fas fa-network-wired\"></i> Transporte", fr: "<i class=\"fas fa-network-wired\"></i> Transport",
+    de: "<i class=\"fas fa-network-wired\"></i> Transport", pt: "<i class=\"fas fa-network-wired\"></i> Transporte", zh: "<i class=\"fas fa-network-wired\"></i> 传输协议", ja: "<i class=\"fas fa-network-wired\"></i> トランスポート", tr: "<i class=\"fas fa-network-wired\"></i> Aktarım", ru: "<i class=\"fas fa-network-wired\"></i> Транспорт"
+  },
+  "reg.label.gwCallerId": {
+    en: "<i class=\"fas fa-phone-volume\"></i> Caller ID Number (optional)", ar: "<i class=\"fas fa-phone-volume\"></i> رقم هوية المتصل (اختياري)", es: "<i class=\"fas fa-phone-volume\"></i> Número de Identificación (opcional)", fr: "<i class=\"fas fa-phone-volume\"></i> Numéro d'Identification (optionnel)",
+    de: "<i class=\"fas fa-phone-volume\"></i> Anrufer-ID Nummer (optional)", pt: "<i class=\"fas fa-phone-volume\"></i> Número do Identificador (opcional)", zh: "<i class=\"fas fa-phone-volume\"></i> 来电显示号码（可选）", ja: "<i class=\"fas fa-phone-volume\"></i> 発信者番号（任意）", tr: "<i class=\"fas fa-phone-volume\"></i> Arayan Kimliği Numarası (isteğe bağlı)", ru: "<i class=\"fas fa-phone-volume\"></i> Номер CallerID (необязательно)"
+  },
+  "reg.option.yes": {
+    en: "Yes", ar: "نعم", es: "Sí", fr: "Oui",
+    de: "Ja", pt: "Sim", zh: "是", ja: "はい", tr: "Evet", ru: "Да"
+  },
+  "reg.option.no": {
+    en: "No", ar: "لا", es: "No", fr: "Non",
+    de: "Nein", pt: "Não", zh: "否", ja: "いいえ", tr: "Hayır", ru: "Нет"
+  },
+
+  // Step 6: Placeholders
+  "reg.placeholder.gwName": {
+    en: "My SIP Provider", ar: "مزود SIP الخاص بي", es: "Mi Proveedor SIP", fr: "Mon Fournisseur SIP",
+    de: "Mein SIP-Anbieter", pt: "Meu Provedor SIP", zh: "我的SIP提供商", ja: "SIPプロバイダー", tr: "SIP Sağlayıcım", ru: "Мой SIP-провайдер"
+  },
+  "reg.placeholder.gwProxy": {
+    en: "sip.provider.com", ar: "sip.provider.com", es: "sip.proveedor.com", fr: "sip.fournisseur.com",
+    de: "sip.anbieter.com", pt: "sip.provedor.com", zh: "sip.provider.com", ja: "sip.provider.com", tr: "sip.saglayici.com", ru: "sip.provider.com"
+  },
+  "reg.placeholder.gwUsername": {
+    en: "your_username", ar: "اسم_المستخدم", es: "su_usuario", fr: "votre_utilisateur",
+    de: "ihr_benutzername", pt: "seu_usuario", zh: "your_username", ja: "your_username", tr: "kullanici_adiniz", ru: "ваш_логин"
+  },
+  "reg.placeholder.gwPassword": {
+    en: "your_password", ar: "كلمة_المرور", es: "su_contraseña", fr: "votre_mot_de_passe",
+    de: "ihr_passwort", pt: "sua_senha", zh: "your_password", ja: "your_password", tr: "sifreniz", ru: "ваш_пароль"
+  },
+  "reg.placeholder.gwCallerId": {
+    en: "+15551234567", ar: "+966500000000", es: "+34600000000", fr: "+33600000000",
+    de: "+491700000000", pt: "+5511900000000", zh: "+8613800000000", ja: "+819000000000", tr: "+905000000000", ru: "+79000000000"
+  },
+
+  // Step 6: Hints
+  "reg.hint.gwProxy": {
+    en: "The SIP server address from your trunk provider",
+    ar: "عنوان خادم SIP من مزود الخط الخاص بك",
+    es: "La dirección del servidor SIP de su proveedor de troncal",
+    fr: "L'adresse du serveur SIP de votre fournisseur de trunk",
+    de: "Die SIP-Serveradresse Ihres Trunk-Anbieters",
+    pt: "O endereço do servidor SIP do seu provedor de tronco",
+    zh: "您的中继提供商的SIP服务器地址",
+    ja: "トランクプロバイダーのSIPサーバーアドレス",
+    tr: "Trunk sağlayıcınızdan aldığınız SIP sunucu adresi",
+    ru: "Адрес SIP-сервера вашего провайдера транка"
+  },
+  "reg.hint.gwCallerId": {
+    en: "The outbound caller ID number for this trunk",
+    ar: "رقم هوية المتصل الصادر لهذا الخط",
+    es: "El número de identificación de llamadas salientes para este troncal",
+    fr: "Le numéro d'identification de l'appelant sortant pour ce trunk",
+    de: "Die ausgehende Anrufer-ID-Nummer für diesen Trunk",
+    pt: "O número de identificação de chamadas de saída para este tronco",
+    zh: "此中继的外呼来电显示号码",
+    ja: "このトランクの発信者ID番号",
+    tr: "Bu trunk için giden arayan kimliği numarası",
+    ru: "Номер CallerID для исходящих вызовов этого транка"
+  },
+
+  // Step 7: Review & Confirm
+  "reg.step7.title": {
+    en: "<i class=\"fas fa-clipboard-check\"></i> Review & Confirm", ar: "<i class=\"fas fa-clipboard-check\"></i> المراجعة والتأكيد", es: "<i class=\"fas fa-clipboard-check\"></i> Revisar y Confirmar", fr: "<i class=\"fas fa-clipboard-check\"></i> Vérifier et Confirmer",
+    de: "<i class=\"fas fa-clipboard-check\"></i> Überprüfen & Bestätigen", pt: "<i class=\"fas fa-clipboard-check\"></i> Revisar e Confirmar", zh: "<i class=\"fas fa-clipboard-check\"></i> 审核并确认", ja: "<i class=\"fas fa-clipboard-check\"></i> 確認と送信", tr: "<i class=\"fas fa-clipboard-check\"></i> İncele ve Onayla", ru: "<i class=\"fas fa-clipboard-check\"></i> Проверка и подтверждение"
+  },
+  "reg.agreeTerms": {
+    en: "I agree to the <a href=\"terms.html\" target=\"_blank\">Terms of Service</a> and <a href=\"privacy.html\" target=\"_blank\">Privacy Policy</a>",
+    ar: "أوافق على <a href=\"terms.html\" target=\"_blank\">شروط الخدمة</a> و<a href=\"privacy.html\" target=\"_blank\">سياسة الخصوصية</a>",
+    es: "Acepto los <a href=\"terms.html\" target=\"_blank\">Términos de Servicio</a> y la <a href=\"privacy.html\" target=\"_blank\">Política de Privacidad</a>",
+    fr: "J'accepte les <a href=\"terms.html\" target=\"_blank\">Conditions d'Utilisation</a> et la <a href=\"privacy.html\" target=\"_blank\">Politique de Confidentialité</a>",
+    de: "Ich stimme den <a href=\"terms.html\" target=\"_blank\">Nutzungsbedingungen</a> und der <a href=\"privacy.html\" target=\"_blank\">Datenschutzerklärung</a> zu",
+    pt: "Concordo com os <a href=\"terms.html\" target=\"_blank\">Termos de Serviço</a> e a <a href=\"privacy.html\" target=\"_blank\">Política de Privacidade</a>",
+    zh: "我同意<a href=\"terms.html\" target=\"_blank\">服务条款</a>和<a href=\"privacy.html\" target=\"_blank\">隐私政策</a>",
+    ja: "<a href=\"terms.html\" target=\"_blank\">利用規約</a>と<a href=\"privacy.html\" target=\"_blank\">プライバシーポリシー</a>に同意します",
+    tr: "<a href=\"terms.html\" target=\"_blank\">Hizmet Şartları</a>'nı ve <a href=\"privacy.html\" target=\"_blank\">Gizlilik Politikası</a>'nı kabul ediyorum",
+    ru: "Я согласен с <a href=\"terms.html\" target=\"_blank\">Условиями использования</a> и <a href=\"privacy.html\" target=\"_blank\">Политикой конфиденциальности</a>"
+  },
+  "reg.btn.createPbx": {
+    en: "<i class=\"fas fa-rocket\"></i> Create My PBX", ar: "<i class=\"fas fa-rocket\"></i> أنشئ نظام PBX الخاص بي", es: "<i class=\"fas fa-rocket\"></i> Crear Mi PBX", fr: "<i class=\"fas fa-rocket\"></i> Créer Mon PBX",
+    de: "<i class=\"fas fa-rocket\"></i> Meine PBX Erstellen", pt: "<i class=\"fas fa-rocket\"></i> Criar Meu PBX", zh: "<i class=\"fas fa-rocket\"></i> 创建我的PBX", ja: "<i class=\"fas fa-rocket\"></i> PBXを作成", tr: "<i class=\"fas fa-rocket\"></i> PBX'imi Oluştur", ru: "<i class=\"fas fa-rocket\"></i> Создать мою АТС"
+  },
+
+  // Processing State
+  "reg.processing.title": {
+    en: "Creating Your Cloud PBX...", ar: "جارٍ إنشاء نظام PBX السحابي...", es: "Creando Su PBX en la Nube...", fr: "Création de Votre PBX Cloud...",
+    de: "Ihre Cloud-PBX wird erstellt...", pt: "Criando Seu PBX na Nuvem...", zh: "正在创建您的云PBX...", ja: "クラウドPBXを作成中...", tr: "Bulut PBX'iniz Oluşturuluyor...", ru: "Создание вашей облачной АТС..."
+  },
+
+  // Success State
+  "reg.success.title": {
+    en: "Your PBX is Ready!", ar: "نظام PBX جاهز!", es: "¡Su PBX está Listo!", fr: "Votre PBX est Prêt !",
+    de: "Ihre PBX ist Bereit!", pt: "Seu PBX está Pronto!", zh: "您的PBX已准备就绪！", ja: "PBXの準備ができました！", tr: "PBX'iniz Hazır!", ru: "Ваша АТС готова!"
+  },
+  "reg.success.subtitle": {
+    en: "Your cloud PBX has been created successfully.", ar: "تم إنشاء نظام PBX السحابي الخاص بك بنجاح.", es: "Su PBX en la nube se ha creado exitosamente.", fr: "Votre PBX cloud a été créé avec succès.",
+    de: "Ihre Cloud-PBX wurde erfolgreich erstellt.", pt: "Seu PBX na nuvem foi criado com sucesso.", zh: "您的云PBX已成功创建。", ja: "クラウドPBXが正常に作成されました。", tr: "Bulut PBX'iniz başarıyla oluşturuldu.", ru: "Ваша облачная АТС успешно создана."
+  },
+  "reg.success.loginDetails": {
+    en: "Your Login Details", ar: "تفاصيل تسجيل الدخول", es: "Sus Datos de Acceso", fr: "Vos Identifiants",
+    de: "Ihre Zugangsdaten", pt: "Seus Dados de Acesso", zh: "您的登录信息", ja: "ログイン情報", tr: "Giriş Bilgileriniz", ru: "Данные для входа"
+  },
+  "reg.success.url": {
+    en: "URL:", ar: "الرابط:", es: "URL:", fr: "URL :",
+    de: "URL:", pt: "URL:", zh: "网址：", ja: "URL：", tr: "URL:", ru: "URL:"
+  },
+  "reg.success.username": {
+    en: "Username:", ar: "اسم المستخدم:", es: "Usuario:", fr: "Utilisateur :",
+    de: "Benutzername:", pt: "Usuário:", zh: "用户名：", ja: "ユーザー名：", tr: "Kullanıcı Adı:", ru: "Логин:"
+  },
+  "reg.success.password": {
+    en: "Password:", ar: "كلمة المرور:", es: "Contraseña:", fr: "Mot de passe :",
+    de: "Passwort:", pt: "Senha:", zh: "密码：", ja: "パスワード：", tr: "Şifre:", ru: "Пароль:"
+  },
+  "reg.success.nextSteps": {
+    en: "<i class=\"fas fa-list-check\"></i> Next Steps", ar: "<i class=\"fas fa-list-check\"></i> الخطوات التالية", es: "<i class=\"fas fa-list-check\"></i> Próximos Pasos", fr: "<i class=\"fas fa-list-check\"></i> Prochaines Étapes",
+    de: "<i class=\"fas fa-list-check\"></i> Nächste Schritte", pt: "<i class=\"fas fa-list-check\"></i> Próximos Passos", zh: "<i class=\"fas fa-list-check\"></i> 后续步骤", ja: "<i class=\"fas fa-list-check\"></i> 次のステップ", tr: "<i class=\"fas fa-list-check\"></i> Sonraki Adımlar", ru: "<i class=\"fas fa-list-check\"></i> Следующие шаги"
+  },
+  "reg.success.step1.title": {
+    en: "Point your domain", ar: "وجّه نطاقك", es: "Apunte su dominio", fr: "Pointez votre domaine",
+    de: "Domain verknüpfen", pt: "Aponte seu domínio", zh: "指向您的域名", ja: "ドメインを設定", tr: "Alan adınızı yönlendirin", ru: "Настройте домен"
+  },
+  "reg.success.step1.desc": {
+    en: "Add a DNS A record for your domain pointing to the server IP",
+    ar: "أضف سجل DNS A للنطاق الخاص بك يشير إلى عنوان IP الخادم",
+    es: "Agregue un registro DNS A para su dominio apuntando a la IP del servidor",
+    fr: "Ajoutez un enregistrement DNS A pour votre domaine pointant vers l'IP du serveur",
+    de: "Fügen Sie einen DNS-A-Eintrag für Ihre Domain hinzu, der auf die Server-IP zeigt",
+    pt: "Adicione um registro DNS A para seu domínio apontando para o IP do servidor",
+    zh: "为您的域名添加DNS A记录，指向服务器IP",
+    ja: "ドメインのDNS Aレコードをサーバーに向けてください",
+    tr: "Alan adınız için sunucu IP'sine işaret eden bir DNS A kaydı ekleyin",
+    ru: "Добавьте DNS A-запись для вашего домена, указывающую на IP сервера"
+  },
+  "reg.success.step1.link": {
+    en: "See DNS guide", ar: "راجع دليل DNS", es: "Ver guía DNS", fr: "Voir le guide DNS",
+    de: "DNS-Anleitung ansehen", pt: "Ver guia DNS", zh: "查看DNS指南", ja: "DNSガイドを見る", tr: "DNS kılavuzuna bakın", ru: "Смотреть руководство DNS"
+  },
+  "reg.success.step2.title": {
+    en: "Login to your PBX", ar: "سجّل الدخول إلى PBX", es: "Inicie sesión en su PBX", fr: "Connectez-vous à votre PBX",
+    de: "Melden Sie sich bei Ihrer PBX an", pt: "Faça login no seu PBX", zh: "登录您的PBX", ja: "PBXにログイン", tr: "PBX'inize giriş yapın", ru: "Войдите в АТС"
+  },
+  "reg.success.step2.desc": {
+    en: "Use the credentials above. Until DNS propagates, use:", ar: "استخدم بيانات الدخول أعلاه. حتى ينتشر DNS، استخدم:", es: "Use las credenciales de arriba. Hasta que el DNS se propague, use:", fr: "Utilisez les identifiants ci-dessus. En attendant la propagation DNS, utilisez :",
+    de: "Verwenden Sie die obigen Zugangsdaten. Bis DNS propagiert, nutzen Sie:", pt: "Use as credenciais acima. Até o DNS propagar, use:", zh: "使用上面的凭据。在DNS传播之前，请使用：", ja: "上記の認証情報を使用してください。DNS浸透まで使用：", tr: "Yukarıdaki kimlik bilgilerini kullanın. DNS yayılana kadar kullanın:", ru: "Используйте учётные данные выше. До распространения DNS используйте:"
+  },
+  "reg.success.step3.title": {
+    en: "Configure your phones", ar: "إعداد الهواتف", es: "Configure sus teléfonos", fr: "Configurez vos téléphones",
+    de: "Telefone konfigurieren", pt: "Configure seus telefones", zh: "配置您的电话", ja: "電話機を設定", tr: "Telefonlarınızı yapılandırın", ru: "Настройте телефоны"
+  },
+  "reg.success.step3.desc": {
+    en: "Register your SIP phones or use the WebRTC softphone",
+    ar: "سجّل هواتف SIP أو استخدم الهاتف البرمجي WebRTC",
+    es: "Registre sus teléfonos SIP o use el softphone WebRTC",
+    fr: "Enregistrez vos téléphones SIP ou utilisez le softphone WebRTC",
+    de: "Registrieren Sie Ihre SIP-Telefone oder nutzen Sie das WebRTC-Softphone",
+    pt: "Registre seus telefones SIP ou use o softphone WebRTC",
+    zh: "注册您的SIP电话或使用WebRTC软电话",
+    ja: "SIP電話を登録するか、WebRTCソフトフォンを使用してください",
+    tr: "SIP telefonlarınızı kaydedin veya WebRTC yazılım telefonunu kullanın",
+    ru: "Зарегистрируйте SIP-телефоны или используйте WebRTC-софтфон"
+  },
+  "reg.btn.loginToPbx": {
+    en: "<i class=\"fas fa-sign-in-alt\"></i> Login to Your PBX", ar: "<i class=\"fas fa-sign-in-alt\"></i> تسجيل الدخول إلى PBX", es: "<i class=\"fas fa-sign-in-alt\"></i> Iniciar Sesión en Su PBX", fr: "<i class=\"fas fa-sign-in-alt\"></i> Se Connecter à Votre PBX",
+    de: "<i class=\"fas fa-sign-in-alt\"></i> Bei Ihrer PBX Anmelden", pt: "<i class=\"fas fa-sign-in-alt\"></i> Entrar no Seu PBX", zh: "<i class=\"fas fa-sign-in-alt\"></i> 登录您的PBX", ja: "<i class=\"fas fa-sign-in-alt\"></i> PBXにログイン", tr: "<i class=\"fas fa-sign-in-alt\"></i> PBX'inize Giriş Yapın", ru: "<i class=\"fas fa-sign-in-alt\"></i> Войти в АТС"
+  },
+
+  // Error State
+  "reg.error.title": {
+    en: "Something Went Wrong", ar: "حدث خطأ ما", es: "Algo Salió Mal", fr: "Une Erreur est Survenue",
+    de: "Etwas ist Schiefgelaufen", pt: "Algo Deu Errado", zh: "出了点问题", ja: "エラーが発生しました", tr: "Bir Sorun Oluştu", ru: "Что-то пошло не так"
+  },
+  "reg.error.message": {
+    en: "An error occurred during registration. Please try again.",
+    ar: "حدث خطأ أثناء التسجيل. يرجى المحاولة مرة أخرى.",
+    es: "Ocurrió un error durante el registro. Por favor, inténtelo de nuevo.",
+    fr: "Une erreur est survenue lors de l'inscription. Veuillez réessayer.",
+    de: "Bei der Registrierung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+    pt: "Ocorreu um erro durante o registro. Por favor, tente novamente.",
+    zh: "注册过程中发生错误。请重试。",
+    ja: "登録中にエラーが発生しました。もう一度お試しください。",
+    tr: "Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.",
+    ru: "Произошла ошибка при регистрации. Пожалуйста, попробуйте снова."
+  },
+  "reg.btn.tryAgain": {
+    en: "<i class=\"fas fa-redo\"></i> Try Again", ar: "<i class=\"fas fa-redo\"></i> حاول مرة أخرى", es: "<i class=\"fas fa-redo\"></i> Intentar de Nuevo", fr: "<i class=\"fas fa-redo\"></i> Réessayer",
+    de: "<i class=\"fas fa-redo\"></i> Erneut Versuchen", pt: "<i class=\"fas fa-redo\"></i> Tentar Novamente", zh: "<i class=\"fas fa-redo\"></i> 重试", ja: "<i class=\"fas fa-redo\"></i> 再試行", tr: "<i class=\"fas fa-redo\"></i> Tekrar Dene", ru: "<i class=\"fas fa-redo\"></i> Повторить"
+  },
+
+  // Footer
+  "reg.footer": {
+    en: "&copy; 2024 VOIP@ Cloud. All rights reserved. | <a href=\"terms.html\">Terms</a> | <a href=\"privacy.html\">Privacy</a>",
+    ar: "&copy; 2024 VOIP@ Cloud. جميع الحقوق محفوظة. | <a href=\"terms.html\">الشروط</a> | <a href=\"privacy.html\">الخصوصية</a>",
+    es: "&copy; 2024 VOIP@ Cloud. Todos los derechos reservados. | <a href=\"terms.html\">Términos</a> | <a href=\"privacy.html\">Privacidad</a>",
+    fr: "&copy; 2024 VOIP@ Cloud. Tous droits réservés. | <a href=\"terms.html\">Conditions</a> | <a href=\"privacy.html\">Confidentialité</a>",
+    de: "&copy; 2024 VOIP@ Cloud. Alle Rechte vorbehalten. | <a href=\"terms.html\">AGB</a> | <a href=\"privacy.html\">Datenschutz</a>",
+    pt: "&copy; 2024 VOIP@ Cloud. Todos os direitos reservados. | <a href=\"terms.html\">Termos</a> | <a href=\"privacy.html\">Privacidade</a>",
+    zh: "&copy; 2024 VOIP@ Cloud. 保留所有权利。 | <a href=\"terms.html\">条款</a> | <a href=\"privacy.html\">隐私</a>",
+    ja: "&copy; 2024 VOIP@ Cloud. All rights reserved. | <a href=\"terms.html\">利用規約</a> | <a href=\"privacy.html\">プライバシー</a>",
+    tr: "&copy; 2024 VOIP@ Cloud. Tüm hakları saklıdır. | <a href=\"terms.html\">Şartlar</a> | <a href=\"privacy.html\">Gizlilik</a>",
+    ru: "&copy; 2024 VOIP@ Cloud. Все права защищены. | <a href=\"terms.html\">Условия</a> | <a href=\"privacy.html\">Конфиденциальность</a>"
+  },
+
   // Language names (for the switcher)
   "lang.en": { en: "English", ar: "English", es: "English", fr: "English", de: "English", pt: "English", zh: "English", ja: "English", tr: "English", ru: "English" },
   "lang.ar": { en: "العربية", ar: "العربية", es: "العربية", fr: "العربية", de: "العربية", pt: "العربية", zh: "العربية", ja: "العربية", tr: "العربية", ru: "العربية" },
@@ -965,12 +1597,18 @@ const i18n = {
       const key = el.getAttribute('data-i18n-html');
       const t = translations[key];
       if (t && t[lang]) {
-        // Preserve leading icon if present
-        const icon = el.querySelector('i');
-        if (icon) {
-          el.innerHTML = icon.outerHTML + ' ' + t[lang];
+        const val = t[lang];
+        // If the translation value already contains HTML tags, use it directly
+        if (val.includes('<')) {
+          el.innerHTML = val;
         } else {
-          el.textContent = t[lang];
+          // Preserve leading icon if present, append translated text
+          const icon = el.querySelector('i');
+          if (icon) {
+            el.innerHTML = icon.outerHTML + ' ' + val;
+          } else {
+            el.textContent = val;
+          }
         }
       }
     });
