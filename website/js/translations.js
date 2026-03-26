@@ -1538,6 +1538,168 @@ const translations = {
     ru: "&copy; 2024 VOIP@ Cloud. Все права защищены. | <a href=\"terms.html\">Условия</a> | <a href=\"privacy.html\">Конфиденциальность</a>"
   },
 
+  // Downloads Page
+  "downloads.title": {
+    en: "Download <span class=\"gradient-text\">VOIP@ Cloud</span>",
+    ar: "تحميل <span class=\"gradient-text\">VOIP@ Cloud</span>",
+    es: "Descargar <span class=\"gradient-text\">VOIP@ Cloud</span>",
+    fr: "Télécharger <span class=\"gradient-text\">VOIP@ Cloud</span>",
+    de: "Herunterladen <span class=\"gradient-text\">VOIP@ Cloud</span>",
+    pt: "Baixar <span class=\"gradient-text\">VOIP@ Cloud</span>",
+    zh: "下载 <span class=\"gradient-text\">VOIP@ Cloud</span>",
+    ja: "<span class=\"gradient-text\">VOIP@ Cloud</span> をダウンロード",
+    tr: "<span class=\"gradient-text\">VOIP@ Cloud</span> İndir",
+    ru: "Скачать <span class=\"gradient-text\">VOIP@ Cloud</span>"
+  },
+  "downloads.subtitle": {
+    en: "Get the VOIP@ Cloud app for your platform. Make and receive calls, manage extensions, and stay connected from anywhere.",
+    ar: "احصل على تطبيق VOIP@ Cloud لمنصتك. قم بإجراء واستقبال المكالمات وإدارة التحويلات والبقاء على اتصال من أي مكان.",
+    es: "Obtenga la aplicación VOIP@ Cloud para su plataforma. Realice y reciba llamadas, gestione extensiones y manténgase conectado desde cualquier lugar.",
+    fr: "Obtenez l'application VOIP@ Cloud pour votre plateforme. Passez et recevez des appels, gérez les postes et restez connecté partout.",
+    de: "Holen Sie sich die VOIP@ Cloud App für Ihre Plattform. Tätigen und empfangen Sie Anrufe, verwalten Sie Nebenstellen und bleiben Sie überall verbunden.",
+    pt: "Baixe o aplicativo VOIP@ Cloud para sua plataforma. Faça e receba chamadas, gerencie ramais e mantenha-se conectado de qualquer lugar.",
+    zh: "获取适用于您平台的VOIP@ Cloud应用。拨打和接听电话、管理分机，随时随地保持连接。",
+    ja: "お使いのプラットフォーム向けVOIP@ Cloudアプリを入手。通話の発着信、内線管理、どこからでも接続を維持。",
+    tr: "Platformunuz için VOIP@ Cloud uygulamasını edinin. Arama yapın ve alın, dahilileri yönetin, her yerden bağlı kalın.",
+    ru: "Скачайте приложение VOIP@ Cloud для вашей платформы. Совершайте и принимайте звонки, управляйте добавочными номерами и оставайтесь на связи."
+  },
+  "downloads.windows.title": {
+    en: "Windows", ar: "ويندوز", es: "Windows", fr: "Windows",
+    de: "Windows", pt: "Windows", zh: "Windows", ja: "Windows", tr: "Windows", ru: "Windows"
+  },
+  "downloads.windows.desc": {
+    en: "Full-featured softphone for Windows 10/11 with call management, contacts, and presence.",
+    ar: "هاتف برمجي متكامل لنظام ويندوز 10/11 مع إدارة المكالمات وجهات الاتصال والحضور.",
+    es: "Softphone completo para Windows 10/11 con gestión de llamadas, contactos y presencia.",
+    fr: "Softphone complet pour Windows 10/11 avec gestion des appels, contacts et présence.",
+    de: "Voll ausgestattetes Softphone für Windows 10/11 mit Anrufverwaltung, Kontakten und Präsenz.",
+    pt: "Softphone completo para Windows 10/11 com gerenciamento de chamadas, contatos e presença.",
+    zh: "功能齐全的Windows 10/11软电话，支持通话管理、联系人和在线状态。",
+    ja: "通話管理、連絡先、プレゼンス機能を備えたWindows 10/11向けフル機能ソフトフォン。",
+    tr: "Çağrı yönetimi, rehber ve durum bilgisi ile Windows 10/11 için tam özellikli yazılım telefonu.",
+    ru: "Полнофункциональный софтфон для Windows 10/11 с управлением звонками, контактами и статусом присутствия."
+  },
+  "downloads.windows.version": {
+    en: "Windows 10+ | 64-bit", ar: "ويندوز 10+ | 64 بت", es: "Windows 10+ | 64-bit", fr: "Windows 10+ | 64-bit",
+    de: "Windows 10+ | 64-Bit", pt: "Windows 10+ | 64-bit", zh: "Windows 10+ | 64位", ja: "Windows 10+ | 64ビット", tr: "Windows 10+ | 64-bit", ru: "Windows 10+ | 64-бит"
+  },
+  "downloads.macos.title": {
+    en: "macOS", ar: "ماك", es: "macOS", fr: "macOS",
+    de: "macOS", pt: "macOS", zh: "macOS", ja: "macOS", tr: "macOS", ru: "macOS"
+  },
+  "downloads.macos.desc": {
+    en: "Native macOS app with full integration, notifications, and Siri support for hands-free calling.",
+    ar: "تطبيق macOS أصلي مع تكامل كامل وإشعارات ودعم Siri للمكالمات بدون استخدام اليدين.",
+    es: "Aplicación nativa para macOS con integración completa, notificaciones y soporte de Siri para llamadas manos libres.",
+    fr: "Application macOS native avec intégration complète, notifications et support Siri pour les appels mains libres.",
+    de: "Native macOS-App mit voller Integration, Benachrichtigungen und Siri-Unterstützung für freihändiges Telefonieren.",
+    pt: "Aplicativo nativo para macOS com integração completa, notificações e suporte a Siri para chamadas viva-voz.",
+    zh: "原生macOS应用，完整集成、通知和Siri免提通话支持。",
+    ja: "フルインテグレーション、通知、ハンズフリー通話のSiriサポートを備えたネイティブmacOSアプリ。",
+    tr: "Tam entegrasyon, bildirimler ve eller serbest arama için Siri desteği ile yerel macOS uygulaması.",
+    ru: "Нативное приложение для macOS с полной интеграцией, уведомлениями и поддержкой Siri для звонков без рук."
+  },
+  "downloads.macos.version": {
+    en: "macOS 12+ | Universal", ar: "macOS 12+ | عالمي", es: "macOS 12+ | Universal", fr: "macOS 12+ | Universel",
+    de: "macOS 12+ | Universal", pt: "macOS 12+ | Universal", zh: "macOS 12+ | 通用版", ja: "macOS 12+ | ユニバーサル", tr: "macOS 12+ | Evrensel", ru: "macOS 12+ | Универсальная"
+  },
+  "downloads.android.title": {
+    en: "Android", ar: "أندرويد", es: "Android", fr: "Android",
+    de: "Android", pt: "Android", zh: "Android", ja: "Android", tr: "Android", ru: "Android"
+  },
+  "downloads.android.desc": {
+    en: "Take your business phone on the go. Push notifications, background calling, and battery optimized.",
+    ar: "خذ هاتف عملك أينما ذهبت. إشعارات فورية ومكالمات في الخلفية وتحسين البطارية.",
+    es: "Lleve su teléfono empresarial a todas partes. Notificaciones push, llamadas en segundo plano y batería optimizada.",
+    fr: "Emportez votre téléphone professionnel partout. Notifications push, appels en arrière-plan et batterie optimisée.",
+    de: "Nehmen Sie Ihr Geschäftstelefon überall mit. Push-Benachrichtigungen, Hintergrundanrufe und akkuoptimiert.",
+    pt: "Leve seu telefone empresarial para qualquer lugar. Notificações push, chamadas em segundo plano e bateria otimizada.",
+    zh: "随身携带商务电话。推送通知、后台通话和电池优化。",
+    ja: "ビジネスフォンを持ち歩こう。プッシュ通知、バックグラウンド通話、バッテリー最適化。",
+    tr: "İş telefonunuzu yanınızda taşıyın. Anlık bildirimler, arka plan araması ve pil optimizasyonu.",
+    ru: "Возьмите рабочий телефон с собой. Push-уведомления, фоновые звонки и оптимизация батареи."
+  },
+  "downloads.android.version": {
+    en: "Android 8.0+", ar: "أندرويد 8.0+", es: "Android 8.0+", fr: "Android 8.0+",
+    de: "Android 8.0+", pt: "Android 8.0+", zh: "Android 8.0+", ja: "Android 8.0+", tr: "Android 8.0+", ru: "Android 8.0+"
+  },
+  "downloads.sdk.title": {
+    en: "Windows C# SDK", ar: "حزمة تطوير C# لويندوز", es: "SDK C# para Windows", fr: "SDK C# Windows",
+    de: "Windows C# SDK", pt: "SDK C# Windows", zh: "Windows C# SDK", ja: "Windows C# SDK", tr: "Windows C# SDK", ru: "Windows C# SDK"
+  },
+  "downloads.sdk.desc": {
+    en: "Integrate VOIP@ Cloud into your .NET applications. Full SIP stack, WebRTC, and call control APIs.",
+    ar: "ادمج VOIP@ Cloud في تطبيقات .NET الخاصة بك. حزمة SIP كاملة وWebRTC وواجهات التحكم بالمكالمات.",
+    es: "Integre VOIP@ Cloud en sus aplicaciones .NET. Pila SIP completa, WebRTC y APIs de control de llamadas.",
+    fr: "Intégrez VOIP@ Cloud dans vos applications .NET. Pile SIP complète, WebRTC et APIs de contrôle d'appels.",
+    de: "Integrieren Sie VOIP@ Cloud in Ihre .NET-Anwendungen. Vollständiger SIP-Stack, WebRTC und Anrufsteuerungs-APIs.",
+    pt: "Integre o VOIP@ Cloud em seus aplicativos .NET. Pilha SIP completa, WebRTC e APIs de controle de chamadas.",
+    zh: "将VOIP@ Cloud集成到您的.NET应用中。完整SIP协议栈、WebRTC和通话控制API。",
+    ja: ".NETアプリケーションにVOIP@ Cloudを統合。完全なSIPスタック、WebRTC、通話制御API。",
+    tr: "VOIP@ Cloud'u .NET uygulamalarınıza entegre edin. Tam SIP yığını, WebRTC ve çağrı kontrol API'leri.",
+    ru: "Интегрируйте VOIP@ Cloud в ваши .NET-приложения. Полный SIP-стек, WebRTC и API управления звонками."
+  },
+  "downloads.sdk.version": {
+    en: ".NET 6+ | NuGet Available", ar: ".NET 6+ | متوفر على NuGet", es: ".NET 6+ | Disponible en NuGet", fr: ".NET 6+ | Disponible sur NuGet",
+    de: ".NET 6+ | NuGet verfügbar", pt: ".NET 6+ | Disponível no NuGet", zh: ".NET 6+ | NuGet可用", ja: ".NET 6+ | NuGet対応", tr: ".NET 6+ | NuGet Mevcut", ru: ".NET 6+ | Доступен в NuGet"
+  },
+  "downloads.ios.title": {
+    en: "iOS", ar: "آي أو إس", es: "iOS", fr: "iOS",
+    de: "iOS", pt: "iOS", zh: "iOS", ja: "iOS", tr: "iOS", ru: "iOS"
+  },
+  "downloads.ios.desc": {
+    en: "Professional calling on iPhone and iPad with CallKit integration, push notifications, and VoIP background mode.",
+    ar: "مكالمات احترافية على iPhone وiPad مع تكامل CallKit وإشعارات فورية ووضع VoIP في الخلفية.",
+    es: "Llamadas profesionales en iPhone y iPad con integración CallKit, notificaciones push y modo VoIP en segundo plano.",
+    fr: "Appels professionnels sur iPhone et iPad avec intégration CallKit, notifications push et mode VoIP en arrière-plan.",
+    de: "Professionelle Anrufe auf iPhone und iPad mit CallKit-Integration, Push-Benachrichtigungen und VoIP-Hintergrundmodus.",
+    pt: "Chamadas profissionais no iPhone e iPad com integração CallKit, notificações push e modo VoIP em segundo plano.",
+    zh: "在iPhone和iPad上进行专业通话，支持CallKit集成、推送通知和VoIP后台模式。",
+    ja: "CallKit統合、プッシュ通知、VoIPバックグラウンドモードを備えたiPhone・iPadでのプロフェッショナル通話。",
+    tr: "CallKit entegrasyonu, anlık bildirimler ve VoIP arka plan modu ile iPhone ve iPad'de profesyonel arama.",
+    ru: "Профессиональные звонки на iPhone и iPad с интеграцией CallKit, push-уведомлениями и фоновым режимом VoIP."
+  },
+  "downloads.ios.version": {
+    en: "iOS 15+ | iPhone & iPad", ar: "iOS 15+ | آيفون وآيباد", es: "iOS 15+ | iPhone y iPad", fr: "iOS 15+ | iPhone et iPad",
+    de: "iOS 15+ | iPhone & iPad", pt: "iOS 15+ | iPhone e iPad", zh: "iOS 15+ | iPhone 和 iPad", ja: "iOS 15+ | iPhone & iPad", tr: "iOS 15+ | iPhone ve iPad", ru: "iOS 15+ | iPhone и iPad"
+  },
+  "downloads.btn.download": {
+    en: "<i class=\"fas fa-download\"></i> Download", ar: "<i class=\"fas fa-download\"></i> تحميل", es: "<i class=\"fas fa-download\"></i> Descargar", fr: "<i class=\"fas fa-download\"></i> Télécharger",
+    de: "<i class=\"fas fa-download\"></i> Herunterladen", pt: "<i class=\"fas fa-download\"></i> Baixar", zh: "<i class=\"fas fa-download\"></i> 下载", ja: "<i class=\"fas fa-download\"></i> ダウンロード", tr: "<i class=\"fas fa-download\"></i> İndir", ru: "<i class=\"fas fa-download\"></i> Скачать"
+  },
+  "downloads.btn.googlePlay": {
+    en: "<i class=\"fab fa-google-play\"></i> Google Play", ar: "<i class=\"fab fa-google-play\"></i> Google Play", es: "<i class=\"fab fa-google-play\"></i> Google Play", fr: "<i class=\"fab fa-google-play\"></i> Google Play",
+    de: "<i class=\"fab fa-google-play\"></i> Google Play", pt: "<i class=\"fab fa-google-play\"></i> Google Play", zh: "<i class=\"fab fa-google-play\"></i> Google Play", ja: "<i class=\"fab fa-google-play\"></i> Google Play", tr: "<i class=\"fab fa-google-play\"></i> Google Play", ru: "<i class=\"fab fa-google-play\"></i> Google Play"
+  },
+  "downloads.btn.appStore": {
+    en: "<i class=\"fab fa-app-store\"></i> App Store", ar: "<i class=\"fab fa-app-store\"></i> App Store", es: "<i class=\"fab fa-app-store\"></i> App Store", fr: "<i class=\"fab fa-app-store\"></i> App Store",
+    de: "<i class=\"fab fa-app-store\"></i> App Store", pt: "<i class=\"fab fa-app-store\"></i> App Store", zh: "<i class=\"fab fa-app-store\"></i> App Store", ja: "<i class=\"fab fa-app-store\"></i> App Store", tr: "<i class=\"fab fa-app-store\"></i> App Store", ru: "<i class=\"fab fa-app-store\"></i> App Store"
+  },
+  "downloads.btn.downloadSdk": {
+    en: "<i class=\"fas fa-download\"></i> Download SDK", ar: "<i class=\"fas fa-download\"></i> تحميل SDK", es: "<i class=\"fas fa-download\"></i> Descargar SDK", fr: "<i class=\"fas fa-download\"></i> Télécharger SDK",
+    de: "<i class=\"fas fa-download\"></i> SDK Herunterladen", pt: "<i class=\"fas fa-download\"></i> Baixar SDK", zh: "<i class=\"fas fa-download\"></i> 下载 SDK", ja: "<i class=\"fas fa-download\"></i> SDKダウンロード", tr: "<i class=\"fas fa-download\"></i> SDK İndir", ru: "<i class=\"fas fa-download\"></i> Скачать SDK"
+  },
+  "downloads.note.title": {
+    en: "Need Help?", ar: "هل تحتاج مساعدة؟", es: "¿Necesita Ayuda?", fr: "Besoin d'aide ?",
+    de: "Hilfe benötigt?", pt: "Precisa de Ajuda?", zh: "需要帮助？", ja: "ヘルプが必要ですか？", tr: "Yardıma mı İhtiyacınız Var?", ru: "Нужна помощь?"
+  },
+  "downloads.note.desc": {
+    en: "All apps connect to your VOIP@ Cloud account. Make sure you have an active subscription before downloading. Visit our FAQ or contact support for setup assistance.",
+    ar: "جميع التطبيقات تتصل بحسابك في VOIP@ Cloud. تأكد من أن لديك اشتراك نشط قبل التحميل. قم بزيارة الأسئلة الشائعة أو اتصل بالدعم للمساعدة في الإعداد.",
+    es: "Todas las aplicaciones se conectan a su cuenta VOIP@ Cloud. Asegúrese de tener una suscripción activa antes de descargar. Visite nuestras FAQ o contacte soporte para ayuda con la configuración.",
+    fr: "Toutes les applications se connectent à votre compte VOIP@ Cloud. Assurez-vous d'avoir un abonnement actif avant de télécharger. Consultez notre FAQ ou contactez le support pour l'assistance à la configuration.",
+    de: "Alle Apps verbinden sich mit Ihrem VOIP@ Cloud-Konto. Stellen Sie sicher, dass Sie ein aktives Abonnement haben. Besuchen Sie unsere FAQ oder kontaktieren Sie den Support für Einrichtungshilfe.",
+    pt: "Todos os aplicativos se conectam à sua conta VOIP@ Cloud. Certifique-se de ter uma assinatura ativa antes de baixar. Visite nosso FAQ ou entre em contato com o suporte para assistência na configuração.",
+    zh: "所有应用都连接到您的VOIP@ Cloud账户。下载前请确保您有活跃的订阅。访问我们的常见问题或联系支持获取设置帮助。",
+    ja: "すべてのアプリはVOIP@ Cloudアカウントに接続します。ダウンロード前にアクティブなサブスクリプションをご確認ください。セットアップのサポートはFAQまたはサポートにお問い合わせください。",
+    tr: "Tüm uygulamalar VOIP@ Cloud hesabınıza bağlanır. İndirmeden önce aktif bir aboneliğiniz olduğundan emin olun. Kurulum yardımı için SSS'mizi ziyaret edin veya destekle iletişime geçin.",
+    ru: "Все приложения подключаются к вашей учётной записи VOIP@ Cloud. Убедитесь, что у вас есть активная подписка перед загрузкой. Посетите FAQ или обратитесь в поддержку для помощи с настройкой."
+  },
+  "footer.downloads": {
+    en: "Downloads", ar: "التحميلات", es: "Descargas", fr: "Téléchargements",
+    de: "Downloads", pt: "Downloads", zh: "下载", ja: "ダウンロード", tr: "İndirmeler", ru: "Загрузки"
+  },
+
   // Language names (for the switcher)
   "lang.en": { en: "English", ar: "English", es: "English", fr: "English", de: "English", pt: "English", zh: "English", ja: "English", tr: "English", ru: "English" },
   "lang.ar": { en: "العربية", ar: "العربية", es: "العربية", fr: "العربية", de: "العربية", pt: "العربية", zh: "العربية", ja: "العربية", tr: "العربية", ru: "العربية" },

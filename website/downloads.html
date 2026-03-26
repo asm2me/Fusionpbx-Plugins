@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Downloads - VOIP@ Cloud</title>
+    <meta name="description" content="Download VOIP@ Cloud apps for Windows, macOS, Android, iOS, and the Windows C# SDK for developers.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .downloads-page { padding: 100px 0 60px; }
+        .downloads-hero { text-align: center; max-width: 800px; margin: 0 auto 4rem; }
+        .downloads-hero h1 { margin-bottom: 1rem; }
+        .downloads-hero p { color: var(--gray-500); font-size: 1.125rem; line-height: 1.8; }
+        .downloads-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2rem; }
+        .download-card { padding: 2.5rem 2rem; background: var(--white); border-radius: var(--radius-sm); border: 1px solid var(--gray-200); text-align: center; transition: var(--transition); display: flex; flex-direction: column; align-items: center; }
+        .download-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+        .download-card .platform-icon { width: 80px; height: 80px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin-bottom: 1.5rem; }
+        .download-card .platform-icon.windows { background: linear-gradient(135deg, #0078D4, #005A9E); color: var(--white); }
+        .download-card .platform-icon.macos { background: linear-gradient(135deg, #333, #000); color: var(--white); }
+        .download-card .platform-icon.android { background: linear-gradient(135deg, #3DDC84, #2DA65F); color: var(--white); }
+        .download-card .platform-icon.sdk { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: var(--white); }
+        .download-card .platform-icon.ios { background: linear-gradient(135deg, #555, #000); color: var(--white); }
+        .download-card h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+        .download-card .platform-desc { color: var(--gray-500); font-size: 0.875rem; line-height: 1.6; margin-bottom: 1.5rem; flex: 1; }
+        .download-card .btn-download { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: var(--primary); color: var(--white); border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9375rem; text-decoration: none; transition: var(--transition); }
+        .download-card .btn-download:hover { background: var(--primary-dark); transform: translateY(-1px); }
+        .download-card .version-info { margin-top: 1rem; font-size: 0.8rem; color: var(--gray-400); }
+        .downloads-note { text-align: center; margin-top: 3rem; padding: 2rem; background: var(--primary-50); border-radius: var(--radius-sm); border: 1px solid var(--primary-100); }
+        .downloads-note p { color: var(--gray-600); margin-bottom: 0; font-size: 0.9375rem; }
+        .downloads-note i { color: var(--primary); margin-right: 0.5rem; }
+        @media (max-width: 992px) { .downloads-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 576px) { .downloads-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<!-- Language Bar -->
+<div class="lang-bar">
+    <div class="container lang-bar-inner">
+        <a href="#" class="lang-item active" data-lang="en"><img class="lang-flag-img" src="https://flagcdn.com/w40/gb.png" width="20" height="10" alt="English"> English</a>
+        <a href="#" class="lang-item" data-lang="ar"><img class="lang-flag-img" src="https://flagcdn.com/w40/sa.png" width="20" height="13" alt="العربية"> العربية</a>
+        <a href="#" class="lang-item" data-lang="es"><img class="lang-flag-img" src="https://flagcdn.com/w40/es.png" width="20" height="13" alt="Español"> Español</a>
+        <a href="#" class="lang-item" data-lang="fr"><img class="lang-flag-img" src="https://flagcdn.com/w40/fr.png" width="20" height="13" alt="Français"> Français</a>
+        <a href="#" class="lang-item" data-lang="de"><img class="lang-flag-img" src="https://flagcdn.com/w40/de.png" width="20" height="12" alt="Deutsch"> Deutsch</a>
+        <a href="#" class="lang-item" data-lang="pt"><img class="lang-flag-img" src="https://flagcdn.com/w40/br.png" width="20" height="14" alt="Português"> Português</a>
+        <a href="#" class="lang-item" data-lang="zh"><img class="lang-flag-img" src="https://flagcdn.com/w40/cn.png" width="20" height="13" alt="中文"> 中文</a>
+        <a href="#" class="lang-item" data-lang="ja"><img class="lang-flag-img" src="https://flagcdn.com/w40/jp.png" width="20" height="13" alt="日本語"> 日本語</a>
+        <a href="#" class="lang-item" data-lang="tr"><img class="lang-flag-img" src="https://flagcdn.com/w40/tr.png" width="20" height="13" alt="Türkçe"> Türkçe</a>
+        <a href="#" class="lang-item" data-lang="ru"><img class="lang-flag-img" src="https://flagcdn.com/w40/ru.png" width="20" height="13" alt="Русский"> Русский</a>
+    </div>
+</div>
+
+<!-- Navigation -->
+<nav class="navbar scrolled" id="navbar">
+    <div class="container nav-container">
+        <a href="/" class="logo">
+            <span class="logo-icon"><i class="fas fa-cloud-arrow-up"></i></span>
+            <span class="logo-text">VOIP<span class="logo-at">@</span> Cloud</span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html#features" data-i18n="nav.features">Features</a></li>
+            <li><a href="index.html#how-it-works" data-i18n="nav.howItWorks">How It Works</a></li>
+            <li><a href="index.html#pricing" data-i18n="nav.pricing">Pricing</a></li>
+            <li><a href="index.html#dns-setup" data-i18n="nav.dnsSetup">DNS Setup</a></li>
+            <li><a href="index.html#faq" data-i18n="nav.faq">FAQ</a></li>
+            <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="https://mt.voipat.com" class="btn btn-ghost" target="_blank" data-i18n="nav.login">Login</a>
+            <a href="register.html" class="btn btn-primary" data-i18n="nav.startTrial">Start Free Trial</a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<section class="downloads-page">
+    <div class="container">
+        <div class="downloads-hero">
+            <h1 data-i18n-html="downloads.title">Download <span class="gradient-text">VOIP@ Cloud</span></h1>
+            <p data-i18n="downloads.subtitle">Get the VOIP@ Cloud app for your platform. Make and receive calls, manage extensions, and stay connected from anywhere.</p>
+        </div>
+
+        <div class="downloads-grid">
+            <!-- Windows -->
+            <div class="download-card">
+                <div class="platform-icon windows"><i class="fab fa-windows"></i></div>
+                <h3 data-i18n="downloads.windows.title">Windows</h3>
+                <p class="platform-desc" data-i18n="downloads.windows.desc">Full-featured softphone for Windows 10/11 with call management, contacts, and presence.</p>
+                <a href="#" class="btn-download" data-i18n-html="downloads.btn.download"><i class="fas fa-download"></i> Download</a>
+                <span class="version-info" data-i18n="downloads.windows.version">Windows 10+ | 64-bit</span>
+            </div>
+
+            <!-- macOS -->
+            <div class="download-card">
+                <div class="platform-icon macos"><i class="fab fa-apple"></i></div>
+                <h3 data-i18n="downloads.macos.title">macOS</h3>
+                <p class="platform-desc" data-i18n="downloads.macos.desc">Native macOS app with full integration, notifications, and Siri support for hands-free calling.</p>
+                <a href="#" class="btn-download" data-i18n-html="downloads.btn.download"><i class="fas fa-download"></i> Download</a>
+                <span class="version-info" data-i18n="downloads.macos.version">macOS 12+ | Universal</span>
+            </div>
+
+            <!-- Android -->
+            <div class="download-card">
+                <div class="platform-icon android"><i class="fab fa-android"></i></div>
+                <h3 data-i18n="downloads.android.title">Android</h3>
+                <p class="platform-desc" data-i18n="downloads.android.desc">Take your business phone on the go. Push notifications, background calling, and battery optimized.</p>
+                <a href="#" class="btn-download" data-i18n-html="downloads.btn.googlePlay"><i class="fab fa-google-play"></i> Google Play</a>
+                <span class="version-info" data-i18n="downloads.android.version">Android 8.0+</span>
+            </div>
+
+            <!-- Windows C# SDK -->
+            <div class="download-card">
+                <div class="platform-icon sdk"><i class="fas fa-code"></i></div>
+                <h3 data-i18n="downloads.sdk.title">Windows C# SDK</h3>
+                <p class="platform-desc" data-i18n="downloads.sdk.desc">Integrate VOIP@ Cloud into your .NET applications. Full SIP stack, WebRTC, and call control APIs.</p>
+                <a href="#" class="btn-download" data-i18n-html="downloads.btn.downloadSdk"><i class="fas fa-download"></i> Download SDK</a>
+                <span class="version-info" data-i18n="downloads.sdk.version">.NET 6+ | NuGet Available</span>
+            </div>
+
+            <!-- iOS -->
+            <div class="download-card">
+                <div class="platform-icon ios"><i class="fab fa-apple"></i></div>
+                <h3 data-i18n="downloads.ios.title">iOS</h3>
+                <p class="platform-desc" data-i18n="downloads.ios.desc">Professional calling on iPhone and iPad with CallKit integration, push notifications, and VoIP background mode.</p>
+                <a href="#" class="btn-download" data-i18n-html="downloads.btn.appStore"><i class="fab fa-app-store"></i> App Store</a>
+                <span class="version-info" data-i18n="downloads.ios.version">iOS 15+ | iPhone & iPad</span>
+            </div>
+        </div>
+
+        <div class="downloads-note">
+            <p><i class="fas fa-info-circle"></i> <strong data-i18n="downloads.note.title">Need Help?</strong></p>
+            <p data-i18n="downloads.note.desc">All apps connect to your VOIP@ Cloud account. Make sure you have an active subscription before downloading. Visit our FAQ or contact support for setup assistance.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="/" class="logo">
+                    <span class="logo-icon"><i class="fas fa-cloud-arrow-up"></i></span>
+                    <span class="logo-text">VOIP<span class="logo-at">@</span> Cloud</span>
+                </a>
+                <p data-i18n="footer.desc">Enterprise cloud PBX platform with instant provisioning, smart IVR, and unlimited scalability.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3 data-i18n="footer.product">Product</h3>
+                <ul>
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="index.html#dns-setup">DNS Setup</a></li>
+                    <li><a href="downloads.html" data-i18n="footer.downloads">Downloads</a></li>
+                    <li><a href="register.html">Sign Up</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3 data-i18n="footer.support">Support</h3>
+                <ul>
+                    <li><a href="index.html#faq">FAQ</a></li>
+                    <li><a href="index.html#contact">Contact Us</a></li>
+                    <li><a href="index.html#dns-setup">DNS Guide</a></li>
+                    <li><a href="api-docs.html">API Docs</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3 data-i18n="footer.company">Company</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="partners.html">Partners</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3 data-i18n="footer.legal">Legal</h3>
+                <ul>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="terms.html#10-service-level-agreement-sla">SLA</a></li>
+                    <li><a href="privacy.html#9-international-data-transfers">GDPR</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 VOIP@ Cloud. All rights reserved.</p>
+            <div class="payment-methods">
+                <i class="fab fa-cc-visa"></i>
+                <i class="fab fa-cc-mastercard"></i>
+                <i class="fab fa-cc-paypal"></i>
+                <i class="fab fa-cc-stripe"></i>
+                <i class="fab fa-bitcoin"></i>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="js/translations.min.js" defer></script>
+<script src="js/main.min.js" defer></script>
+</body>
+</html>
