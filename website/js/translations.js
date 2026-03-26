@@ -19,6 +19,10 @@ const translations = {
     en: "DNS Setup", ar: "إعداد DNS", es: "Configuración DNS", fr: "Configuration DNS",
     de: "DNS-Einrichtung", pt: "Configuração DNS", zh: "DNS设置", ja: "DNS設定", tr: "DNS Ayarı", ru: "Настройка DNS"
   },
+  "nav.downloads": {
+    en: "Downloads", ar: "التحميلات", es: "Descargas", fr: "Téléchargements",
+    de: "Downloads", pt: "Downloads", zh: "下载", ja: "ダウンロード", tr: "İndirmeler", ru: "Загрузки"
+  },
   "nav.faq": {
     en: "FAQ", ar: "الأسئلة الشائعة", es: "Preguntas Frecuentes", fr: "FAQ",
     de: "FAQ", pt: "Perguntas Frequentes", zh: "常见问题", ja: "よくある質問", tr: "SSS", ru: "Вопросы"
