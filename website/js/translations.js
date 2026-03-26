@@ -1695,6 +1695,10 @@ const translations = {
     en: "<i class=\"fab fa-app-store\"></i> App Store", ar: "<i class=\"fab fa-app-store\"></i> App Store", es: "<i class=\"fab fa-app-store\"></i> App Store", fr: "<i class=\"fab fa-app-store\"></i> App Store",
     de: "<i class=\"fab fa-app-store\"></i> App Store", pt: "<i class=\"fab fa-app-store\"></i> App Store", zh: "<i class=\"fab fa-app-store\"></i> App Store", ja: "<i class=\"fab fa-app-store\"></i> App Store", tr: "<i class=\"fab fa-app-store\"></i> App Store", ru: "<i class=\"fab fa-app-store\"></i> App Store"
   },
+  "downloads.btn.apk": {
+    en: "<i class=\"fab fa-android\"></i> Download APK", ar: "<i class=\"fab fa-android\"></i> تحميل APK", es: "<i class=\"fab fa-android\"></i> Descargar APK", fr: "<i class=\"fab fa-android\"></i> Télécharger APK",
+    de: "<i class=\"fab fa-android\"></i> APK Herunterladen", pt: "<i class=\"fab fa-android\"></i> Baixar APK", zh: "<i class=\"fab fa-android\"></i> 下载 APK", ja: "<i class=\"fab fa-android\"></i> APKダウンロード", tr: "<i class=\"fab fa-android\"></i> APK İndir", ru: "<i class=\"fab fa-android\"></i> Скачать APK"
+  },
   "downloads.btn.downloadSdk": {
     en: "<i class=\"fas fa-download\"></i> Download SDK", ar: "<i class=\"fas fa-download\"></i> تحميل SDK", es: "<i class=\"fas fa-download\"></i> Descargar SDK", fr: "<i class=\"fas fa-download\"></i> Télécharger SDK",
     de: "<i class=\"fas fa-download\"></i> SDK Herunterladen", pt: "<i class=\"fas fa-download\"></i> Baixar SDK", zh: "<i class=\"fas fa-download\"></i> 下载 SDK", ja: "<i class=\"fas fa-download\"></i> SDKダウンロード", tr: "<i class=\"fas fa-download\"></i> SDK İndir", ru: "<i class=\"fas fa-download\"></i> Скачать SDK"
