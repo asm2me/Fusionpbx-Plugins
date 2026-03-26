@@ -1663,6 +1663,26 @@ const translations = {
     en: "iOS 15+ | iPhone & iPad", ar: "iOS 15+ | آيفون وآيباد", es: "iOS 15+ | iPhone y iPad", fr: "iOS 15+ | iPhone et iPad",
     de: "iOS 15+ | iPhone & iPad", pt: "iOS 15+ | iPhone e iPad", zh: "iOS 15+ | iPhone 和 iPad", ja: "iOS 15+ | iPhone & iPad", tr: "iOS 15+ | iPhone ve iPad", ru: "iOS 15+ | iPhone и iPad"
   },
+  "downloads.linux.title": {
+    en: "Linux", ar: "لينكس", es: "Linux", fr: "Linux",
+    de: "Linux", pt: "Linux", zh: "Linux", ja: "Linux", tr: "Linux", ru: "Linux"
+  },
+  "downloads.linux.desc": {
+    en: "Native Linux softphone with SIP support. Available as AppImage, .deb, and .rpm packages for all major distributions.",
+    ar: "هاتف برمجي أصلي لنظام لينكس مع دعم SIP. متوفر كـ AppImage و.deb و.rpm لجميع التوزيعات الرئيسية.",
+    es: "Softphone nativo para Linux con soporte SIP. Disponible como AppImage, .deb y .rpm para todas las distribuciones principales.",
+    fr: "Softphone Linux natif avec support SIP. Disponible en AppImage, .deb et .rpm pour toutes les distributions majeures.",
+    de: "Natives Linux-Softphone mit SIP-Unterstützung. Verfügbar als AppImage, .deb und .rpm für alle gängigen Distributionen.",
+    pt: "Softphone Linux nativo com suporte SIP. Disponível como AppImage, .deb e .rpm para todas as principais distribuições.",
+    zh: "原生Linux软电话，支持SIP。提供AppImage、.deb和.rpm包，适用于所有主要发行版。",
+    ja: "SIPサポート付きのネイティブLinuxソフトフォン。主要ディストリビューション向けにAppImage、.deb、.rpmパッケージで提供。",
+    tr: "SIP destekli yerel Linux yazılım telefonu. Tüm büyük dağıtımlar için AppImage, .deb ve .rpm olarak mevcut.",
+    ru: "Нативный Linux-софтфон с поддержкой SIP. Доступен как AppImage, .deb и .rpm для всех основных дистрибутивов."
+  },
+  "downloads.linux.version": {
+    en: "Ubuntu 20.04+ | Fedora 36+ | AppImage", ar: "Ubuntu 20.04+ | Fedora 36+ | AppImage", es: "Ubuntu 20.04+ | Fedora 36+ | AppImage", fr: "Ubuntu 20.04+ | Fedora 36+ | AppImage",
+    de: "Ubuntu 20.04+ | Fedora 36+ | AppImage", pt: "Ubuntu 20.04+ | Fedora 36+ | AppImage", zh: "Ubuntu 20.04+ | Fedora 36+ | AppImage", ja: "Ubuntu 20.04+ | Fedora 36+ | AppImage", tr: "Ubuntu 20.04+ | Fedora 36+ | AppImage", ru: "Ubuntu 20.04+ | Fedora 36+ | AppImage"
+  },
   "downloads.btn.download": {
     en: "<i class=\"fas fa-download\"></i> Download", ar: "<i class=\"fas fa-download\"></i> تحميل", es: "<i class=\"fas fa-download\"></i> Descargar", fr: "<i class=\"fas fa-download\"></i> Télécharger",
     de: "<i class=\"fas fa-download\"></i> Herunterladen", pt: "<i class=\"fas fa-download\"></i> Baixar", zh: "<i class=\"fas fa-download\"></i> 下载", ja: "<i class=\"fas fa-download\"></i> ダウンロード", tr: "<i class=\"fas fa-download\"></i> İndir", ru: "<i class=\"fas fa-download\"></i> Скачать"

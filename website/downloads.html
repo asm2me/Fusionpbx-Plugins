@@ -24,6 +24,7 @@
         .download-card .platform-icon.android { background: linear-gradient(135deg, #3DDC84, #2DA65F); color: var(--white); }
         .download-card .platform-icon.sdk { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: var(--white); }
         .download-card .platform-icon.ios { background: linear-gradient(135deg, #555, #000); color: var(--white); }
+        .download-card .platform-icon.linux { background: linear-gradient(135deg, #E95420, #C7361A); color: var(--white); }
         .download-card h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
         .download-card .platform-desc { color: var(--gray-500); font-size: 0.875rem; line-height: 1.6; margin-bottom: 1.5rem; flex: 1; }
         .download-card .btn-download { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: var(--primary); color: var(--white); border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9375rem; text-decoration: none; transition: var(--transition); }
@@ -130,6 +131,15 @@
                 <p class="platform-desc" data-i18n="downloads.ios.desc">Professional calling on iPhone and iPad with CallKit integration, push notifications, and VoIP background mode.</p>
                 <a href="#" class="btn-download" data-i18n-html="downloads.btn.appStore"><i class="fab fa-app-store"></i> App Store</a>
                 <span class="version-info" data-i18n="downloads.ios.version">iOS 15+ | iPhone & iPad</span>
+            </div>
+
+            <!-- Linux -->
+            <div class="download-card">
+                <div class="platform-icon linux"><i class="fab fa-linux"></i></div>
+                <h3 data-i18n="downloads.linux.title">Linux</h3>
+                <p class="platform-desc" data-i18n="downloads.linux.desc">Native Linux softphone with SIP support. Available as AppImage, .deb, and .rpm packages for all major distributions.</p>
+                <a href="#" class="btn-download" data-i18n-html="downloads.btn.download"><i class="fas fa-download"></i> Download</a>
+                <span class="version-info" data-i18n="downloads.linux.version">Ubuntu 20.04+ | Fedora 36+ | AppImage</span>
             </div>
         </div>
 

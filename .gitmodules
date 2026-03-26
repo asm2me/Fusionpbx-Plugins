@@ -1,0 +1,9 @@
+[submodule "VoipatDialer"]
+	path = VoipatDialer
+	url = https://github.com/asm2me/VoipatDialer.git
+[submodule "WebrtcPhoneCSharp"]
+	path = WebrtcPhoneCSharp
+	url = https://github.com/asm2me/Webrtc-phone-c-.git
+[submodule "web_phone2"]
+	path = web_phone2
+	url = https://github.com/asm2me/fusionPBX-webrtc-phone.git
