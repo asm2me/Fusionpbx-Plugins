@@ -1661,24 +1661,24 @@ const translations = {
     ru: "Скачайте приложение VOIP@ Cloud для вашей платформы. Совершайте и принимайте звонки, управляйте добавочными номерами и оставайтесь на связи."
   },
   "downloads.windows.title": {
-    en: "Windows", ar: "ويندوز", es: "Windows", fr: "Windows",
-    de: "Windows", pt: "Windows", zh: "Windows", ja: "Windows", tr: "Windows", ru: "Windows"
+    en: "Windows (Portable)", ar: "ويندوز (محمول)", es: "Windows (Portable)", fr: "Windows (Portable)",
+    de: "Windows (Portabel)", pt: "Windows (Portátil)", zh: "Windows（便携版）", ja: "Windows（ポータブル）", tr: "Windows (Taşınabilir)", ru: "Windows (Портативная)"
   },
   "downloads.windows.desc": {
-    en: "Full-featured softphone for Windows 10/11 with call management, contacts, and presence.",
-    ar: "هاتف برمجي متكامل لنظام ويندوز 10/11 مع إدارة المكالمات وجهات الاتصال والحضور.",
-    es: "Softphone completo para Windows 10/11 con gestión de llamadas, contactos y presencia.",
-    fr: "Softphone complet pour Windows 10/11 avec gestion des appels, contacts et présence.",
-    de: "Voll ausgestattetes Softphone für Windows 10/11 mit Anrufverwaltung, Kontakten und Präsenz.",
-    pt: "Softphone completo para Windows 10/11 com gerenciamento de chamadas, contatos e presença.",
-    zh: "功能齐全的Windows 10/11软电话，支持通话管理、联系人和在线状态。",
-    ja: "通話管理、連絡先、プレゼンス機能を備えたWindows 10/11向けフル機能ソフトフォン。",
-    tr: "Çağrı yönetimi, rehber ve durum bilgisi ile Windows 10/11 için tam özellikli yazılım telefonu.",
-    ru: "Полнофункциональный софтфон для Windows 10/11 с управлением звонками, контактами и статусом присутствия."
+    en: "Portable softphone — no installation needed. Extract and run. Call management, contacts, and recording.",
+    ar: "هاتف برمجي محمول — لا حاجة للتثبيت. فك الضغط وشغّل. إدارة المكالمات وجهات الاتصال والتسجيل.",
+    es: "Softphone portátil — sin instalación. Extraer y ejecutar. Gestión de llamadas, contactos y grabación.",
+    fr: "Softphone portable — pas d'installation. Extraire et exécuter. Gestion des appels, contacts et enregistrement.",
+    de: "Portables Softphone — keine Installation nötig. Entpacken und starten. Anrufverwaltung, Kontakte und Aufnahme.",
+    pt: "Softphone portátil — sem instalação. Extrair e executar. Gerenciamento de chamadas, contatos e gravação.",
+    zh: "便携软电话 — 无需安装。解压即用。通话管理、联系人和录音。",
+    ja: "ポータブルソフトフォン — インストール不要。解凍して実行。通話管理、連絡先、録音。",
+    tr: "Taşınabilir yazılım telefonu — kurulum gerektirmez. Çıkarın ve çalıştırın. Çağrı yönetimi, rehber ve kayıt.",
+    ru: "Портативный софтфон — без установки. Распакуйте и запустите. Управление звонками, контакты и запись."
   },
   "downloads.windows.version": {
-    en: "Windows 10+ | 64-bit", ar: "ويندوز 10+ | 64 بت", es: "Windows 10+ | 64-bit", fr: "Windows 10+ | 64-bit",
-    de: "Windows 10+ | 64-Bit", pt: "Windows 10+ | 64-bit", zh: "Windows 10+ | 64位", ja: "Windows 10+ | 64ビット", tr: "Windows 10+ | 64-bit", ru: "Windows 10+ | 64-бит"
+    en: "Windows 10+ | Portable | 64-bit", ar: "ويندوز 10+ | محمول | 64 بت", es: "Windows 10+ | Portable | 64-bit", fr: "Windows 10+ | Portable | 64-bit",
+    de: "Windows 10+ | Portabel | 64-Bit", pt: "Windows 10+ | Portátil | 64-bit", zh: "Windows 10+ | 便携版 | 64位", ja: "Windows 10+ | ポータブル | 64ビット", tr: "Windows 10+ | Taşınabilir | 64-bit", ru: "Windows 10+ | Портативная | 64-бит"
   },
   "downloads.macos.title": {
     en: "macOS", ar: "ماك", es: "macOS", fr: "macOS",
