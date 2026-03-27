@@ -373,20 +373,20 @@ h1{font-size:3.5rem}
                 <div class="dns-step">
                     <div class="dns-step-header">
                         <span class="dns-step-num">1</span>
-                        <h3>Choose Your Domain Type</h3>
+                        <h3 data-i18n="dns.step1.title">Choose Your Domain Type</h3>
                     </div>
                     <div class="dns-step-body">
-                        <p>You can use either a <strong>subdomain</strong> (e.g., <code>pbx.yourcompany.com</code>) or a <strong>full domain</strong> (e.g., <code>yourcompany.com</code>).</p>
-                        <p>We recommend using a subdomain for easier management.</p>
+                        <p data-i18n-html="dns.step1.desc1">You can use either a <strong>subdomain</strong> (e.g., <code>pbx.yourcompany.com</code>) or a <strong>full domain</strong> (e.g., <code>yourcompany.com</code>).</p>
+                        <p data-i18n="dns.step1.desc2">We recommend using a subdomain for easier management.</p>
                     </div>
                 </div>
                 <div class="dns-step">
                     <div class="dns-step-header">
                         <span class="dns-step-num">2</span>
-                        <h3>Add DNS Records</h3>
+                        <h3 data-i18n="dns.step2.title">Add DNS Records</h3>
                     </div>
                     <div class="dns-step-body">
-                        <p>Log into your domain registrar's DNS management panel and add the following records:</p>
+                        <p data-i18n="dns.step2.desc">Log into your domain registrar's DNS management panel and add the following records:</p>
                         <div class="dns-table-wrap">
                             <table class="dns-table">
                                 <thead>
@@ -419,17 +419,17 @@ h1{font-size:3.5rem}
                                 </tbody>
                             </table>
                         </div>
-                        <p class="dns-note"><i class="fas fa-info-circle"></i> The SRV and NAPTR records are optional but recommended for auto-configuration of SIP phones.</p>
+                        <p class="dns-note"><i class="fas fa-info-circle"></i> <span data-i18n="dns.step2.note">The SRV and NAPTR records are optional but recommended for auto-configuration of SIP phones.</span></p>
                     </div>
                 </div>
                 <div class="dns-step">
                     <div class="dns-step-header">
                         <span class="dns-step-num">3</span>
-                        <h3>Wait for Propagation</h3>
+                        <h3 data-i18n="dns.step3.title">Wait for Propagation</h3>
                     </div>
                     <div class="dns-step-body">
-                        <p>DNS changes typically take <strong>5-30 minutes</strong> to propagate, though it can take up to 48 hours in rare cases.</p>
-                        <p>You can check propagation status using:</p>
+                        <p data-i18n-html="dns.step3.desc1">DNS changes typically take <strong>5-30 minutes</strong> to propagate, though it can take up to 48 hours in rare cases.</p>
+                        <p data-i18n="dns.step3.desc2">You can check propagation status using:</p>
                         <div class="code-block">
                             <code>nslookup pbx.yourcompany.com</code>
                             <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy to clipboard"><i class="fas fa-copy"></i></button>
@@ -439,14 +439,14 @@ h1{font-size:3.5rem}
                 <div class="dns-step">
                     <div class="dns-step-header">
                         <span class="dns-step-num">4</span>
-                        <h3>Access Your PBX</h3>
+                        <h3 data-i18n="dns.step4.title">Access Your PBX</h3>
                     </div>
                     <div class="dns-step-body">
-                        <p>Once DNS has propagated, access your PBX at:</p>
+                        <p data-i18n="dns.step4.desc1">Once DNS has propagated, access your PBX at:</p>
                         <div class="code-block">
                             <code>https://pbx.yourcompany.com</code>
                         </div>
-                        <p>Log in with the admin credentials you created during registration. SSL certificate will be automatically provisioned.</p>
+                        <p data-i18n="dns.step4.desc2">Log in with the admin credentials you created during registration. SSL certificate will be automatically provisioned.</p>
                     </div>
                 </div>
             </div>

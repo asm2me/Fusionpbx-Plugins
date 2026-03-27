@@ -423,6 +423,62 @@ const translations = {
     tr: "Alan adınızı platformumuza bağlamak için bu basit adımları izleyin",
     ru: "Следуйте этим простым шагам для подключения домена к нашей платформе"
   },
+  "dns.step1.title": {
+    en: "Choose Your Domain Type", ar: "اختر نوع النطاق", es: "Elige el Tipo de Dominio", fr: "Choisissez Votre Type de Domaine",
+    de: "Wählen Sie Ihren Domain-Typ", pt: "Escolha o Tipo de Domínio", zh: "选择域名类型", ja: "ドメインタイプを選択", tr: "Alan Adı Türünü Seçin", ru: "Выберите тип домена"
+  },
+  "dns.step1.desc1": {
+    en: "You can use either a <strong>subdomain</strong> (e.g., <code>pbx.yourcompany.com</code>) or a <strong>full domain</strong> (e.g., <code>yourcompany.com</code>).",
+    ar: "يمكنك استخدام <strong>نطاق فرعي</strong> (مثل <code>pbx.yourcompany.com</code>) أو <strong>نطاق كامل</strong> (مثل <code>yourcompany.com</code>).",
+    es: "Puede usar un <strong>subdominio</strong> (ej., <code>pbx.yourcompany.com</code>) o un <strong>dominio completo</strong> (ej., <code>yourcompany.com</code>).",
+    fr: "Vous pouvez utiliser un <strong>sous-domaine</strong> (ex., <code>pbx.yourcompany.com</code>) ou un <strong>domaine complet</strong> (ex., <code>yourcompany.com</code>).",
+    de: "Sie können eine <strong>Subdomain</strong> (z.B. <code>pbx.yourcompany.com</code>) oder eine <strong>vollständige Domain</strong> (z.B. <code>yourcompany.com</code>) verwenden.",
+    pt: "Você pode usar um <strong>subdomínio</strong> (ex., <code>pbx.yourcompany.com</code>) ou um <strong>domínio completo</strong> (ex., <code>yourcompany.com</code>).",
+    zh: "您可以使用<strong>子域名</strong>（如 <code>pbx.yourcompany.com</code>）或<strong>完整域名</strong>（如 <code>yourcompany.com</code>）。",
+    ja: "<strong>サブドメイン</strong>（例：<code>pbx.yourcompany.com</code>）または<strong>フルドメイン</strong>（例：<code>yourcompany.com</code>）を使用できます。",
+    tr: "<strong>Alt alan adı</strong> (örn., <code>pbx.yourcompany.com</code>) veya <strong>tam alan adı</strong> (örn., <code>yourcompany.com</code>) kullanabilirsiniz.",
+    ru: "Вы можете использовать <strong>поддомен</strong> (напр., <code>pbx.yourcompany.com</code>) или <strong>полный домен</strong> (напр., <code>yourcompany.com</code>)."
+  },
+  "dns.step1.desc2": {
+    en: "We recommend using a subdomain for easier management.", ar: "نوصي باستخدام نطاق فرعي لسهولة الإدارة.", es: "Recomendamos usar un subdominio para facilitar la gestión.", fr: "Nous recommandons d'utiliser un sous-domaine pour une gestion plus facile.",
+    de: "Wir empfehlen eine Subdomain für einfachere Verwaltung.", pt: "Recomendamos usar um subdomínio para facilitar o gerenciamento.", zh: "建议使用子域名以便管理。", ja: "管理が容易なサブドメインの使用をお勧めします。", tr: "Daha kolay yönetim için alt alan adı kullanmanızı öneririz.", ru: "Рекомендуем использовать поддомен для удобства управления."
+  },
+  "dns.step2.title": {
+    en: "Add DNS Records", ar: "أضف سجلات DNS", es: "Agregar Registros DNS", fr: "Ajouter les Enregistrements DNS",
+    de: "DNS-Einträge hinzufügen", pt: "Adicionar Registros DNS", zh: "添加DNS记录", ja: "DNSレコードを追加", tr: "DNS Kayıtlarını Ekleyin", ru: "Добавьте DNS-записи"
+  },
+  "dns.step2.desc": {
+    en: "Log into your domain registrar's DNS management panel and add the following records:", ar: "سجّل الدخول إلى لوحة إدارة DNS الخاصة بمسجل النطاق وأضف السجلات التالية:", es: "Inicie sesión en el panel de gestión DNS de su registrador y agregue los siguientes registros:", fr: "Connectez-vous au panneau DNS de votre registraire et ajoutez les enregistrements suivants :",
+    de: "Melden Sie sich im DNS-Management Ihres Registrars an und fügen Sie folgende Einträge hinzu:", pt: "Acesse o painel DNS do seu registrador e adicione os seguintes registros:", zh: "登录域名注册商的DNS管理面板，添加以下记录：", ja: "ドメインレジストラのDNS管理パネルにログインし、以下のレコードを追加：", tr: "Alan adı kayıt şirketinizin DNS yönetim paneline giriş yapın ve aşağıdaki kayıtları ekleyin:", ru: "Войдите в панель DNS вашего регистратора и добавьте следующие записи:"
+  },
+  "dns.step2.note": {
+    en: "The SRV and NAPTR records are optional but recommended for auto-configuration of SIP phones.", ar: "سجلات SRV و NAPTR اختيارية لكنها موصى بها لتكوين هواتف SIP تلقائياً.", es: "Los registros SRV y NAPTR son opcionales pero recomendados para la autoconfiguración de teléfonos SIP.", fr: "Les enregistrements SRV et NAPTR sont optionnels mais recommandés pour l'auto-configuration des téléphones SIP.",
+    de: "SRV- und NAPTR-Einträge sind optional, aber empfohlen für die automatische Konfiguration von SIP-Telefonen.", pt: "Os registros SRV e NAPTR são opcionais, mas recomendados para configuração automática de telefones SIP.", zh: "SRV和NAPTR记录是可选的，但建议用于SIP电话的自动配置。", ja: "SRVとNAPTRレコードはオプションですが、SIP電話の自動設定に推奨されます。", tr: "SRV ve NAPTR kayıtları isteğe bağlıdır ancak SIP telefonların otomatik yapılandırması için önerilir.", ru: "Записи SRV и NAPTR необязательны, но рекомендуются для автонастройки SIP-телефонов."
+  },
+  "dns.step3.title": {
+    en: "Wait for Propagation", ar: "انتظر انتشار DNS", es: "Esperar la Propagación", fr: "Attendre la Propagation",
+    de: "Auf Propagation warten", pt: "Aguardar a Propagação", zh: "等待DNS传播", ja: "伝播を待つ", tr: "Yayılmayı Bekleyin", ru: "Дождитесь распространения"
+  },
+  "dns.step3.desc1": {
+    en: "DNS changes typically take <strong>5-30 minutes</strong> to propagate, though it can take up to 48 hours in rare cases.", ar: "عادةً ما تستغرق تغييرات DNS من <strong>5 إلى 30 دقيقة</strong> للانتشار، وقد تصل إلى 48 ساعة في حالات نادرة.", es: "Los cambios DNS suelen tardar <strong>5-30 minutos</strong> en propagarse, aunque puede tardar hasta 48 horas en casos raros.", fr: "Les changements DNS prennent généralement <strong>5 à 30 minutes</strong> pour se propager, bien que cela puisse prendre jusqu'à 48 heures dans de rares cas.",
+    de: "DNS-Änderungen dauern typischerweise <strong>5-30 Minuten</strong>, in seltenen Fällen bis zu 48 Stunden.", pt: "As alterações DNS geralmente levam <strong>5-30 minutos</strong> para propagar, podendo levar até 48 horas em casos raros.", zh: "DNS更改通常需要<strong>5-30分钟</strong>传播，极少数情况下可能需要48小时。", ja: "DNS変更は通常<strong>5〜30分</strong>で伝播しますが、まれに48時間かかることがあります。", tr: "DNS değişiklikleri genellikle <strong>5-30 dakika</strong> sürer, nadiren 48 saate kadar çıkabilir.", ru: "Изменения DNS обычно распространяются за <strong>5-30 минут</strong>, в редких случаях до 48 часов."
+  },
+  "dns.step3.desc2": {
+    en: "You can check propagation status using:", ar: "يمكنك التحقق من حالة الانتشار باستخدام:", es: "Puede verificar el estado de propagación usando:", fr: "Vous pouvez vérifier l'état de propagation avec :",
+    de: "Sie können den Propagationsstatus prüfen mit:", pt: "Você pode verificar o status da propagação usando:", zh: "您可以使用以下命令检查传播状态：", ja: "伝播状況は以下で確認できます：", tr: "Yayılma durumunu şu komutla kontrol edebilirsiniz:", ru: "Проверить статус распространения можно командой:"
+  },
+  "dns.step4.title": {
+    en: "Access Your PBX", ar: "الوصول إلى نظام PBX", es: "Acceder a su PBX", fr: "Accéder à Votre PBX",
+    de: "Auf Ihre PBX zugreifen", pt: "Acessar seu PBX", zh: "访问您的PBX", ja: "PBXにアクセス", tr: "PBX'inize Erişin", ru: "Доступ к вашей АТС"
+  },
+  "dns.step4.desc1": {
+    en: "Once DNS has propagated, access your PBX at:", ar: "بمجرد انتشار DNS، يمكنك الوصول إلى PBX على:", es: "Una vez propagado el DNS, acceda a su PBX en:", fr: "Une fois le DNS propagé, accédez à votre PBX à :",
+    de: "Nach der DNS-Propagation erreichen Sie Ihre PBX unter:", pt: "Após a propagação do DNS, acesse seu PBX em:", zh: "DNS传播完成后，访问您的PBX：", ja: "DNS伝播後、PBXにアクセス：", tr: "DNS yayıldıktan sonra PBX'inize erişin:", ru: "После распространения DNS, откройте вашу АТС:"
+  },
+  "dns.step4.desc2": {
+    en: "Log in with the admin credentials you created during registration. SSL certificate will be automatically provisioned.", ar: "سجّل الدخول ببيانات المسؤول التي أنشأتها أثناء التسجيل. سيتم إنشاء شهادة SSL تلقائياً.", es: "Inicie sesión con las credenciales de administrador creadas durante el registro. El certificado SSL se aprovisionará automáticamente.", fr: "Connectez-vous avec les identifiants admin créés lors de l'inscription. Le certificat SSL sera automatiquement provisionné.",
+    de: "Melden Sie sich mit den bei der Registrierung erstellten Admin-Daten an. SSL-Zertifikat wird automatisch bereitgestellt.", pt: "Faça login com as credenciais de admin criadas no registro. O certificado SSL será provisionado automaticamente.", zh: "使用注册时创建的管理员凭据登录。SSL证书将自动配置。", ja: "登録時に作成した管理者資格でログインします。SSL証明書は自動的にプロビジョニングされます。", tr: "Kayıt sırasında oluşturduğunuz yönetici bilgileriyle giriş yapın. SSL sertifikası otomatik olarak sağlanacaktır.", ru: "Войдите с учётными данными администратора, созданными при регистрации. SSL-сертификат будет выпущен автоматически."
+  },
 
   // Pricing Section
   "pricing.badge": {
