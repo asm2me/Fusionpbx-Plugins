@@ -203,6 +203,9 @@
 
 	echo "<form id='frm_edit' method='post'>\n";
 	echo "<input type='hidden' name='".$token['name']."' value='".$token['hash']."'>\n";
+	if ($action == 'update' && is_uuid($gateway_uuid)) {
+		echo "<input type='hidden' name='id' value='".escape($gateway_uuid)."'>\n";
+	}
 
 	echo "<table width='100%' border='0' cellpadding='0' cellspacing='0'>\n";
 
