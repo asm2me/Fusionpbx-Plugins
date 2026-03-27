@@ -1936,20 +1936,27 @@ body.rtl .faq-grid {
 
 body.rtl .faq-item {
     direction: rtl;
+    text-align: right;
 }
 
 body.rtl .faq-question {
     flex-direction: row-reverse;
     text-align: right;
+    unicode-bidi: bidi-override;
 }
 
 body.rtl .faq-question span {
     text-align: right;
+    direction: rtl;
+    unicode-bidi: embed;
+    display: block;
+    width: 100%;
 }
 
 body.rtl .faq-question i {
     margin-left: 0;
-    margin-right: auto;
+    margin-right: 16px;
+    order: -1;
 }
 
 body.rtl .faq-answer {
@@ -1960,6 +1967,10 @@ body.rtl .faq-answer {
 body.rtl .faq-answer p {
     text-align: right;
     direction: rtl;
+    unicode-bidi: embed;
+    padding: 0 20px 18px;
+    line-height: 2;
+    font-family: 'Inter', 'Noto Sans Arabic', -apple-system, sans-serif;
 }
 
 body.rtl .faq-answer code {
