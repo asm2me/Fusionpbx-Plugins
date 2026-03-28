@@ -46,9 +46,19 @@
         .auth-box p:last-child { margin-bottom: 0; }
         .response-example { margin-top: 0.75rem; }
         .response-label { font-size: 0.75rem; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }
+        .demo-cta { background: linear-gradient(135deg, var(--primary-50), #EDE9FE); border: 1px solid var(--primary-100); border-radius: var(--radius); padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .demo-cta-text h3 { font-size: 1.125rem; margin: 0 0 0.25rem; color: var(--gray-900); }
+        .demo-cta-text p { font-size: 0.9rem; color: var(--gray-600); margin: 0; }
+        .demo-cta .btn { white-space: nowrap; }
+        .crm-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.875rem; }
+        .crm-table th { background: var(--gray-100); text-align: left; padding: 0.6rem 1rem; font-weight: 600; color: var(--gray-700); border: 1px solid var(--gray-200); }
+        .crm-table td { padding: 0.6rem 1rem; border: 1px solid var(--gray-200); color: var(--gray-600); vertical-align: top; line-height: 1.5; }
+        .crm-table tr:nth-child(even) td { background: var(--gray-50); }
+        .section-divider { border: 0; border-top: 2px solid var(--gray-200); margin: 3rem 0; }
         @media (max-width: 600px) {
             .endpoint-header { flex-wrap: wrap; }
             .endpoint-desc { margin-left: 0; }
+            .demo-cta { flex-direction: column; align-items: flex-start; }
         }
     </style>
 </head>
@@ -103,6 +113,18 @@
         </div>
 
         <div class="api-content">
+
+            <!-- Live Demo CTA -->
+            <div class="demo-cta">
+                <div class="demo-cta-text">
+                    <h3><i class="fas fa-flask" style="color: var(--primary);"></i> Try the Live API Demo</h3>
+                    <p>Explore and test all API endpoints interactively in your browser — no setup required.</p>
+                </div>
+                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                    <a href="https://mt.voipat.com/app/api_bridge/examples/demo.php" target="_blank" class="btn btn-primary">Open Live Demo <i class="fas fa-external-link-alt" style="margin-left: 0.4rem; font-size: 0.8em;"></i></a>
+                    <a href="https://github.com/asm2me/Fusionpbx-API/blob/main/examples/demo.php" target="_blank" class="btn btn-ghost">View Source <i class="fab fa-github" style="margin-left: 0.4rem;"></i></a>
+                </div>
+            </div>
 
             <!-- Overview -->
             <div class="api-section">
@@ -332,6 +354,98 @@ curl -X POST https://api.voipat.com/v1/gateways \
                 </div>
             </div>
 
+            <hr class="section-divider">
+
+            <!-- WebRTC Phone & CRM API -->
+            <div class="api-section">
+                <h2><i class="fas fa-phone-volume" style="color: var(--primary); margin-right: 0.5rem;"></i> WebRTC Phone &amp; CRM Integration API</h2>
+                <p>The WebRTC Phone module exposes a second API that allows your CRM or helpdesk to embed a browser-based phone widget and receive real-time call events. There are two endpoints depending on your use case.</p>
+
+                <h3>Option 1 — Session API (for logged-in FusionPBX users)</h3>
+                <p>Used by the built-in WebRTC phone widget. Requires an active FusionPBX session. Returns the user's assigned extensions, WSS credentials, and CRM webhook URLs configured in <strong>Default Settings → webrtc_phone</strong>.</p>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge get">GET</span>
+                        <span class="endpoint-url">/app/web_phone2/webrtc_phone_api.php</span>
+                        <span class="endpoint-desc">Session-authenticated — returns extensions + CRM config</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <div class="response-label">Response 200</div>
+                        <div class="code-block">{
+  <span class="string">"domain"</span>: <span class="string">"pbx.example.com"</span>,
+  <span class="string">"wss_port"</span>: <span class="string">"7443"</span>,
+  <span class="string">"stun_server"</span>: <span class="string">"stun:stun.l.google.com:19302"</span>,
+  <span class="string">"crm_url"</span>: <span class="string">"https://crm.example.com/webhook?event={event}&caller={caller_id}"</span>,
+  <span class="string">"crm_method"</span>: <span class="string">"GET"</span>,
+  <span class="string">"crm_login_url"</span>: <span class="string">"https://crm.example.com/contact?phone={caller_id}"</span>,
+  <span class="string">"crm_auto_login_url"</span>: <span class="string">""</span>,
+  <span class="string">"crm_agent_login_url"</span>: <span class="string">""</span>,
+  <span class="string">"crm_agent_logout_url"</span>: <span class="string">""</span>,
+  <span class="string">"extensions"</span>: [
+    {
+      <span class="string">"extension"</span>: <span class="string">"1001"</span>,
+      <span class="string">"password"</span>: <span class="string">"••••••••"</span>,
+      <span class="string">"caller_id_name"</span>: <span class="string">"John Doe"</span>,
+      <span class="string">"caller_id_number"</span>: <span class="string">"1001"</span>
+    }
+  ]
+}</div>
+
+                        <p style="margin-top: 1rem;"><strong>CRM URL placeholders</strong> — use these in your webhook and screen-pop URLs:</p>
+                        <table class="crm-table">
+                            <tr><th>Placeholder</th><th>Available in</th><th>Description</th></tr>
+                            <tr><td><code>{event}</code></td><td>crm_url</td><td>Call event: <code>call_start</code>, <code>call_end</code>, <code>call_answer</code></td></tr>
+                            <tr><td><code>{caller_id}</code></td><td>crm_url, crm_login_url</td><td>Caller's phone number</td></tr>
+                            <tr><td><code>{caller_name}</code></td><td>crm_login_url</td><td>Caller's display name (if available)</td></tr>
+                            <tr><td><code>{destination}</code></td><td>crm_url, crm_login_url</td><td>Dialed destination number</td></tr>
+                            <tr><td><code>{direction}</code></td><td>crm_url</td><td><code>inbound</code> or <code>outbound</code></td></tr>
+                            <tr><td><code>{duration}</code></td><td>crm_url</td><td>Call duration in seconds (on call_end)</td></tr>
+                            <tr><td><code>{extension}</code></td><td>crm_url, crm_login_url</td><td>Agent's extension number</td></tr>
+                            <tr><td><code>{call_id}</code></td><td>crm_url, crm_login_url</td><td>Unique SIP call identifier</td></tr>
+                            <tr><td><code>{timestamp}</code></td><td>crm_url, crm_login_url</td><td>ISO 8601 timestamp of the event</td></tr>
+                        </table>
+
+                        <div class="auth-box" style="margin-top: 1rem;">
+                            <p><strong>Configuration:</strong> Set your CRM URL in FusionPBX under <strong>Advanced → Default Settings → webrtc_phone → crm_url</strong>. The phone widget automatically calls your URL on each call event.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 2rem;">Option 2 — Click-to-Dial API (for external websites / CRMs)</h3>
+                <p>Allows any external website or CRM to embed a call button that dials directly from the user's browser — no FusionPBX login needed. Authenticated with a token generated in <strong>Apps → WebRTC Phone → Click-to-Dial</strong>.</p>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge get">GET</span>
+                        <span class="endpoint-url">/app/web_phone2/click_to_dial/click_to_dial_api.php</span>
+                        <span class="endpoint-desc">Token-authenticated — returns extension credentials for embedding</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <div class="code-block"><span class="comment"># Pass token via header (recommended)</span>
+curl -H <span class="string">"X-CTD-Token: YOUR_TOKEN"</span> \
+  https://mt.voipat.com/app/web_phone2/click_to_dial/click_to_dial_api.php
+
+<span class="comment"># Or pass token as query parameter</span>
+https://mt.voipat.com/app/web_phone2/click_to_dial/click_to_dial_api.php?token=YOUR_TOKEN</div>
+                        <div class="response-label" style="margin-top: 0.75rem;">Response 200</div>
+                        <div class="code-block">{
+  <span class="string">"domain"</span>: <span class="string">"pbx.example.com"</span>,
+  <span class="string">"wss_port"</span>: <span class="string">"7443"</span>,
+  <span class="string">"extension"</span>: <span class="string">"1001"</span>,
+  <span class="string">"password"</span>: <span class="string">"••••••••"</span>,
+  <span class="string">"caller_id_name"</span>: <span class="string">"Sales Line"</span>,
+  <span class="string">"button_color"</span>: <span class="string">"#1a73e8"</span>,
+  <span class="string">"button_label"</span>: <span class="string">"Call Us"</span>,
+  <span class="string">"destination_number"</span>: <span class="string">"+12025551234"</span>
+}</div>
+                        <div class="auth-box" style="margin-top: 1rem;">
+                            <p><strong>CORS:</strong> The API supports cross-origin requests. Restrict to your domain by setting <strong>Allowed Origins</strong> when creating the token.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Rate Limiting -->
             <div class="api-section">
                 <h2 data-i18n="api.rateLimit.title"><i class="fas fa-gauge-high" style="color: var(--primary); margin-right: 0.5rem;"></i> Rate Limiting</h2>
@@ -356,7 +470,8 @@ X-RateLimit-Reset: 1711036800</div>
                 <p>If you have questions about the API or need assistance with your integration, contact our developer support team:</p>
                 <ul>
                     <li>Email: <a href="mailto:api-support@voipat.com">api-support@voipat.com</a></li>
-                    <li>Developer forum: coming soon</li>
+                    <li>Source code &amp; issues: <a href="https://github.com/asm2me/Fusionpbx-API" target="_blank">github.com/asm2me/Fusionpbx-API <i class="fab fa-github"></i></a></li>
+                    <li>WebRTC Phone source: <a href="https://github.com/asm2me/fusionPBX-webrtc-phone" target="_blank">github.com/asm2me/fusionPBX-webrtc-phone <i class="fab fa-github"></i></a></li>
                     <li>API status page: <a href="#">status.voipat.com</a></li>
                 </ul>
             </div>
