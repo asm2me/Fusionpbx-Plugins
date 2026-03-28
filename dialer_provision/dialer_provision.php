@@ -51,6 +51,7 @@
 	}
 	$default_stun     = $prov_config['default_stun']    ?? 'stun:stun.l.google.com:19302';
 	$provision_url    = $prov_config['provision_url']   ?? 'https://voipat.com/provision';
+	$api_base_url     = rtrim($prov_config['api_base_url'] ?? ('http://127.0.0.1:' . ($api_port ?: '3000')), '/');
 	unset($sql, $prov_rows);
 
 //get domains list (superadmin sees all; admin sees their own)
@@ -153,7 +154,7 @@
 				if (!empty($f_turn_p)) $request_body['turn_password']  = $f_turn_p;
 
 			//call local API
-				$api_url = "http://127.0.0.1:{$api_port}/api/provision/generate";
+				$api_url = $api_base_url . '/api/provision/generate';
 				$ch = curl_init($api_url);
 				curl_setopt_array($ch, [
 					CURLOPT_POST           => true,
@@ -173,11 +174,11 @@
 
 			//parse response
 				if ($curl_err) {
-					$gen_error = "Could not reach the API server: {$curl_err}";
+					$gen_error = "<b>Cannot reach API server.</b><br>URL tried: <code>" . escape($api_url) . "</code><br>Error: " . escape($curl_err) . "<br><br>Check the API bridge is running and adjust <em>dialer_provision &rarr; api_base_url</em> in Advanced &rarr; Default Settings.";
 				}
 				elseif ($code !== 200) {
 					$resp_obj  = json_decode($raw, true);
-					$gen_error = $resp_obj['detail'] ?? "API returned HTTP {$code}.";
+					$detail = escape($resp_obj['detail'] ?? trim(strip_tags($raw))); $hint = ($code===404) ? "<br><em>HTTP 404 — restart the VOIP@ API bridge service on the server to load the latest routes.</em>" : ($code===401 ? "<br><em>HTTP 401 — check api_bridge→api_key in Default Settings.</em>" : ""); $gen_error = "<b>API error HTTP {$code}:</b> {$detail}{$hint}<br><small>URL: <code>" . escape($api_url) . "</code></small>";
 				}
 				else {
 					$resp_obj        = json_decode($raw, true);

@@ -38,5 +38,13 @@
 		$apps[$x]['default_settings'][$y]['default_setting_value'] = 'stun:stun.l.google.com:19302';
 		$apps[$x]['default_settings'][$y]['default_setting_enabled'] = 'true';
 		$apps[$x]['default_settings'][$y]['default_setting_description'] = 'Default STUN server for provisioning links.';
+		$y++;
+		$apps[$x]['default_settings'][$y]['default_setting_uuid'] = 'f1e2d3c4-b5a6-7890-1234-56789abcdef2';
+		$apps[$x]['default_settings'][$y]['default_setting_category'] = 'dialer_provision';
+		$apps[$x]['default_settings'][$y]['default_setting_subcategory'] = 'api_base_url';
+		$apps[$x]['default_settings'][$y]['default_setting_name'] = 'text';
+		$apps[$x]['default_settings'][$y]['default_setting_value'] = 'http://127.0.0.1:3000';
+		$apps[$x]['default_settings'][$y]['default_setting_enabled'] = 'true';
+		$apps[$x]['default_settings'][$y]['default_setting_description'] = 'Base URL of the VOIP@ API bridge (local). Example: http://127.0.0.1:3000';
 
 ?>
