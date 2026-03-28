@@ -2091,3 +2091,57 @@ body.rtl .btn i {
         text-align: center;
     }
 }
+
+/* ========================================
+   RTL – Sub-page specific elements
+   ======================================== */
+
+/* API Docs page */
+body.rtl .api-hero { text-align: right; }
+body.rtl .api-section { text-align: right; }
+body.rtl .api-section h2,
+body.rtl .api-section h3,
+body.rtl .api-section p,
+body.rtl .api-section li { text-align: right; }
+body.rtl .api-section ul,
+body.rtl .api-section ol { padding-right: 1.5rem; padding-left: 0; }
+body.rtl .endpoint-header { flex-direction: row-reverse; }
+body.rtl .endpoint-desc { margin-right: auto; margin-left: 0; }
+body.rtl .endpoint-body { text-align: right; }
+body.rtl .endpoint-body p { text-align: right; }
+body.rtl .auth-box { text-align: right; }
+body.rtl .rate-limit-box { text-align: right; }
+body.rtl .rate-limit-box h3 { text-align: right; }
+body.rtl .demo-cta { flex-direction: row-reverse; }
+body.rtl .demo-cta-text { text-align: right; }
+body.rtl .crm-table th,
+body.rtl .crm-table td { text-align: right; }
+
+/* About page */
+body.rtl .about-hero { text-align: right; }
+body.rtl .about-section { text-align: right; }
+body.rtl .about-section p,
+body.rtl .about-section li { text-align: right; }
+body.rtl .value-card,
+body.rtl .team-card { text-align: right; }
+
+/* Downloads page */
+body.rtl .downloads-hero { text-align: right; }
+body.rtl .download-card { text-align: right; }
+body.rtl .download-card h3,
+body.rtl .download-card p { text-align: right; }
+body.rtl .download-card .btn-group { flex-direction: row-reverse; }
+
+/* Blog / Careers / Partners pages */
+body.rtl .page-hero { text-align: right; }
+body.rtl .blog-card,
+body.rtl .job-card,
+body.rtl .partner-card { text-align: right; }
+body.rtl .blog-card p,
+body.rtl .job-card p,
+body.rtl .partner-card p { text-align: right; }
+body.rtl .card-meta { flex-direction: row-reverse; }
+
+/* Footer list items */
+body.rtl .footer-links ul { padding-right: 0; list-style-position: inside; text-align: right; }
+body.rtl .footer-links li { text-align: right; }
