@@ -109,7 +109,7 @@
 <section class="api-page">
     <div class="container">
         <div class="api-hero">
-            <h1 data-i18n="api.title">API <span class="gradient-text">Documentation</span></h1>
+            <h1>API <span class="gradient-text">Documentation</span></h1>
             <p data-i18n="api.subtitle">Integrate VOIP@ Cloud into your applications. Manage domains, extensions, gateways, and call records programmatically with our REST API.</p>
         </div>
 
@@ -129,7 +129,7 @@
 
             <!-- Overview -->
             <div class="api-section">
-                <h2 data-i18n="api.overview.title"><i class="fas fa-book" style="color: var(--primary); margin-right: 0.5rem;"></i> Overview</h2>
+                <h2><i class="fas fa-book" style="color: var(--primary); margin-right: 0.5rem;"></i> <span data-i18n="api.overview.title">Overview</span></h2>
                 <p data-i18n="api.overview.desc">The VOIP@ Cloud API is a RESTful API that uses JSON for request and response bodies. All API endpoints are served over HTTPS. The base URL for all API requests is:</p>
                 <div class="code-block">https://api.voipat.com/v1</div>
                 <p>All requests must include the <code>Content-Type: application/json</code> header. Responses follow standard HTTP status codes: <code>200</code> for success, <code>201</code> for created, <code>400</code> for bad request, <code>401</code> for unauthorized, <code>404</code> for not found, and <code>429</code> for rate limited.</p>
@@ -137,7 +137,7 @@
 
             <!-- Authentication -->
             <div class="api-section">
-                <h2 data-i18n="api.auth.title"><i class="fas fa-key" style="color: var(--primary); margin-right: 0.5rem;"></i> Authentication</h2>
+                <h2><i class="fas fa-key" style="color: var(--primary); margin-right: 0.5rem;"></i> <span data-i18n="api.auth.title">Authentication</span></h2>
                 <p data-i18n="api.auth.desc">All API requests require authentication using a Bearer token. You can generate API keys from your VOIP@ Cloud dashboard under <strong>Settings &gt; API Keys</strong>.</p>
 
                 <div class="auth-box">
@@ -160,7 +160,7 @@ Authorization: Bearer <span class="string">YOUR_API_KEY</span></div>
 
             <!-- Endpoints -->
             <div class="api-section">
-                <h2 data-i18n="api.endpoints.title"><i class="fas fa-code" style="color: var(--primary); margin-right: 0.5rem;"></i> Endpoints</h2>
+                <h2><i class="fas fa-code" style="color: var(--primary); margin-right: 0.5rem;"></i> <span data-i18n="api.endpoints.title">Endpoints</span></h2>
 
                 <!-- GET /api/domains -->
                 <div class="endpoint-card">
@@ -357,19 +357,93 @@ curl -X POST https://api.voipat.com/v1/gateways \
 
             <hr class="section-divider">
 
-            <!-- WebRTC Phone & CRM API -->
+            <!-- CRM Integration -->
             <div class="api-section">
-                <h2><i class="fas fa-phone-volume" style="color: var(--primary); margin-right: 0.5rem;"></i> WebRTC Phone &amp; CRM Integration API</h2>
-                <p>The WebRTC Phone module exposes a second API that allows your CRM or helpdesk to embed a browser-based phone widget and receive real-time call events. There are two endpoints depending on your use case.</p>
+                <h2><i class="fas fa-headset" style="color: var(--primary); margin-right: 0.5rem;"></i> CRM Integration</h2>
+                <p>VOIP@ Cloud provides three integration points to connect the WebRTC phone with any CRM, helpdesk, or business application. Choose the option that fits your architecture.</p>
 
-                <h3>Option 1 — Session API (for logged-in FusionPBX users)</h3>
-                <p>Used by the built-in WebRTC phone widget. Requires an active FusionPBX session. Returns the user's assigned extensions, WSS credentials, and CRM webhook URLs configured in <strong>Default Settings → webrtc_phone</strong>.</p>
+                <!-- How it works -->
+                <div class="auth-box" style="margin-bottom: 2rem;">
+                    <p><strong>How it works:</strong></p>
+                    <p>Phone widget (browser) → calls <code>crm_webhook_proxy.php</code> on every call event → server replaces placeholders → server POSTs or GETs your CRM URL → your CRM receives the event data.</p>
+                    <p style="margin-bottom: 0;"><strong>Configure in:</strong> FusionPBX → Apps → WebRTC Phone → <strong>CRM Settings</strong></p>
+                </div>
+
+                <!-- Option 1: CRM Webhook -->
+                <h3>Option 1 — CRM Webhook (real-time call events)</h3>
+                <p>The phone widget fires call events to the server-side webhook proxy, which forwards them to your configured CRM URL with all call data substituted in.</p>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge post">POST</span>
+                        <span class="endpoint-url">/app/web_phone2/crm_webhook_proxy.php</span>
+                        <span class="endpoint-desc">Called by the phone widget on every call event</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p><strong>Query parameters</strong> (sent by the phone widget):</p>
+                        <table class="crm-table">
+                            <tr><th>Parameter</th><th>Required</th><th>Description</th></tr>
+                            <tr><td><code>event</code></td><td>Yes</td><td><code>new_call</code>, <code>ringing</code>, <code>dial_out</code>, <code>answered</code>, <code>hangup</code>, <code>agent_login</code>, <code>agent_logout</code></td></tr>
+                            <tr><td><code>caller_id</code></td><td>No</td><td>Caller's phone number</td></tr>
+                            <tr><td><code>caller_name</code></td><td>No</td><td>Caller's display name</td></tr>
+                            <tr><td><code>destination</code></td><td>No</td><td>Dialed destination number</td></tr>
+                            <tr><td><code>direction</code></td><td>No</td><td><code>inbound</code> or <code>outbound</code></td></tr>
+                            <tr><td><code>duration</code></td><td>No</td><td>Call duration in seconds (sent on <code>hangup</code>)</td></tr>
+                            <tr><td><code>extension</code></td><td>No</td><td>Agent's extension number</td></tr>
+                            <tr><td><code>call_id</code></td><td>No</td><td>Unique SIP Call-ID</td></tr>
+                            <tr><td><code>timestamp</code></td><td>No</td><td>ISO 8601 event timestamp</td></tr>
+                        </table>
+
+                        <div class="response-label" style="margin-top: 1rem;">Response 200</div>
+                        <div class="code-block">{
+  <span class="string">"ok"</span>: <span class="keyword">true</span>,
+  <span class="string">"http_code"</span>: 200,
+  <span class="string">"event"</span>: <span class="string">"answered"</span>
+}</div>
+
+                        <p style="margin-top: 1rem;"><strong>CRM URL placeholders</strong> — use in your configured webhook and screen-pop URLs:</p>
+                        <table class="crm-table">
+                            <tr><th>Placeholder</th><th>Description</th></tr>
+                            <tr><td><code>{event}</code></td><td>Event name: <code>new_call</code>, <code>ringing</code>, <code>dial_out</code>, <code>answered</code>, <code>hangup</code>, <code>agent_login</code>, <code>agent_logout</code></td></tr>
+                            <tr><td><code>{caller_id}</code></td><td>Caller's phone number</td></tr>
+                            <tr><td><code>{caller_name}</code></td><td>Caller's display name (if available)</td></tr>
+                            <tr><td><code>{destination}</code></td><td>Dialed destination number</td></tr>
+                            <tr><td><code>{direction}</code></td><td><code>inbound</code> or <code>outbound</code></td></tr>
+                            <tr><td><code>{duration}</code></td><td>Call duration in seconds (available on <code>hangup</code>)</td></tr>
+                            <tr><td><code>{extension}</code></td><td>Agent's extension number</td></tr>
+                            <tr><td><code>{call_id}</code></td><td>Unique SIP Call-ID</td></tr>
+                            <tr><td><code>{timestamp}</code></td><td>ISO 8601 timestamp of the event</td></tr>
+                            <tr><td><code>{domain}</code></td><td>FusionPBX domain name (e.g. <code>pbx.example.com</code>)</td></tr>
+                        </table>
+
+                        <p style="margin-top: 1rem;"><strong>CRM URL settings</strong> — configure in <strong>Apps → WebRTC Phone → CRM Settings</strong>:</p>
+                        <table class="crm-table">
+                            <tr><th>Setting</th><th>Description</th></tr>
+                            <tr><td><code>crm_url</code></td><td>Webhook URL called on all call events (use placeholders above)</td></tr>
+                            <tr><td><code>crm_method</code></td><td><code>GET</code> or <code>POST</code>. On POST, data is also sent as JSON body</td></tr>
+                            <tr><td><code>crm_login_url</code></td><td>Screen-pop URL opened in browser on incoming call</td></tr>
+                            <tr><td><code>crm_auto_login_url</code></td><td>URL opened automatically when the phone registers</td></tr>
+                            <tr><td><code>crm_agent_login_url</code></td><td>Called when agent activates <em>agent_login</em> event</td></tr>
+                            <tr><td><code>crm_agent_logout_url</code></td><td>Called when agent activates <em>agent_logout</em> event</td></tr>
+                        </table>
+
+                        <div class="code-block" style="margin-top: 1rem;"><span class="comment"># Example: Salesforce webhook URL with placeholders</span>
+https://yourinstance.salesforce.com/services/apexrest/calls?event={event}&from={caller_id}&ext={extension}&id={call_id}
+
+<span class="comment"># Example: screen-pop to open contact record on incoming call</span>
+https://crm.example.com/contacts/search?phone={caller_id}&agent={extension}</div>
+                    </div>
+                </div>
+
+                <!-- Option 2: Session API -->
+                <h3 style="margin-top: 2rem;">Option 2 — Session API (read CRM config)</h3>
+                <p>Returns the active user's extensions, WSS config, and all configured CRM URLs. Requires a logged-in FusionPBX session. Used internally by the phone widget but also available to custom integrations.</p>
 
                 <div class="endpoint-card">
                     <div class="endpoint-header">
                         <span class="method-badge get">GET</span>
                         <span class="endpoint-url">/app/web_phone2/webrtc_phone_api.php</span>
-                        <span class="endpoint-desc">Session-authenticated — returns extensions + CRM config</span>
+                        <span class="endpoint-desc">Session-authenticated — returns extensions + full CRM config</span>
                     </div>
                     <div class="endpoint-body">
                         <div class="response-label">Response 200</div>
@@ -377,9 +451,9 @@ curl -X POST https://api.voipat.com/v1/gateways \
   <span class="string">"domain"</span>: <span class="string">"pbx.example.com"</span>,
   <span class="string">"wss_port"</span>: <span class="string">"7443"</span>,
   <span class="string">"stun_server"</span>: <span class="string">"stun:stun.l.google.com:19302"</span>,
-  <span class="string">"crm_url"</span>: <span class="string">"https://crm.example.com/webhook?event={event}&caller={caller_id}"</span>,
+  <span class="string">"crm_url"</span>: <span class="string">"https://crm.example.com/webhook?event={event}&from={caller_id}"</span>,
   <span class="string">"crm_method"</span>: <span class="string">"GET"</span>,
-  <span class="string">"crm_login_url"</span>: <span class="string">"https://crm.example.com/contact?phone={caller_id}"</span>,
+  <span class="string">"crm_login_url"</span>: <span class="string">"https://crm.example.com/contacts?phone={caller_id}"</span>,
   <span class="string">"crm_auto_login_url"</span>: <span class="string">""</span>,
   <span class="string">"crm_agent_login_url"</span>: <span class="string">""</span>,
   <span class="string">"crm_agent_logout_url"</span>: <span class="string">""</span>,
@@ -392,29 +466,12 @@ curl -X POST https://api.voipat.com/v1/gateways \
     }
   ]
 }</div>
-
-                        <p style="margin-top: 1rem;"><strong>CRM URL placeholders</strong> — use these in your webhook and screen-pop URLs:</p>
-                        <table class="crm-table">
-                            <tr><th>Placeholder</th><th>Available in</th><th>Description</th></tr>
-                            <tr><td><code>{event}</code></td><td>crm_url</td><td>Call event: <code>call_start</code>, <code>call_end</code>, <code>call_answer</code></td></tr>
-                            <tr><td><code>{caller_id}</code></td><td>crm_url, crm_login_url</td><td>Caller's phone number</td></tr>
-                            <tr><td><code>{caller_name}</code></td><td>crm_login_url</td><td>Caller's display name (if available)</td></tr>
-                            <tr><td><code>{destination}</code></td><td>crm_url, crm_login_url</td><td>Dialed destination number</td></tr>
-                            <tr><td><code>{direction}</code></td><td>crm_url</td><td><code>inbound</code> or <code>outbound</code></td></tr>
-                            <tr><td><code>{duration}</code></td><td>crm_url</td><td>Call duration in seconds (on call_end)</td></tr>
-                            <tr><td><code>{extension}</code></td><td>crm_url, crm_login_url</td><td>Agent's extension number</td></tr>
-                            <tr><td><code>{call_id}</code></td><td>crm_url, crm_login_url</td><td>Unique SIP call identifier</td></tr>
-                            <tr><td><code>{timestamp}</code></td><td>crm_url, crm_login_url</td><td>ISO 8601 timestamp of the event</td></tr>
-                        </table>
-
-                        <div class="auth-box" style="margin-top: 1rem;">
-                            <p><strong>Configuration:</strong> Set your CRM URL in FusionPBX under <strong>Advanced → Default Settings → webrtc_phone → crm_url</strong>. The phone widget automatically calls your URL on each call event.</p>
-                        </div>
                     </div>
                 </div>
 
-                <h3 style="margin-top: 2rem;">Option 2 — Click-to-Dial API (for external websites / CRMs)</h3>
-                <p>Allows any external website or CRM to embed a call button that dials directly from the user's browser — no FusionPBX login needed. Authenticated with a token generated in <strong>Apps → WebRTC Phone → Click-to-Dial</strong>.</p>
+                <!-- Option 3: Click-to-Dial -->
+                <h3 style="margin-top: 2rem;">Option 3 — Click-to-Dial API (embed phone in external sites)</h3>
+                <p>Allows any external website or CRM to embed a call button that dials directly from the user's browser — no FusionPBX login required. Create tokens in <strong>Apps → WebRTC Phone → Click-to-Dial</strong>.</p>
 
                 <div class="endpoint-card">
                     <div class="endpoint-header">
@@ -441,7 +498,7 @@ https://mt.voipat.com/app/web_phone2/click_to_dial/click_to_dial_api.php?token=Y
   <span class="string">"destination_number"</span>: <span class="string">"+12025551234"</span>
 }</div>
                         <div class="auth-box" style="margin-top: 1rem;">
-                            <p><strong>CORS:</strong> The API supports cross-origin requests. Restrict to your domain by setting <strong>Allowed Origins</strong> when creating the token.</p>
+                            <p><strong>CORS:</strong> Supports cross-origin requests. Restrict to your domain by setting <strong>Allowed Origins</strong> when creating the token in FusionPBX.</p>
                         </div>
                     </div>
                 </div>
@@ -449,7 +506,7 @@ https://mt.voipat.com/app/web_phone2/click_to_dial/click_to_dial_api.php?token=Y
 
             <!-- Rate Limiting -->
             <div class="api-section">
-                <h2 data-i18n="api.rateLimit.title"><i class="fas fa-gauge-high" style="color: var(--primary); margin-right: 0.5rem;"></i> Rate Limiting</h2>
+                <h2><i class="fas fa-gauge-high" style="color: var(--primary); margin-right: 0.5rem;"></i> <span data-i18n="api.rateLimit.title">Rate Limiting</span></h2>
                 <p data-i18n="api.rateLimit.desc">To ensure fair usage and platform stability, API requests are rate limited per API key.</p>
 
                 <div class="rate-limit-box">
@@ -467,7 +524,7 @@ X-RateLimit-Reset: 1711036800</div>
 
             <!-- Support -->
             <div class="api-section">
-                <h2 data-i18n="api.support.title"><i class="fas fa-life-ring" style="color: var(--primary); margin-right: 0.5rem;"></i> Need Help?</h2>
+                <h2><i class="fas fa-life-ring" style="color: var(--primary); margin-right: 0.5rem;"></i> <span data-i18n="api.support.title">Need Help?</span></h2>
                 <p>If you have questions about the API or need assistance with your integration, contact our developer support team:</p>
                 <ul>
                     <li>Email: <a href="mailto:api-support@voipat.com">api-support@voipat.com</a></li>
@@ -549,7 +606,7 @@ X-RateLimit-Reset: 1711036800</div>
     </div>
 </footer>
 
-<script src="js/translations.min.js" defer></script>
-<script src="js/main.min.js" defer></script>
+<script src="js/translations.min.js?v=2" defer></script>
+<script src="js/main.min.js?v=2" defer></script>
 </body>
 </html>
