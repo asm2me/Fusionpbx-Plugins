@@ -10,3 +10,6 @@
 [submodule "WebRtcPhoneDialer-Android"]
 	path = WebRtcPhoneDialer-Android
 	url = https://github.com/asm2me/WebRtcPhoneDialer-Android.git
+[submodule "fusionpbx-api"]
+	path = fusionpbx-api
+	url = https://github.com/asm2me/Fusionpbx-API.git
