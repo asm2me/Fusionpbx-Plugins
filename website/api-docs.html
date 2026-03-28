@@ -56,6 +56,19 @@
         .crm-table td { padding: 0.6rem 1rem; border: 1px solid var(--gray-200); color: var(--gray-600); vertical-align: top; line-height: 1.5; }
         .crm-table tr:nth-child(even) td { background: var(--gray-50); }
         .section-divider { border: 0; border-top: 2px solid var(--gray-200); margin: 3rem 0; }
+        .tester-panel { background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 1.25rem; margin-bottom: 1rem; }
+        .tester-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .tester-field { display: flex; flex-direction: column; gap: 0.35rem; flex: 1; min-width: 180px; }
+        .tester-field label { font-size: 0.8125rem; font-weight: 600; color: var(--gray-600); }
+        .tester-field input, .tester-field select { padding: 0.5rem 0.75rem; border: 1px solid var(--gray-300); border-radius: var(--radius-sm); font-size: 0.875rem; background: var(--white); color: var(--gray-900); font-family: inherit; }
+        .tester-field input:focus, .tester-field select:focus { outline: 2px solid var(--primary); border-color: var(--primary); }
+        .tester-field-btn { flex: 0 0 auto; min-width: 160px; }
+        .tester-actions { display: flex; gap: 0.75rem; margin-top: 1rem; flex-wrap: wrap; }
+        .tester-status { padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); font-size: 0.8125rem; margin-top: 0.75rem; }
+        .tester-status.ok { background: #D1FAE5; color: #065F46; }
+        .tester-status.error { background: #FEE2E2; color: #991B1B; }
+        .tester-params-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; margin-top: 0.75rem; }
+        .tester-note { font-size: 0.8125rem; color: var(--gray-500); margin-top: 0.75rem; font-style: italic; }
         @media (max-width: 600px) {
             .endpoint-header { flex-wrap: wrap; }
             .endpoint-desc { margin-left: 0; }
@@ -118,12 +131,12 @@
             <!-- Live Demo CTA -->
             <div class="demo-cta">
                 <div class="demo-cta-text">
-                    <h3><i class="fas fa-flask" style="color: var(--primary);"></i> Try the Live API Demo</h3>
-                    <p>Explore and test all API endpoints interactively in your browser — no setup required.</p>
+                    <h3><i class="fas fa-flask" style="color: var(--primary);"></i> <span data-i18n="api.demo.title">Try the Live API Demo</span></h3>
+                    <p data-i18n="api.demo.desc">Explore and test all API endpoints interactively in your browser — no setup required.</p>
                 </div>
                 <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-                    <a href="https://mt.voipat.com/app/api_bridge/examples/demo.php" target="_blank" class="btn btn-primary">Open Live Demo <i class="fas fa-external-link-alt" style="margin-left: 0.4rem; font-size: 0.8em;"></i></a>
-                    <a href="https://github.com/asm2me/Fusionpbx-API/blob/main/examples/demo.php" target="_blank" class="btn btn-ghost">View Source <i class="fab fa-github" style="margin-left: 0.4rem;"></i></a>
+                    <a href="https://mt.voipat.com/app/api_bridge/examples/demo.php" target="_blank" class="btn btn-primary"><span data-i18n="api.demo.open">Open Live Demo</span> <i class="fas fa-external-link-alt" style="margin-left: 0.4rem; font-size: 0.8em;"></i></a>
+                    <a href="https://github.com/asm2me/Fusionpbx-API/blob/main/examples/demo.php" target="_blank" class="btn btn-ghost"><span data-i18n="api.demo.source">View Source</span> <i class="fab fa-github" style="margin-left: 0.4rem;"></i></a>
                 </div>
             </div>
 
@@ -131,8 +144,9 @@
             <div class="api-section">
                 <h2><i class="fas fa-book" style="color: var(--primary); margin-right: 0.5rem;"></i> <span data-i18n="api.overview.title">Overview</span></h2>
                 <p data-i18n="api.overview.desc">The VOIP@ Cloud API is a RESTful API that uses JSON for request and response bodies. All API endpoints are served over HTTPS. The base URL for all API requests is:</p>
-                <div class="code-block">https://api.voipat.com/v1</div>
-                <p>All requests must include the <code>Content-Type: application/json</code> header. Responses follow standard HTTP status codes: <code>200</code> for success, <code>201</code> for created, <code>400</code> for bad request, <code>401</code> for unauthorized, <code>404</code> for not found, and <code>429</code> for rate limited.</p>
+                <div class="code-block">https://mt.voipat.com/pbxapi</div>
+                <p>All requests must include the <code>Content-Type: application/json</code> header. Responses follow standard HTTP status codes: <code>200</code> for success, <code>201</code> for created, <code>400</code> for bad request, <code>401</code> for unauthorized, <code>404</code> for not found, and <code>503</code> for ESL/FreeSWITCH not connected.</p>
+                <p>A Swagger / OpenAPI interactive reference is available at: <a href="https://mt.voipat.com/pbxapi/api-docs" target="_blank"><code>https://mt.voipat.com/pbxapi/api-docs</code></a></p>
             </div>
 
             <!-- Authentication -->
@@ -140,172 +154,303 @@
                 <h2><i class="fas fa-key" style="color: var(--primary); margin-right: 0.5rem;"></i> <span data-i18n="api.auth.title">Authentication</span></h2>
                 <p data-i18n="api.auth.desc">All API requests require authentication using a Bearer token. You can generate API keys from your VOIP@ Cloud dashboard under <strong>Accounts &gt; Users</strong>.</p>
 
-                <div class="auth-box">
-                    <p><strong>How to authenticate:</strong></p>
-                    <p>Include your API key in the <code>Authorization</code> header of every request:</p>
-                </div>
-
-                <div class="code-block"><span class="comment"># Include this header in every request</span>
-Authorization: Bearer <span class="string">YOUR_API_KEY</span></div>
-
-                <h3>Generating API Keys</h3>
+                <h3 data-i18n="api.auth.step1">Step 1 — Get your API Key</h3>
                 <ul>
                     <li>Log in to your VOIP@ Cloud dashboard</li>
                     <li>Navigate to <strong>Accounts &gt; Users</strong></li>
-                    <li>Open the user and scroll to <strong>API Key</strong></li>
-                    <li>Click <strong>Generate</strong> to create a key for that user</li>
+                    <li>Open the user and scroll to the <strong>API Key</strong> field</li>
+                    <li>Click <strong>Generate</strong> — the key starts with <code>fpx_</code></li>
                     <li>Copy and store the key securely</li>
                 </ul>
-                <p>API keys are scoped to the user's domain. You can regenerate or revoke a key at any time from the user's profile.</p>
+
+                <h3 data-i18n="api.auth.step2">Step 2 — Exchange key for a Bearer token</h3>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge post">POST</span>
+                        <span class="endpoint-url">/pbxapi/auth/token</span>
+                        <span class="endpoint-desc">Exchange API key for a short-lived JWT</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <div class="code-block">curl -X POST https://mt.voipat.com/pbxapi/auth/token \
+  -H <span class="string">"Content-Type: application/json"</span> \
+  -d <span class="string">'{"api_key": "fpx_your_key_here", "domain": "pbx.example.com"}'</span></div>
+                        <div class="response-label" style="margin-top: 0.75rem;">Response 200</div>
+                        <div class="code-block">{
+  <span class="string">"token"</span>: <span class="string">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."</span>,
+  <span class="string">"expires_in"</span>: <span class="string">"24h"</span>,
+  <span class="string">"token_type"</span>: <span class="string">"Bearer"</span>,
+  <span class="string">"domain"</span>: <span class="string">"pbx.example.com"</span>,
+  <span class="string">"username"</span>: <span class="string">"john.doe"</span>
+}</div>
+                    </div>
+                </div>
+
+                <h3 data-i18n="api.auth.step3">Step 3 — Use the token in all requests</h3>
+                <div class="code-block"><span class="comment"># Use the Bearer token in every request</span>
+curl https://mt.voipat.com/pbxapi/domains \
+  -H <span class="string">"Authorization: Bearer YOUR_JWT_TOKEN"</span>
+
+<span class="comment"># Or use your API key directly (also accepted)</span>
+curl https://mt.voipat.com/pbxapi/domains \
+  -H <span class="string">"X-API-Key: fpx_your_key_here"</span></div>
+
+                <p data-i18n="api.auth.keyScope">API keys are scoped to the user's domain. You can regenerate or revoke keys at any time from the user's profile.</p>
             </div>
 
             <!-- Endpoints -->
             <div class="api-section">
                 <h2><i class="fas fa-code" style="color: var(--primary); margin-right: 0.5rem;"></i> <span data-i18n="api.endpoints.title">Endpoints</span></h2>
 
-                <!-- GET /api/domains -->
+                <!-- STATUS -->
+                <h3 style="margin-top: 0;" data-i18n="api.endpoints.status">Status</h3>
+
                 <div class="endpoint-card">
                     <div class="endpoint-header">
                         <span class="method-badge get">GET</span>
-                        <span class="endpoint-url">/api/domains</span>
-                        <span class="endpoint-desc">List all domains</span>
+                        <span class="endpoint-url">/pbxapi/status</span>
+                        <span class="endpoint-desc">Health check — no auth required</span>
                     </div>
                     <div class="endpoint-body">
-                        <p>Returns a list of all domains associated with your account. Supports pagination via <code>page</code> and <code>per_page</code> query parameters.</p>
-                        <div class="code-block"><span class="comment"># List all domains</span>
-curl -X GET https://api.voipat.com/v1/domains \
-  -H <span class="string">"Authorization: Bearer YOUR_API_KEY"</span> \
-  -H <span class="string">"Content-Type: application/json"</span></div>
-                        <div class="response-example">
-                            <div class="response-label">Response 200</div>
-                            <div class="code-block">{
-  <span class="string">"data"</span>: [
-    {
-      <span class="string">"domain_uuid"</span>: <span class="string">"a1b2c3d4-..."</span>,
-      <span class="string">"domain_name"</span>: <span class="string">"pbx.example.com"</span>,
-      <span class="string">"domain_enabled"</span>: <span class="keyword">true</span>,
-      <span class="string">"created_at"</span>: <span class="string">"2026-01-15T10:30:00Z"</span>
-    }
-  ],
-  <span class="string">"total"</span>: 1,
-  <span class="string">"page"</span>: 1,
-  <span class="string">"per_page"</span>: 25
+                        <div class="code-block">curl https://mt.voipat.com/pbxapi/status</div>
+                        <div class="response-label" style="margin-top:0.5rem;">Response 200</div>
+                        <div class="code-block">{
+  <span class="string">"status"</span>: <span class="string">"ok"</span>,
+  <span class="string">"service"</span>: <span class="string">"FusionPBX API Bridge"</span>,
+  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>,
+  <span class="string">"timestamp"</span>: <span class="string">"2026-03-28T10:00:00.000Z"</span>
 }</div>
-                        </div>
                     </div>
                 </div>
 
-                <!-- POST /api/domains -->
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge get">GET</span>
+                        <span class="endpoint-url">/pbxapi/status/detailed</span>
+                        <span class="endpoint-desc">ESL + DB + WebSocket status (auth required)</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <div class="response-label">Response 200</div>
+                        <div class="code-block">{
+  <span class="string">"status"</span>: <span class="string">"ok"</span>,
+  <span class="string">"services"</span>: {
+    <span class="string">"esl"</span>: { <span class="string">"connected"</span>: <span class="keyword">true</span> },
+    <span class="string">"database"</span>: { <span class="string">"connected"</span>: <span class="keyword">true</span> },
+    <span class="string">"websocket"</span>: { <span class="string">"connectedClients"</span>: 3 }
+  }
+}</div>
+                    </div>
+                </div>
+
+                <!-- DOMAINS -->
+                <h3 data-i18n="api.endpoints.domains">Domains</h3>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge get">GET</span>
+                        <span class="endpoint-url">/pbxapi/domains</span>
+                        <span class="endpoint-desc">List all FusionPBX domains</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <div class="code-block">curl https://mt.voipat.com/pbxapi/domains \
+  -H <span class="string">"Authorization: Bearer TOKEN"</span></div>
+                        <div class="response-label" style="margin-top:0.5rem;">Response 200</div>
+                        <div class="code-block">{
+  <span class="string">"domains"</span>: [
+    { <span class="string">"domain_uuid"</span>: <span class="string">"..."</span>, <span class="string">"domain_name"</span>: <span class="string">"pbx.example.com"</span>, <span class="string">"domain_enabled"</span>: <span class="string">"true"</span> }
+  ],
+  <span class="string">"count"</span>: 1
+}</div>
+                    </div>
+                </div>
+
+                <!-- EXTENSIONS -->
+                <h3 data-i18n="api.endpoints.extensions">Extensions</h3>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge get">GET</span>
+                        <span class="endpoint-url">/pbxapi/extensions?domain=pbx.example.com</span>
+                        <span class="endpoint-desc">List all extensions for a domain</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <div class="response-label">Response 200</div>
+                        <div class="code-block">{
+  <span class="string">"extensions"</span>: [
+    { <span class="string">"extension"</span>: <span class="string">"1001"</span>, <span class="string">"effective_caller_id_name"</span>: <span class="string">"John Doe"</span>, <span class="string">"enabled"</span>: <span class="string">"true"</span> }
+  ],
+  <span class="string">"count"</span>: 12
+}</div>
+                    </div>
+                </div>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge get">GET</span>
+                        <span class="endpoint-url">/pbxapi/extensions/:ext?domain=pbx.example.com</span>
+                        <span class="endpoint-desc">Get a specific extension by number</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Returns full extension details. Returns <code>404</code> if not found.</p>
+                    </div>
+                </div>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge get">GET</span>
+                        <span class="endpoint-url">/pbxapi/extensions/registrations?domain=pbx.example.com</span>
+                        <span class="endpoint-desc">Get registered SIP endpoints (online/offline)</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <div class="response-label">Response 200</div>
+                        <div class="code-block">{
+  <span class="string">"registrations"</span>: [
+    { <span class="string">"reg_user"</span>: <span class="string">"1001"</span>, <span class="string">"reg_host"</span>: <span class="string">"pbx.example.com"</span>, <span class="string">"status"</span>: <span class="string">"Registered"</span> }
+  ]
+}</div>
+                    </div>
+                </div>
+
+                <!-- CALLS -->
+                <h3 data-i18n="api.endpoints.calls">Calls (Real-time Control)</h3>
+                <p data-i18n-html="api.endpoints.callsNote">All call control routes communicate with FreeSWITCH via ESL. Returns <code>503</code> if ESL is not connected.</p>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge get">GET</span>
+                        <span class="endpoint-url">/pbxapi/calls/active?domain=pbx.example.com</span>
+                        <span class="endpoint-desc">Get all active (bridged) calls</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <div class="response-label">Response 200</div>
+                        <div class="code-block">{
+  <span class="string">"calls"</span>: [
+    { <span class="string">"uuid"</span>: <span class="string">"abc-123"</span>, <span class="string">"caller_id_number"</span>: <span class="string">"1001"</span>, <span class="string">"destination_number"</span>: <span class="string">"+14155551234"</span>, <span class="string">"duration"</span>: 45 }
+  ],
+  <span class="string">"count"</span>: 1
+}</div>
+                    </div>
+                </div>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge get">GET</span>
+                        <span class="endpoint-url">/pbxapi/calls/channels?domain=pbx.example.com</span>
+                        <span class="endpoint-desc">Get all active channel legs</span>
+                    </div>
+                    <div class="endpoint-body"><p>Returns individual channel legs (2 per bridged call). Use <code>/calls/active</code> for paired calls.</p></div>
+                </div>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge get">GET</span>
+                        <span class="endpoint-url">/pbxapi/calls/channels/:uuid</span>
+                        <span class="endpoint-desc">Get info about a specific channel by UUID</span>
+                    </div>
+                    <div class="endpoint-body"><p>Returns <code>404</code> if the channel UUID is not found or the call has ended.</p></div>
+                </div>
+
                 <div class="endpoint-card">
                     <div class="endpoint-header">
                         <span class="method-badge post">POST</span>
-                        <span class="endpoint-url">/api/domains</span>
-                        <span class="endpoint-desc">Create a new domain</span>
+                        <span class="endpoint-url">/pbxapi/calls/originate</span>
+                        <span class="endpoint-desc">Originate (make) a new call</span>
                     </div>
                     <div class="endpoint-body">
-                        <p>Provisions a new domain on the platform. The domain will be instantly available after DNS is configured.</p>
-                        <div class="code-block"><span class="comment"># Create a new domain</span>
-curl -X POST https://api.voipat.com/v1/domains \
-  -H <span class="string">"Authorization: Bearer YOUR_API_KEY"</span> \
+                        <div class="code-block">curl -X POST https://mt.voipat.com/pbxapi/calls/originate \
+  -H <span class="string">"Authorization: Bearer TOKEN"</span> \
   -H <span class="string">"Content-Type: application/json"</span> \
   -d <span class="string">'{
-    "domain_name": "pbx.newclient.com",
-    "plan": "business",
-    "admin_email": "admin@newclient.com"
+    "from": "1001",
+    "to": "+14155551234",
+    "domain": "pbx.example.com",
+    "callerId": "+12025550100",
+    "timeout": 30
   }'</span></div>
-                        <div class="response-example">
-                            <div class="response-label">Response 201</div>
-                            <div class="code-block">{
-  <span class="string">"domain_uuid"</span>: <span class="string">"e5f6g7h8-..."</span>,
-  <span class="string">"domain_name"</span>: <span class="string">"pbx.newclient.com"</span>,
-  <span class="string">"status"</span>: <span class="string">"provisioned"</span>,
-  <span class="string">"admin_password"</span>: <span class="string">"auto-generated-password"</span>
-}</div>
-                        </div>
+                        <div class="response-label" style="margin-top:0.5rem;">Response 200</div>
+                        <div class="code-block">{ <span class="string">"uuid"</span>: <span class="string">"abc-123"</span>, <span class="string">"message"</span>: <span class="string">"Call from 1001 to +14155551234 initiated"</span> }</div>
                     </div>
                 </div>
 
-                <!-- GET /api/extensions -->
-                <div class="endpoint-card">
-                    <div class="endpoint-header">
-                        <span class="method-badge get">GET</span>
-                        <span class="endpoint-url">/api/extensions</span>
-                        <span class="endpoint-desc">List all extensions</span>
-                    </div>
-                    <div class="endpoint-body">
-                        <p>Returns a list of all extensions for the authenticated domain. Includes registration status, call forwarding settings, and voicemail configuration.</p>
-                        <div class="code-block"><span class="comment"># List all extensions</span>
-curl -X GET https://api.voipat.com/v1/extensions \
-  -H <span class="string">"Authorization: Bearer YOUR_API_KEY"</span> \
-  -H <span class="string">"Content-Type: application/json"</span></div>
-                        <div class="response-example">
-                            <div class="response-label">Response 200</div>
-                            <div class="code-block">{
-  <span class="string">"data"</span>: [
-    {
-      <span class="string">"extension_uuid"</span>: <span class="string">"x1y2z3-..."</span>,
-      <span class="string">"extension"</span>: <span class="string">"1001"</span>,
-      <span class="string">"effective_caller_id_name"</span>: <span class="string">"John Doe"</span>,
-      <span class="string">"enabled"</span>: <span class="keyword">true</span>,
-      <span class="string">"registered"</span>: <span class="keyword">true</span>
-    }
-  ],
-  <span class="string">"total"</span>: 12
-}</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- POST /api/extensions -->
                 <div class="endpoint-card">
                     <div class="endpoint-header">
                         <span class="method-badge post">POST</span>
-                        <span class="endpoint-url">/api/extensions</span>
-                        <span class="endpoint-desc">Create a new extension</span>
+                        <span class="endpoint-url">/pbxapi/calls/:uuid/hangup</span>
+                        <span class="endpoint-desc">Hangup a call</span>
                     </div>
                     <div class="endpoint-body">
-                        <p>Creates a new SIP extension on your domain. The extension is immediately available for registration by SIP phones or WebRTC clients.</p>
-                        <div class="code-block"><span class="comment"># Create extension 1010 for Jane Smith</span>
-curl -X POST https://api.voipat.com/v1/extensions \
-  -H <span class="string">"Authorization: Bearer YOUR_API_KEY"</span> \
-  -H <span class="string">"Content-Type: application/json"</span> \
-  -d <span class="string">'{
-    "extension": "1010",
-    "password": "securePassword123",
-    "effective_caller_id_name": "Jane Smith",
-    "voicemail_enabled": true,
-    "enabled": true
-  }'</span></div>
-                        <div class="response-example">
-                            <div class="response-label">Response 201</div>
-                            <div class="code-block">{
-  <span class="string">"extension_uuid"</span>: <span class="string">"a9b8c7-..."</span>,
-  <span class="string">"extension"</span>: <span class="string">"1010"</span>,
-  <span class="string">"status"</span>: <span class="string">"created"</span>
-}</div>
-                        </div>
+                        <div class="code-block">curl -X POST https://mt.voipat.com/pbxapi/calls/abc-123/hangup \
+  -H <span class="string">"Authorization: Bearer TOKEN"</span> \
+  -d <span class="string">'{"cause": "NORMAL_CLEARING"}'</span></div>
                     </div>
                 </div>
 
-                <!-- GET /api/call-records -->
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge post">POST</span>
+                        <span class="endpoint-url">/pbxapi/calls/:uuid/transfer</span>
+                        <span class="endpoint-desc">Transfer a call (blind or attended)</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <div class="code-block">curl -X POST https://mt.voipat.com/pbxapi/calls/abc-123/transfer \
+  -H <span class="string">"Authorization: Bearer TOKEN"</span> \
+  -H <span class="string">"Content-Type: application/json"</span> \
+  -d <span class="string">'{"destination": "1002", "domain": "pbx.example.com", "type": "blind"}'</span></div>
+                        <p style="margin-top: 0.5rem;">type: <code>"blind"</code> (default) or <code>"attended"</code></p>
+                    </div>
+                </div>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge post">POST</span>
+                        <span class="endpoint-url">/pbxapi/calls/:uuid/hold</span>
+                        <span class="endpoint-desc">Hold / Unhold / Toggle hold</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Also available: <code>POST /pbxapi/calls/:uuid/unhold</code> and <code>POST /pbxapi/calls/:uuid/hold/toggle</code></p>
+                    </div>
+                </div>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge post">POST</span>
+                        <span class="endpoint-url">/pbxapi/calls/:uuid/dtmf</span>
+                        <span class="endpoint-desc">Send DTMF tones</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <div class="code-block">-d <span class="string">'{"digits": "1234#"}'</span></div>
+                    </div>
+                </div>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge post">POST</span>
+                        <span class="endpoint-url">/pbxapi/calls/:uuid/mute</span>
+                        <span class="endpoint-desc">Mute / Unmute a channel</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Also available: <code>POST /pbxapi/calls/:uuid/unmute</code></p>
+                    </div>
+                </div>
+
+                <!-- CDR -->
+                <h3 data-i18n="api.endpoints.cdr">Call Detail Records (CDR)</h3>
+
                 <div class="endpoint-card">
                     <div class="endpoint-header">
                         <span class="method-badge get">GET</span>
-                        <span class="endpoint-url">/api/call-records</span>
-                        <span class="endpoint-desc">Retrieve call detail records</span>
+                        <span class="endpoint-url">/pbxapi/cdr</span>
+                        <span class="endpoint-desc">Get CDR records with filters</span>
                     </div>
                     <div class="endpoint-body">
-                        <p>Returns call detail records (CDR) for your domain. Filter by date range, extension, direction, and more. Supports pagination.</p>
-                        <div class="code-block"><span class="comment"># Get call records for March 2026</span>
-curl -X GET <span class="string">"https://api.voipat.com/v1/call-records?start_date=2026-03-01&end_date=2026-03-31&per_page=50"</span> \
-  -H <span class="string">"Authorization: Bearer YOUR_API_KEY"</span> \
-  -H <span class="string">"Content-Type: application/json"</span></div>
-                        <div class="response-example">
-                            <div class="response-label">Response 200</div>
-                            <div class="code-block">{
-  <span class="string">"data"</span>: [
+                        <p>Query parameters: <code>domain</code>, <code>start_date</code>, <code>end_date</code>, <code>direction</code> (inbound/outbound/local), <code>extension</code>, <code>search</code>, <code>limit</code> (max 1000), <code>offset</code></p>
+                        <div class="code-block">curl <span class="string">"https://mt.voipat.com/pbxapi/cdr?domain=pbx.example.com&start_date=2026-03-01&direction=outbound&limit=50"</span> \
+  -H <span class="string">"Authorization: Bearer TOKEN"</span></div>
+                        <div class="response-label" style="margin-top:0.5rem;">Response 200</div>
+                        <div class="code-block">{
+  <span class="string">"records"</span>: [
     {
-      <span class="string">"call_uuid"</span>: <span class="string">"c1d2e3-..."</span>,
+      <span class="string">"xml_cdr_uuid"</span>: <span class="string">"..."</span>,
       <span class="string">"caller_id_number"</span>: <span class="string">"1001"</span>,
       <span class="string">"destination_number"</span>: <span class="string">"+14155551234"</span>,
       <span class="string">"direction"</span>: <span class="string">"outbound"</span>,
@@ -315,43 +460,80 @@ curl -X GET <span class="string">"https://api.voipat.com/v1/call-records?start_d
     }
   ],
   <span class="string">"total"</span>: 342,
-  <span class="string">"page"</span>: 1,
-  <span class="string">"per_page"</span>: 50
+  <span class="string">"limit"</span>: 50,
+  <span class="string">"offset"</span>: 0
 }</div>
-                        </div>
                     </div>
                 </div>
 
-                <!-- POST /api/gateways -->
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge get">GET</span>
+                        <span class="endpoint-url">/pbxapi/cdr/stats/summary</span>
+                        <span class="endpoint-desc">Call statistics summary</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Query parameters: <code>domain</code>, <code>start_date</code>, <code>end_date</code></p>
+                        <div class="response-label">Response 200</div>
+                        <div class="code-block">{
+  <span class="string">"stats"</span>: {
+    <span class="string">"total_calls"</span>: 342,
+    <span class="string">"answered"</span>: 298,
+    <span class="string">"missed"</span>: 44,
+    <span class="string">"avg_duration"</span>: 187
+  }
+}</div>
+                    </div>
+                </div>
+
+                <!-- API KEYS -->
+                <h3 data-i18n="api.endpoints.apikeys">API Key Management</h3>
+
                 <div class="endpoint-card">
                     <div class="endpoint-header">
                         <span class="method-badge post">POST</span>
-                        <span class="endpoint-url">/api/gateways</span>
-                        <span class="endpoint-desc">Add a SIP gateway</span>
+                        <span class="endpoint-url">/pbxapi/apikeys</span>
+                        <span class="endpoint-desc">Create an API key for a user</span>
                     </div>
                     <div class="endpoint-body">
-                        <p>Configures a new SIP gateway (trunk) for outbound and inbound calling. Provide your SIP trunk credentials from your provider.</p>
-                        <div class="code-block"><span class="comment"># Add a SIP gateway</span>
-curl -X POST https://api.voipat.com/v1/gateways \
-  -H <span class="string">"Authorization: Bearer YOUR_API_KEY"</span> \
+                        <div class="code-block">curl -X POST https://mt.voipat.com/pbxapi/apikeys \
+  -H <span class="string">"Authorization: Bearer TOKEN"</span> \
   -H <span class="string">"Content-Type: application/json"</span> \
-  -d <span class="string">'{
-    "gateway_name": "my-sip-provider",
-    "proxy": "sip.provider.com",
-    "username": "myuser",
-    "password": "mypassword",
-    "register": true,
-    "enabled": true
-  }'</span></div>
-                        <div class="response-example">
-                            <div class="response-label">Response 201</div>
-                            <div class="code-block">{
-  <span class="string">"gateway_uuid"</span>: <span class="string">"g1h2i3-..."</span>,
-  <span class="string">"gateway_name"</span>: <span class="string">"my-sip-provider"</span>,
-  <span class="string">"status"</span>: <span class="string">"created"</span>,
-  <span class="string">"registration_status"</span>: <span class="string">"pending"</span>
+  -d <span class="string">'{"username": "john.doe", "domain": "pbx.example.com", "description": "CRM Production"}'</span></div>
+                        <div class="response-label" style="margin-top:0.5rem;">Response 201</div>
+                        <div class="code-block">{
+  <span class="string">"plain_key"</span>: <span class="string">"fpx_a1b2c3..."</span>,
+  <span class="string">"warning"</span>: <span class="string">"Save the plain_key immediately — it will not be shown again."</span>
 }</div>
-                        </div>
+                    </div>
+                </div>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge get">GET</span>
+                        <span class="endpoint-url">/pbxapi/apikeys?domain=pbx.example.com</span>
+                        <span class="endpoint-desc">List API keys for a domain</span>
+                    </div>
+                    <div class="endpoint-body"><p>Non-admin users see only keys in their own domain.</p></div>
+                </div>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge delete">DELETE</span>
+                        <span class="endpoint-url">/pbxapi/apikeys/:uuid</span>
+                        <span class="endpoint-desc">Revoke an API key immediately</span>
+                    </div>
+                    <div class="endpoint-body"><p>The key is invalidated instantly — no waiting for token expiry.</p></div>
+                </div>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <span class="method-badge put">PATCH</span>
+                        <span class="endpoint-url">/pbxapi/apikeys/:uuid</span>
+                        <span class="endpoint-desc">Enable or disable a key</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <div class="code-block">-d <span class="string">'{"enabled": false}'</span></div>
                     </div>
                 </div>
             </div>
@@ -360,8 +542,8 @@ curl -X POST https://api.voipat.com/v1/gateways \
 
             <!-- CRM Integration -->
             <div class="api-section">
-                <h2><i class="fas fa-headset" style="color: var(--primary); margin-right: 0.5rem;"></i> CRM Integration</h2>
-                <p>VOIP@ Cloud provides three integration points to connect the WebRTC phone with any CRM, helpdesk, or business application. Choose the option that fits your architecture.</p>
+                <h2><i class="fas fa-headset" style="color: var(--primary); margin-right: 0.5rem;"></i> <span data-i18n="api.crm.title">CRM Integration</span></h2>
+                <p data-i18n="api.crm.desc">VOIP@ Cloud provides three integration points to connect the WebRTC phone with any CRM, helpdesk, or business application. Choose the option that fits your architecture.</p>
 
                 <!-- How it works -->
                 <div class="auth-box" style="margin-bottom: 2rem;">
@@ -371,8 +553,8 @@ curl -X POST https://api.voipat.com/v1/gateways \
                 </div>
 
                 <!-- Option 1: CRM Webhook -->
-                <h3>Option 1 — CRM Webhook (real-time call events)</h3>
-                <p>The phone widget fires call events to the server-side webhook proxy, which forwards them to your configured CRM URL with all call data substituted in.</p>
+                <h3 data-i18n="api.crm.option1">Option 1 — CRM Webhook (real-time call events)</h3>
+                <p data-i18n="api.crm.option1.desc">The phone widget fires call events to the server-side webhook proxy, which forwards them to your configured CRM URL with all call data substituted in.</p>
 
                 <div class="endpoint-card">
                     <div class="endpoint-header">
@@ -437,8 +619,8 @@ https://crm.example.com/contacts/search?phone={caller_id}&agent={extension}</div
                 </div>
 
                 <!-- Option 2: Session API -->
-                <h3 style="margin-top: 2rem;">Option 2 — Session API (read CRM config)</h3>
-                <p>Returns the active user's extensions, WSS config, and all configured CRM URLs. Requires a logged-in FusionPBX session. Used internally by the phone widget but also available to custom integrations.</p>
+                <h3 style="margin-top: 2rem;" data-i18n="api.crm.option2">Option 2 — Session API (read CRM config)</h3>
+                <p data-i18n="api.crm.option2.desc">Returns the active user's extensions, WSS config, and all configured CRM URLs. Requires a logged-in FusionPBX session. Used internally by the phone widget but also available to custom integrations.</p>
 
                 <div class="endpoint-card">
                     <div class="endpoint-header">
@@ -471,8 +653,8 @@ https://crm.example.com/contacts/search?phone={caller_id}&agent={extension}</div
                 </div>
 
                 <!-- Option 3: Click-to-Dial -->
-                <h3 style="margin-top: 2rem;">Option 3 — Click-to-Dial API (embed phone in external sites)</h3>
-                <p>Allows any external website or CRM to embed a call button that dials directly from the user's browser — no FusionPBX login required. Create tokens in <strong>Apps → WebRTC Phone → Click-to-Dial</strong>.</p>
+                <h3 style="margin-top: 2rem;" data-i18n="api.crm.option3">Option 3 — Click-to-Dial API (embed phone in external sites)</h3>
+                <p data-i18n="api.crm.option3.desc">Allows any external website or CRM to embed a call button that dials directly from the user's browser — no FusionPBX login required.</p>
 
                 <div class="endpoint-card">
                     <div class="endpoint-header">
@@ -505,6 +687,91 @@ https://mt.voipat.com/app/web_phone2/click_to_dial/click_to_dial_api.php?token=Y
                 </div>
             </div>
 
+            <!-- Live API Tester -->
+            <hr class="section-divider">
+            <div class="api-section">
+                <h2><i class="fas fa-terminal" style="color: var(--primary); margin-right: 0.5rem;"></i> <span data-i18n="api.tester.title">API Tester</span></h2>
+                <p data-i18n="api.tester.desc">Test API endpoints directly from this page. Enter your API key and domain to authenticate, then select an endpoint and send a request.</p>
+
+                <!-- Auth -->
+                <div class="tester-panel">
+                    <div class="tester-row">
+                        <div class="tester-field">
+                            <label for="tester-apikey" data-i18n="api.tester.apikey.label">API Key</label>
+                            <input type="password" id="tester-apikey" placeholder="fpx_your_api_key_here">
+                        </div>
+                        <div class="tester-field">
+                            <label for="tester-domain" data-i18n="api.tester.domain.label">Domain</label>
+                            <input type="text" id="tester-domain" placeholder="pbx.example.com">
+                        </div>
+                        <div class="tester-field tester-field-btn">
+                            <label>&nbsp;</label>
+                            <button class="btn btn-primary" onclick="testerAuthenticate()">
+                                <i class="fas fa-key"></i> <span data-i18n="api.tester.authenticate">Authenticate</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="tester-auth-status" class="tester-status" style="display:none;"></div>
+                </div>
+
+                <!-- Request Builder -->
+                <div class="tester-panel">
+                    <div class="tester-row">
+                        <div class="tester-field" style="flex: 2; min-width: 260px;">
+                            <label for="tester-endpoint" data-i18n="api.tester.endpoint.label">Endpoint</label>
+                            <select id="tester-endpoint" onchange="testerEndpointChanged()">
+                                <optgroup label="Status">
+                                    <option value="GET|/pbxapi/status|">GET /pbxapi/status</option>
+                                    <option value="GET|/pbxapi/status/detailed|">GET /pbxapi/status/detailed</option>
+                                </optgroup>
+                                <optgroup label="Domains">
+                                    <option value="GET|/pbxapi/domains|">GET /pbxapi/domains</option>
+                                </optgroup>
+                                <optgroup label="Extensions">
+                                    <option value="GET|/pbxapi/extensions|domain">GET /pbxapi/extensions</option>
+                                    <option value="GET|/pbxapi/extensions/:ext|domain,ext">GET /pbxapi/extensions/:ext</option>
+                                    <option value="GET|/pbxapi/extensions/registrations|domain">GET /pbxapi/extensions/registrations</option>
+                                </optgroup>
+                                <optgroup label="Calls">
+                                    <option value="GET|/pbxapi/calls/active|domain">GET /pbxapi/calls/active</option>
+                                    <option value="GET|/pbxapi/calls/channels|domain">GET /pbxapi/calls/channels</option>
+                                    <option value="POST|/pbxapi/calls/originate|from,to,domain">POST /pbxapi/calls/originate</option>
+                                    <option value="POST|/pbxapi/calls/:uuid/hangup|uuid">POST /pbxapi/calls/:uuid/hangup</option>
+                                    <option value="POST|/pbxapi/calls/:uuid/transfer|uuid,destination,domain">POST /pbxapi/calls/:uuid/transfer</option>
+                                </optgroup>
+                                <optgroup label="CDR">
+                                    <option value="GET|/pbxapi/cdr|domain">GET /pbxapi/cdr</option>
+                                    <option value="GET|/pbxapi/cdr/stats/summary|domain">GET /pbxapi/cdr/stats/summary</option>
+                                </optgroup>
+                                <optgroup label="API Keys">
+                                    <option value="GET|/pbxapi/apikeys|domain">GET /pbxapi/apikeys</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="tester-params" class="tester-params-grid"></div>
+                    <div class="tester-actions">
+                        <button class="btn btn-primary" onclick="testerSend()">
+                            <i class="fas fa-paper-plane"></i> <span data-i18n="api.tester.send">Send Request</span>
+                        </button>
+                        <button class="btn btn-ghost" onclick="testerClear()">
+                            <span data-i18n="api.tester.clear">Clear</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Response -->
+                <div id="tester-response-wrapper" style="display:none;">
+                    <div class="response-label" style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                        <span data-i18n="api.tester.response.label">Response</span>
+                        <span id="tester-response-status" style="font-weight: 700; font-family: 'Courier New', monospace;"></span>
+                    </div>
+                    <pre id="tester-response-body" class="code-block" style="white-space: pre-wrap; word-break: break-all; min-height: 80px; max-height: 400px; overflow-y: auto; margin: 0;"></pre>
+                </div>
+
+                <p class="tester-note" data-i18n="api.tester.note">Requests go directly to mt.voipat.com. CORS must be enabled on the API server for cross-origin requests from this page to succeed.</p>
+            </div>
+
             <!-- Rate Limiting -->
             <div class="api-section">
                 <h2><i class="fas fa-gauge-high" style="color: var(--primary); margin-right: 0.5rem;"></i> <span data-i18n="api.rateLimit.title">Rate Limiting</span></h2>
@@ -512,21 +779,21 @@ https://mt.voipat.com/app/web_phone2/click_to_dial/click_to_dial_api.php?token=Y
 
                 <div class="rate-limit-box">
                     <h3><i class="fas fa-exclamation-triangle"></i> Rate Limits</h3>
-                    <p><strong>Standard plans:</strong> 60 requests per minute, 1,000 requests per hour</p>
-                    <p><strong>Enterprise plans:</strong> 300 requests per minute, 10,000 requests per hour</p>
+                    <p data-i18n-html="api.rateLimit.standard"><strong>Standard plans:</strong> 60 requests per minute, 1,000 requests per hour</p>
+                    <p data-i18n-html="api.rateLimit.enterprise"><strong>Enterprise plans:</strong> 300 requests per minute, 10,000 requests per hour</p>
                 </div>
 
-                <p style="margin-top: 1rem;">Rate limit information is included in the response headers:</p>
+                <p style="margin-top: 1rem;" data-i18n="api.rateLimit.headersNote">Rate limit information is included in the response headers:</p>
                 <div class="code-block">X-RateLimit-Limit: 60
 X-RateLimit-Remaining: 45
 X-RateLimit-Reset: 1711036800</div>
-                <p>If you exceed the rate limit, you will receive a <code>429 Too Many Requests</code> response. Wait until the <code>X-RateLimit-Reset</code> timestamp before retrying. We recommend implementing exponential backoff in your integration.</p>
+                <p data-i18n-html="api.rateLimit.exceeded">If you exceed the rate limit, you will receive a <code>429 Too Many Requests</code> response. Wait until the <code>X-RateLimit-Reset</code> timestamp before retrying. We recommend implementing exponential backoff in your integration.</p>
             </div>
 
             <!-- Support -->
             <div class="api-section">
                 <h2><i class="fas fa-life-ring" style="color: var(--primary); margin-right: 0.5rem;"></i> <span data-i18n="api.support.title">Need Help?</span></h2>
-                <p>If you have questions about the API or need assistance with your integration, contact our developer support team:</p>
+                <p data-i18n="api.support.desc">If you have questions about the API or need assistance with your integration, contact our developer support team:</p>
                 <ul>
                     <li>Email: <a href="mailto:api-support@voipat.com">api-support@voipat.com</a></li>
                     <li>Source code &amp; issues: <a href="https://github.com/asm2me/Fusionpbx-API" target="_blank">github.com/asm2me/Fusionpbx-API <i class="fab fa-github"></i></a></li>
@@ -607,7 +874,154 @@ X-RateLimit-Reset: 1711036800</div>
     </div>
 </footer>
 
-<script src="js/translations.min.js?v=2" defer></script>
+<script src="js/translations.min.js?v=3" defer></script>
 <script src="js/main.min.js?v=2" defer></script>
+<script>
+(function() {
+  const BASE = 'https://mt.voipat.com';
+  let _token = null, _apiKey = null;
+
+  const PARAMS = {
+    'GET|/pbxapi/status|': [],
+    'GET|/pbxapi/status/detailed|': [],
+    'GET|/pbxapi/domains|': [],
+    'GET|/pbxapi/extensions|domain': [
+      {name:'domain',label:'Domain',placeholder:'pbx.example.com',inQuery:true,required:true}
+    ],
+    'GET|/pbxapi/extensions/:ext|domain,ext': [
+      {name:'ext',label:'Extension',placeholder:'1001',inPath:true,required:true},
+      {name:'domain',label:'Domain',placeholder:'pbx.example.com',inQuery:true,required:true}
+    ],
+    'GET|/pbxapi/extensions/registrations|domain': [
+      {name:'domain',label:'Domain',placeholder:'pbx.example.com',inQuery:true,required:true}
+    ],
+    'GET|/pbxapi/calls/active|domain': [
+      {name:'domain',label:'Domain',placeholder:'pbx.example.com',inQuery:true}
+    ],
+    'GET|/pbxapi/calls/channels|domain': [
+      {name:'domain',label:'Domain',placeholder:'pbx.example.com',inQuery:true}
+    ],
+    'POST|/pbxapi/calls/originate|from,to,domain': [
+      {name:'from',label:'From (extension)',placeholder:'1001',inBody:true,required:true},
+      {name:'to',label:'To (number)',placeholder:'+14155551234',inBody:true,required:true},
+      {name:'domain',label:'Domain',placeholder:'pbx.example.com',inBody:true,required:true}
+    ],
+    'POST|/pbxapi/calls/:uuid/hangup|uuid': [
+      {name:'uuid',label:'Call UUID',placeholder:'abc-123-...',inPath:true,required:true}
+    ],
+    'POST|/pbxapi/calls/:uuid/transfer|uuid,destination,domain': [
+      {name:'uuid',label:'Call UUID',placeholder:'abc-123-...',inPath:true,required:true},
+      {name:'destination',label:'Transfer To',placeholder:'1002',inBody:true,required:true},
+      {name:'domain',label:'Domain',placeholder:'pbx.example.com',inBody:true,required:true}
+    ],
+    'GET|/pbxapi/cdr|domain': [
+      {name:'domain',label:'Domain',placeholder:'pbx.example.com',inQuery:true},
+      {name:'limit',label:'Limit',placeholder:'50',type:'number',inQuery:true}
+    ],
+    'GET|/pbxapi/cdr/stats/summary|domain': [
+      {name:'domain',label:'Domain',placeholder:'pbx.example.com',inQuery:true}
+    ],
+    'GET|/pbxapi/apikeys|domain': [
+      {name:'domain',label:'Domain',placeholder:'pbx.example.com',inQuery:true}
+    ]
+  };
+
+  function t(key, fallback) {
+    try { return translations[key][i18n.currentLang] || fallback; } catch(e) { return fallback; }
+  }
+
+  window.testerAuthenticate = async function() {
+    const apiKey = document.getElementById('tester-apikey').value.trim();
+    const domain = document.getElementById('tester-domain').value.trim();
+    const statusEl = document.getElementById('tester-auth-status');
+    statusEl.style.display = 'none';
+    if (!apiKey) { showStatus(t('api.tester.apikey.label','API Key') + ' required', 'error'); return; }
+    try {
+      const body = {api_key: apiKey};
+      if (domain) body.domain = domain;
+      const resp = await fetch(BASE + '/pbxapi/auth/token', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(body)
+      });
+      const data = await resp.json();
+      if (resp.ok && data.token) {
+        _token = data.token; _apiKey = apiKey;
+        showStatus(t('api.tester.status.ok','✓ Authenticated — token valid for 24h'), 'ok');
+      } else {
+        showStatus('✗ ' + (data.message || data.error || 'Authentication failed'), 'error');
+      }
+    } catch(e) {
+      showStatus('✗ ' + e.message + ' (CORS / network error)', 'error');
+    }
+  };
+
+  function showStatus(msg, type) {
+    const el = document.getElementById('tester-auth-status');
+    el.textContent = msg; el.className = 'tester-status ' + type; el.style.display = '';
+  }
+
+  window.testerEndpointChanged = function() {
+    const sel = document.getElementById('tester-endpoint').value;
+    const params = PARAMS[sel] || [];
+    const grid = document.getElementById('tester-params');
+    grid.innerHTML = '';
+    params.forEach(p => {
+      const div = document.createElement('div');
+      div.className = 'tester-field';
+      div.innerHTML = '<label>' + p.label + (p.required ? ' <span style="color:#DC2626">*</span>' : '') + '</label>' +
+        '<input type="' + (p.type || 'text') + '" data-param="' + p.name + '" placeholder="' + p.placeholder + '">';
+      grid.appendChild(div);
+    });
+    document.getElementById('tester-response-wrapper').style.display = 'none';
+  };
+
+  window.testerSend = async function() {
+    const sel = document.getElementById('tester-endpoint').value;
+    const parts = sel.split('|');
+    const method = parts[0], pathTpl = parts[1];
+    const params = PARAMS[sel] || [];
+    const vals = {};
+    document.querySelectorAll('#tester-params input').forEach(inp => { vals[inp.dataset.param] = inp.value.trim(); });
+    let path = pathTpl;
+    const query = [], body = {};
+    params.forEach(p => {
+      const v = vals[p.name]; if (!v) return;
+      if (p.inPath) path = path.replace(':' + p.name, encodeURIComponent(v));
+      else if (p.inQuery) query.push(encodeURIComponent(p.name) + '=' + encodeURIComponent(v));
+      else if (p.inBody) body[p.name] = v;
+    });
+    let url = BASE + path;
+    if (query.length) url += '?' + query.join('&');
+    const headers = {'Content-Type': 'application/json'};
+    if (_token) headers['Authorization'] = 'Bearer ' + _token;
+    else if (_apiKey) headers['X-API-Key'] = _apiKey;
+    const opts = {method, headers};
+    if (method !== 'GET' && method !== 'HEAD') opts.body = JSON.stringify(body);
+    const wrapper = document.getElementById('tester-response-wrapper');
+    const bodyEl = document.getElementById('tester-response-body');
+    const statusEl = document.getElementById('tester-response-status');
+    bodyEl.textContent = '...'; wrapper.style.display = ''; statusEl.textContent = ''; statusEl.style.color = '';
+    try {
+      const resp = await fetch(url, opts);
+      const text = await resp.text();
+      let out = text;
+      try { out = JSON.stringify(JSON.parse(text), null, 2); } catch(e) {}
+      bodyEl.textContent = out;
+      statusEl.textContent = resp.status + ' ' + resp.statusText;
+      statusEl.style.color = resp.ok ? '#059669' : '#DC2626';
+    } catch(e) {
+      bodyEl.textContent = 'Error: ' + e.message + '\n\nThis is likely a CORS issue. The API server at mt.voipat.com must allow cross-origin requests from ' + location.origin;
+      statusEl.textContent = 'Network Error'; statusEl.style.color = '#DC2626';
+    }
+  };
+
+  window.testerClear = function() {
+    document.getElementById('tester-response-wrapper').style.display = 'none';
+    document.getElementById('tester-response-body').textContent = '';
+    document.getElementById('tester-response-status').textContent = '';
+  };
+})();
+</script>
 </body>
 </html>
