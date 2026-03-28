@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOIP@ Dialer — Quick Setup</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --primary: #6c3fc5;
+            --primary-dark: #5a32a3;
+            --primary-50: #f3eeff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-900: #111827;
+            --white: #ffffff;
+            --radius: 16px;
+            --shadow: 0 4px 24px rgba(0,0,0,.10);
+            --shadow-lg: 0 8px 40px rgba(0,0,0,.14);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f3eeff 0%, #e8f4fd 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            max-width: 480px;
+            width: 100%;
+            overflow: hidden;
+        }
+        .card-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            padding: 32px 32px 28px;
+            text-align: center;
+        }
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 20px;
+            opacity: 0.95;
+        }
+        .logo-at { color: #c9a8ff; }
+        .phone-icon {
+            width: 72px; height: 72px;
+            background: rgba(255,255,255,.15);
+            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 16px;
+        }
+        .card-header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 6px; }
+        .card-header p { opacity: 0.85; font-size: 0.9375rem; }
+        .card-body { padding: 28px 32px 32px; }
+
+        /* Extension info block */
+        .ext-info {
+            background: var(--primary-50);
+            border: 1px solid #ddd6fe;
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        .ext-avatar {
+            width: 48px; height: 48px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .ext-details h3 { font-size: 1rem; font-weight: 600; color: var(--gray-900); }
+        .ext-details p { font-size: 0.875rem; color: var(--gray-500); margin-top: 2px; }
+
+        /* Expiry badge */
+        .expiry-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 0.8125rem; font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 99px;
+            margin-top: 8px;
+        }
+        .expiry-badge.valid { background: #d1fae5; color: #065f46; }
+        .expiry-badge.expiring { background: #fef3c7; color: #92400e; }
+        .expiry-badge.expired { background: #fee2e2; color: #991b1b; }
+
+        /* Buttons */
+        .btn {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-size: 1rem; font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all .2s;
+            margin-bottom: 10px;
+        }
+        .btn:last-child { margin-bottom: 0; }
+        .btn-primary { background: var(--primary); color: var(--white); }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+        .btn-secondary { background: var(--gray-100); color: var(--gray-700); border: 1px solid var(--gray-200); }
+        .btn-secondary:hover { background: var(--gray-200); }
+        .btn-android { background: #3ddc84; color: #1a1a1a; }
+        .btn-android:hover { background: #2ecc70; }
+        .btn-ios { background: #1c1c1e; color: var(--white); }
+        .btn-ios:hover { background: #2c2c2e; }
+        .btn-disabled { background: var(--gray-100); color: var(--gray-400); cursor: not-allowed; pointer-events: none; }
+
+        .section-label {
+            font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.08em; color: var(--gray-400);
+            margin: 20px 0 10px;
+        }
+
+        /* Steps */
+        .steps { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        .step {
+            display: flex; align-items: flex-start; gap: 12px;
+            background: var(--gray-100); border-radius: 10px; padding: 12px 14px;
+        }
+        .step-num {
+            width: 24px; height: 24px; border-radius: 50%;
+            background: var(--primary); color: var(--white);
+            font-size: 0.75rem; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; margin-top: 1px;
+        }
+        .step-text { font-size: 0.875rem; color: var(--gray-600); line-height: 1.5; }
+        .step-text strong { color: var(--gray-900); }
+
+        /* QR section */
+        .qr-section { text-align: center; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--gray-200); }
+        .qr-section p { font-size: 0.8125rem; color: var(--gray-500); margin-bottom: 12px; }
+        #qrcode { display: inline-block; }
+        #qrcode canvas, #qrcode img { border-radius: 8px; }
+
+        /* Error / expired state */
+        .state-error {
+            text-align: center; padding: 32px 0;
+        }
+        .state-error .icon { font-size: 3rem; margin-bottom: 16px; }
+        .state-error h2 { font-size: 1.25rem; font-weight: 700; color: var(--gray-900); margin-bottom: 8px; }
+        .state-error p { color: var(--gray-500); font-size: 0.9375rem; line-height: 1.6; }
+
+        /* Success flash */
+        .app-opened-notice {
+            display: none;
+            background: #d1fae5; border: 1px solid #a7f3d0;
+            border-radius: 10px; padding: 12px 16px;
+            font-size: 0.875rem; color: #065f46;
+            margin-bottom: 12px;
+            align-items: center; gap: 8px;
+        }
+
+        @media (max-width: 500px) {
+            body { padding: 12px; align-items: flex-start; }
+            .card-header { padding: 24px 20px 20px; }
+            .card-body { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+<div class="card" id="mainCard">
+    <div class="card-header">
+        <div class="logo">VOIP<span class="logo-at">@</span> Cloud</div>
+        <div class="phone-icon"><i class="fas fa-phone"></i></div>
+        <h1>Quick Phone Setup</h1>
+        <p>Tap the button below to configure your phone automatically</p>
+    </div>
+    <div class="card-body" id="cardBody">
+        <!-- Injected by JS -->
+        <div class="state-error">
+            <div class="icon">⏳</div>
+            <h2>Loading…</h2>
+        </div>
+    </div>
+</div>
+
+<script>
+// ── JWT payload decoder (no signature verification — link is the credential) ──
+function decodeJwtPayload(token) {
+    try {
+        const parts = token.split('.');
+        if (parts.length < 2) return null;
+        let b64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+        while (b64.length % 4) b64 += '=';
+        return JSON.parse(atob(b64));
+    } catch { return null; }
+}
+
+// ── Platform detection ────────────────────────────────────────────────────────
+function getPlatform() {
+    const ua = navigator.userAgent;
+    if (/android/i.test(ua)) return 'android';
+    if (/iphone|ipad|ipod/i.test(ua)) return 'ios';
+    if (/windows/i.test(ua)) return 'windows';
+    if (/macintosh|mac os x/i.test(ua)) return 'mac';
+    if (/linux/i.test(ua)) return 'linux';
+    return 'other';
+}
+
+// ── Expiry helpers ────────────────────────────────────────────────────────────
+function expiryLabel(exp) {
+    const now = Math.floor(Date.now() / 1000);
+    const diff = exp - now;
+    if (diff <= 0) return { text: 'Expired', cls: 'expired', ok: false };
+    const h = Math.floor(diff / 3600);
+    const m = Math.floor((diff % 3600) / 60);
+    const label = h > 0 ? `Expires in ${h}h ${m}m` : `Expires in ${m}m`;
+    return { text: label, cls: diff < 3600 ? 'expiring' : 'valid', ok: true };
+}
+
+// ── Render ────────────────────────────────────────────────────────────────────
+function renderError(icon, title, msg) {
+    document.getElementById('cardBody').innerHTML = `
+        <div class="state-error">
+            <div class="icon">${icon}</div>
+            <h2>${title}</h2>
+            <p>${msg}</p>
+        </div>`;
+}
+
+function renderPage(cfg, token) {
+    const platform = getPlatform();
+    const expiry   = expiryLabel(cfg.exp);
+    const deepLink = `voipat://provision?t=${encodeURIComponent(token)}`;
+    const thisUrl  = window.location.href;
+
+    // Shorten display name initials for avatar
+    const initials = (cfg.display || cfg.ext)
+        .split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase();
+
+    let platformHTML = '';
+
+    if (platform === 'windows') {
+        platformHTML = `
+            <div class="app-opened-notice" id="openedNotice">
+                <i class="fas fa-check-circle"></i> Opening VOIP@ Dialer…
+            </div>
+            <button class="btn btn-primary" onclick="openApp('${deepLink}')">
+                <i class="fab fa-windows"></i> Open in VOIP@ Dialer
+            </button>
+            <div class="section-label">Not installed yet?</div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div class="step-text">
+                        <strong>Download & install</strong> the VOIP@ Dialer
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div class="step-text">
+                        <strong>Come back to this link</strong> and tap "Open in VOIP@ Dialer" — it will configure automatically
+                    </div>
+                </div>
+            </div>
+            <a href="https://github.com/asm2me/Fusionpbx-Plugins/releases/download/v1.0.0/VOIPAT-Dialer-Setup-2.0.exe"
+               class="btn btn-secondary">
+                <i class="fas fa-download"></i> Download VOIP@ Dialer for Windows
+            </a>`;
+
+    } else if (platform === 'android') {
+        platformHTML = `
+            <button class="btn btn-android" onclick="openApp('${deepLink}')">
+                <i class="fab fa-android"></i> Open in VOIP@ Dialer
+            </button>
+            <div class="section-label">Not installed yet?</div>
+            <a href="https://github.com/asm2me/Fusionpbx-Plugins/releases/download/v1.0.0/VOIP@-Dialer-1.0.0-android.apk"
+               class="btn btn-secondary">
+                <i class="fab fa-android"></i> Download APK
+            </a>`;
+
+    } else if (platform === 'ios') {
+        platformHTML = `
+            <button class="btn btn-ios" onclick="openApp('${deepLink}')">
+                <i class="fab fa-apple"></i> Open in VOIP@ Dialer
+            </button>
+            <div class="section-label">Not installed yet?</div>
+            <a href="#" class="btn btn-secondary btn-disabled">
+                <i class="fab fa-app-store"></i> App Store (coming soon)
+            </a>`;
+
+    } else if (platform === 'mac') {
+        platformHTML = `
+            <button class="btn btn-ios" onclick="openApp('${deepLink}')">
+                <i class="fab fa-apple"></i> Open in VOIP@ Dialer
+            </button>
+            <div class="section-label">Not installed yet?</div>
+            <a href="#" class="btn btn-secondary btn-disabled">
+                <i class="fab fa-apple"></i> macOS Download (coming soon)
+            </a>`;
+
+    } else if (platform === 'linux') {
+        platformHTML = `
+            <button class="btn btn-secondary" onclick="openApp('${deepLink}')">
+                <i class="fab fa-linux"></i> Open in VOIP@ Dialer
+            </button>
+            <div class="section-label">Not installed yet?</div>
+            <a href="https://github.com/asm2me/Fusionpbx-Plugins/releases/download/v1.0.0/VOIP@-Dialer-1.0.0-linux-x64.tar.gz"
+               class="btn btn-secondary">
+                <i class="fab fa-linux"></i> Download for Linux
+            </a>`;
+
+    } else {
+        // Unknown — show all download options
+        platformHTML = `
+            <p style="color:var(--gray-500);font-size:.9rem;margin-bottom:12px;">
+                Scan this QR code with your phone to set it up automatically,
+                or choose your platform below.
+            </p>
+            <a href="https://github.com/asm2me/Fusionpbx-Plugins/releases/download/v1.0.0/VOIPAT-Dialer-Setup-2.0.exe"
+               class="btn btn-primary">
+                <i class="fab fa-windows"></i> Download for Windows
+            </a>
+            <a href="https://github.com/asm2me/Fusionpbx-Plugins/releases/download/v1.0.0/VOIP@-Dialer-1.0.0-android.apk"
+               class="btn btn-android">
+                <i class="fab fa-android"></i> Download for Android
+            </a>
+            <a href="https://github.com/asm2me/Fusionpbx-Plugins/releases/download/v1.0.0/VOIP@-Dialer-1.0.0-linux-x64.tar.gz"
+               class="btn btn-secondary">
+                <i class="fab fa-linux"></i> Download for Linux
+            </a>`;
+    }
+
+    document.getElementById('cardBody').innerHTML = `
+        <div class="ext-info">
+            <div class="ext-avatar">${initials}</div>
+            <div class="ext-details">
+                <h3>${escHtml(cfg.display || cfg.ext)}</h3>
+                <p>Extension ${escHtml(cfg.ext)} &bull; ${escHtml(cfg.domain)}</p>
+                <span class="expiry-badge ${expiry.cls}">
+                    <i class="fas fa-clock"></i> ${expiry.text}
+                </span>
+            </div>
+        </div>
+        ${platformHTML}
+        <div class="qr-section">
+            <p><i class="fas fa-qrcode"></i> Scan with your phone</p>
+            <div id="qrcode"></div>
+        </div>`;
+
+    // Generate QR code
+    new QRCode(document.getElementById('qrcode'), {
+        text: thisUrl,
+        width: 160,
+        height: 160,
+        colorDark: '#1a1a2e',
+        colorLight: '#ffffff',
+    });
+}
+
+function openApp(deepLink) {
+    const notice = document.getElementById('openedNotice');
+    if (notice) { notice.style.display = 'flex'; }
+    window.location.href = deepLink;
+}
+
+function escHtml(str) {
+    return String(str)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// ── Main ──────────────────────────────────────────────────────────────────────
+(function () {
+    const params = new URLSearchParams(window.location.search);
+    const token  = params.get('t');
+
+    if (!token) {
+        renderError('🔗', 'No provisioning token',
+            'This link is incomplete. Ask your administrator to resend the setup link.');
+        return;
+    }
+
+    const cfg = decodeJwtPayload(token);
+    if (!cfg || cfg.type !== 'provision') {
+        renderError('⚠️', 'Invalid link',
+            'This provisioning link is not valid. Ask your administrator to generate a new one.');
+        return;
+    }
+
+    const expiry = expiryLabel(cfg.exp);
+    if (!expiry.ok) {
+        renderError('⏰', 'Link expired',
+            'This setup link has expired. Ask your administrator to generate a new one.');
+        return;
+    }
+
+    renderPage(cfg, token);
+})();
+</script>
+</body>
+</html>
