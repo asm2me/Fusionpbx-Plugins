@@ -2,7 +2,7 @@
   "outputDirectory": "website",
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/pbxapi/:path*", "destination": "/api/proxy?path=:path*" },
+    { "source": "/pbxapi/:path*", "destination": "https://mt.voipat.com/pbxapi/:path*" },
     { "source": "/pages/:page",   "destination": "/pages/:page.html" }
   ],
   "headers": [
