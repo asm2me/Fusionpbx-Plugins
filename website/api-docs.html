@@ -138,7 +138,7 @@
             <!-- Authentication -->
             <div class="api-section">
                 <h2><i class="fas fa-key" style="color: var(--primary); margin-right: 0.5rem;"></i> <span data-i18n="api.auth.title">Authentication</span></h2>
-                <p data-i18n="api.auth.desc">All API requests require authentication using a Bearer token. You can generate API keys from your VOIP@ Cloud dashboard under <strong>Settings &gt; API Keys</strong>.</p>
+                <p data-i18n="api.auth.desc">All API requests require authentication using a Bearer token. You can generate API keys from your VOIP@ Cloud dashboard under <strong>Accounts &gt; Users</strong>.</p>
 
                 <div class="auth-box">
                     <p><strong>How to authenticate:</strong></p>
@@ -151,11 +151,12 @@ Authorization: Bearer <span class="string">YOUR_API_KEY</span></div>
                 <h3>Generating API Keys</h3>
                 <ul>
                     <li>Log in to your VOIP@ Cloud dashboard</li>
-                    <li>Navigate to <strong>Settings &gt; API Keys</strong></li>
-                    <li>Click <strong>Generate New Key</strong></li>
-                    <li>Copy and store the key securely -- it will only be shown once</li>
+                    <li>Navigate to <strong>Accounts &gt; Users</strong></li>
+                    <li>Open the user and scroll to <strong>API Key</strong></li>
+                    <li>Click <strong>Generate</strong> to create a key for that user</li>
+                    <li>Copy and store the key securely</li>
                 </ul>
-                <p>API keys are scoped to your domain. Each key has full read/write access to all resources within your domain. You can revoke keys at any time from the dashboard.</p>
+                <p>API keys are scoped to the user's domain. You can regenerate or revoke a key at any time from the user's profile.</p>
             </div>
 
             <!-- Endpoints -->
