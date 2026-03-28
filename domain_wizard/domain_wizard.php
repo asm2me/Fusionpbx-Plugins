@@ -42,7 +42,7 @@
 				if (is_array($array) && @sizeof($array) != 0) {
 					$database = new database;
 					$database->app_name = 'domain_wizard';
-					$database->app_uuid = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890';
+					$database->app_uuid = '6e1d4a7c-2b8f-4e3d-9c5a-1d7b0e6f3a2c';
 					$database->delete($array);
 					unset($array);
 
