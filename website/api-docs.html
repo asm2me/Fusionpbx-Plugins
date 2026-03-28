@@ -948,11 +948,20 @@ X-RateLimit-Reset: 1711036800</div>
       if (resp.ok && data.token) {
         _token = data.token; _apiKey = apiKey;
         showStatus(t('api.tester.status.ok','✓ Authenticated — token valid for 24h'), 'ok');
+        return;
+      }
+      // Token exchange failed — try key directly as X-API-Key (per-user keys from v_users)
+      const verifyResp = await fetch(BASE + '/pbxapi/domains', {
+        headers: {'X-API-Key': apiKey}
+      });
+      if (verifyResp.ok || verifyResp.status === 403) {
+        _token = null; _apiKey = apiKey;
+        showStatus('✓ API key valid — using X-API-Key header', 'ok');
       } else {
-        showStatus('✗ ' + (data.message || data.error || 'Authentication failed'), 'error');
+        showStatus('✗ ' + (data.detail || data.message || data.error || 'Authentication failed'), 'error');
       }
     } catch(e) {
-      showStatus('✗ ' + e.message + ' (CORS / network error)', 'error');
+      showStatus('✗ ' + e.message + ' (network error)', 'error');
     }
   };
 
