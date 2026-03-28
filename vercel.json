@@ -2,7 +2,8 @@
   "outputDirectory": "website",
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/pages/:page", "destination": "/pages/:page.html" }
+    { "source": "/pbxapi/:path*", "destination": "/api/proxy?path=:path*" },
+    { "source": "/pages/:page",   "destination": "/pages/:page.html" }
   ],
   "headers": [
     {
