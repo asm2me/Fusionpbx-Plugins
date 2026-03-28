@@ -1,7 +1,9 @@
 {
   "outputDirectory": "website",
-  "cleanUrls": true,
   "trailingSlash": false,
+  "rewrites": [
+    { "source": "/pages/:page", "destination": "/pages/:page.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
