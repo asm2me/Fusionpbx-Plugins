@@ -10,22 +10,6 @@
 
 if ($domains_processed == 1) {
 
-	//remove stale menu items
-	$database = new database;
-	$known_menu_uuids = [
-		'a1b2c3d4-menu-0001-0001-ef1234567890', //Support Tickets
-	];
-	$placeholders = implode(',', array_map(fn($i) => ":uuid{$i}", array_keys($known_menu_uuids)));
-	$params = [];
-	foreach ($known_menu_uuids as $i => $u) { $params["uuid{$i}"] = $u; }
-	$sql = "DELETE FROM v_menu_items
-	        WHERE menu_item_link IN (
-	            '/app/tickets/tickets.php'
-	        )
-	        AND menu_item_uuid NOT IN ({$placeholders})";
-	$database->execute($sql, $params);
-	unset($sql, $params, $placeholders, $known_menu_uuids);
-
 	//default settings
 	$y = 0;
 

@@ -13,7 +13,7 @@
 	//permission details
 		$y = 0;
 		$apps[$x]['permissions'][$y]['name'] = 'domain_wizard_view';
-		$apps[$x]['permissions'][$y]['menu']['uuid'] = 'b2c3d4e5-f6a7-8901-bcde-f12345678901';
+		$apps[$x]['permissions'][$y]['menu']['uuid'] = '6e1d4a7c-2b8f-4e3d-9c5a-1d7b0e6f3a2d';
 		$apps[$x]['permissions'][$y]['groups'][] = 'superadmin';
 		$y++;
 		$apps[$x]['permissions'][$y]['name'] = 'domain_wizard_add';
