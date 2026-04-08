@@ -4,8 +4,8 @@
 [submodule "WebrtcPhoneCSharp"]
 	path = WebrtcPhoneCSharp
 	url = https://github.com/asm2me/Webrtc-phone-c-.git
-[submodule "web_phone2"]
-	path = web_phone2
+[submodule "webrtc_phone"]
+	path = webrtc_phone
 	url = https://github.com/asm2me/fusionPBX-webrtc-phone.git
 [submodule "WebRtcPhoneDialer-Android"]
 	path = WebRtcPhoneDialer-Android

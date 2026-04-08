@@ -559,7 +559,7 @@ curl https://mt.voipat.com/pbxapi/domains \
                 <div class="endpoint-card">
                     <div class="endpoint-header">
                         <span class="method-badge post">POST</span>
-                        <span class="endpoint-url">/app/web_phone2/crm_webhook_proxy.php</span>
+                        <span class="endpoint-url">/app/webrtc_phone/crm_webhook_proxy.php</span>
                         <span class="endpoint-desc">Called by the phone widget on every call event</span>
                     </div>
                     <div class="endpoint-body">
@@ -625,7 +625,7 @@ https://crm.example.com/contacts/search?phone={caller_id}&agent={extension}</div
                 <div class="endpoint-card">
                     <div class="endpoint-header">
                         <span class="method-badge get">GET</span>
-                        <span class="endpoint-url">/app/web_phone2/webrtc_phone_api.php</span>
+                        <span class="endpoint-url">/app/webrtc_phone/webrtc_phone_api.php</span>
                         <span class="endpoint-desc">Session-authenticated — returns extensions + full CRM config</span>
                     </div>
                     <div class="endpoint-body">
@@ -659,16 +659,16 @@ https://crm.example.com/contacts/search?phone={caller_id}&agent={extension}</div
                 <div class="endpoint-card">
                     <div class="endpoint-header">
                         <span class="method-badge get">GET</span>
-                        <span class="endpoint-url">/app/web_phone2/click_to_dial/click_to_dial_api.php</span>
+                        <span class="endpoint-url">/app/webrtc_phone/click_to_dial/click_to_dial_api.php</span>
                         <span class="endpoint-desc">Token-authenticated — returns extension credentials for embedding</span>
                     </div>
                     <div class="endpoint-body">
                         <div class="code-block"><span class="comment"># Pass token via header (recommended)</span>
 curl -H <span class="string">"X-CTD-Token: YOUR_TOKEN"</span> \
-  https://mt.voipat.com/app/web_phone2/click_to_dial/click_to_dial_api.php
+  https://mt.voipat.com/app/webrtc_phone/click_to_dial/click_to_dial_api.php
 
 <span class="comment"># Or pass token as query parameter</span>
-https://mt.voipat.com/app/web_phone2/click_to_dial/click_to_dial_api.php?token=YOUR_TOKEN</div>
+https://mt.voipat.com/app/webrtc_phone/click_to_dial/click_to_dial_api.php?token=YOUR_TOKEN</div>
                         <div class="response-label" style="margin-top: 0.75rem;">Response 200</div>
                         <div class="code-block">{
   <span class="string">"domain"</span>: <span class="string">"pbx.example.com"</span>,
