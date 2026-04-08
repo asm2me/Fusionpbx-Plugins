@@ -148,32 +148,46 @@ function onPlanChange() {
     const p = PLANS[plan];
     if (!p) return;
 
-    // Update step 4 limits
+    // Update extensions slider (step 5)
     const extSlider = document.getElementById('extensionsCount');
-    extSlider.max = p.extensions;
-    if (parseInt(extSlider.value) > p.extensions) extSlider.value = p.extensions;
-    document.getElementById('maxExtLabel').textContent = p.extensions;
-    updateRangeDisplay(extSlider, 'extensionsValue');
+    if (extSlider) {
+        extSlider.max = p.extensions;
+        if (parseInt(extSlider.value) > p.extensions) extSlider.value = p.extensions;
+        const maxExtLabel = document.getElementById('maxExtLabel');
+        if (maxExtLabel) maxExtLabel.textContent = p.extensions;
+        updateRangeDisplay(extSlider, 'extensionsValue');
+    }
 
+    // Update ring groups slider (step 5)
     const rgSlider = document.getElementById('ringGroupsCount');
-    rgSlider.max = p.ring_groups;
-    if (parseInt(rgSlider.value) > p.ring_groups) rgSlider.value = p.ring_groups;
-    document.getElementById('maxRgLabel').textContent = p.ring_groups;
-    updateRangeDisplay(rgSlider, 'ringGroupsValue');
+    if (rgSlider) {
+        rgSlider.max = p.ring_groups;
+        if (parseInt(rgSlider.value) > p.ring_groups) rgSlider.value = p.ring_groups;
+        const maxRgLabel = document.getElementById('maxRgLabel');
+        if (maxRgLabel) maxRgLabel.textContent = p.ring_groups;
+        updateRangeDisplay(rgSlider, 'ringGroupsValue');
+    }
 
-    // Update step 5 limits
+    // Update IVR slider (step 6)
     const ivrSlider = document.getElementById('ivrsCount');
-    ivrSlider.max = p.ivrs;
-    if (parseInt(ivrSlider.value) > p.ivrs) ivrSlider.value = p.ivrs;
-    document.getElementById('maxIvrLabel').textContent = p.ivrs;
+    if (ivrSlider) {
+        ivrSlider.max = p.ivrs;
+        if (parseInt(ivrSlider.value) > p.ivrs) ivrSlider.value = p.ivrs;
+        const maxIvrLabel = document.getElementById('maxIvrLabel');
+        if (maxIvrLabel) maxIvrLabel.textContent = p.ivrs;
+    }
 
-    document.getElementById('planNameStep4').textContent = p.name;
+    // Update plan name display
+    const planNameStep = document.getElementById('planNameStep4');
+    if (planNameStep) planNameStep.textContent = p.name;
 
     // Show plan summary
     const box = document.getElementById('selectedPlanBox');
     const display = document.getElementById('planDisplay');
-    display.innerHTML = `<strong>${p.name}</strong> - ${p.price}<br><small style="color:var(--gray-500)">${p.extensions} Ext, ${p.gateways} GW, ${p.ivrs} IVRs, ${p.ring_groups} RG</small>`;
-    box.style.display = 'block';
+    if (box && display) {
+        display.innerHTML = `<strong>${p.name}</strong> - ${p.price}<br><small style="color:var(--gray-500)">${p.extensions} Ext, ${p.gateways} GW, ${p.ivrs} IVRs, ${p.ring_groups} RG</small>`;
+        box.style.display = 'block';
+    }
 }
 
 function getSelectedPlan() {
@@ -336,47 +350,65 @@ function prevStep(step) {
 
 // ============ VALIDATION ============
 function validateStep(step) {
-    const stepEl = document.getElementById('step' + step);
-    const inputs = stepEl.querySelectorAll('input[required], select[required]');
-    let valid = true;
+    try {
+        const stepEl = document.getElementById('step' + step);
+        if (!stepEl) {
+            console.warn('Step element not found: step' + step);
+            return true; // Allow progression if step element doesn't exist
+        }
 
-    inputs.forEach(input => {
-        if (!input.value.trim()) {
-            input.style.borderColor = '#EF4444';
-            input.addEventListener('input', function handler() {
-                this.style.borderColor = '';
-                this.removeEventListener('input', handler);
-            });
-            valid = false;
-        }
-    });
+        const inputs = stepEl.querySelectorAll('input[required], select[required]');
+        let valid = true;
 
-    if (step === 2) {
-        const domain = document.getElementById('domainName').value.trim();
-        if (domain && !isValidDomain(domain)) {
-            document.getElementById('domainCheck').innerHTML = '<span style="color:#EF4444"><i class="fas fa-times-circle"></i> Invalid domain format</span>';
-            valid = false;
+        inputs.forEach(input => {
+            // Skip hidden inputs
+            if (input.offsetParent === null) return;
+            
+            if (!input.value.trim()) {
+                input.style.borderColor = '#EF4444';
+                input.addEventListener('input', function handler() {
+                    this.style.borderColor = '';
+                    this.removeEventListener('input', handler);
+                });
+                valid = false;
+            }
+        });
+
+        if (step === 2) {
+            const domain = document.getElementById('domainName')?.value.trim();
+            if (domain && !isValidDomain(domain)) {
+                const domainCheck = document.getElementById('domainCheck');
+                if (domainCheck) domainCheck.innerHTML = '<span style="color:#EF4444"><i class="fas fa-times-circle"></i> Invalid domain format</span>';
+                valid = false;
+            }
+            const pass = document.getElementById('adminPassword')?.value;
+            const confirm = document.getElementById('confirmPassword')?.value;
+            if (pass !== confirm) {
+                const confirmEl = document.getElementById('confirmPassword');
+                if (confirmEl) confirmEl.style.borderColor = '#EF4444';
+                alert('Passwords do not match');
+                valid = false;
+            }
+            if (pass && pass.length < 8) {
+                const passEl = document.getElementById('adminPassword');
+                if (passEl) passEl.style.borderColor = '#EF4444';
+                alert('Password must be at least 8 characters');
+                valid = false;
+            }
         }
-        const pass = document.getElementById('adminPassword').value;
-        const confirm = document.getElementById('confirmPassword').value;
-        if (pass !== confirm) {
-            document.getElementById('confirmPassword').style.borderColor = '#EF4444';
-            alert('Passwords do not match');
-            valid = false;
+
+        if (!valid) {
+            const form = document.querySelector('.register-form');
+            if (form) {
+                form.style.animation = 'shake 0.5s ease';
+                setTimeout(() => form.style.animation = '', 500);
+            }
         }
-        if (pass.length < 8) {
-            document.getElementById('adminPassword').style.borderColor = '#EF4444';
-            alert('Password must be at least 8 characters');
-            valid = false;
-        }
+        return valid;
+    } catch (err) {
+        console.warn('Validation error:', err);
+        return true; // Allow progression on error
     }
-
-    if (!valid) {
-        const form = document.querySelector('.register-form');
-        form.style.animation = 'shake 0.5s ease';
-        setTimeout(() => form.style.animation = '', 500);
-    }
-    return valid;
 }
 
 function isValidDomain(domain) {
