@@ -14,6 +14,19 @@ const PLANS = {
     enterprise: { name: 'Enterprise', price: '$199/mo', extensions: 100, gateways: 10, ivrs: 20, ring_groups: 20 }
 };
 
+// ============ TRANSLATION HELPER ============
+function getCurrentLanguage() {
+    const langItem = document.querySelector('.lang-item.active');
+    return langItem ? langItem.dataset.lang : 'en';
+}
+
+function t(key) {
+    // Get translation for key in current language
+    if (typeof translations === 'undefined' || !translations[key]) return key;
+    const lang = getCurrentLanguage();
+    return translations[key][lang] || translations[key]['en'] || key;
+}
+
 const TOTAL_STEPS = 9;
 let currentStep = 1;
 let installationTypes = {};
@@ -226,46 +239,46 @@ function createIvrCard(index) {
             <h4><i class="fas fa-diagram-project"></i> IVR Menu ${index + 1}</h4>
         </div>
         <div class="form-group">
-            <label>Menu Name</label>
-            <input type="text" class="ivr-name" placeholder="Main Menu" value="IVR Menu ${index + 1}">
+            <label data-i18n-html="reg.label.ivrName">${t('reg.label.ivrName')}</label>
+            <input type="text" class="ivr-name" placeholder="${t('reg.placeholder.ivrName')}" value="IVR Menu ${index + 1}">
         </div>
         <div class="form-group">
-            <label>Greeting Recording</label>
+            <label data-i18n-html="reg.label.greetingRecording">${t('reg.label.greetingRecording')}</label>
             <div class="ivr-recording-upload" onclick="this.querySelector('input').click()">
                 <input type="file" accept="audio/wav,audio/mp3,audio/mpeg,audio/ogg,.wav,.mp3,.ogg"
                     onchange="handleIvrFileSelect(this, ${index})">
                 <i class="fas fa-cloud-arrow-up"></i>
-                <p class="upload-label">Click to upload greeting (WAV, MP3, OGG)</p>
+                <p class="upload-label" data-i18n="reg.hint.greetingRecording">${t('reg.hint.greetingRecording')}</p>
             </div>
         </div>
         <div class="form-group">
-            <label>Menu Options</label>
+            <label data-i18n-html="reg.label.menuOptions">${t('reg.label.menuOptions')}</label>
             <div class="ivr-options-list" id="ivrOptions${index}">
                 <div class="ivr-option-row">
                     <span class="digit-label">1</span>
                     <select class="ivr-opt-action">
-                        <option value="transfer">Transfer to Extension</option>
-                        <option value="ring_group">Transfer to Ring Group</option>
-                        <option value="voicemail">Send to Voicemail</option>
-                        <option value="ivr">Go to IVR Menu</option>
+                        <option value="transfer" data-i18n="reg.option.transferExtension">${t('reg.option.transferExtension')}</option>
+                        <option value="ring_group" data-i18n="reg.option.transferRingGroup">${t('reg.option.transferRingGroup')}</option>
+                        <option value="voicemail" data-i18n="reg.option.sendVoicemail">${t('reg.option.sendVoicemail')}</option>
+                        <option value="ivr" data-i18n="reg.option.goToIvr">${t('reg.option.goToIvr')}</option>
                     </select>
-                    <input type="text" class="ivr-opt-param" placeholder="Extension # or destination">
+                    <input type="text" class="ivr-opt-param" placeholder="${t('reg.placeholder.ivrOptParam')}" data-i18n="reg.placeholder.ivrOptParam">
                     <button type="button" class="remove-btn" onclick="this.closest('.ivr-option-row').remove()"><i class="fas fa-times"></i></button>
                 </div>
                 <div class="ivr-option-row">
                     <span class="digit-label">2</span>
                     <select class="ivr-opt-action">
-                        <option value="transfer">Transfer to Extension</option>
-                        <option value="ring_group">Transfer to Ring Group</option>
-                        <option value="voicemail">Send to Voicemail</option>
-                        <option value="ivr">Go to IVR Menu</option>
+                        <option value="transfer" data-i18n="reg.option.transferExtension">${t('reg.option.transferExtension')}</option>
+                        <option value="ring_group" data-i18n="reg.option.transferRingGroup">${t('reg.option.transferRingGroup')}</option>
+                        <option value="voicemail" data-i18n="reg.option.sendVoicemail">${t('reg.option.sendVoicemail')}</option>
+                        <option value="ivr" data-i18n="reg.option.goToIvr">${t('reg.option.goToIvr')}</option>
                     </select>
-                    <input type="text" class="ivr-opt-param" placeholder="Extension # or destination">
+                    <input type="text" class="ivr-opt-param" placeholder="${t('reg.placeholder.ivrOptParam')}" data-i18n="reg.placeholder.ivrOptParam">
                     <button type="button" class="remove-btn" onclick="this.closest('.ivr-option-row').remove()"><i class="fas fa-times"></i></button>
                 </div>
             </div>
-            <button type="button" class="add-ivr-option" onclick="addIvrOption(${index})">
-                <i class="fas fa-plus"></i> Add Option
+            <button type="button" class="add-ivr-option" onclick="addIvrOption(${index})" data-i18n-html="reg.btn.addIvrOption">
+                ${t('reg.btn.addIvrOption')}
             </button>
         </div>
     `;
@@ -291,12 +304,12 @@ function addIvrOption(ivrIndex) {
     row.innerHTML = `
         <span class="digit-label">${nextDigit}</span>
         <select class="ivr-opt-action">
-            <option value="transfer">Transfer to Extension</option>
-            <option value="ring_group">Transfer to Ring Group</option>
-            <option value="voicemail">Send to Voicemail</option>
-            <option value="ivr">Go to IVR Menu</option>
+            <option value="transfer" data-i18n="reg.option.transferExtension">${t('reg.option.transferExtension')}</option>
+            <option value="ring_group" data-i18n="reg.option.transferRingGroup">${t('reg.option.transferRingGroup')}</option>
+            <option value="voicemail" data-i18n="reg.option.sendVoicemail">${t('reg.option.sendVoicemail')}</option>
+            <option value="ivr" data-i18n="reg.option.goToIvr">${t('reg.option.goToIvr')}</option>
         </select>
-        <input type="text" class="ivr-opt-param" placeholder="Extension # or destination">
+        <input type="text" class="ivr-opt-param" placeholder="${t('reg.placeholder.ivrOptParam')}" data-i18n="reg.placeholder.ivrOptParam">
         <button type="button" class="remove-btn" onclick="this.closest('.ivr-option-row').remove()"><i class="fas fa-times"></i></button>
     `;
     list.appendChild(row);

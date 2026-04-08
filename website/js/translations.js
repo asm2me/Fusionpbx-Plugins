@@ -1386,6 +1386,54 @@ const translations = {
     en: "<i class=\"fas fa-hashtag\"></i> Number of IVR Menus", ar: "<i class=\"fas fa-hashtag\"></i> عدد قوائم الرد الآلي", es: "<i class=\"fas fa-hashtag\"></i> Número de Menús IVR", fr: "<i class=\"fas fa-hashtag\"></i> Nombre de Menus SVI",
     de: "<i class=\"fas fa-hashtag\"></i> Anzahl der IVR-Menüs", pt: "<i class=\"fas fa-hashtag\"></i> Número de Menus URA", zh: "<i class=\"fas fa-hashtag\"></i> IVR菜单数量", ja: "<i class=\"fas fa-hashtag\"></i> IVRメニュー数", tr: "<i class=\"fas fa-hashtag\"></i> IVR Menü Sayısı", ru: "<i class=\"fas fa-hashtag\"></i> Количество меню IVR"
   },
+  "reg.hint.maxIvrs": {
+    en: "Max allowed: <strong id=\"maxIvrLabel\">10</strong>", ar: "الحد الأقصى: <strong id=\"maxIvrLabel\">10</strong>", es: "Máximo permitido: <strong id=\"maxIvrLabel\">10</strong>", fr: "Maximum autorisé : <strong id=\"maxIvrLabel\">10</strong>",
+    de: "Maximal erlaubt: <strong id=\"maxIvrLabel\">10</strong>", pt: "Máximo permitido: <strong id=\"maxIvrLabel\">10</strong>", zh: "最大允许数: <strong id=\"maxIvrLabel\">10</strong>", ja: "最大許可数: <strong id=\"maxIvrLabel\">10</strong>", tr: "İzin verilen maksimum: <strong id=\"maxIvrLabel\">10</strong>", ru: "Максимум: <strong id=\"maxIvrLabel\">10</strong>"
+  },
+  "reg.label.ivrName": {
+    en: "<i class=\"fas fa-tag\"></i> Menu Name", ar: "<i class=\"fas fa-tag\"></i> اسم القائمة", es: "<i class=\"fas fa-tag\"></i> Nombre del Menú", fr: "<i class=\"fas fa-tag\"></i> Nom du Menu",
+    de: "<i class=\"fas fa-tag\"></i> Menüname", pt: "<i class=\"fas fa-tag\"></i> Nome do Menu", zh: "<i class=\"fas fa-tag\"></i> 菜单名称", ja: "<i class=\"fas fa-tag\"></i> メニュー名", tr: "<i class=\"fas fa-tag\"></i> Menü Adı", ru: "<i class=\"fas fa-tag\"></i> Название меню"
+  },
+  "reg.placeholder.ivrName": {
+    en: "Main Menu", ar: "القائمة الرئيسية", es: "Menú Principal", fr: "Menu Principal",
+    de: "Hauptmenü", pt: "Menu Principal", zh: "主菜单", ja: "メインメニュー", tr: "Ana Menü", ru: "Главное меню"
+  },
+  "reg.label.greetingRecording": {
+    en: "<i class=\"fas fa-volume-up\"></i> Greeting Recording", ar: "<i class=\"fas fa-volume-up\"></i> تسجيل الترحيب", es: "<i class=\"fas fa-volume-up\"></i> Grabación de Saludo", fr: "<i class=\"fas fa-volume-up\"></i> Enregistrement d'Accueil",
+    de: "<i class=\"fas fa-volume-up\"></i> Begrüßungsaufzeichnung", pt: "<i class=\"fas fa-volume-up\"></i> Gravação de Saudação", zh: "<i class=\"fas fa-volume-up\"></i> 问候录音", ja: "<i class=\"fas fa-volume-up\"></i> グリーティング録音", tr: "<i class=\"fas fa-volume-up\"></i> Selamlaşma Kaydı", ru: "<i class=\"fas fa-volume-up\"></i> Приветственная запись"
+  },
+  "reg.hint.greetingRecording": {
+    en: "Click to upload greeting (WAV, MP3, OGG)", ar: "انقر لتحميل الترحيب (WAV, MP3, OGG)", es: "Haga clic para cargar saludo (WAV, MP3, OGG)", fr: "Cliquez pour télécharger l'accueil (WAV, MP3, OGG)",
+    de: "Klicken Sie, um die Begrüßung hochzuladen (WAV, MP3, OGG)", pt: "Clique para carregar saudação (WAV, MP3, OGG)", zh: "单击上传问候（WAV、MP3、OGG）", ja: "クリックしてグリーティングをアップロード（WAV、MP3、OGG）", tr: "Selamlaşmayı yüklemek için tıklayın (WAV, MP3, OGG)", ru: "Нажмите для загрузки приветствия (WAV, MP3, OGG)"
+  },
+  "reg.label.menuOptions": {
+    en: "<i class=\"fas fa-list\"></i> Menu Options", ar: "<i class=\"fas fa-list\"></i> خيارات القائمة", es: "<i class=\"fas fa-list\"></i> Opciones del Menú", fr: "<i class=\"fas fa-list\"></i> Options du Menu",
+    de: "<i class=\"fas fa-list\"></i> Menüoptionen", pt: "<i class=\"fas fa-list\"></i> Opções do Menu", zh: "<i class=\"fas fa-list\"></i> 菜单选项", ja: "<i class=\"fas fa-list\"></i> メニューオプション", tr: "<i class=\"fas fa-list\"></i> Menü Seçenekleri", ru: "<i class=\"fas fa-list\"></i> Параметры меню"
+  },
+  "reg.option.transferExtension": {
+    en: "Transfer to Extension", ar: "نقل إلى تحويلة", es: "Transferir a Extensión", fr: "Transférer vers Poste",
+    de: "Weiterleiten zu Nebenstelle", pt: "Transferir para Ramal", zh: "转移到分机", ja: "内線に転送", tr: "Dahili'ye Aktar", ru: "Перевод на добавочный"
+  },
+  "reg.option.transferRingGroup": {
+    en: "Transfer to Ring Group", ar: "نقل إلى مجموعة رنين", es: "Transferir a Grupo de Timbrado", fr: "Transférer vers Groupe d'Appels",
+    de: "Weiterleiten zu Rufgruppe", pt: "Transferir para Grupo de Toque", zh: "转移到振铃组", ja: "リンググループに転送", tr: "Çalma Grubuna Aktar", ru: "Перевод в группу вызова"
+  },
+  "reg.option.sendVoicemail": {
+    en: "Send to Voicemail", ar: "إرسال إلى بريد صوتي", es: "Enviar a Buzón de Voz", fr: "Envoyer vers Messagerie",
+    de: "Zu Voicemail senden", pt: "Enviar para Caixa de Voz", zh: "发送到语音信箱", ja: "ボイスメールに送信", tr: "Sesli Postaya Gönder", ru: "Отправить на голосовую почту"
+  },
+  "reg.option.goToIvr": {
+    en: "Go to IVR Menu", ar: "الذهاب إلى قائمة IVR", es: "Ir a Menú IVR", fr: "Aller au Menu SVI",
+    de: "Zu IVR-Menü gehen", pt: "Ir para Menu URA", zh: "转到IVR菜单", ja: "IVRメニューに移動", tr: "IVR Menüsüne Git", ru: "Перейти в меню IVR"
+  },
+  "reg.placeholder.ivrOptParam": {
+    en: "Extension # or destination", ar: "رقم التحويلة أو الوجهة", es: "Número de Extensión o destino", fr: "Numéro de Poste ou destination",
+    de: "Nebenstellennummer oder Ziel", pt: "Número do Ramal ou destino", zh: "分机号或目标", ja: "内線番号または転送先", tr: "Dahili # veya hedef", ru: "Номер добавочного или назначение"
+  },
+  "reg.btn.addIvrOption": {
+    en: "<i class=\"fas fa-plus\"></i> Add Option", ar: "<i class=\"fas fa-plus\"></i> إضافة خيار", es: "<i class=\"fas fa-plus\"></i> Agregar Opción", fr: "<i class=\"fas fa-plus\"></i> Ajouter Option",
+    de: "<i class=\"fas fa-plus\"></i> Option Hinzufügen", pt: "<i class=\"fas fa-plus\"></i> Adicionar Opção", zh: "<i class=\"fas fa-plus\"></i> 添加选项", ja: "<i class=\"fas fa-plus\"></i> オプションを追加", tr: "<i class=\"fas fa-plus\"></i> Seçenek Ekle", ru: "<i class=\"fas fa-plus\"></i> Добавить опцию"
+  },
 
   // Step 6: Gateway Configuration
   "reg.step6.title": {
