@@ -10,6 +10,14 @@
 
 if ($domains_processed == 1) {
 
+	//remove stale menu items (wrong UUIDs from previous installs, including the invalid 'menu' UUID)
+	$database = new database;
+	$sql = "DELETE FROM v_menu_items
+	        WHERE menu_item_link = '/app/tickets/tickets.php'
+	          AND menu_item_uuid != 'a1b2c3d4-a001-0001-0001-ef1234567890'";
+	$database->execute($sql);
+	unset($sql);
+
 	//default settings
 	$y = 0;
 
