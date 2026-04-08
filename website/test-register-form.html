@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FusionPBX Gateway Registration - Test Page</title>
+    <link rel="stylesheet" href="css/register.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .test-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 900px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .test-header h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .test-header p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .test-info {
+            background: #e8f4f8;
+            border-left: 4px solid #0288d1;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #01579b;
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+        }
+        
+        .test-section h2 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .form-section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-group input[type="checkbox"],
+        .form-group input[type="radio"] {
+            margin-right: 8px;
+            cursor: pointer;
+        }
+        
+        .form-hint {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .checkbox-group,
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .checkbox-label,
+        .radio-label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .gateway-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .gateway-card {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            background: white;
+        }
+        
+        .gateway-card input[type="radio"] {
+            display: none;
+        }
+        
+        .gateway-card input[type="radio"]:checked + .gateway-info {
+            color: #667eea;
+        }
+        
+        .gateway-card input[type="radio"]:checked + .gateway-info::before {
+            color: #667eea;
+        }
+        
+        .gateway-card:has(input[type="radio"]:checked) {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        
+        .gateway-info {
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .gateway-info::before {
+            content: "◉ ";
+            margin-right: 5px;
+            font-size: 18px;
+            color: #ddd;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .success-msg {
+            background: #c8e6c9;
+            border-left: 4px solid #4caf50;
+            color: #2e7d32;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+        
+        .error-msg {
+            background: #ffcdd2;
+            border-left: 4px solid #f44336;
+            color: #c62828;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #ddd;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #ccc;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .verification-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 12px;
+            background: #c8e6c9;
+            color: #2e7d32;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .test-results {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .test-result-item {
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .test-result-item.pass {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+        
+        .test-result-item.fail {
+            background: #ffcdd2;
+            color: #c62828;
+        }
+        
+        .icon {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1><i class="fas fa-network-wired"></i> Gateway Registration System</h1>
+            <p>Complete Gateway Configuration & Provisioning Test</p>
+        </div>
+        
+        <div class="test-info">
+            <i class="fas fa-info-circle"></i> This is a test page to verify the complete gateway registration and provisioning system. 
+            Test all features and verify form validation works correctly.
+        </div>
+        
+        <form id="registrationForm" method="POST" action="/api/register-gateway">
+            <!-- Step 1: Account Information -->
+            <div class="test-section">
+                <h2><i class="fas fa-user"></i> Step 1: Account Information</h2>
+                
+                <div class="form-section">
+                    <div class="form-group">
+                        <label for="companyName"><i class="fas fa-building"></i> Company Name *</label>
+                        <input type="text" id="companyName" name="company_name" required placeholder="Your Company Name">
+                        <span class="form-hint">Enter your organization's legal name</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contactEmail"><i class="fas fa-envelope"></i> Contact Email *</label>
+                        <input type="email" id="contactEmail" name="contact_email" required placeholder="contact@company.com">
+                        <span class="form-hint">Primary contact email for notifications</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contactPhone"><i class="fas fa-phone"></i> Contact Phone</label>
+                        <input type="text" id="contactPhone" name="contact_phone" placeholder="+1 (555) 123-4567">
+                        <span class="form-hint">Phone number with country code (optional)</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-lock"></i> Password *</label>
+                        <input type="password" id="password" name="password" required placeholder="Enter a strong password">
+                        <span class="form-hint">Minimum 8 characters with uppercase, lowercase, and numbers</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 2: Gateway Selection -->
+            <div class="test-section">
+                <h2><i class="fas fa-server"></i> Step 2: Gateway Selection</h2>
+                
+                <div class="form-section">
+                    <div class="form-group">
+                        <label><i class="fas fa-microchip"></i> Select Your Gateway Type *</label>
+                        <div class="gateway-selection">
+                            <label class="gateway-card">
+                                <input type="radio" name="gateway_type" value="dinstar" onchange="updateGatewayForm()">
+                                <div class="gateway-info">Dinstar</div>
+                            </label>
+                            <label class="gateway-card">
+                                <input type="radio" name="gateway_type" value="yeastar" onchange="updateGatewayForm()">
+                                <div class="gateway-info">Yeastar</div>
+                            </label>
+                            <label class="gateway-card">
+                                <input type="radio" name="gateway_type" value="goip" onchange="updateGatewayForm()">
+                                <div class="gateway-info">GOIP</div>
+                            </label>
+                            <label class="gateway-card">
+                                <input type="radio" name="gateway_type" value="grandstream" onchange="updateGatewayForm()">
+                                <div class="gateway-info">Grandstream</div>
+                            </label>
+                            <label class="gateway-card">
+                                <input type="radio" name="gateway_type" value="cisco" onchange="updateGatewayForm()">
+                                <div class="gateway-info">Cisco</div>
+                            </label>
+                            <label class="gateway-card">
+                                <input type="radio" name="gateway_type" value="other" onchange="updateGatewayForm()">
+                                <div class="gateway-info">Other</div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 3: Gateway Configuration -->
+            <div id="gatewayProvisioningSection" class="test-section hidden">
+                <h2><i class="fas fa-cogs"></i> Step 3: Gateway Configuration</h2>
+                
+                <div class="form-section">
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="configureGateway" onchange="toggleGatewayForm()">
+                            <span><i class="fas fa-check-square"></i> Configure Gateway Settings</span>
+                        </label>
+                    </div>
+                    
+                    <div id="gatewayForm" style="display: none; margin-top: 20px;">
+                        <div class="form-group">
+                            <label for="gwName"><i class="fas fa-tag"></i> Gateway Name *</label>
+                            <input type="text" id="gwName" name="gw_name" required placeholder="Gateway display name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="gwProxy"><i class="fas fa-globe"></i> SIP Proxy *</label>
+                            <input type="text" id="gwProxy" name="gw_proxy" required placeholder="sip.provider.com">
+                            <span class="form-hint">SIP proxy server address</span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="gwRegister"><i class="fas fa-shield-alt"></i> Registration Required</label>
+                            <select id="gwRegister" name="gw_register" class="formfld">
+                                <option value="true">Yes - Register with server</option>
+                                <option value="false">No - Direct connection</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-sliders-h"></i> Additional Gateway Settings</label>
+                            <div id="dynamicProvisioningOptions"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 4: Provisioning Configuration -->
+            <div id="provisioningSection" class="test-section hidden">
+                <h2><i class="fas fa-cloud-upload-alt"></i> Step 4: Automatic Provisioning</h2>
+                
+                <div class="form-section">
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="enableProvisioning" onchange="toggleProvisioningOptions()">
+                            <span><i class="fas fa-check-square"></i> Enable Automatic Provisioning</span>
+                        </label>
+                    </div>
+                    <span class="form-hint">Automatically provision your gateway device with optimal settings</span>
+                    
+                    <div id="provisioningOptions" style="display: none; margin-top: 20px;">
+                        <div class="form-group">
+                            <label for="provisioningUrl"><i class="fas fa-link"></i> Provisioning Server URL</label>
+                            <input type="text" id="provisioningUrl" name="provisioning_url" placeholder="https://pbx.example.com/provisioning">
+                            <span class="form-hint">Auto-populated based on gateway type</span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-cog"></i> Provisioning Method</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="provisioning_method" value="http" checked>
+                                    HTTP (faster)
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="provisioning_method" value="https">
+                                    HTTPS (secure)
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="provisioning_method" value="tftp">
+                                    TFTP (compatibility)
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="provisioningFrequency"><i class="fas fa-clock"></i> Check Interval (hours)</label>
+                            <select id="provisioningFrequency" name="provisioning_frequency" class="formfld">
+                                <option value="1">Every hour</option>
+                                <option value="4" selected>Every 4 hours</option>
+                                <option value="12">Every 12 hours</option>
+                                <option value="24">Daily</option>
+                                <option value="168">Weekly</option>
+                            </select>
+                            <span class="form-hint">How often the gateway checks for updates</span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-bell"></i> Provisioning Notifications</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="notify_on_success" checked>
+                                    Notify on successful provisioning
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="notify_on_failure" checked>
+                                    Notify on provisioning failures
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="notify_on_update" checked>
+                                    Notify when updates are available
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 5: Review and Submit -->
+            <div class="test-section">
+                <h2><i class="fas fa-list-check"></i> Step 5: Review & Submit</h2>
+                
+                <div class="form-section">
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="agreeTerms" required>
+                            <span>I agree to the <a href="#" style="color: #667eea;">Terms of Service</a> and <a href="#" style="color: #667eea;">Privacy Policy</a> *</span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="allowContact">
+                            <span>Allow FusionPBX to contact me with updates and offers</span>
+                        </label>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-check"></i> Register Gateway
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                            <i class="fas fa-redo"></i> Clear Form
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        
+        <!-- Test Results Section -->
+        <div class="test-section">
+            <h2><i class="fas fa-vial"></i> Test Results</h2>
+            <div id="testResults" class="test-results"></div>
+        </div>
+    </div>
+    
+    <script src="js/register.js"></script>
+    <script>
+        // Test page specific functionality
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const companyName = document.getElementById('companyName').value;
+            const contactEmail = document.getElementById('contactEmail').value;
+            const gatewayType = document.querySelector('input[name="gateway_type"]:checked')?.value;
+            const gwName = document.getElementById('gwName').value;
+            const gwProxy = document.getElementById('gwProxy').value;
+            
+            // Run validation tests
+            runTests(companyName, contactEmail, gatewayType, gwName, gwProxy);
+        });
+        
+        function runTests(companyName, contactEmail, gatewayType, gwName, gwProxy) {
+            const results = [];
+            
+            // Test 1: Company name validation
+            if (companyName && companyName.length >= 3) {
+                results.push({
+                    name: 'Company Name Validation',
+                    status: 'pass',
+                    message: `Valid company name: "${companyName}"`
+                });
+            } else {
+                results.push({
+                    name: 'Company Name Validation',
+                    status: 'fail',
+                    message: 'Company name is too short or empty'
+                });
+            }
+            
+            // Test 2: Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (emailRegex.test(contactEmail)) {
+                results.push({
+                    name: 'Email Validation',
+                    status: 'pass',
+                    message: `Valid email: ${contactEmail}`
+                });
+            } else {
+                results.push({
+                    name: 'Email Validation',
+                    status: 'fail',
+                    message: 'Invalid email format'
+                });
+            }
+            
+            // Test 3: Gateway type selection
+            if (gatewayType) {
+                results.push({
+                    name: 'Gateway Type Selection',
+                    status: 'pass',
+                    message: `Selected gateway type: ${gatewayType}`
+                });
+            } else {
+                results.push({
+                    name: 'Gateway Type Selection',
+                    status: 'fail',
+                    message: 'No gateway type selected'
+                });
+            }
+            
+            // Test 4: Gateway configuration
+            if (gwName && gwProxy) {
+                results.push({
+                    name: 'Gateway Configuration',
+                    status: 'pass',
+                    message: `Gateway "${gwName}" configured with proxy: ${gwProxy}`
+                });
+            } else {
+                results.push({
+                    name: 'Gateway Configuration',
+                    status: 'fail',
+                    message: 'Gateway configuration incomplete'
+                });
+            }
+            
+            // Test 5: Form validation
+            if (document.getElementById('agreeTerms').checked) {
+                results.push({
+                    name: 'Terms Agreement',
+                    status: 'pass',
+                    message: 'User agreed to terms'
+                });
+            } else {
+                results.push({
+                    name: 'Terms Agreement',
+                    status: 'fail',
+                    message: 'Terms agreement required'
+                });
+            }
+            
+            displayTestResults(results);
+        }
+        
+        function displayTestResults(results) {
+            const resultsDiv = document.getElementById('testResults');
+            resultsDiv.innerHTML = results.map(result => `
+                <div class="test-result-item ${result.status}">
+                    <span class="icon">${result.status === 'pass' ? '✓' : '✗'}</span>
+                    <span><strong>${result.name}:</strong> ${result.message}</span>
+                </div>
+            `).join('');
+            
+            const allPassed = results.every(r => r.status === 'pass');
+            if (allPassed) {
+                resultsDiv.innerHTML += `
+                    <div class="test-result-item pass" style="margin-top: 15px;">
+                        <span class="icon">✓</span>
+                        <span><strong>All tests passed!</strong> Gateway registration ready to submit.</span>
+                    </div>
+                `;
+            }
+        }
+        
+        // Initialize by showing provisioning section when form first loads
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('provisioningSection').style.display = 'block';
+        });
+    </script>
+</body>
+</html>

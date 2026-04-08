@@ -551,6 +551,11 @@ function toggleGatewayForm() {
     document.getElementById('gatewayForm').style.display = checked ? 'block' : 'none';
 }
 
+function toggleProvisioningOptions() {
+    const checked = document.getElementById('enableProvisioning').checked;
+    document.getElementById('provisioningOptions').style.display = checked ? 'block' : 'none';
+}
+
 function updateGatewayForm() {
     const gatewayType = document.querySelector('input[name="gateway_type"]:checked')?.value;
     
@@ -561,32 +566,118 @@ function updateGatewayForm() {
         dinstar: {
             gwName: 'Dinstar Gateway',
             gwProxy: 'dinstar.sip.provider.com',
-            gwRegister: 'true'
+            gwRegister: 'true',
+            provisioningUrl: 'https://your-pbx.com/provisioning/dinstar',
+            provisioningFields: `
+                <div class="form-group">
+                    <label><i class="fas fa-key"></i> Dinstar Device IP</label>
+                    <input type="text" id="dinstarIp" placeholder="192.168.1.100">
+                    <span class="form-hint">IP address of your Dinstar gateway device</span>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-hashtag"></i> Number of Channels</label>
+                    <select id="dinstarChannels" class="formfld">
+                        <option value="1">1 Channel</option>
+                        <option value="2">2 Channels</option>
+                        <option value="4" selected>4 Channels</option>
+                        <option value="8">8 Channels</option>
+                    </select>
+                </div>
+            `
         },
         yeastar: {
             gwName: 'Yeastar S-Series',
             gwProxy: 'yeastar.sip.provider.com',
-            gwRegister: 'true'
+            gwRegister: 'true',
+            provisioningUrl: 'https://your-pbx.com/provisioning/yeastar',
+            provisioningFields: `
+                <div class="form-group">
+                    <label><i class="fas fa-key"></i> Yeastar Device IP</label>
+                    <input type="text" id="yeastarIp" placeholder="192.168.1.100">
+                    <span class="form-hint">IP address of your Yeastar S-Series gateway</span>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-hashtag"></i> Model</label>
+                    <select id="yeastarModel" class="formfld">
+                        <option value="S100">S100 (1 Gateway, 1 FXO, 4 FXS)</option>
+                        <option value="S300">S300 (3 Gateways, 3 FXO, 12 FXS)</option>
+                        <option value="S500" selected>S500 (5 Gateways, 5 FXO, 20 FXS)</option>
+                    </select>
+                </div>
+            `
         },
         goip: {
             gwName: 'DBL GOIP Gateway',
             gwProxy: 'goip.sip.provider.com',
-            gwRegister: 'true'
+            gwRegister: 'true',
+            provisioningUrl: 'https://your-pbx.com/provisioning/goip',
+            provisioningFields: `
+                <div class="form-group">
+                    <label><i class="fas fa-key"></i> GOIP Device IP</label>
+                    <input type="text" id="goipIp" placeholder="192.168.1.100">
+                    <span class="form-hint">IP address of your GOIP gateway</span>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-mobile"></i> SIM Card Slots</label>
+                    <select id="goipSlots" class="formfld">
+                        <option value="1">1 Slot</option>
+                        <option value="2">2 Slots</option>
+                        <option value="4" selected>4 Slots</option>
+                        <option value="8">8 Slots</option>
+                    </select>
+                </div>
+            `
         },
         grandstream: {
             gwName: 'Grandstream Gateway',
             gwProxy: 'grandstream.sip.provider.com',
-            gwRegister: 'true'
+            gwRegister: 'true',
+            provisioningUrl: 'https://your-pbx.com/provisioning/grandstream',
+            provisioningFields: `
+                <div class="form-group">
+                    <label><i class="fas fa-key"></i> Grandstream Device IP</label>
+                    <input type="text" id="grandstreamIp" placeholder="192.168.1.100">
+                    <span class="form-hint">IP address of your Grandstream gateway</span>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-network-wired"></i> Provisioning Method</label>
+                    <select id="grandstreamMethod" class="formfld">
+                        <option value="http" selected>HTTP</option>
+                        <option value="https">HTTPS</option>
+                        <option value="tftp">TFTP</option>
+                    </select>
+                </div>
+            `
         },
         cisco: {
             gwName: 'Cisco Gateway',
             gwProxy: 'cisco.sip.provider.com',
-            gwRegister: 'true'
+            gwRegister: 'true',
+            provisioningUrl: 'https://your-pbx.com/provisioning/cisco',
+            provisioningFields: `
+                <div class="form-group">
+                    <label><i class="fas fa-key"></i> Cisco Device IP</label>
+                    <input type="text" id="ciscoIp" placeholder="192.168.1.100">
+                    <span class="form-hint">IP address of your Cisco gateway</span>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-cog"></i> Configuration Template</label>
+                    <select id="ciscoTemplate" class="formfld">
+                        <option value="basic" selected>Basic Configuration</option>
+                        <option value="advanced">Advanced Configuration</option>
+                        <option value="ha">High Availability</option>
+                    </select>
+                </div>
+            `
         },
         other: {
             gwName: '',
             gwProxy: '',
-            gwRegister: 'true'
+            gwRegister: 'true',
+            provisioningUrl: '',
+            provisioningFields: `
+                <div class="form-hint"><i class="fas fa-info-circle"></i> Configure gateway-specific settings manually or contact your provider for provisioning details.</div>
+            `
         }
     };
     
@@ -596,10 +687,24 @@ function updateGatewayForm() {
     const gwNameEl = document.getElementById('gwName');
     const gwProxyEl = document.getElementById('gwProxy');
     const gwRegisterEl = document.getElementById('gwRegister');
+    const provisioningUrlEl = document.getElementById('provisioningUrl');
     
     if (gwNameEl && config.gwName) gwNameEl.value = config.gwName;
     if (gwProxyEl && config.gwProxy) gwProxyEl.placeholder = config.gwProxy;
     if (gwRegisterEl) gwRegisterEl.value = config.gwRegister;
+    if (provisioningUrlEl && config.provisioningUrl) provisioningUrlEl.value = config.provisioningUrl;
+    
+    // Update dynamic provisioning options
+    const dynamicOptionsEl = document.getElementById('dynamicProvisioningOptions');
+    if (dynamicOptionsEl && config.provisioningFields) {
+        dynamicOptionsEl.innerHTML = config.provisioningFields;
+    }
+    
+    // Show provisioning section for known types
+    const provisioningSection = document.getElementById('gatewayProvisioningSection');
+    if (provisioningSection) {
+        provisioningSection.style.display = 'block';
+    }
     
     // Auto-enable gateway configuration for known types
     if (gatewayType !== 'other') {
