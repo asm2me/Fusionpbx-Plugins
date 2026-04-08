@@ -313,7 +313,7 @@ function nextStep(step) {
 
     currentStep = step;
 
-    if (step === 7) buildReviewTable();
+    if (step === 9) buildReviewTable();
     updateConfigSummary();
 }
 
