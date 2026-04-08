@@ -151,6 +151,7 @@
 
                         <div class="form-group">
                             <label data-i18n-html="reg.label.extensionsCount"><i class="fas fa-hashtag"></i> Number of Extensions</label>
+                            <p class="form-description" data-i18n="reg.desc.extensions">Extensions are individual phone numbers assigned to each user or device on your PBX. Each extension can have its own voicemail, call forwarding, and presence settings. Users register their phones or softphones using their extension number to make and receive calls.</p>
                             <div class="range-field">
                                 <input type="range" id="extensionsCount" name="extensions_count" min="1" max="50" value="10" oninput="updateRangeDisplay(this, 'extensionsValue')">
                                 <span class="range-value" id="extensionsValue">10</span>
@@ -166,6 +167,7 @@
 
                         <div class="form-group">
                             <label data-i18n-html="reg.label.ringGroupsCount"><i class="fas fa-users-rectangle"></i> Number of Ring Groups</label>
+                            <p class="form-description" data-i18n="reg.desc.ringGroups">Ring groups allow you to distribute incoming calls to multiple extensions simultaneously or in sequence. For example, you can create a support team ring group where calls ring on all support agent extensions at the same time, or ring them one by one until someone picks up.</p>
                             <div class="range-field">
                                 <input type="range" id="ringGroupsCount" name="ring_groups_count" min="0" max="10" value="1" oninput="updateRangeDisplay(this, 'ringGroupsValue')">
                                 <span class="range-value" id="ringGroupsValue">1</span>
