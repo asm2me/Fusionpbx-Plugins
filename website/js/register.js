@@ -310,10 +310,19 @@ function toggleGatewayForm() {
 
 // ============ STEP NAVIGATION ============
 function nextStep(step) {
-    if (!validateStep(currentStep)) return;
+    console.log('nextStep called with step:', step, 'currentStep is:', currentStep);
+    
+    if (!validateStep(currentStep)) {
+        console.log('Validation failed for step', currentStep);
+        return;
+    }
+    
+    console.log('Validation passed, proceeding to step', step);
 
     const indicators = document.querySelectorAll('.form-step-indicator');
     const lines = document.querySelectorAll('.step-line');
+    
+    console.log('Found', indicators.length, 'indicators and', lines.length, 'lines');
 
     indicators[currentStep - 1].classList.remove('active');
     indicators[currentStep - 1].classList.add('completed');
@@ -326,6 +335,7 @@ function nextStep(step) {
     indicators[step - 1].classList.add('active');
 
     currentStep = step;
+    console.log('Moved to step', step);
 
     if (step === 9) buildReviewTable();
     updateConfigSummary();
@@ -351,6 +361,7 @@ function prevStep(step) {
 // ============ VALIDATION ============
 function validateStep(step) {
     try {
+        console.log('Validating step', step);
         const stepEl = document.getElementById('step' + step);
         if (!stepEl) {
             console.warn('Step element not found: step' + step);
@@ -358,25 +369,35 @@ function validateStep(step) {
         }
 
         const inputs = stepEl.querySelectorAll('input[required], select[required]');
+        console.log('Found', inputs.length, 'required inputs in step', step);
         let valid = true;
 
-        inputs.forEach(input => {
+        inputs.forEach((input, idx) => {
             // Skip hidden inputs
-            if (input.offsetParent === null) return;
+            if (input.offsetParent === null) {
+                console.log('  Input', idx, 'is hidden, skipping');
+                return;
+            }
+            
+            console.log('  Input', idx, ':', input.id, '=', input.value, 'type:', input.type);
             
             if (!input.value.trim()) {
+                console.log('    -> EMPTY, marking invalid');
                 input.style.borderColor = '#EF4444';
                 input.addEventListener('input', function handler() {
                     this.style.borderColor = '';
                     this.removeEventListener('input', handler);
                 });
                 valid = false;
+            } else {
+                console.log('    -> Has value, OK');
             }
         });
 
         if (step === 2) {
             const domain = document.getElementById('domainName')?.value.trim();
             if (domain && !isValidDomain(domain)) {
+                console.log('Domain validation failed:', domain);
                 const domainCheck = document.getElementById('domainCheck');
                 if (domainCheck) domainCheck.innerHTML = '<span style="color:#EF4444"><i class="fas fa-times-circle"></i> Invalid domain format</span>';
                 valid = false;
@@ -384,12 +405,14 @@ function validateStep(step) {
             const pass = document.getElementById('adminPassword')?.value;
             const confirm = document.getElementById('confirmPassword')?.value;
             if (pass !== confirm) {
+                console.log('Password mismatch');
                 const confirmEl = document.getElementById('confirmPassword');
                 if (confirmEl) confirmEl.style.borderColor = '#EF4444';
                 alert('Passwords do not match');
                 valid = false;
             }
             if (pass && pass.length < 8) {
+                console.log('Password too short');
                 const passEl = document.getElementById('adminPassword');
                 if (passEl) passEl.style.borderColor = '#EF4444';
                 alert('Password must be at least 8 characters');
@@ -397,6 +420,8 @@ function validateStep(step) {
             }
         }
 
+        console.log('Step', step, 'validation result:', valid);
+        
         if (!valid) {
             const form = document.querySelector('.register-form');
             if (form) {
@@ -406,7 +431,7 @@ function validateStep(step) {
         }
         return valid;
     } catch (err) {
-        console.warn('Validation error:', err);
+        console.error('Validation error:', err);
         return true; // Allow progression on error
     }
 }
