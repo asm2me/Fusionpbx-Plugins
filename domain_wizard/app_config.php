@@ -27,7 +27,7 @@
 
 	//default settings
 		$y = 0;
-		$apps[$x]['default_settings'][$y]['default_setting_uuid'] = 'c3d4e5f6-a7b8-9012-cdef-123456789012';
+		$apps[$x]['default_settings'][$y]['default_setting_uuid'] = '6e1d4a7c-0001-0001-0001-1d7b0e6f3a2c';
 		$apps[$x]['default_settings'][$y]['default_setting_category'] = 'domain_wizard';
 		$apps[$x]['default_settings'][$y]['default_setting_subcategory'] = 'max_extensions';
 		$apps[$x]['default_settings'][$y]['default_setting_name'] = 'numeric';
