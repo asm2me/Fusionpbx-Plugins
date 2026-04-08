@@ -115,26 +115,31 @@
                         <div class="step-line"></div>
                         <div class="form-step-indicator" data-step="3">
                             <span class="step-dot">3</span>
-                            <span class="step-text" data-i18n="reg.step.plan">Plan</span>
+                            <span class="step-text">Installation</span>
                         </div>
                         <div class="step-line"></div>
                         <div class="form-step-indicator" data-step="4">
                             <span class="step-dot">4</span>
-                            <span class="step-text" data-i18n="reg.step.setup">Setup</span>
+                            <span class="step-text" data-i18n="reg.step.plan">Plan</span>
                         </div>
                         <div class="step-line"></div>
                         <div class="form-step-indicator" data-step="5">
                             <span class="step-dot">5</span>
-                            <span class="step-text" data-i18n="reg.step.ivr">IVR</span>
+                            <span class="step-text" data-i18n="reg.step.setup">Setup</span>
                         </div>
                         <div class="step-line"></div>
                         <div class="form-step-indicator" data-step="6">
                             <span class="step-dot">6</span>
-                            <span class="step-text" data-i18n="reg.step.gateway">Gateway</span>
+                            <span class="step-text">Devices</span>
                         </div>
                         <div class="step-line"></div>
                         <div class="form-step-indicator" data-step="7">
                             <span class="step-dot">7</span>
+                            <span class="step-text" data-i18n="reg.step.gateway">Gateway</span>
+                        </div>
+                        <div class="step-line"></div>
+                        <div class="form-step-indicator" data-step="8">
+                            <span class="step-dot">8</span>
                             <span class="step-text" data-i18n="reg.step.review">Review</span>
                         </div>
                     </div>
@@ -198,8 +203,25 @@
                         </div>
                     </div>
 
-                    <!-- Step 3: Plan Selection -->
+                    <!-- Step 3: Installation Type -->
                     <div class="form-step-content" id="step3">
+                        <h3 class="step-title"><i class="fas fa-building"></i> Select Your Setup Type</h3>
+                        <p class="step-desc">Choose the type of installation that best fits your business needs. This determines the features available in your plan.</p>
+
+                        <div id="installationTypes" class="installation-types-container"></div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(2)" data-i18n-html="reg.btn.back">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(4)" data-i18n-html="reg.btn.continue">
+                                Continue <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Plan Selection -->
+                    <div class="form-step-content" id="step4">
                         <div class="plan-cards">
                             <label class="plan-option" for="planStarter">
                                 <input type="radio" id="planStarter" name="plan" value="starter" onchange="onPlanChange()">
@@ -249,17 +271,17 @@
                             </label>
                         </div>
                         <div class="form-buttons">
-                            <button type="button" class="btn btn-ghost" onclick="prevStep(2)" data-i18n-html="reg.btn.back">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(3)" data-i18n-html="reg.btn.back">
                                 <i class="fas fa-arrow-left"></i> Back
                             </button>
-                            <button type="button" class="btn btn-primary" onclick="nextStep(4)" data-i18n-html="reg.btn.continue">
+                            <button type="button" class="btn btn-primary" onclick="nextStep(5)" data-i18n-html="reg.btn.continue">
                                 Continue <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
                     </div>
 
-                    <!-- Step 4: Extensions & Ring Groups -->
-                    <div class="form-step-content" id="step4">
+                    <!-- Step 5: Extensions & Ring Groups -->
+                    <div class="form-step-content" id="step5">
                         <h3 class="step-title" data-i18n-html="reg.step4.title"><i class="fas fa-phone"></i> Extensions & Ring Groups</h3>
                         <p class="step-desc" data-i18n-html="reg.step4.desc">Configure extensions for your PBX based on your <strong id="planNameStep4">Business</strong> plan.</p>
 
@@ -288,17 +310,17 @@
                         </div>
 
                         <div class="form-buttons">
-                            <button type="button" class="btn btn-ghost" onclick="prevStep(3)" data-i18n-html="reg.btn.back">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(4)" data-i18n-html="reg.btn.back">
                                 <i class="fas fa-arrow-left"></i> Back
                             </button>
-                            <button type="button" class="btn btn-primary" onclick="nextStep(5)" data-i18n-html="reg.btn.continue">
+                            <button type="button" class="btn btn-primary" onclick="nextStep(6)" data-i18n-html="reg.btn.continue">
                                 Continue <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
                     </div>
 
-                    <!-- Step 5: IVR Configuration -->
-                    <div class="form-step-content" id="step5">
+                    <!-- Step 6: IVR Configuration -->
+                    <div class="form-step-content" id="step6">
                         <h3 class="step-title" data-i18n-html="reg.step5.title"><i class="fas fa-diagram-project"></i> IVR Menus</h3>
                         <p class="step-desc" data-i18n-html="reg.step5.desc">Set up your auto-attendant / IVR menus. You can configure up to <strong id="maxIvrLabel">10</strong> IVRs.</p>
 
@@ -314,17 +336,52 @@
                         <div id="ivrConfigs"></div>
 
                         <div class="form-buttons">
-                            <button type="button" class="btn btn-ghost" onclick="prevStep(4)" data-i18n-html="reg.btn.back">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(5)" data-i18n-html="reg.btn.back">
                                 <i class="fas fa-arrow-left"></i> Back
                             </button>
-                            <button type="button" class="btn btn-primary" onclick="nextStep(6)" data-i18n-html="reg.btn.continue">
+                            <button type="button" class="btn btn-primary" onclick="nextStep(7)" data-i18n-html="reg.btn.continue">
                                 Continue <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
                     </div>
 
-                    <!-- Step 6: Gateway Configuration -->
-                    <div class="form-step-content" id="step6">
+                    <!-- Step 7: Device & Trunk Configuration -->
+                    <div class="form-step-content" id="step7">
+                        <h3 class="step-title"><i class="fas fa-mobile"></i> Devices & Trunk Services</h3>
+                        <p class="step-desc">Select the devices you'll be using and choose your trunk service for external calls.</p>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-mobile"></i> Device Types</label>
+                            <p class="form-hint">Select all devices you plan to use with your PBX</p>
+                            <div id="deviceTypes" class="device-types-container"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-network-wired"></i> Trunk Service</label>
+                            <p class="form-hint">Choose your preferred trunk/gateway service for incoming and outgoing calls</p>
+                            <div id="trunkServices" class="trunk-services-container"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="exportProvisioning">
+                                <span>Export device provisioning files</span>
+                            </label>
+                            <span class="form-hint">Automatically generate configuration files for your devices</span>
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(6)" data-i18n-html="reg.btn.back">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(8)" data-i18n-html="reg.btn.continue">
+                                Continue <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 8: Gateway Configuration -->
+                    <div class="form-step-content" id="step8">
                         <h3 class="step-title" data-i18n-html="reg.step6.title"><i class="fas fa-globe"></i> SIP Gateway</h3>
                         <p class="step-desc" data-i18n="reg.step6.desc">Configure your SIP trunk for making and receiving external calls. You can skip this and configure later.</p>
 
@@ -380,17 +437,17 @@
                         </div>
 
                         <div class="form-buttons">
-                            <button type="button" class="btn btn-ghost" onclick="prevStep(5)" data-i18n-html="reg.btn.back">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(7)" data-i18n-html="reg.btn.back">
                                 <i class="fas fa-arrow-left"></i> Back
                             </button>
-                            <button type="button" class="btn btn-primary" onclick="nextStep(7)" data-i18n-html="reg.btn.continue">
+                            <button type="button" class="btn btn-primary" onclick="nextStep(9)" data-i18n-html="reg.btn.continue">
                                 Continue <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
                     </div>
 
-                    <!-- Step 7: Review & Confirm -->
-                    <div class="form-step-content" id="step7">
+                    <!-- Step 9: Review & Confirm -->
+                    <div class="form-step-content" id="step9">
                         <h3 class="step-title" data-i18n-html="reg.step7.title"><i class="fas fa-clipboard-check"></i> Review & Confirm</h3>
                         <div class="review-table" id="reviewTable"></div>
 
@@ -402,7 +459,7 @@
                         </div>
 
                         <div class="form-buttons">
-                            <button type="button" class="btn btn-ghost" onclick="prevStep(6)" data-i18n-html="reg.btn.back">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(8)" data-i18n-html="reg.btn.back">
                                 <i class="fas fa-arrow-left"></i> Back
                             </button>
                             <button type="submit" class="btn btn-primary btn-lg" id="submitBtn" data-i18n-html="reg.btn.createPbx">

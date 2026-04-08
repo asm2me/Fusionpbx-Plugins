@@ -14,8 +14,11 @@ const PLANS = {
     enterprise: { name: 'Enterprise', price: '$199/mo', extensions: 100, gateways: 10, ivrs: 20, ring_groups: 20 }
 };
 
-const TOTAL_STEPS = 7;
+const TOTAL_STEPS = 9;
 let currentStep = 1;
+let installationTypes = {};
+let deviceTypes = {};
+let fieldHints = {};
 
 // ============ INIT ============
 document.addEventListener('DOMContentLoaded', function() {
@@ -36,7 +39,108 @@ document.addEventListener('DOMContentLoaded', function() {
     if (passwordInput) passwordInput.addEventListener('input', updatePasswordStrength);
 
     updateIvrCount(1);
+    
+    // Fetch API data
+    loadInstallationTypes();
+    loadDeviceTypes();
+    loadFieldHints();
 });
+
+// ============ API DATA LOADING ============
+function loadInstallationTypes() {
+    fetch(CONFIG.apiUrl + '?action=get_installation_types')
+        .then(r => r.json())
+        .then(data => {
+            installationTypes = data.types || {};
+            populateInstallationTypes();
+        })
+        .catch(err => console.warn('Could not load installation types:', err));
+}
+
+function loadDeviceTypes() {
+    fetch(CONFIG.apiUrl + '?action=get_device_types')
+        .then(r => r.json())
+        .then(data => {
+            deviceTypes = { devices: data.devices || [], trunks: data.trunks || [] };
+            populateDeviceTypes();
+        })
+        .catch(err => console.warn('Could not load device types:', err));
+}
+
+function loadFieldHints() {
+    fetch(CONFIG.apiUrl + '?action=get_field_hints')
+        .then(r => r.json())
+        .then(data => {
+            fieldHints = data.hints || {};
+            applyFieldHints();
+        })
+        .catch(err => console.warn('Could not load field hints:', err));
+}
+
+function populateInstallationTypes() {
+    const container = document.getElementById('installationTypes');
+    if (!container) return;
+    container.innerHTML = '';
+    for (const [key, type] of Object.entries(installationTypes)) {
+        const label = document.createElement('label');
+        label.className = 'installation-option';
+        label.innerHTML = `
+            <input type="radio" name="installation_type" value="${key}">
+            <div class="installation-option-content">
+                <h4><i class="fas fa-${type.icon || 'building'}"></i> ${type.name}</h4>
+                <p>${type.description}</p>
+                <small>${type.features.join(', ')}</small>
+            </div>
+        `;
+        container.appendChild(label);
+    }
+}
+
+function populateDeviceTypes() {
+    const deviceContainer = document.getElementById('deviceTypes');
+    if (deviceContainer) {
+        deviceContainer.innerHTML = '';
+        deviceTypes.devices?.forEach(device => {
+            const label = document.createElement('label');
+            label.className = 'device-option';
+            label.innerHTML = `
+                <input type="checkbox" class="device-checkbox" value="${device.id}">
+                <span>${device.name}</span> - <small>${device.description}</small>
+            `;
+            deviceContainer.appendChild(label);
+        });
+    }
+    
+    const trunkContainer = document.getElementById('trunkServices');
+    if (trunkContainer) {
+        trunkContainer.innerHTML = '';
+        deviceTypes.trunks?.forEach(trunk => {
+            const label = document.createElement('label');
+            label.className = 'trunk-option';
+            label.innerHTML = `
+                <input type="radio" name="trunk_service" value="${trunk.id}">
+                <span>${trunk.name}</span> - <small>${trunk.description}</small>
+            `;
+            trunkContainer.appendChild(label);
+        });
+    }
+}
+
+function applyFieldHints() {
+    for (const [fieldId, hint] of Object.entries(fieldHints)) {
+        const input = document.getElementById(fieldId);
+        if (input) {
+            const wrapper = input.parentElement;
+            let hintEl = wrapper.querySelector('.field-hint');
+            if (!hintEl) {
+                hintEl = document.createElement('small');
+                hintEl.className = 'field-hint form-hint';
+                wrapper.appendChild(hintEl);
+            }
+            hintEl.textContent = hint;
+        }
+    }
+}
 
 // ============ PLAN CHANGE ============
 function onPlanChange() {
@@ -283,15 +387,29 @@ function isValidDomain(domain) {
 function checkDomain() {
     const domain = document.getElementById('domainName').value.trim();
     const checkEl = document.getElementById('domainCheck');
-    if (!domain || !isValidDomain(domain)) { checkEl.innerHTML = ''; return; }
+    if (!domain) { checkEl.innerHTML = ''; return; }
+
+    // Check for voipat.com subdomain requirement
+    if (!domain.endsWith('.voipat.com')) {
+        checkEl.innerHTML = '<span style="color:#F59E0B"><i class="fas fa-info-circle"></i> Your domain will be registered as <strong>' + domain + '.voipat.com</strong></span>';
+    }
+
+    if (!isValidDomain(domain)) { 
+        checkEl.innerHTML += ' <span style="color:#EF4444"><i class="fas fa-times-circle"></i> Invalid domain format</span>';
+        return; 
+    }
 
     checkEl.innerHTML = '<span class="checking"><i class="fas fa-spinner fa-spin"></i> Checking...</span>';
     fetch(CONFIG.apiUrl + '?action=check_domain&domain=' + encodeURIComponent(domain))
         .then(r => r.json())
         .then(data => {
-            checkEl.innerHTML = data.available
+            let msg = data.available
                 ? '<span class="available"><i class="fas fa-check-circle"></i> Available!</span>'
                 : '<span class="taken"><i class="fas fa-times-circle"></i> Already in use</span>';
+            if (!domain.endsWith('.voipat.com')) {
+                msg = '<span style="color:#F59E0B"><i class="fas fa-info-circle"></i> Will be registered as <strong>' + domain + '.voipat.com</strong></span> ' + msg;
+            }
+            checkEl.innerHTML = msg;
         })
         .catch(() => {
             checkEl.innerHTML = '<span style="color:var(--gray-400)"><i class="fas fa-info-circle"></i> Will be verified during registration</span>';
@@ -351,6 +469,9 @@ function buildReviewTable() {
     const rg = document.getElementById('ringGroupsCount').value;
     const ivr = document.getElementById('ivrsCount').value;
     const hasGw = document.getElementById('configureGateway')?.checked;
+    const installType = document.querySelector('input[name="installation_type"]:checked')?.value || 'company_pbx';
+    const devices = Array.from(document.querySelectorAll('.device-checkbox:checked')).map(cb => cb.value);
+    const trunk = document.querySelector('input[name="trunk_service"]:checked)?.value || '-';
 
     let html = `
         <div class="review-section">
@@ -362,6 +483,7 @@ function buildReviewTable() {
         <div class="review-section">
             <h4>Domain & Plan</h4>
             <div class="review-row"><span class="review-label">Domain</span><span class="review-value">${domain}</span></div>
+            <div class="review-row"><span class="review-label">Installation Type</span><span class="review-value">${installationTypes[installType]?.name || installType}</span></div>
             <div class="review-row"><span class="review-label">Admin User</span><span class="review-value">${document.getElementById('adminUsername').value}</span></div>
             <div class="review-row"><span class="review-label">Plan</span><span class="review-value">${plan.name} (${plan.price})</span></div>
         </div>
@@ -371,6 +493,19 @@ function buildReviewTable() {
             <div class="review-row"><span class="review-label">Ring Groups</span><span class="review-value">${rg}</span></div>
             <div class="review-row"><span class="review-label">IVR Menus</span><span class="review-value">${ivr}</span></div>
         </div>`;
+
+    // Device details
+    if (devices.length > 0) {
+        html += '<div class="review-section"><h4>Devices</h4>';
+        devices.forEach(deviceId => {
+            const device = deviceTypes.devices?.find(d => d.id === deviceId);
+            if (device) {
+                html += `<div class="review-row"><span class="review-label">${device.name}</span><span class="review-value">${device.description}</span></div>`;
+            }
+        });
+        html += `<div class="review-row"><span class="review-label">Trunk Service</span><span class="review-value">${deviceTypes.trunks?.find(t => t.id === trunk)?.name || trunk}</span></div>`;
+        html += '</div>';
+    }
 
     // IVR details
     const ivrCards = document.querySelectorAll('.ivr-config-card');
@@ -410,6 +545,7 @@ function collectFormData() {
         admin_username: document.getElementById('adminUsername').value.trim(),
         admin_password: document.getElementById('adminPassword').value,
         plan: getSelectedPlan(),
+        installation_type: document.querySelector('input[name="installation_type"]:checked')?.value || 'company_pbx',
         extensions_count: document.getElementById('extensionsCount').value,
         extension_start: document.getElementById('extensionStart').value,
         ring_groups_count: document.getElementById('ringGroupsCount').value,
@@ -419,6 +555,7 @@ function collectFormData() {
     // IVR configs
     const ivrCards = document.querySelectorAll('.ivr-config-card');
     data.ivr_configs = [];
+    data.ivr_chart_config = {};
     ivrCards.forEach((card, i) => {
         const ivr = {
             name: card.querySelector('.ivr-name').value || `IVR Menu ${i+1}`,
@@ -434,10 +571,16 @@ function collectFormData() {
         data.ivr_configs.push(ivr);
     });
 
-    // Gateway
+    // Device configuration
+    data.device_config = Array.from(document.querySelectorAll('.device-checkbox:checked')).map(cb => cb.value);
+    
+    // Trunk service
+    data.trunk_data = { service: document.querySelector('input[name="trunk_service"]:checked')?.value || '' };
+
+    // Gateway / Outbound config
     if (document.getElementById('configureGateway')?.checked) {
-        data.gateway = {
-            name: document.getElementById('gwName').value.trim(),
+        data.outbound_config = {
+            gateway_name: document.getElementById('gwName').value.trim(),
             proxy: document.getElementById('gwProxy').value.trim(),
             username: document.getElementById('gwUsername').value.trim(),
             password: document.getElementById('gwPassword').value.trim(),
@@ -445,6 +588,7 @@ function collectFormData() {
             transport: document.getElementById('gwTransport').value,
             caller_id: document.getElementById('gwCallerId').value.trim()
         };
+        data.gateway = data.outbound_config; // Keep for backward compatibility
     }
 
     return data;
@@ -487,12 +631,19 @@ function showProcessing(formData) {
         body.append('admin_username', formData.admin_username);
         body.append('admin_password', formData.admin_password);
         body.append('plan', formData.plan);
+        body.append('installation_type', formData.installation_type);
         body.append('extensions_count', formData.extensions_count);
         body.append('extension_start', formData.extension_start);
         body.append('ring_groups_count', formData.ring_groups_count);
         body.append('ivrs_count', formData.ivrs_count);
         body.append('ivr_configs', JSON.stringify(formData.ivr_configs));
+        body.append('ivr_chart_config', JSON.stringify(formData.ivr_chart_config));
+        body.append('device_config', JSON.stringify(formData.device_config));
+        body.append('trunk_data', JSON.stringify(formData.trunk_data));
 
+        if (formData.outbound_config) {
+            body.append('outbound_config', JSON.stringify(formData.outbound_config));
+        }
         if (formData.gateway) {
             body.append('gateway', JSON.stringify(formData.gateway));
         }

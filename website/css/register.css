@@ -800,6 +800,125 @@
 }
 
 /* ========================================
+   Installation Type Selection
+   ======================================== */
+
+.installation-types-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.installation-option {
+    cursor: pointer;
+}
+
+.installation-option input[type="radio"] {
+    display: none;
+}
+
+.installation-option-content {
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: var(--transition);
+}
+
+.installation-option input:checked + .installation-option-content {
+    border-color: var(--primary);
+    background: var(--primary-50);
+}
+
+.installation-option h4 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+    color: var(--gray-800);
+    font-size: 1rem;
+}
+
+.installation-option h4 i {
+    color: var(--primary);
+}
+
+.installation-option-content p {
+    color: var(--gray-600);
+    font-size: 0.875rem;
+    margin: 4px 0;
+}
+
+.installation-option-content small {
+    color: var(--gray-500);
+    font-size: 0.8125rem;
+    display: block;
+    margin-top: 8px;
+}
+
+/* ========================================
+   Device & Trunk Selection
+   ======================================== */
+
+.device-types-container,
+.trunk-services-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.device-option,
+.trunk-option {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.device-option:hover,
+.trunk-option:hover {
+    border-color: var(--primary-light);
+    background: var(--primary-50);
+}
+
+.device-option input[type="checkbox"],
+.trunk-option input[type="radio"] {
+    margin-right: 12px;
+}
+
+.device-option input[type="checkbox"]:checked + span,
+.trunk-option input[type="radio"]:checked + span {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.device-option span,
+.trunk-option span {
+    color: var(--gray-800);
+    font-size: 0.9375rem;
+    flex: 1;
+}
+
+.device-option small,
+.trunk-option small {
+    color: var(--gray-500);
+    font-size: 0.8125rem;
+    margin-left: auto;
+}
+
+/* Field Hints */
+.field-hint {
+    display: block;
+    margin-top: 4px;
+    color: var(--gray-500);
+    font-style: italic;
+}
+
+/* ========================================
    Responsive
    ======================================== */
 
