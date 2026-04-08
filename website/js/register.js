@@ -551,6 +551,66 @@ function toggleGatewayForm() {
     document.getElementById('gatewayForm').style.display = checked ? 'block' : 'none';
 }
 
+function updateGatewayForm() {
+    const gatewayType = document.querySelector('input[name="gateway_type"]:checked')?.value;
+    
+    if (!gatewayType) return;
+    
+    // Gateway type configurations
+    const gatewayConfigs = {
+        dinstar: {
+            gwName: 'Dinstar Gateway',
+            gwProxy: 'dinstar.sip.provider.com',
+            gwRegister: 'true'
+        },
+        yeastar: {
+            gwName: 'Yeastar S-Series',
+            gwProxy: 'yeastar.sip.provider.com',
+            gwRegister: 'true'
+        },
+        goip: {
+            gwName: 'DBL GOIP Gateway',
+            gwProxy: 'goip.sip.provider.com',
+            gwRegister: 'true'
+        },
+        grandstream: {
+            gwName: 'Grandstream Gateway',
+            gwProxy: 'grandstream.sip.provider.com',
+            gwRegister: 'true'
+        },
+        cisco: {
+            gwName: 'Cisco Gateway',
+            gwProxy: 'cisco.sip.provider.com',
+            gwRegister: 'true'
+        },
+        other: {
+            gwName: '',
+            gwProxy: '',
+            gwRegister: 'true'
+        }
+    };
+    
+    const config = gatewayConfigs[gatewayType] || gatewayConfigs.other;
+    
+    // Update form fields based on selected gateway type
+    const gwNameEl = document.getElementById('gwName');
+    const gwProxyEl = document.getElementById('gwProxy');
+    const gwRegisterEl = document.getElementById('gwRegister');
+    
+    if (gwNameEl && config.gwName) gwNameEl.value = config.gwName;
+    if (gwProxyEl && config.gwProxy) gwProxyEl.placeholder = config.gwProxy;
+    if (gwRegisterEl) gwRegisterEl.value = config.gwRegister;
+    
+    // Auto-enable gateway configuration for known types
+    if (gatewayType !== 'other') {
+        const configureGatewayEl = document.getElementById('configureGateway');
+        if (configureGatewayEl) {
+            configureGatewayEl.checked = true;
+            toggleGatewayForm();
+        }
+    }
+}
+
 // ============ STEP NAVIGATION ============
 function nextStep(step) {
     console.log('nextStep called with step:', step, 'currentStep is:', currentStep);

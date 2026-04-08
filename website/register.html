@@ -365,7 +365,48 @@
                         <div class="form-group">
                             <label><i class="fas fa-mobile"></i> Device Types</label>
                             <p class="form-hint">Select all devices you plan to use with your PBX</p>
-                            <div id="deviceTypes" class="device-types-container"></div>
+                            <div id="deviceTypes" class="device-types-container">
+                                <label class="device-option">
+                                    <input type="checkbox" name="device_type" value="sip_phone" class="device-checkbox">
+                                    <div class="device-option-content">
+                                        <i class="fas fa-phone"></i>
+                                        <h4>SIP Phone</h4>
+                                        <p>Dedicated VoIP phone</p>
+                                    </div>
+                                </label>
+                                <label class="device-option">
+                                    <input type="checkbox" name="device_type" value="softphone" class="device-checkbox">
+                                    <div class="device-option-content">
+                                        <i class="fas fa-laptop"></i>
+                                        <h4>Softphone</h4>
+                                        <p>Desktop VoIP application</p>
+                                    </div>
+                                </label>
+                                <label class="device-option">
+                                    <input type="checkbox" name="device_type" value="mobile_app" class="device-checkbox">
+                                    <div class="device-option-content">
+                                        <i class="fas fa-mobile-alt"></i>
+                                        <h4>Mobile App</h4>
+                                        <p>Smartphone/Tablet app</p>
+                                    </div>
+                                </label>
+                                <label class="device-option">
+                                    <input type="checkbox" name="device_type" value="analog_adapter" class="device-checkbox">
+                                    <div class="device-option-content">
+                                        <i class="fas fa-cubes"></i>
+                                        <h4>Analog Adapter</h4>
+                                        <p>ATA adapter for analog phones</p>
+                                    </div>
+                                </label>
+                                <label class="device-option">
+                                    <input type="checkbox" name="device_type" value="conference_phone" class="device-checkbox">
+                                    <div class="device-option-content">
+                                        <i class="fas fa-users"></i>
+                                        <h4>Conference Phone</h4>
+                                        <p>Multi-person conference device</p>
+                                    </div>
+                                </label>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -396,6 +437,61 @@
                     <div class="form-step-content" id="step6">
                         <h3 class="step-title" data-i18n-html="reg.step6.title"><i class="fas fa-globe"></i> SIP Gateway</h3>
                         <p class="step-desc" data-i18n="reg.step6.desc">Configure your SIP trunk for making and receiving external calls. You can skip this and configure later.</p>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-server"></i> Gateway Type (Optional)</label>
+                            <p class="form-hint">Select a gateway type for automatic provisioning, or configure manually below</p>
+                            <div class="gateway-types-container">
+                                <label class="gateway-option">
+                                    <input type="radio" name="gateway_type" value="dinstar" class="gateway-type-radio" onchange="updateGatewayForm()">
+                                    <div class="gateway-option-content">
+                                        <i class="fas fa-cube"></i>
+                                        <h4>Dinstar</h4>
+                                        <p>Dinstar VoIP Gateway</p>
+                                    </div>
+                                </label>
+                                <label class="gateway-option">
+                                    <input type="radio" name="gateway_type" value="yeastar" class="gateway-type-radio" onchange="updateGatewayForm()">
+                                    <div class="gateway-option-content">
+                                        <i class="fas fa-cube"></i>
+                                        <h4>Yeastar</h4>
+                                        <p>Yeastar S-Series Gateway</p>
+                                    </div>
+                                </label>
+                                <label class="gateway-option">
+                                    <input type="radio" name="gateway_type" value="goip" class="gateway-type-radio" onchange="updateGatewayForm()">
+                                    <div class="gateway-option-content">
+                                        <i class="fas fa-cube"></i>
+                                        <h4>GOIP</h4>
+                                        <p>DBL GOIP Gateway</p>
+                                    </div>
+                                </label>
+                                <label class="gateway-option">
+                                    <input type="radio" name="gateway_type" value="grandstream" class="gateway-type-radio" onchange="updateGatewayForm()">
+                                    <div class="gateway-option-content">
+                                        <i class="fas fa-cube"></i>
+                                        <h4>Grandstream</h4>
+                                        <p>Grandstream VoIP Gateway</p>
+                                    </div>
+                                </label>
+                                <label class="gateway-option">
+                                    <input type="radio" name="gateway_type" value="cisco" class="gateway-type-radio" onchange="updateGatewayForm()">
+                                    <div class="gateway-option-content">
+                                        <i class="fas fa-cube"></i>
+                                        <h4>Cisco</h4>
+                                        <p>Cisco VoIP Gateway</p>
+                                    </div>
+                                </label>
+                                <label class="gateway-option">
+                                    <input type="radio" name="gateway_type" value="other" class="gateway-type-radio" onchange="updateGatewayForm()">
+                                    <div class="gateway-option-content">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                        <h4>Other/Manual</h4>
+                                        <p>Configure manually</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label class="checkbox-label">

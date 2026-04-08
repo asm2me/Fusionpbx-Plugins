@@ -358,6 +358,110 @@
     flex-shrink: 0;
 }
 
+/* Device Types Options */
+.device-types-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.device-option {
+    cursor: pointer;
+    display: block;
+}
+
+.device-option input[type="checkbox"] {
+    display: none;
+}
+
+.device-option-content {
+    position: relative;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 16px;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.device-option input:checked + .device-option-content {
+    border-color: var(--primary);
+    background: var(--primary-50);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.device-option-content i {
+    font-size: 2rem;
+    color: var(--primary);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.device-option-content h4 {
+    margin: 8px 0 4px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.device-option-content p {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+    margin: 0;
+}
+
+/* Gateway Types Options */
+.gateway-types-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.gateway-option {
+    cursor: pointer;
+    display: block;
+}
+
+.gateway-option input[type="radio"] {
+    display: none;
+}
+
+.gateway-option-content {
+    position: relative;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 16px;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.gateway-option input:checked + .gateway-option-content {
+    border-color: var(--primary);
+    background: var(--primary-50);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.gateway-option-content i {
+    font-size: 2rem;
+    color: var(--primary);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.gateway-option-content h4 {
+    margin: 8px 0 4px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.gateway-option-content p {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+    margin: 0;
+}
+
 .checkbox-label a {
     color: var(--primary);
     text-decoration: none;
