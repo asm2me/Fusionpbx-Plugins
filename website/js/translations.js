@@ -1356,6 +1356,30 @@ const translations = {
     tr: "Dahililer bu numaradan başlayarak numaralandırılacak (ör., 100, 101, 102...)",
     ru: "Добавочные будут нумероваться начиная с этого номера (напр., 100, 101, 102...)"
   },
+  "reg.desc.extensions": {
+    en: "Extensions are individual phone numbers assigned to each user or device on your PBX. Each extension can have its own voicemail, call forwarding, and presence settings. Users register their phones or softphones using their extension number to make and receive calls.",
+    ar: "التحويلات هي أرقام هاتفية فردية مخصصة لكل مستخدم أو جهاز على نظام PBX الخاص بك. يمكن لكل تحويلة أن يكون لها إعدادات بريد صوتي وتحويل مكالمات وحالة وجود خاصة بها. يسجل المستخدمون هواتفهم أو هواتفهم البرمجية باستخدام رقم التحويلة الخاص بهم لإجراء واستقبال المكالمات.",
+    es: "Las extensiones son números de teléfono individuales asignados a cada usuario o dispositivo en su PBX. Cada extensión puede tener su propia configuración de buzón de voz, desvío de llamadas y presencia. Los usuarios registran sus teléfonos o softphones usando su número de extensión para hacer y recibir llamadas.",
+    fr: "Les postes sont des numéros de téléphone individuels attribués à chaque utilisateur ou appareil de votre PBX. Chaque poste peut avoir ses propres paramètres de messagerie vocale, renvoi d'appels et présence. Les utilisateurs enregistrent leurs téléphones ou softphones en utilisant leur numéro de poste pour passer et recevoir des appels.",
+    de: "Nebenstellen sind individuelle Telefonnummern, die jedem Benutzer oder Gerät in Ihrer PBX zugewiesen sind. Jede Nebenstelle kann ihre eigenen Voicemail-, Anrufweiterleitungs- und Präsenzeinstellungen haben. Benutzer registrieren ihre Telefone oder Softphones mit ihrer Nebenstelle, um Anrufe zu tätigen und zu empfangen.",
+    pt: "Ramais são números de telefone individuais atribuídos a cada usuário ou dispositivo em seu PBX. Cada ramal pode ter sua própria configuração de caixa de voz, encaminhamento de chamadas e presença. Os usuários registram seus telefones ou softphones usando seu número de ramal para fazer e receber chamadas.",
+    zh: "分机是分配给您的PBX上每个用户或设备的个别电话号码。每个分机可以拥有自己的语音信箱、呼叫转移和在线状态设置。用户使用其分机号码登记其电话或软电话来拨打和接听电话。",
+    ja: "内線は、PBXの各ユーザーまたはデバイスに割り当てられた個別の電話番号です。各内線は独自のボイスメール、転送、プレゼンス設定を持つことができます。ユーザーは内線番号を使用して電話またはソフトフォンを登録し、通話を発着信します。",
+    tr: "Dahililer, PBX'inizdeki her kullanıcı veya cihaza atanan bireysel telefon numaralarıdır. Her dahili, kendine ait sesli posta, çağrı yönlendirmesi ve mevcudiyet ayarlarına sahip olabilir. Kullanıcılar, arama yapmak ve almak için dahili numaralarını kullanarak telefonlarını veya yazılım telefonlarını kaydeder.",
+    ru: "Добавочные - это отдельные номера телефонов, назначенные каждому пользователю или устройству в вашей АТС. Каждый добавочный номер может иметь собственные настройки голосовой почты, переадресации вызовов и статуса. Пользователи регистрируют свои телефоны или софтфоны, используя номер добавочного, для совершения и приема вызовов."
+  },
+  "reg.desc.ringGroups": {
+    en: "Ring groups allow you to distribute incoming calls to multiple extensions simultaneously or in sequence. For example, you can create a support team ring group where calls ring on all support agent extensions at the same time, or ring them one by one until someone picks up.",
+    ar: "تتيح مجموعات الرنين توزيع المكالمات الواردة على عدة تحويلات في نفس الوقت أو بالتتابع. على سبيل المثال، يمكنك إنشاء مجموعة رنين فريق الدعم حيث تحتوي المكالمات على جميع امتدادات وكيل الدعم في نفس الوقت، أو رنينها واحدة تلو الأخرى حتى يقوم شخص ما بالرد.",
+    es: "Los grupos de timbrado le permiten distribuir llamadas entrantes a múltiples extensiones simultáneamente o secuencialmente. Por ejemplo, puede crear un grupo de timbrado del equipo de soporte donde las llamadas suenan en todos los números de extensión del agente de soporte al mismo tiempo, o suenen uno tras otro hasta que alguien conteste.",
+    fr: "Les groupes d'appels vous permettent de distribuer les appels entrants à plusieurs postes simultanément ou séquentiellement. Par exemple, vous pouvez créer un groupe d'appels d'équipe d'assistance où les appels sonnent sur tous les postes des agents d'assistance en même temps, ou les font sonner un par un jusqu'à ce que quelqu'un décroche.",
+    de: "Rufgruppen ermöglichen es Ihnen, eingehende Anrufe simultan oder nacheinander auf mehrere Nebenstellen zu verteilen. Sie können beispielsweise eine Support-Team-Rufgruppe erstellen, bei der Anrufe mit allen Support-Agent-Nebenstellen gleichzeitig klingeln, oder sie nacheinander klingeln, bis jemand antwortet.",
+    pt: "Grupos de toque permitem distribuir chamadas recebidas para múltiplos ramais simultaneamente ou sequencialmente. Por exemplo, você pode criar um grupo de toque de equipe de suporte onde as chamadas tocam em todas as extensões do agente de suporte ao mesmo tempo, ou toque uma por uma até que alguém atenda.",
+    zh: "振铃组允许您同时或顺序地将来电分配给多个分机。例如，您可以创建一个支持团队振铃组，其中呼叫同时在所有支持代理分机上振铃，或逐个振铃直到有人接听。",
+    ja: "リンググループを使用すると、着信を複数の内線に同時にまたは順番に分配できます。たとえば、サポートチームのリンググループを作成して、すべてのサポートエージェント内線を同時に鳴らすか、1つずつ鳴らして誰かが応答するまで続けることができます。",
+    tr: "Çalma grupları, gelen aramaları birden fazla dahili'ye aynı anda veya sırayla dağıtmanızı sağlar. Örneğin, tüm destek aracı dahili'lerinde aynı anda çalan bir destek ekibi çalma grubu oluşturabilir veya birisi cevap verene kadar sırayla çalabilirsiniz.",
+    ru: "Группы вызова позволяют распределять входящие вызовы на несколько добавочных одновременно или последовательно. Например, вы можете создать группу вызова команды поддержки, где вызовы звонят на все добавочные агентов поддержки одновременно, или звонят по одному, пока кто-то не ответит."
+  },
   "reg.label.ringGroupsCount": {
     en: "<i class=\"fas fa-users-rectangle\"></i> Number of Ring Groups", ar: "<i class=\"fas fa-users-rectangle\"></i> عدد مجموعات الرنين", es: "<i class=\"fas fa-users-rectangle\"></i> Número de Grupos de Timbrado", fr: "<i class=\"fas fa-users-rectangle\"></i> Nombre de Groupes d'Appels",
     de: "<i class=\"fas fa-users-rectangle\"></i> Anzahl der Rufgruppen", pt: "<i class=\"fas fa-users-rectangle\"></i> Número de Grupos de Toque", zh: "<i class=\"fas fa-users-rectangle\"></i> 振铃组数量", ja: "<i class=\"fas fa-users-rectangle\"></i> リンググループ数", tr: "<i class=\"fas fa-users-rectangle\"></i> Çalma Grubu Sayısı", ru: "<i class=\"fas fa-users-rectangle\"></i> Количество групп вызова"
@@ -1433,6 +1457,26 @@ const translations = {
   "reg.btn.addIvrOption": {
     en: "<i class=\"fas fa-plus\"></i> Add Option", ar: "<i class=\"fas fa-plus\"></i> إضافة خيار", es: "<i class=\"fas fa-plus\"></i> Agregar Opción", fr: "<i class=\"fas fa-plus\"></i> Ajouter Option",
     de: "<i class=\"fas fa-plus\"></i> Option Hinzufügen", pt: "<i class=\"fas fa-plus\"></i> Adicionar Opção", zh: "<i class=\"fas fa-plus\"></i> 添加选项", ja: "<i class=\"fas fa-plus\"></i> オプションを追加", tr: "<i class=\"fas fa-plus\"></i> Seçenek Ekle", ru: "<i class=\"fas fa-plus\"></i> Добавить опцию"
+  },
+  "reg.option.selectIvr": {
+    en: "Select IVR Menu", ar: "اختر قائمة رد آلي", es: "Seleccionar Menú IVR", fr: "Sélectionner Menu SVI",
+    de: "IVR-Menü Auswählen", pt: "Selecionar Menu URA", zh: "选择IVR菜单", ja: "IVRメニューを選択", tr: "IVR Menüsünü Seçin", ru: "Выберите меню IVR"
+  },
+  "reg.option.createNewIvr": {
+    en: "Create New IVR Menu", ar: "إنشاء قائمة رد آلي جديدة", es: "Crear Nuevo Menú IVR", fr: "Créer Nouveau Menu SVI",
+    de: "Neues IVR-Menü Erstellen", pt: "Criar Novo Menu URA", zh: "创建新IVR菜单", ja: "新しいIVRメニューを作成", tr: "Yeni IVR Menüsü Oluştur", ru: "Создать новое меню IVR"
+  },
+  "reg.label.createIvr": {
+    en: "<i class=\"fas fa-plus-circle\"></i> Create New IVR Menu", ar: "<i class=\"fas fa-plus-circle\"></i> إنشاء قائمة رد آلي جديدة", es: "<i class=\"fas fa-plus-circle\"></i> Crear Nuevo Menú IVR", fr: "<i class=\"fas fa-plus-circle\"></i> Créer Nouveau Menu SVI",
+    de: "<i class=\"fas fa-plus-circle\"></i> Neues IVR-Menü Erstellen", pt: "<i class=\"fas fa-plus-circle\"></i> Criar Novo Menu URA", zh: "<i class=\"fas fa-plus-circle\"></i> 创建新IVR菜单", ja: "<i class=\"fas fa-plus-circle\"></i> 新しいIVRメニューを作成", tr: "<i class=\"fas fa-plus-circle\"></i> Yeni IVR Menüsü Oluştur", ru: "<i class=\"fas fa-plus-circle\"></i> Создать новое меню IVR"
+  },
+  "reg.btn.createIvr": {
+    en: "<i class=\"fas fa-save\"></i> Create IVR", ar: "<i class=\"fas fa-save\"></i> إنشاء IVR", es: "<i class=\"fas fa-save\"></i> Crear IVR", fr: "<i class=\"fas fa-save\"></i> Créer IVR",
+    de: "<i class=\"fas fa-save\"></i> IVR Erstellen", pt: "<i class=\"fas fa-save\"></i> Criar URA", zh: "<i class=\"fas fa-save\"></i> 创建IVR", ja: "<i class=\"fas fa-save\"></i> IVRを作成", tr: "<i class=\"fas fa-save\"></i> IVR Oluştur", ru: "<i class=\"fas fa-save\"></i> Создать IVR"
+  },
+  "reg.btn.cancel": {
+    en: "Cancel", ar: "إلغاء", es: "Cancelar", fr: "Annuler",
+    de: "Abbrechen", pt: "Cancelar", zh: "取消", ja: "キャンセル", tr: "İptal", ru: "Отмена"
   },
 
   // Step 6: Gateway Configuration

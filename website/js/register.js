@@ -32,6 +32,8 @@ let currentStep = 1;
 let installationTypes = {};
 let deviceTypes = {};
 let fieldHints = {};
+let ivrMenus = {}; // Track IVR menus: { 0: {name, options}, 1: {name, options}, ... }
+let currentIvrModalTarget = null; // Track which IVR/action we're creating for
 
 // ============ INIT ============
 document.addEventListener('DOMContentLoaded', function() {
@@ -234,13 +236,21 @@ function updateIvrCount(count) {
 function createIvrCard(index) {
     const card = document.createElement('div');
     card.className = 'ivr-config-card';
+    card.id = `ivrCard${index}`;
+    
+    // Initialize IVR tracking
+    if (!ivrMenus[index]) {
+        ivrMenus[index] = { name: `IVR Menu ${index + 1}`, options: [] };
+    }
+    
     card.innerHTML = `
         <div class="ivr-header">
             <h4><i class="fas fa-diagram-project"></i> IVR Menu ${index + 1}</h4>
         </div>
         <div class="form-group">
             <label data-i18n-html="reg.label.ivrName">${t('reg.label.ivrName')}</label>
-            <input type="text" class="ivr-name" placeholder="${t('reg.placeholder.ivrName')}" value="IVR Menu ${index + 1}">
+            <input type="text" class="ivr-name" placeholder="${t('reg.placeholder.ivrName')}" value="IVR Menu ${index + 1}" 
+                onchange="saveIvrName(${index}, this.value)">
         </div>
         <div class="form-group">
             <label data-i18n-html="reg.label.greetingRecording">${t('reg.label.greetingRecording')}</label>
@@ -256,24 +266,28 @@ function createIvrCard(index) {
             <div class="ivr-options-list" id="ivrOptions${index}">
                 <div class="ivr-option-row">
                     <span class="digit-label">1</span>
-                    <select class="ivr-opt-action">
+                    <select class="ivr-opt-action" onchange="onIvrActionChange(${index}, this)">
                         <option value="transfer" data-i18n="reg.option.transferExtension">${t('reg.option.transferExtension')}</option>
                         <option value="ring_group" data-i18n="reg.option.transferRingGroup">${t('reg.option.transferRingGroup')}</option>
                         <option value="voicemail" data-i18n="reg.option.sendVoicemail">${t('reg.option.sendVoicemail')}</option>
                         <option value="ivr" data-i18n="reg.option.goToIvr">${t('reg.option.goToIvr')}</option>
                     </select>
-                    <input type="text" class="ivr-opt-param" placeholder="${t('reg.placeholder.ivrOptParam')}" data-i18n="reg.placeholder.ivrOptParam">
+                    <div class="ivr-opt-param-wrapper" data-type="transfer">
+                        <input type="text" class="ivr-opt-param" placeholder="${t('reg.placeholder.ivrOptParam')}" data-i18n="reg.placeholder.ivrOptParam">
+                    </div>
                     <button type="button" class="remove-btn" onclick="this.closest('.ivr-option-row').remove()"><i class="fas fa-times"></i></button>
                 </div>
                 <div class="ivr-option-row">
                     <span class="digit-label">2</span>
-                    <select class="ivr-opt-action">
+                    <select class="ivr-opt-action" onchange="onIvrActionChange(${index}, this)">
                         <option value="transfer" data-i18n="reg.option.transferExtension">${t('reg.option.transferExtension')}</option>
                         <option value="ring_group" data-i18n="reg.option.transferRingGroup">${t('reg.option.transferRingGroup')}</option>
                         <option value="voicemail" data-i18n="reg.option.sendVoicemail">${t('reg.option.sendVoicemail')}</option>
                         <option value="ivr" data-i18n="reg.option.goToIvr">${t('reg.option.goToIvr')}</option>
                     </select>
-                    <input type="text" class="ivr-opt-param" placeholder="${t('reg.placeholder.ivrOptParam')}" data-i18n="reg.placeholder.ivrOptParam">
+                    <div class="ivr-opt-param-wrapper" data-type="transfer">
+                        <input type="text" class="ivr-opt-param" placeholder="${t('reg.placeholder.ivrOptParam')}" data-i18n="reg.placeholder.ivrOptParam">
+                    </div>
                     <button type="button" class="remove-btn" onclick="this.closest('.ivr-option-row').remove()"><i class="fas fa-times"></i></button>
                 </div>
             </div>
@@ -283,6 +297,46 @@ function createIvrCard(index) {
         </div>
     `;
     return card;
+}
+
+function saveIvrName(index, name) {
+    ivrMenus[index].name = name;
+}
+
+function onIvrActionChange(ivrIndex, selectElement) {
+    const action = selectElement.value;
+    const wrapper = selectElement.parentElement.querySelector('.ivr-opt-param-wrapper');
+    
+    if (action === 'ivr') {
+        // Build dropdown with existing IVRs
+        const existingIvrs = Object.keys(ivrMenus).map(idx => ({
+            id: idx,
+            name: ivrMenus[idx].name
+        }));
+        
+        let html = `
+            <select class="ivr-opt-param" onchange="handleIvrSelection(${ivrIndex}, this)">
+                <option value="" data-i18n="reg.option.selectIvr">${t('reg.option.selectIvr')}</option>
+        `;
+        
+        existingIvrs.forEach(ivr => {
+            html += `<option value="ivr_${ivr.id}">${ivr.name}</option>`;
+        });
+        
+        html += `
+                <option value="ivr_new" class="new-ivr-opt" style="background-color: var(--primary-color); color: white;">
+                    ${t('reg.option.createNewIvr')}
+                </option>
+            </select>
+        `;
+        
+        wrapper.innerHTML = html;
+        wrapper.dataset.type = 'ivr';
+    } else {
+        // Use text input for other actions
+        wrapper.innerHTML = `<input type="text" class="ivr-opt-param" placeholder="${t('reg.placeholder.ivrOptParam')}" data-i18n="reg.placeholder.ivrOptParam">`;
+        wrapper.dataset.type = action;
+    }
 }
 
 function handleIvrFileSelect(input, index) {
@@ -303,16 +357,192 @@ function addIvrOption(ivrIndex) {
     row.className = 'ivr-option-row';
     row.innerHTML = `
         <span class="digit-label">${nextDigit}</span>
-        <select class="ivr-opt-action">
+        <select class="ivr-opt-action" onchange="onIvrActionChange(${ivrIndex}, this)">
             <option value="transfer" data-i18n="reg.option.transferExtension">${t('reg.option.transferExtension')}</option>
             <option value="ring_group" data-i18n="reg.option.transferRingGroup">${t('reg.option.transferRingGroup')}</option>
             <option value="voicemail" data-i18n="reg.option.sendVoicemail">${t('reg.option.sendVoicemail')}</option>
             <option value="ivr" data-i18n="reg.option.goToIvr">${t('reg.option.goToIvr')}</option>
         </select>
-        <input type="text" class="ivr-opt-param" placeholder="${t('reg.placeholder.ivrOptParam')}" data-i18n="reg.placeholder.ivrOptParam">
+        <div class="ivr-opt-param-wrapper" data-type="transfer">
+            <input type="text" class="ivr-opt-param" placeholder="${t('reg.placeholder.ivrOptParam')}" data-i18n="reg.placeholder.ivrOptParam">
+        </div>
         <button type="button" class="remove-btn" onclick="this.closest('.ivr-option-row').remove()"><i class="fas fa-times"></i></button>
     `;
     list.appendChild(row);
+}
+
+function handleIvrSelection(ivrIndex, selectElement) {
+    const value = selectElement.value;
+    
+    if (value === 'ivr_new') {
+        currentIvrModalTarget = { parentIvrIndex: ivrIndex, rowElement: selectElement.closest('.ivr-option-row') };
+        openIvrCreateModal();
+    } else if (value.startsWith('ivr_')) {
+        const targetIvrId = value.split('_')[1];
+        selectElement.value = `ivr_${targetIvrId}`;
+    }
+}
+
+function openIvrCreateModal() {
+    // Get max IVR index to offer next new IVR
+    const maxIndex = Math.max(...Object.keys(ivrMenus).map(Number));
+    const newIvrIndex = maxIndex + 1;
+    
+    let modalContent = `
+        <div class="modal-header">
+            <h3>${t('reg.label.createIvr')}</h3>
+            <button type="button" class="modal-close" onclick="document.getElementById('ivrCreateModal').style.display='none'">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>${t('reg.label.ivrName')}</label>
+                <input type="text" id="newIvrName" class="form-control" placeholder="${t('reg.placeholder.ivrName')}" value="IVR Menu ${newIvrIndex + 1}">
+            </div>
+            <div class="form-group">
+                <label>${t('reg.label.greetingRecording')}</label>
+                <div class="ivr-recording-upload" onclick="this.querySelector('input').click()">
+                    <input type="file" id="newIvrGreeting" accept="audio/wav,audio/mp3,audio/mpeg,audio/ogg,.wav,.mp3,.ogg" onchange="updateIvrGreetingLabel(this)">
+                    <i class="fas fa-cloud-arrow-up"></i>
+                    <p class="upload-label" id="newIvrGreetingLabel">${t('reg.hint.greetingRecording')}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>${t('reg.label.menuOptions')}</label>
+                <div class="ivr-options-list" id="newIvrOptions">
+                    <div class="ivr-option-row">
+                        <span class="digit-label">1</span>
+                        <select class="ivr-opt-action" onchange="onNewIvrActionChange(this)">
+                            <option value="transfer">${t('reg.option.transferExtension')}</option>
+                            <option value="ring_group">${t('reg.option.transferRingGroup')}</option>
+                            <option value="voicemail">${t('reg.option.sendVoicemail')}</option>
+                            <option value="ivr">${t('reg.option.goToIvr')}</option>
+                        </select>
+                        <div class="ivr-opt-param-wrapper" data-type="transfer">
+                            <input type="text" class="ivr-opt-param" placeholder="${t('reg.placeholder.ivrOptParam')}">
+                        </div>
+                        <button type="button" class="remove-btn" onclick="this.closest('.ivr-option-row').remove()"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-small btn-ghost" onclick="addNewIvrOption()">
+                    ${t('reg.btn.addIvrOption')}
+                </button>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-ghost" onclick="document.getElementById('ivrCreateModal').style.display='none'">
+                ${t('reg.btn.cancel')}
+            </button>
+            <button type="button" class="btn btn-primary" onclick="saveNewIvr(${newIvrIndex})">
+                ${t('reg.btn.createIvr')}
+            </button>
+        </div>
+    `;
+    
+    const modal = document.getElementById('ivrCreateModal');
+    if (!modal) {
+        const newModal = document.createElement('div');
+        newModal.id = 'ivrCreateModal';
+        newModal.className = 'modal-overlay ivr-create-modal';
+        newModal.onclick = (e) => {
+            if (e.target === newModal) newModal.style.display = 'none';
+        };
+        document.body.appendChild(newModal);
+    }
+    
+    const modalElement = document.getElementById('ivrCreateModal');
+    modalElement.innerHTML = `<div class="modal-content">${modalContent}</div>`;
+    modalElement.style.display = 'flex';
+}
+
+function onNewIvrActionChange(selectElement) {
+    const action = selectElement.value;
+    const wrapper = selectElement.parentElement.querySelector('.ivr-opt-param-wrapper');
+    
+    if (action === 'ivr') {
+        const existingIvrs = Object.keys(ivrMenus).map(idx => ({
+            id: idx,
+            name: ivrMenus[idx].name
+        }));
+        
+        let html = `<select class="ivr-opt-param" onchange="handleNewIvrSelection(this)">
+            <option value="">${t('reg.option.selectIvr')}</option>`;
+        
+        existingIvrs.forEach(ivr => {
+            html += `<option value="ivr_${ivr.id}">${ivr.name}</option>`;
+        });
+        
+        html += `<option value="ivr_new">${t('reg.option.createNewIvr')}</option></select>`;
+        
+        wrapper.innerHTML = html;
+        wrapper.dataset.type = 'ivr';
+    } else {
+        wrapper.innerHTML = `<input type="text" class="ivr-opt-param" placeholder="${t('reg.placeholder.ivrOptParam')}">`;
+        wrapper.dataset.type = action;
+    }
+}
+
+function addNewIvrOption() {
+    const list = document.getElementById('newIvrOptions');
+    const rows = list.querySelectorAll('.ivr-option-row');
+    const nextDigit = rows.length + 1;
+    if (nextDigit > 9) return;
+    
+    const row = document.createElement('div');
+    row.className = 'ivr-option-row';
+    row.innerHTML = `
+        <span class="digit-label">${nextDigit}</span>
+        <select class="ivr-opt-action" onchange="onNewIvrActionChange(this)">
+            <option value="transfer">${t('reg.option.transferExtension')}</option>
+            <option value="ring_group">${t('reg.option.transferRingGroup')}</option>
+            <option value="voicemail">${t('reg.option.sendVoicemail')}</option>
+            <option value="ivr">${t('reg.option.goToIvr')}</option>
+        </select>
+        <div class="ivr-opt-param-wrapper" data-type="transfer">
+            <input type="text" class="ivr-opt-param" placeholder="${t('reg.placeholder.ivrOptParam')}">
+        </div>
+        <button type="button" class="remove-btn" onclick="this.closest('.ivr-option-row').remove()"><i class="fas fa-times"></i></button>
+    `;
+    list.appendChild(row);
+}
+
+function updateIvrGreetingLabel(input) {
+    const file = input.files[0];
+    const label = document.getElementById('newIvrGreetingLabel');
+    if (file && label) {
+        label.innerHTML = `<span class="file-name"><i class="fas fa-check-circle"></i> ${file.name}</span>`;
+    }
+}
+
+function handleNewIvrSelection(selectElement) {
+    const value = selectElement.value;
+    if (value === 'ivr_new') {
+        // Recursively open another modal - save current modal state first
+        closeIvrCreateModal();
+        openIvrCreateModal();
+    }
+}
+
+function saveNewIvr(ivrIndex) {
+    const name = document.getElementById('newIvrName')?.value || `IVR Menu ${ivrIndex + 1}`;
+    ivrMenus[ivrIndex] = { name: name, options: [] };
+    
+    // Update the parent IVR's option row with the new IVR
+    if (currentIvrModalTarget) {
+        const select = currentIvrModalTarget.rowElement.querySelector('.ivr-opt-param');
+        if (select && select.tagName === 'SELECT') {
+            select.value = `ivr_${ivrIndex}`;
+        }
+    }
+    
+    closeIvrCreateModal();
+}
+
+function closeIvrCreateModal() {
+    const modal = document.getElementById('ivrCreateModal');
+    if (modal) modal.style.display = 'none';
+    currentIvrModalTarget = null;
 }
 
 // ============ GATEWAY TOGGLE ============
