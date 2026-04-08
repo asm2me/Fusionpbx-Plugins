@@ -528,7 +528,7 @@ function buildReviewTable() {
     const hasGw = document.getElementById('configureGateway')?.checked;
     const installType = document.querySelector('input[name="installation_type"]:checked')?.value || 'company_pbx';
     const devices = Array.from(document.querySelectorAll('.device-checkbox:checked')).map(cb => cb.value);
-    const trunk = document.querySelector('input[name="trunk_service"]:checked)?.value || '-';
+    const trunk = document.querySelector('input[name="trunk_service"]:checked')?.value || '-';
 
     let html = `
         <div class="review-section">
