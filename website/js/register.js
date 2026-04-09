@@ -27,8 +27,8 @@ function t(key) {
     return translations[key][lang] || translations[key]['en'] || key;
 }
 
-    const TOTAL_STEPS = 10;
-    let currentStep = 1;
+const TOTAL_STEPS = 10;
+let currentStep = 1;
 let installationTypes = {};
 let deviceTypes = {};
 let fieldHints = {};
@@ -1080,7 +1080,7 @@ function buildReviewTable() {
         );
     }
 
-    // Call Routes screenshot
+    // Call Routes snapshot
     const flowData = typeof FlowDesigner !== 'undefined' && FlowDesigner.getData ? FlowDesigner.getData() : { nodes: [], connections: [] };
     const routesSection = document.getElementById('reviewCallRoutesSection');
     const routesWrap = document.getElementById('reviewCallRoutesWrap');
