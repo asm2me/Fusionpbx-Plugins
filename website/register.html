@@ -110,7 +110,7 @@
                         <div class="step-line"></div>
                         <div class="form-step-indicator" data-step="2">
                             <span class="step-dot">2</span>
-                            <span class="step-text">Installation</span>
+                            <span class="step-text" data-i18n="reg.step.installation">Installation</span>
                         </div>
                         <div class="step-line"></div>
                         <div class="form-step-indicator" data-step="3">
@@ -125,12 +125,12 @@
                         <div class="step-line"></div>
                         <div class="form-step-indicator" data-step="5">
                             <span class="step-dot">5</span>
-                            <span class="step-text">IVR Menus</span>
+                            <span class="step-text" data-i18n="reg.step.ivr">IVR Menus</span>
                         </div>
                         <div class="step-line"></div>
                         <div class="form-step-indicator" data-step="6">
                             <span class="step-dot">6</span>
-                            <span class="step-text">Devices</span>
+                            <span class="step-text" data-i18n="reg.step.devices">Devices</span>
                         </div>
                         <div class="step-line"></div>
                         <div class="form-step-indicator" data-step="7">
@@ -140,7 +140,7 @@
                         <div class="step-line"></div>
                         <div class="form-step-indicator" data-step="8">
                             <span class="step-dot">8</span>
-                            <span class="step-text">Call Routes</span>
+                            <span class="step-text" data-i18n="reg.step.callroutes">Call Routes</span>
                         </div>
                         <div class="step-line"></div>
                         <div class="form-step-indicator" data-step="9">
@@ -251,27 +251,27 @@
 
                     <!-- Step 6: Device & Trunk Configuration -->
                     <div class="form-step-content" id="step6">
-                        <h3 class="step-title"><i class="fas fa-mobile"></i> Devices & Trunk Services</h3>
-                        <p class="step-desc">Select the devices you'll be using and choose your trunk service for external calls.</p>
+                        <h3 class="step-title" data-i18n-html="reg.devices.title"><i class="fas fa-mobile"></i> Devices & Trunk Services</h3>
+                        <p class="step-desc" data-i18n="reg.devices.desc">Select the devices you'll be using and choose your trunk service for external calls.</p>
 
                         <div class="form-group">
-                            <label><i class="fas fa-mobile"></i> Device Types</label>
-                            <p class="form-hint">Select all devices you plan to use with your PBX</p>
+                            <label data-i18n-html="reg.devices.label.deviceTypes"><i class="fas fa-mobile"></i> Device Types</label>
+                            <p class="form-hint" data-i18n="reg.devices.hint.deviceTypes">Select all devices you plan to use with your PBX</p>
                             <div id="deviceTypes" class="device-types-container"></div>
                         </div>
 
                         <div class="form-group">
-                            <label><i class="fas fa-network-wired"></i> Trunk Service</label>
-                            <p class="form-hint">Choose your preferred trunk/gateway service for incoming and outgoing calls</p>
+                            <label data-i18n-html="reg.devices.label.trunkService"><i class="fas fa-network-wired"></i> Trunk Service</label>
+                            <p class="form-hint" data-i18n="reg.devices.hint.trunkService">Choose your preferred trunk/gateway service for incoming and outgoing calls</p>
                             <div id="trunkServices" class="trunk-services-container"></div>
                         </div>
 
                         <div class="form-group">
                             <label class="checkbox-label">
                                 <input type="checkbox" id="exportProvisioning">
-                                <span>Export device provisioning files</span>
+                                <span data-i18n="reg.devices.label.exportProv">Export device provisioning files</span>
                             </label>
-                            <span class="form-hint">Automatically generate configuration files for your devices</span>
+                            <span class="form-hint" data-i18n="reg.devices.hint.exportProv">Automatically generate configuration files for your devices</span>
                         </div>
 
                         <div class="form-buttons">
@@ -286,8 +286,8 @@
 
                     <!-- Step 2: Installation Type -->
                     <div class="form-step-content" id="step2">
-                        <h3 class="step-title"><i class="fas fa-building"></i> Select Your Setup Type</h3>
-                        <p class="step-desc">Choose the type of installation that best fits your business needs. This determines the features available in your plan.</p>
+                        <h3 class="step-title" data-i18n-html="reg.step2.title"><i class="fas fa-building"></i> Select Your Setup Type</h3>
+                        <p class="step-desc" data-i18n="reg.step2.desc">Choose the type of installation that best fits your business needs. This determines the features available in your plan.</p>
 
                         <div id="installationTypes" class="installation-types-container"></div>
 
@@ -367,15 +367,15 @@
                         <p class="step-desc" data-i18n="reg.step6.desc">Configure your SIP trunk for making and receiving external calls. You can skip this and configure later.</p>
 
                         <div class="form-group">
-                            <label><i class="fas fa-server"></i> Gateway Type (Optional)</label>
-                            <p class="form-hint">Select a gateway type for automatic provisioning, or configure manually below</p>
+                            <label data-i18n-html="reg.gw.typeLabel"><i class="fas fa-server"></i> Gateway Type (Optional)</label>
+                            <p class="form-hint" data-i18n="reg.gw.typeHint">Select a gateway type for automatic provisioning, or configure manually below</p>
                             <div class="gateway-types-container">
                                 <label class="gateway-option">
                                     <input type="radio" name="gateway_type" value="dinstar" class="gateway-type-radio" onchange="updateGatewayForm()">
                                     <div class="gateway-option-content">
                                         <i class="fas fa-cube"></i>
                                         <h4>Dinstar</h4>
-                                        <p>Dinstar VoIP Gateway</p>
+                                        <p data-i18n="reg.gw.dinstar">Dinstar VoIP Gateway</p>
                                     </div>
                                 </label>
                                 <label class="gateway-option">
@@ -383,7 +383,7 @@
                                     <div class="gateway-option-content">
                                         <i class="fas fa-cube"></i>
                                         <h4>Yeastar</h4>
-                                        <p>Yeastar S-Series Gateway</p>
+                                        <p data-i18n="reg.gw.yeastar">Yeastar S-Series Gateway</p>
                                     </div>
                                 </label>
                                 <label class="gateway-option">
@@ -391,7 +391,7 @@
                                     <div class="gateway-option-content">
                                         <i class="fas fa-cube"></i>
                                         <h4>GOIP</h4>
-                                        <p>DBL GOIP Gateway</p>
+                                        <p data-i18n="reg.gw.goip">DBL GOIP Gateway</p>
                                     </div>
                                 </label>
                                 <label class="gateway-option">
@@ -399,7 +399,7 @@
                                     <div class="gateway-option-content">
                                         <i class="fas fa-cube"></i>
                                         <h4>Grandstream</h4>
-                                        <p>Grandstream VoIP Gateway</p>
+                                        <p data-i18n="reg.gw.grandstream">Grandstream VoIP Gateway</p>
                                     </div>
                                 </label>
                                 <label class="gateway-option">
@@ -407,15 +407,15 @@
                                     <div class="gateway-option-content">
                                         <i class="fas fa-cube"></i>
                                         <h4>Cisco</h4>
-                                        <p>Cisco VoIP Gateway</p>
+                                        <p data-i18n="reg.gw.cisco">Cisco VoIP Gateway</p>
                                     </div>
                                 </label>
                                 <label class="gateway-option">
                                     <input type="radio" name="gateway_type" value="other" class="gateway-type-radio" onchange="updateGatewayForm()">
                                     <div class="gateway-option-content">
                                         <i class="fas fa-ellipsis-h"></i>
-                                        <h4>Other/Manual</h4>
-                                        <p>Configure manually</p>
+                                        <h4 data-i18n="reg.gw.otherTitle">Other/Manual</h4>
+                                        <p data-i18n="reg.gw.otherDesc">Configure manually</p>
                                     </div>
                                 </label>
                             </div>
@@ -475,30 +475,30 @@
                             <div id="gatewayProvisioningSection" style="display:none;">
                                 <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid var(--gray-200);">
                                 
-                                <h4>Gateway Provisioning Settings</h4>
-                                
+                                <h4 data-i18n="reg.gw.provSection">Gateway Provisioning Settings</h4>
+
                                 <div class="form-group">
                                     <label class="checkbox-label">
                                         <input type="checkbox" id="enableProvisioning" onchange="toggleProvisioningOptions()">
-                                        <span>Enable auto-provisioning for this gateway</span>
+                                        <span data-i18n="reg.gw.enableProv">Enable auto-provisioning for this gateway</span>
                                     </label>
-                                    <span class="form-hint">If enabled, the gateway will be provisioned automatically with the PBX settings</span>
+                                    <span class="form-hint" data-i18n="reg.gw.enableProvHint">If enabled, the gateway will be provisioned automatically with the PBX settings</span>
                                 </div>
 
                                 <div id="provisioningOptions" style="display:none;">
                                     <div class="form-row">
                                         <div class="form-group">
-                                            <label><i class="fas fa-link"></i> Provisioning URL</label>
+                                            <label data-i18n-html="reg.gw.provUrl"><i class="fas fa-link"></i> Provisioning URL</label>
                                             <input type="text" id="provisioningUrl" name="provisioning_url" placeholder="https://your-pbx.com/provisioning/config">
-                                            <span class="form-hint">URL for gateway to fetch configuration from</span>
+                                            <span class="form-hint" data-i18n="reg.gw.provUrlHint">URL for gateway to fetch configuration from</span>
                                         </div>
                                         <div class="form-group">
-                                            <label><i class="fas fa-clock"></i> Provisioning Interval</label>
+                                            <label data-i18n-html="reg.gw.provInterval"><i class="fas fa-clock"></i> Provisioning Interval</label>
                                             <select id="provisioningInterval" name="provisioning_interval" class="formfld">
-                                                <option value="3600">Every Hour</option>
-                                                <option value="7200">Every 2 Hours</option>
-                                                <option value="86400" selected>Daily</option>
-                                                <option value="604800">Weekly</option>
+                                                <option value="3600" data-i18n="reg.gw.provEveryHour">Every Hour</option>
+                                                <option value="7200" data-i18n="reg.gw.provEvery2Hours">Every 2 Hours</option>
+                                                <option value="86400" selected data-i18n="reg.gw.provDaily">Daily</option>
+                                                <option value="604800" data-i18n="reg.gw.provWeekly">Weekly</option>
                                             </select>
                                         </div>
                                     </div>
@@ -521,58 +521,58 @@
 
                     <!-- Step 8: Call Routes Designer (Drag & Drop) -->
                     <div class="form-step-content" id="step8">
-                        <h3 class="step-title"><i class="fas fa-route"></i> Call Routes Designer</h3>
-                        <p class="step-desc">Drag nodes from the toolbox onto the canvas. Click an output port <span class="port-demo"></span> and drag to an input port to connect them. Click a node to edit its properties.</p>
+                        <h3 class="step-title" data-i18n-html="reg.routes.title"><i class="fas fa-route"></i> Call Routes Designer</h3>
+                        <p class="step-desc" data-i18n="reg.routes.desc">Drag nodes from the toolbox onto the canvas. Click an output port <span class="port-demo"></span> and drag to an input port to connect them. Click a node to edit its properties.</p>
 
                         <div class="flow-designer">
                             <!-- Toolbox -->
                             <div class="flow-toolbox">
-                                <div class="toolbox-title"><i class="fas fa-toolbox"></i> Toolbox</div>
+                                <div class="toolbox-title" data-i18n-html="reg.routes.toolbox"><i class="fas fa-toolbox"></i> Toolbox</div>
 
-                                <div class="toolbox-section-label">Inbound</div>
+                                <div class="toolbox-section-label" data-i18n="reg.routes.section.inbound">Inbound</div>
                                 <div class="toolbox-node" draggable="true" data-node-type="inbound">
-                                    <i class="fas fa-phone-volume"></i> Inbound Call
+                                    <i class="fas fa-phone-volume"></i> <span data-i18n="reg.routes.node.inbound">Inbound Call</span>
                                 </div>
 
-                                <div class="toolbox-section-label">Logic</div>
+                                <div class="toolbox-section-label" data-i18n="reg.routes.section.logic">Logic</div>
                                 <div class="toolbox-node" draggable="true" data-node-type="timecondition">
-                                    <i class="fas fa-clock"></i> Time Condition
+                                    <i class="fas fa-clock"></i> <span data-i18n="reg.routes.node.timecondition">Time Condition</span>
                                 </div>
 
-                                <div class="toolbox-section-label">Destinations</div>
+                                <div class="toolbox-section-label" data-i18n="reg.routes.section.destinations">Destinations</div>
                                 <div class="toolbox-node" draggable="true" data-node-type="ivr">
-                                    <i class="fas fa-sitemap"></i> IVR Menu
+                                    <i class="fas fa-sitemap"></i> <span data-i18n="reg.routes.node.ivr">IVR Menu</span>
                                 </div>
                                 <div class="toolbox-node" draggable="true" data-node-type="ringgroup">
-                                    <i class="fas fa-users"></i> Ring Group
+                                    <i class="fas fa-users"></i> <span data-i18n="reg.routes.node.ringgroup">Ring Group</span>
                                 </div>
                                 <div class="toolbox-node" draggable="true" data-node-type="extension">
-                                    <i class="fas fa-user"></i> Extension
+                                    <i class="fas fa-user"></i> <span data-i18n="reg.routes.node.extension">Extension</span>
                                 </div>
                                 <div class="toolbox-node" draggable="true" data-node-type="queue">
-                                    <i class="fas fa-list-ol"></i> Call Queue
+                                    <i class="fas fa-list-ol"></i> <span data-i18n="reg.routes.node.queue">Call Queue</span>
                                 </div>
                                 <div class="toolbox-node" draggable="true" data-node-type="voicemail">
-                                    <i class="fas fa-voicemail"></i> Voicemail
+                                    <i class="fas fa-voicemail"></i> <span data-i18n="reg.routes.node.voicemail">Voicemail</span>
                                 </div>
                                 <div class="toolbox-node" draggable="true" data-node-type="hangup">
-                                    <i class="fas fa-phone-slash"></i> Hangup
+                                    <i class="fas fa-phone-slash"></i> <span data-i18n="reg.routes.node.hangup">Hangup</span>
                                 </div>
 
-                                <div class="toolbox-section-label">Outbound</div>
+                                <div class="toolbox-section-label" data-i18n="reg.routes.section.outbound">Outbound</div>
                                 <div class="toolbox-node" draggable="true" data-node-type="outbound">
-                                    <i class="fas fa-share-from-square"></i> Outbound Route
+                                    <i class="fas fa-share-from-square"></i> <span data-i18n="reg.routes.node.outbound">Outbound Route</span>
                                 </div>
                                 <div class="toolbox-node" draggable="true" data-node-type="gateway">
-                                    <i class="fas fa-server"></i> Gateway / Trunk
+                                    <i class="fas fa-server"></i> <span data-i18n="reg.routes.node.gateway">Gateway / Trunk</span>
                                 </div>
 
                                 <div class="toolbox-actions">
-                                    <button type="button" class="toolbox-btn" id="flowMaxBtn" onclick="flowToggleMaximize()" title="Maximize designer">
-                                        <i class="fas fa-expand-alt"></i> Maximize
+                                    <button type="button" class="toolbox-btn" id="flowMaxBtn" onclick="flowToggleMaximize()">
+                                        <i class="fas fa-expand-alt"></i> <span data-i18n="reg.routes.btn.maximize">Maximize</span>
                                     </button>
-                                    <button type="button" class="toolbox-btn toolbox-btn-danger" onclick="flowClearAll()" title="Clear canvas">
-                                        <i class="fas fa-trash-alt"></i> Clear
+                                    <button type="button" class="toolbox-btn toolbox-btn-danger" onclick="flowClearAll()">
+                                        <i class="fas fa-trash-alt"></i> <span data-i18n="reg.routes.btn.clear">Clear</span>
                                     </button>
                                 </div>
                             </div>
@@ -593,26 +593,26 @@
                                 </svg>
                                 <div class="flow-canvas-hint" id="flowCanvasHint">
                                     <i class="fas fa-project-diagram"></i>
-                                    <p>Drag nodes here to build your call flow</p>
+                                    <p data-i18n="reg.routes.canvas.hint">Drag nodes here to build your call flow</p>
                                 </div>
                             </div>
 
                             <!-- Properties Panel -->
                             <div class="flow-properties" id="flowProperties">
-                                <div class="properties-title"><i class="fas fa-sliders-h"></i> Properties</div>
+                                <div class="properties-title" data-i18n-html="reg.routes.props.title"><i class="fas fa-sliders-h"></i> Properties</div>
                                 <div class="properties-empty" id="propertiesEmpty">
                                     <i class="fas fa-mouse-pointer"></i>
-                                    <p>Select a node to edit its properties</p>
+                                    <p data-i18n="reg.routes.props.empty">Select a node to edit its properties</p>
                                 </div>
                                 <div id="propertiesForm"></div>
                             </div>
                         </div>
 
                         <div class="form-buttons">
-                            <button type="button" class="btn btn-ghost" onclick="prevStep(7)">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(7)" data-i18n-html="reg.btn.back">
                                 <i class="fas fa-arrow-left"></i> Back
                             </button>
-                            <button type="button" class="btn btn-primary" onclick="nextStep(9)">
+                            <button type="button" class="btn btn-primary" onclick="nextStep(9)" data-i18n-html="reg.btn.continue">
                                 Continue <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>

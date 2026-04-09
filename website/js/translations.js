@@ -1713,6 +1713,392 @@ const translations = {
     de: "<i class=\"fas fa-redo\"></i> Erneut Versuchen", pt: "<i class=\"fas fa-redo\"></i> Tentar Novamente", zh: "<i class=\"fas fa-redo\"></i> 重试", ja: "<i class=\"fas fa-redo\"></i> 再試行", tr: "<i class=\"fas fa-redo\"></i> Tekrar Dene", ru: "<i class=\"fas fa-redo\"></i> Повторить"
   },
 
+  // ── Step Indicators (missing) ──────────────────────────────
+  "reg.step.installation": {
+    en: "Installation", ar: "التثبيت", es: "Instalación", fr: "Installation",
+    de: "Installation", pt: "Instalação", zh: "安装", ja: "インストール", tr: "Kurulum", ru: "Установка"
+  },
+  "reg.step.ivr": {
+    en: "IVR Menus", ar: "قوائم الرد الآلي", es: "Menús IVR", fr: "Menus SVI",
+    de: "IVR-Menüs", pt: "Menus IVR", zh: "IVR菜单", ja: "IVRメニュー", tr: "IVR Menüleri", ru: "IVR-меню"
+  },
+  "reg.step.devices": {
+    en: "Devices", ar: "الأجهزة", es: "Dispositivos", fr: "Appareils",
+    de: "Geräte", pt: "Dispositivos", zh: "设备", ja: "デバイス", tr: "Cihazlar", ru: "Устройства"
+  },
+  "reg.step.callroutes": {
+    en: "Call Routes", ar: "مسارات المكالمات", es: "Rutas de Llamada", fr: "Routes d'Appel",
+    de: "Anrufrouten", pt: "Rotas de Chamada", zh: "呼叫路由", ja: "通話ルート", tr: "Çağrı Yolları", ru: "Маршруты вызовов"
+  },
+
+  // ── Step 2: Installation ───────────────────────────────────
+  "reg.step2.title": {
+    en: "<i class=\"fas fa-building\"></i> Select Your Setup Type",
+    ar: "<i class=\"fas fa-building\"></i> اختر نوع الإعداد",
+    es: "<i class=\"fas fa-building\"></i> Seleccione Su Tipo de Instalación",
+    fr: "<i class=\"fas fa-building\"></i> Choisissez Votre Type d'Installation",
+    de: "<i class=\"fas fa-building\"></i> Installationstyp Wählen",
+    pt: "<i class=\"fas fa-building\"></i> Selecione o Tipo de Instalação",
+    zh: "<i class=\"fas fa-building\"></i> 选择安装类型",
+    ja: "<i class=\"fas fa-building\"></i> セットアップタイプを選択",
+    tr: "<i class=\"fas fa-building\"></i> Kurulum Türünü Seçin",
+    ru: "<i class=\"fas fa-building\"></i> Выберите тип установки"
+  },
+  "reg.step2.desc": {
+    en: "Choose the type of installation that best fits your business needs. This determines the features available in your plan.",
+    ar: "اختر نوع التثبيت الأنسب لاحتياجات عملك. يحدد هذا الميزات المتاحة في خطتك.",
+    es: "Elija el tipo de instalación que mejor se adapte a sus necesidades empresariales. Esto determina las funciones disponibles en su plan.",
+    fr: "Choisissez le type d'installation qui correspond le mieux à vos besoins professionnels. Cela détermine les fonctionnalités disponibles dans votre offre.",
+    de: "Wählen Sie den Installationstyp, der Ihren Geschäftsanforderungen am besten entspricht. Dies bestimmt die in Ihrem Plan verfügbaren Funktionen.",
+    pt: "Escolha o tipo de instalação que melhor atende às suas necessidades empresariais. Isso determina os recursos disponíveis no seu plano.",
+    zh: "选择最适合您业务需求的安装类型。这决定了您的计划中可用的功能。",
+    ja: "ビジネスニーズに最も適したインストールタイプを選択してください。これによりプランで利用できる機能が決まります。",
+    tr: "İşletme ihtiyaçlarınıza en uygun kurulum türünü seçin. Bu, planınızdaki kullanılabilir özellikleri belirler.",
+    ru: "Выберите тип установки, наиболее подходящий для вашего бизнеса. Это определяет функции, доступные в вашем плане."
+  },
+
+  // ── Step 6: Devices & Trunk Services ──────────────────────
+  "reg.devices.title": {
+    en: "<i class=\"fas fa-mobile\"></i> Devices & Trunk Services",
+    ar: "<i class=\"fas fa-mobile\"></i> الأجهزة وخدمات الخطوط",
+    es: "<i class=\"fas fa-mobile\"></i> Dispositivos y Servicios de Troncal",
+    fr: "<i class=\"fas fa-mobile\"></i> Appareils et Services de Trunk",
+    de: "<i class=\"fas fa-mobile\"></i> Geräte & Trunk-Dienste",
+    pt: "<i class=\"fas fa-mobile\"></i> Dispositivos e Serviços de Tronco",
+    zh: "<i class=\"fas fa-mobile\"></i> 设备与中继服务",
+    ja: "<i class=\"fas fa-mobile\"></i> デバイスとトランクサービス",
+    tr: "<i class=\"fas fa-mobile\"></i> Cihazlar ve Trunk Hizmetleri",
+    ru: "<i class=\"fas fa-mobile\"></i> Устройства и транковые сервисы"
+  },
+  "reg.devices.desc": {
+    en: "Select the devices you'll be using and choose your trunk service for external calls.",
+    ar: "حدد الأجهزة التي ستستخدمها واختر خدمة الخط للمكالمات الخارجية.",
+    es: "Seleccione los dispositivos que usará y elija su servicio de troncal para llamadas externas.",
+    fr: "Sélectionnez les appareils que vous utiliserez et choisissez votre service de trunk pour les appels externes.",
+    de: "Wählen Sie die Geräte, die Sie verwenden werden, und wählen Sie Ihren Trunk-Dienst für externe Anrufe.",
+    pt: "Selecione os dispositivos que você usará e escolha seu serviço de tronco para chamadas externas.",
+    zh: "选择您将使用的设备，并为外部通话选择中继服务。",
+    ja: "使用するデバイスを選択し、外部通話のためのトランクサービスを選んでください。",
+    tr: "Kullanacağınız cihazları seçin ve harici aramalar için trunk hizmetinizi seçin.",
+    ru: "Выберите устройства, которые вы будете использовать, и выберите транковый сервис для внешних звонков."
+  },
+  "reg.devices.label.deviceTypes": {
+    en: "<i class=\"fas fa-mobile\"></i> Device Types",
+    ar: "<i class=\"fas fa-mobile\"></i> أنواع الأجهزة",
+    es: "<i class=\"fas fa-mobile\"></i> Tipos de Dispositivos",
+    fr: "<i class=\"fas fa-mobile\"></i> Types d'Appareils",
+    de: "<i class=\"fas fa-mobile\"></i> Gerätetypen",
+    pt: "<i class=\"fas fa-mobile\"></i> Tipos de Dispositivos",
+    zh: "<i class=\"fas fa-mobile\"></i> 设备类型",
+    ja: "<i class=\"fas fa-mobile\"></i> デバイスタイプ",
+    tr: "<i class=\"fas fa-mobile\"></i> Cihaz Türleri",
+    ru: "<i class=\"fas fa-mobile\"></i> Типы устройств"
+  },
+  "reg.devices.hint.deviceTypes": {
+    en: "Select all devices you plan to use with your PBX",
+    ar: "حدد جميع الأجهزة التي تخطط لاستخدامها مع نظام PBX الخاص بك",
+    es: "Seleccione todos los dispositivos que planea usar con su PBX",
+    fr: "Sélectionnez tous les appareils que vous prévoyez d'utiliser avec votre PBX",
+    de: "Wählen Sie alle Geräte aus, die Sie mit Ihrer PBX verwenden möchten",
+    pt: "Selecione todos os dispositivos que planeja usar com seu PBX",
+    zh: "选择您计划与PBX一起使用的所有设备",
+    ja: "PBXで使用する予定のすべてのデバイスを選択してください",
+    tr: "PBX'inizle kullanmayı planladığınız tüm cihazları seçin",
+    ru: "Выберите все устройства, которые вы планируете использовать с АТС"
+  },
+  "reg.devices.label.trunkService": {
+    en: "<i class=\"fas fa-network-wired\"></i> Trunk Service",
+    ar: "<i class=\"fas fa-network-wired\"></i> خدمة الخط",
+    es: "<i class=\"fas fa-network-wired\"></i> Servicio de Troncal",
+    fr: "<i class=\"fas fa-network-wired\"></i> Service de Trunk",
+    de: "<i class=\"fas fa-network-wired\"></i> Trunk-Dienst",
+    pt: "<i class=\"fas fa-network-wired\"></i> Serviço de Tronco",
+    zh: "<i class=\"fas fa-network-wired\"></i> 中继服务",
+    ja: "<i class=\"fas fa-network-wired\"></i> トランクサービス",
+    tr: "<i class=\"fas fa-network-wired\"></i> Trunk Hizmeti",
+    ru: "<i class=\"fas fa-network-wired\"></i> Транковый сервис"
+  },
+  "reg.devices.hint.trunkService": {
+    en: "Choose your preferred trunk/gateway service for incoming and outgoing calls",
+    ar: "اختر خدمة الخط/البوابة المفضلة للمكالمات الواردة والصادرة",
+    es: "Elija su servicio de troncal/gateway preferido para llamadas entrantes y salientes",
+    fr: "Choisissez votre service de trunk/passerelle préféré pour les appels entrants et sortants",
+    de: "Wählen Sie Ihren bevorzugten Trunk-/Gateway-Dienst für ein- und ausgehende Anrufe",
+    pt: "Escolha seu serviço de tronco/gateway preferido para chamadas de entrada e saída",
+    zh: "为来电和去电选择您首选的中继/网关服务",
+    ja: "着信・発信通話のためのトランク/ゲートウェイサービスを選択してください",
+    tr: "Gelen ve giden aramalar için tercih ettiğiniz trunk/ağ geçidi hizmetini seçin",
+    ru: "Выберите предпочтительный транковый/шлюзовой сервис для входящих и исходящих звонков"
+  },
+  "reg.devices.label.exportProv": {
+    en: "Export device provisioning files",
+    ar: "تصدير ملفات توفير الأجهزة",
+    es: "Exportar archivos de aprovisionamiento de dispositivos",
+    fr: "Exporter les fichiers de provisionnement des appareils",
+    de: "Geräte-Provisionierungsdateien exportieren",
+    pt: "Exportar arquivos de provisionamento de dispositivos",
+    zh: "导出设备配置文件",
+    ja: "デバイスプロビジョニングファイルをエクスポート",
+    tr: "Cihaz yapılandırma dosyalarını dışa aktar",
+    ru: "Экспортировать файлы конфигурации устройств"
+  },
+  "reg.devices.hint.exportProv": {
+    en: "Automatically generate configuration files for your devices",
+    ar: "إنشاء ملفات تكوين لأجهزتك تلقائياً",
+    es: "Generar automáticamente archivos de configuración para sus dispositivos",
+    fr: "Générer automatiquement des fichiers de configuration pour vos appareils",
+    de: "Konfigurationsdateien für Ihre Geräte automatisch generieren",
+    pt: "Gerar automaticamente arquivos de configuração para seus dispositivos",
+    zh: "自动生成设备配置文件",
+    ja: "デバイスの設定ファイルを自動生成する",
+    tr: "Cihazlarınız için otomatik olarak yapılandırma dosyaları oluşturun",
+    ru: "Автоматически генерировать файлы конфигурации для ваших устройств"
+  },
+
+  // ── Step 7: Gateway (missing keys) ────────────────────────
+  "reg.gw.typeLabel": {
+    en: "<i class=\"fas fa-server\"></i> Gateway Type (Optional)",
+    ar: "<i class=\"fas fa-server\"></i> نوع البوابة (اختياري)",
+    es: "<i class=\"fas fa-server\"></i> Tipo de Gateway (Opcional)",
+    fr: "<i class=\"fas fa-server\"></i> Type de Passerelle (Facultatif)",
+    de: "<i class=\"fas fa-server\"></i> Gateway-Typ (Optional)",
+    pt: "<i class=\"fas fa-server\"></i> Tipo de Gateway (Opcional)",
+    zh: "<i class=\"fas fa-server\"></i> 网关类型（可选）",
+    ja: "<i class=\"fas fa-server\"></i> ゲートウェイタイプ（オプション）",
+    tr: "<i class=\"fas fa-server\"></i> Ağ Geçidi Türü (İsteğe Bağlı)",
+    ru: "<i class=\"fas fa-server\"></i> Тип шлюза (необязательно)"
+  },
+  "reg.gw.typeHint": {
+    en: "Select a gateway type for automatic provisioning, or configure manually below",
+    ar: "اختر نوع البوابة للتوفير التلقائي، أو قم بالتكوين يدوياً أدناه",
+    es: "Seleccione un tipo de gateway para aprovisionamiento automático, o configure manualmente abajo",
+    fr: "Sélectionnez un type de passerelle pour le provisionnement automatique, ou configurez manuellement ci-dessous",
+    de: "Wählen Sie einen Gateway-Typ für die automatische Provisionierung oder konfigurieren Sie manuell unten",
+    pt: "Selecione um tipo de gateway para provisionamento automático, ou configure manualmente abaixo",
+    zh: "选择网关类型以自动配置，或在下方手动配置",
+    ja: "自動プロビジョニング用のゲートウェイタイプを選択するか、以下で手動設定してください",
+    tr: "Otomatik yapılandırma için bir ağ geçidi türü seçin veya aşağıda manuel olarak yapılandırın",
+    ru: "Выберите тип шлюза для автоматической настройки или настройте вручную ниже"
+  },
+  "reg.gw.dinstar": {
+    en: "Dinstar VoIP Gateway", ar: "بوابة Dinstar VoIP", es: "Gateway VoIP Dinstar", fr: "Passerelle VoIP Dinstar",
+    de: "Dinstar VoIP-Gateway", pt: "Gateway VoIP Dinstar", zh: "Dinstar VoIP网关", ja: "Dinstar VoIPゲートウェイ", tr: "Dinstar VoIP Ağ Geçidi", ru: "Шлюз Dinstar VoIP"
+  },
+  "reg.gw.yeastar": {
+    en: "Yeastar S-Series Gateway", ar: "بوابة Yeastar S-Series", es: "Gateway Yeastar Serie S", fr: "Passerelle Yeastar Série S",
+    de: "Yeastar S-Series-Gateway", pt: "Gateway Yeastar Série S", zh: "Yeastar S系列网关", ja: "Yeastar Sシリーズゲートウェイ", tr: "Yeastar S-Serisi Ağ Geçidi", ru: "Шлюз Yeastar S-Series"
+  },
+  "reg.gw.goip": {
+    en: "DBL GOIP Gateway", ar: "بوابة DBL GOIP", es: "Gateway DBL GOIP", fr: "Passerelle DBL GOIP",
+    de: "DBL GOIP-Gateway", pt: "Gateway DBL GOIP", zh: "DBL GOIP网关", ja: "DBL GOIPゲートウェイ", tr: "DBL GOIP Ağ Geçidi", ru: "Шлюз DBL GOIP"
+  },
+  "reg.gw.grandstream": {
+    en: "Grandstream VoIP Gateway", ar: "بوابة Grandstream VoIP", es: "Gateway VoIP Grandstream", fr: "Passerelle VoIP Grandstream",
+    de: "Grandstream VoIP-Gateway", pt: "Gateway VoIP Grandstream", zh: "Grandstream VoIP网关", ja: "Grandstream VoIPゲートウェイ", tr: "Grandstream VoIP Ağ Geçidi", ru: "Шлюз Grandstream VoIP"
+  },
+  "reg.gw.cisco": {
+    en: "Cisco VoIP Gateway", ar: "بوابة Cisco VoIP", es: "Gateway VoIP Cisco", fr: "Passerelle VoIP Cisco",
+    de: "Cisco VoIP-Gateway", pt: "Gateway VoIP Cisco", zh: "Cisco VoIP网关", ja: "Cisco VoIPゲートウェイ", tr: "Cisco VoIP Ağ Geçidi", ru: "Шлюз Cisco VoIP"
+  },
+  "reg.gw.otherTitle": {
+    en: "Other/Manual", ar: "أخرى/يدوي", es: "Otro/Manual", fr: "Autre/Manuel",
+    de: "Sonstige/Manuell", pt: "Outro/Manual", zh: "其他/手动", ja: "その他/手動", tr: "Diğer/Manuel", ru: "Другое/Вручную"
+  },
+  "reg.gw.otherDesc": {
+    en: "Configure manually", ar: "تكوين يدوي", es: "Configurar manualmente", fr: "Configurer manuellement",
+    de: "Manuell konfigurieren", pt: "Configurar manualmente", zh: "手动配置", ja: "手動で設定する", tr: "Manuel yapılandır", ru: "Настроить вручную"
+  },
+  "reg.gw.provSection": {
+    en: "Gateway Provisioning Settings", ar: "إعدادات توفير البوابة", es: "Configuración de Aprovisionamiento del Gateway", fr: "Paramètres de Provisionnement de la Passerelle",
+    de: "Gateway-Provisionierungseinstellungen", pt: "Configurações de Provisionamento do Gateway", zh: "网关配置设置", ja: "ゲートウェイプロビジョニング設定", tr: "Ağ Geçidi Yapılandırma Ayarları", ru: "Настройки конфигурации шлюза"
+  },
+  "reg.gw.enableProv": {
+    en: "Enable auto-provisioning for this gateway", ar: "تمكين التوفير التلقائي لهذه البوابة", es: "Habilitar aprovisionamiento automático para este gateway", fr: "Activer le provisionnement automatique pour cette passerelle",
+    de: "Automatische Provisionierung für dieses Gateway aktivieren", pt: "Habilitar provisionamento automático para este gateway", zh: "为此网关启用自动配置", ja: "このゲートウェイの自動プロビジョニングを有効にする", tr: "Bu ağ geçidi için otomatik yapılandırmayı etkinleştir", ru: "Включить автоматическую настройку для этого шлюза"
+  },
+  "reg.gw.enableProvHint": {
+    en: "If enabled, the gateway will be provisioned automatically with the PBX settings",
+    ar: "إذا تم التمكين، سيتم توفير البوابة تلقائياً بإعدادات PBX",
+    es: "Si está habilitado, el gateway se aprovisionará automáticamente con la configuración del PBX",
+    fr: "Si activé, la passerelle sera provisionnée automatiquement avec les paramètres du PBX",
+    de: "Falls aktiviert, wird das Gateway automatisch mit den PBX-Einstellungen provisioniert",
+    pt: "Se habilitado, o gateway será provisionado automaticamente com as configurações do PBX",
+    zh: "如果启用，网关将使用PBX设置自动配置",
+    ja: "有効にすると、ゲートウェイはPBXの設定で自動的にプロビジョニングされます",
+    tr: "Etkinleştirilirse, ağ geçidi PBX ayarlarıyla otomatik olarak yapılandırılır",
+    ru: "Если включено, шлюз будет автоматически настроен с параметрами АТС"
+  },
+  "reg.gw.provUrl": {
+    en: "<i class=\"fas fa-link\"></i> Provisioning URL",
+    ar: "<i class=\"fas fa-link\"></i> رابط التوفير",
+    es: "<i class=\"fas fa-link\"></i> URL de Aprovisionamiento",
+    fr: "<i class=\"fas fa-link\"></i> URL de Provisionnement",
+    de: "<i class=\"fas fa-link\"></i> Provisionierungs-URL",
+    pt: "<i class=\"fas fa-link\"></i> URL de Provisionamento",
+    zh: "<i class=\"fas fa-link\"></i> 配置URL",
+    ja: "<i class=\"fas fa-link\"></i> プロビジョニングURL",
+    tr: "<i class=\"fas fa-link\"></i> Yapılandırma URL'si",
+    ru: "<i class=\"fas fa-link\"></i> URL конфигурации"
+  },
+  "reg.gw.provUrlHint": {
+    en: "URL for gateway to fetch configuration from", ar: "رابط جلب التكوين للبوابة", es: "URL desde donde el gateway obtiene la configuración", fr: "URL depuis laquelle la passerelle récupère la configuration",
+    de: "URL, von der das Gateway die Konfiguration abruft", pt: "URL de onde o gateway busca a configuração", zh: "网关获取配置的URL", ja: "ゲートウェイが設定を取得するURL", tr: "Ağ geçidinin yapılandırmayı alacağı URL", ru: "URL, с которого шлюз получает конфигурацию"
+  },
+  "reg.gw.provInterval": {
+    en: "<i class=\"fas fa-clock\"></i> Provisioning Interval",
+    ar: "<i class=\"fas fa-clock\"></i> فترة التوفير",
+    es: "<i class=\"fas fa-clock\"></i> Intervalo de Aprovisionamiento",
+    fr: "<i class=\"fas fa-clock\"></i> Intervalle de Provisionnement",
+    de: "<i class=\"fas fa-clock\"></i> Provisionierungsintervall",
+    pt: "<i class=\"fas fa-clock\"></i> Intervalo de Provisionamento",
+    zh: "<i class=\"fas fa-clock\"></i> 配置间隔",
+    ja: "<i class=\"fas fa-clock\"></i> プロビジョニング間隔",
+    tr: "<i class=\"fas fa-clock\"></i> Yapılandırma Aralığı",
+    ru: "<i class=\"fas fa-clock\"></i> Интервал конфигурации"
+  },
+  "reg.gw.provEveryHour": {
+    en: "Every Hour", ar: "كل ساعة", es: "Cada Hora", fr: "Toutes les Heures",
+    de: "Jede Stunde", pt: "A cada Hora", zh: "每小时", ja: "毎時", tr: "Her Saat", ru: "Каждый час"
+  },
+  "reg.gw.provEvery2Hours": {
+    en: "Every 2 Hours", ar: "كل ساعتين", es: "Cada 2 Horas", fr: "Toutes les 2 Heures",
+    de: "Alle 2 Stunden", pt: "A cada 2 Horas", zh: "每2小时", ja: "2時間ごと", tr: "Her 2 Saatte", ru: "Каждые 2 часа"
+  },
+  "reg.gw.provDaily": {
+    en: "Daily", ar: "يومياً", es: "Diariamente", fr: "Quotidiennement",
+    de: "Täglich", pt: "Diariamente", zh: "每天", ja: "毎日", tr: "Günlük", ru: "Ежедневно"
+  },
+  "reg.gw.provWeekly": {
+    en: "Weekly", ar: "أسبوعياً", es: "Semanalmente", fr: "Hebdomadairement",
+    de: "Wöchentlich", pt: "Semanalmente", zh: "每周", ja: "毎週", tr: "Haftalık", ru: "Еженедельно"
+  },
+
+  // ── Step 8: Call Routes Designer ──────────────────────────
+  "reg.routes.title": {
+    en: "<i class=\"fas fa-route\"></i> Call Routes Designer",
+    ar: "<i class=\"fas fa-route\"></i> مصمم مسارات المكالمات",
+    es: "<i class=\"fas fa-route\"></i> Diseñador de Rutas de Llamada",
+    fr: "<i class=\"fas fa-route\"></i> Concepteur de Routes d'Appel",
+    de: "<i class=\"fas fa-route\"></i> Anrufroutendesigner",
+    pt: "<i class=\"fas fa-route\"></i> Designer de Rotas de Chamada",
+    zh: "<i class=\"fas fa-route\"></i> 呼叫路由设计器",
+    ja: "<i class=\"fas fa-route\"></i> 通話ルートデザイナー",
+    tr: "<i class=\"fas fa-route\"></i> Çağrı Yolu Tasarımcısı",
+    ru: "<i class=\"fas fa-route\"></i> Дизайнер маршрутов вызовов"
+  },
+  "reg.routes.desc": {
+    en: "Drag nodes from the toolbox onto the canvas. Click an output port and drag to an input port to connect them. Click a node to edit its properties.",
+    ar: "اسحب العقد من صندوق الأدوات إلى اللوحة. انقر على منفذ الخروج واسحبه إلى منفذ الدخول لتوصيلهما. انقر على العقدة لتعديل خصائصها.",
+    es: "Arrastre nodos desde la caja de herramientas al lienzo. Haga clic en un puerto de salida y arrastre a un puerto de entrada para conectarlos. Haga clic en un nodo para editar sus propiedades.",
+    fr: "Faites glisser des nœuds depuis la boîte à outils vers le canevas. Cliquez sur un port de sortie et faites glisser vers un port d'entrée pour les connecter. Cliquez sur un nœud pour modifier ses propriétés.",
+    de: "Ziehen Sie Knoten aus der Toolbox auf die Leinwand. Klicken Sie auf einen Ausgangsport und ziehen Sie zu einem Eingangsport, um sie zu verbinden. Klicken Sie auf einen Knoten, um seine Eigenschaften zu bearbeiten.",
+    pt: "Arraste nós da caixa de ferramentas para a tela. Clique em uma porta de saída e arraste para uma porta de entrada para conectá-los. Clique em um nó para editar suas propriedades.",
+    zh: "从工具箱将节点拖到画布上。点击输出端口并拖动到输入端口以连接它们。点击节点编辑其属性。",
+    ja: "ツールボックスからキャンバスにノードをドラッグします。出力ポートをクリックして入力ポートにドラッグして接続します。ノードをクリックしてプロパティを編集します。",
+    tr: "Araç kutusundan tuvale düğümler sürükleyin. Bir çıkış portuna tıklayıp giriş portuna sürükleyerek bağlayın. Özelliklerini düzenlemek için bir düğüme tıklayın.",
+    ru: "Перетащите узлы из панели инструментов на холст. Нажмите на выходной порт и перетащите к входному порту для соединения. Нажмите на узел для редактирования свойств."
+  },
+  "reg.routes.toolbox": {
+    en: "<i class=\"fas fa-toolbox\"></i> Toolbox",
+    ar: "<i class=\"fas fa-toolbox\"></i> صندوق الأدوات",
+    es: "<i class=\"fas fa-toolbox\"></i> Caja de Herramientas",
+    fr: "<i class=\"fas fa-toolbox\"></i> Boîte à Outils",
+    de: "<i class=\"fas fa-toolbox\"></i> Werkzeugkasten",
+    pt: "<i class=\"fas fa-toolbox\"></i> Caixa de Ferramentas",
+    zh: "<i class=\"fas fa-toolbox\"></i> 工具箱",
+    ja: "<i class=\"fas fa-toolbox\"></i> ツールボックス",
+    tr: "<i class=\"fas fa-toolbox\"></i> Araç Kutusu",
+    ru: "<i class=\"fas fa-toolbox\"></i> Инструменты"
+  },
+  "reg.routes.section.inbound": {
+    en: "Inbound", ar: "وارد", es: "Entrante", fr: "Entrant",
+    de: "Eingehend", pt: "Entrada", zh: "呼入", ja: "着信", tr: "Gelen", ru: "Входящие"
+  },
+  "reg.routes.section.logic": {
+    en: "Logic", ar: "المنطق", es: "Lógica", fr: "Logique",
+    de: "Logik", pt: "Lógica", zh: "逻辑", ja: "ロジック", tr: "Mantık", ru: "Логика"
+  },
+  "reg.routes.section.destinations": {
+    en: "Destinations", ar: "الوجهات", es: "Destinos", fr: "Destinations",
+    de: "Ziele", pt: "Destinos", zh: "目的地", ja: "転送先", tr: "Hedefler", ru: "Назначения"
+  },
+  "reg.routes.section.outbound": {
+    en: "Outbound", ar: "صادر", es: "Saliente", fr: "Sortant",
+    de: "Ausgehend", pt: "Saída", zh: "呼出", ja: "発信", tr: "Giden", ru: "Исходящие"
+  },
+  "reg.routes.node.inbound": {
+    en: "Inbound Call", ar: "مكالمة واردة", es: "Llamada Entrante", fr: "Appel Entrant",
+    de: "Eingehender Anruf", pt: "Chamada de Entrada", zh: "呼入通话", ja: "着信通話", tr: "Gelen Çağrı", ru: "Входящий звонок"
+  },
+  "reg.routes.node.timecondition": {
+    en: "Time Condition", ar: "شرط الوقت", es: "Condición de Tiempo", fr: "Condition de Temps",
+    de: "Zeitbedingung", pt: "Condição de Tempo", zh: "时间条件", ja: "時間条件", tr: "Zaman Koşulu", ru: "Временное условие"
+  },
+  "reg.routes.node.ivr": {
+    en: "IVR Menu", ar: "قائمة الرد الآلي", es: "Menú IVR", fr: "Menu SVI",
+    de: "IVR-Menü", pt: "Menu IVR", zh: "IVR菜单", ja: "IVRメニュー", tr: "IVR Menüsü", ru: "Меню IVR"
+  },
+  "reg.routes.node.ringgroup": {
+    en: "Ring Group", ar: "مجموعة الرنين", es: "Grupo de Timbrado", fr: "Groupe de Sonnerie",
+    de: "Klingelgruppe", pt: "Grupo de Toque", zh: "振铃组", ja: "リンググループ", tr: "Çalma Grubu", ru: "Группа вызова"
+  },
+  "reg.routes.node.extension": {
+    en: "Extension", ar: "تحويلة", es: "Extensión", fr: "Poste",
+    de: "Durchwahl", pt: "Ramal", zh: "分机", ja: "内線", tr: "Dahili Hat", ru: "Внутренний номер"
+  },
+  "reg.routes.node.queue": {
+    en: "Call Queue", ar: "قائمة انتظار المكالمات", es: "Cola de Llamadas", fr: "File d'Attente",
+    de: "Anrufwarteschlange", pt: "Fila de Chamadas", zh: "呼叫队列", ja: "通話キュー", tr: "Çağrı Kuyruğu", ru: "Очередь звонков"
+  },
+  "reg.routes.node.voicemail": {
+    en: "Voicemail", ar: "البريد الصوتي", es: "Buzón de Voz", fr: "Messagerie Vocale",
+    de: "Voicemail", pt: "Caixa Postal", zh: "语音邮件", ja: "ボイスメール", tr: "Sesli Posta", ru: "Голосовая почта"
+  },
+  "reg.routes.node.hangup": {
+    en: "Hangup", ar: "إنهاء المكالمة", es: "Colgar", fr: "Raccrocher",
+    de: "Auflegen", pt: "Desligar", zh: "挂断", ja: "切断", tr: "Kapat", ru: "Завершить"
+  },
+  "reg.routes.node.outbound": {
+    en: "Outbound Route", ar: "مسار الاتصال الصادر", es: "Ruta Saliente", fr: "Route Sortante",
+    de: "Ausgehende Route", pt: "Rota de Saída", zh: "呼出路由", ja: "発信ルート", tr: "Giden Yol", ru: "Исходящий маршрут"
+  },
+  "reg.routes.node.gateway": {
+    en: "Gateway / Trunk", ar: "البوابة / الخط", es: "Gateway / Troncal", fr: "Passerelle / Trunk",
+    de: "Gateway / Trunk", pt: "Gateway / Tronco", zh: "网关/中继", ja: "ゲートウェイ/トランク", tr: "Ağ Geçidi / Trunk", ru: "Шлюз / Транк"
+  },
+  "reg.routes.btn.maximize": {
+    en: "Maximize", ar: "تكبير", es: "Maximizar", fr: "Agrandir",
+    de: "Maximieren", pt: "Maximizar", zh: "最大化", ja: "最大化", tr: "Büyüt", ru: "Развернуть"
+  },
+  "reg.routes.btn.restore": {
+    en: "Restore", ar: "استعادة", es: "Restaurar", fr: "Restaurer",
+    de: "Wiederherstellen", pt: "Restaurar", zh: "还原", ja: "元に戻す", tr: "Geri Yükle", ru: "Свернуть"
+  },
+  "reg.routes.btn.clear": {
+    en: "Clear", ar: "مسح الكل", es: "Limpiar", fr: "Effacer",
+    de: "Löschen", pt: "Limpar", zh: "清除", ja: "クリア", tr: "Temizle", ru: "Очистить"
+  },
+  "reg.routes.canvas.hint": {
+    en: "Drag nodes here to build your call flow", ar: "اسحب العقد هنا لبناء مسار المكالمات الخاص بك", es: "Arrastre nodos aquí para construir su flujo de llamadas", fr: "Faites glisser des nœuds ici pour construire votre flux d'appel",
+    de: "Knoten hierher ziehen, um Ihren Anruffluss zu erstellen", pt: "Arraste nós aqui para criar seu fluxo de chamadas", zh: "将节点拖到此处构建您的呼叫流程", ja: "ここにノードをドラッグして通話フローを作成します", tr: "Çağrı akışınızı oluşturmak için düğümleri buraya sürükleyin", ru: "Перетащите сюда узлы для построения маршрута вызова"
+  },
+  "reg.routes.props.title": {
+    en: "<i class=\"fas fa-sliders-h\"></i> Properties",
+    ar: "<i class=\"fas fa-sliders-h\"></i> الخصائص",
+    es: "<i class=\"fas fa-sliders-h\"></i> Propiedades",
+    fr: "<i class=\"fas fa-sliders-h\"></i> Propriétés",
+    de: "<i class=\"fas fa-sliders-h\"></i> Eigenschaften",
+    pt: "<i class=\"fas fa-sliders-h\"></i> Propriedades",
+    zh: "<i class=\"fas fa-sliders-h\"></i> 属性",
+    ja: "<i class=\"fas fa-sliders-h\"></i> プロパティ",
+    tr: "<i class=\"fas fa-sliders-h\"></i> Özellikler",
+    ru: "<i class=\"fas fa-sliders-h\"></i> Свойства"
+  },
+  "reg.routes.props.empty": {
+    en: "Select a node to edit its properties", ar: "انقر على عقدة لتعديل خصائصها", es: "Seleccione un nodo para editar sus propiedades", fr: "Sélectionnez un nœud pour modifier ses propriétés",
+    de: "Wählen Sie einen Knoten aus, um seine Eigenschaften zu bearbeiten", pt: "Selecione um nó para editar suas propriedades", zh: "选择节点以编辑其属性", ja: "ノードをクリックしてプロパティを編集します", tr: "Özelliklerini düzenlemek için bir düğüm seçin", ru: "Выберите узел для редактирования свойств"
+  },
+
   // Footer
   "reg.footer": {
     en: "&copy; 2024 VOIP@ Cloud. All rights reserved. | <a href=\"terms.html\">Terms</a> | <a href=\"privacy.html\">Privacy</a>",
