@@ -54,7 +54,31 @@ document.addEventListener('DOMContentLoaded', function() {
     if (passwordInput) passwordInput.addEventListener('input', updatePasswordStrength);
 
     updateIvrCount(1);
-    
+
+    // Gateway radio: allow deselect on second click
+    let lastGwChecked = null;
+    document.querySelectorAll('.gateway-type-radio').forEach(radio => {
+        radio.addEventListener('click', function() {
+            if (this === lastGwChecked) {
+                this.checked = false;
+                lastGwChecked = null;
+                updateGatewayForm();
+            } else {
+                lastGwChecked = this;
+            }
+        });
+    });
+
+    // Step indicators: click to go back to a completed step
+    document.querySelectorAll('.form-step-indicator').forEach(ind => {
+        ind.addEventListener('click', () => {
+            const target = parseInt(ind.dataset.step);
+            if (ind.classList.contains('completed') && target < currentStep) {
+                goToStep(target);
+            }
+        });
+    });
+
     // Fetch API data
     loadInstallationTypes();
     loadDeviceTypes();
@@ -755,7 +779,26 @@ function nextStep(step) {
     currentStep = step;
     console.log('Moved to step', step);
 
-    if (step === 9) buildReviewTable();
+    if (step === 10) buildReviewTable();
+    updateConfigSummary();
+}
+
+function goToStep(target) {
+    if (target === currentStep || target > currentStep) return;
+    const indicators = document.querySelectorAll('.form-step-indicator');
+    const lines = document.querySelectorAll('.step-line');
+    // Deactivate current
+    indicators[currentStep - 1].classList.remove('active');
+    indicators[currentStep - 1].classList.add('completed');
+    indicators[currentStep - 1].querySelector('.step-dot').innerHTML = '<i class="fas fa-check" style="font-size:0.75rem"></i>';
+    document.getElementById('step' + currentStep).classList.remove('active');
+    // Activate target
+    document.getElementById('step' + target).classList.add('active');
+    indicators[target - 1].classList.remove('completed');
+    indicators[target - 1].classList.add('active');
+    indicators[target - 1].querySelector('.step-dot').textContent = target;
+    if (target - 1 < lines.length) lines[target - 1].classList.remove('completed');
+    currentStep = target;
     updateConfigSummary();
 }
 
@@ -812,10 +855,24 @@ function validateStep(step) {
             }
         });
 
-        if (step === 2) {
+        if (step === 3) {
+            const emailEl = document.getElementById('email');
+            const phoneEl = document.getElementById('phone');
+            const email = emailEl?.value.trim();
+            const phone = phoneEl?.value.trim();
+            if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+                if (emailEl) emailEl.style.borderColor = '#EF4444';
+                valid = false;
+            }
+            if (phone && !/^[\+]?[\d\s\-\(\)\.]{7,20}$/.test(phone)) {
+                if (phoneEl) phoneEl.style.borderColor = '#EF4444';
+                valid = false;
+            }
+        }
+
+        if (step === 9) {
             const domain = document.getElementById('domainName')?.value.trim();
             if (domain && !isValidDomain(domain)) {
-                console.log('Domain validation failed:', domain);
                 const domainCheck = document.getElementById('domainCheck');
                 if (domainCheck) domainCheck.innerHTML = '<span style="color:#EF4444"><i class="fas fa-times-circle"></i> Invalid domain format</span>';
                 valid = false;
@@ -823,14 +880,12 @@ function validateStep(step) {
             const pass = document.getElementById('adminPassword')?.value;
             const confirm = document.getElementById('confirmPassword')?.value;
             if (pass !== confirm) {
-                console.log('Password mismatch');
                 const confirmEl = document.getElementById('confirmPassword');
                 if (confirmEl) confirmEl.style.borderColor = '#EF4444';
                 alert('Passwords do not match');
                 valid = false;
             }
             if (pass && pass.length < 8) {
-                console.log('Password too short');
                 const passEl = document.getElementById('adminPassword');
                 if (passEl) passEl.style.borderColor = '#EF4444';
                 alert('Password must be at least 8 characters');
@@ -1756,6 +1811,61 @@ const FlowDesigner = (() => {
         requestAnimationFrame(renderConnections);
     }
 
+    // ── Programmatic node/connection helpers ──────────────────
+    function addNode(type, x, y, props) {
+        const node = { id: uid(), type, x, y, props: props || {} };
+        nodes.push(node);
+        createNodeEl(node);
+        if (props && props.name) {
+            const lbl = document.getElementById(node.id + '-label');
+            if (lbl) lbl.textContent = props.name;
+        }
+        updateHint();
+        return node;
+    }
+
+    function addConn(fromId, fromPort, toId, toPort) {
+        const conn = { id: cuid(), fromId, fromPort, toId, toPort };
+        connections.push(conn);
+        return conn;
+    }
+
+    // ── Default route from wizard selections ─────────────────
+    function buildDefaultRoute() {
+        if (nodes.length > 0) return; // don't override user's work
+
+        const gwConfigured = document.getElementById('configureGateway')?.checked;
+        const gwName  = document.getElementById('gwName')?.value.trim()  || t('reg.routes.node.gateway');
+        const gwHost  = document.getElementById('gwProxy')?.value.trim() || '';
+        const numIvr  = parseInt(document.getElementById('ivrsCount')?.value       || '0');
+        const numExt  = Math.min(parseInt(document.getElementById('extensionsCount')?.value || '3'), 3);
+
+        // Layout: inbound at left, destinations spread right
+        const inbound = addNode('inbound', 60, 140, { did: '' });
+
+        if (numIvr > 0) {
+            const ivr = addNode('ivr', 290, 80, { name: 'Main Menu' });
+            addConn(inbound.id, 'out', ivr.id, 'in');
+            const dtmfKeys = ['dtmf-1', 'dtmf-2', 'dtmf-3'];
+            for (let i = 0; i < numExt; i++) {
+                const ext = addNode('extension', 560, 30 + i * 110, { number: String(100 + i), name: 'Ext ' + (100 + i) });
+                addConn(ivr.id, dtmfKeys[i], ext.id, 'in');
+            }
+        } else {
+            const ext = addNode('extension', 290, 140, { number: '100', name: 'Ext 100' });
+            addConn(inbound.id, 'out', ext.id, 'in');
+        }
+
+        if (gwConfigured) {
+            const outY = numIvr > 0 ? 30 + numExt * 110 + 60 : 320;
+            const outbound = addNode('outbound', 60, outY, { name: 'Outbound' });
+            const gw = addNode('gateway', 290, outY, { name: gwName, host: gwHost });
+            addConn(outbound.id, 'out', gw.id, 'in');
+        }
+
+        requestAnimationFrame(renderConnections);
+    }
+
     // ── Init ──────────────────────────────────────────────────
     function init() {
         document.querySelectorAll('.toolbox-node').forEach(el => {
@@ -1774,7 +1884,7 @@ const FlowDesigner = (() => {
         });
     }
 
-    return { init, flowDrop, flowClearAll, setProp, handleAudioUpload, removeNode, toggleMaximize,
+    return { init, buildDefaultRoute, flowDrop, flowClearAll, setProp, handleAudioUpload, removeNode, toggleMaximize,
              getData: () => ({ nodes, connections }) };
 })();
 
@@ -1794,7 +1904,11 @@ function flowToggleMaximize(){ FlowDesigner.toggleMaximize(); }
     function tryInit() {
         if (inited) return;
         const s8 = document.getElementById('step8');
-        if (s8 && s8.classList.contains('active')) { FlowDesigner.init(); inited = true; }
+        if (s8 && s8.classList.contains('active')) {
+            FlowDesigner.init();
+            inited = true;
+            requestAnimationFrame(FlowDesigner.buildDefaultRoute);
+        }
     }
     const fs = document.getElementById('formSteps');
     if (fs) new MutationObserver(tryInit).observe(fs, { attributes: true, subtree: true, attributeFilter: ['class'] });

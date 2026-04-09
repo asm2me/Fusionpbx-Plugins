@@ -150,6 +150,17 @@
     background: var(--success);
 }
 
+.form-step-indicator.completed {
+    cursor: pointer;
+}
+.form-step-indicator.completed:hover .step-dot {
+    filter: brightness(1.15);
+    transform: scale(1.1);
+}
+.form-step-indicator.completed:hover .step-text {
+    color: var(--success);
+}
+
 .step-text {
     font-size: 0.75rem;
     font-weight: 600;
