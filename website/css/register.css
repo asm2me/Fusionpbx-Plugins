@@ -19,9 +19,13 @@
 
 .register-layout {
     display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 4rem;
+    grid-template-columns: 1fr;
+    gap: 0;
     align-items: start;
+}
+
+.register-benefits {
+    display: none;
 }
 
 /* Benefits Side */
@@ -1028,18 +1032,7 @@
 
 @media (max-width: 1024px) {
     .register-layout {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-
-    .register-benefits {
-        padding-top: 0;
-        text-align: center;
-    }
-
-    .benefit-list {
-        max-width: 400px;
-        margin: 0 auto;
+        gap: 0;
     }
 }
 

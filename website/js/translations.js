@@ -2528,6 +2528,15 @@ const i18n = {
       }
     });
 
+    // Translate title attributes (data-i18n-title + optional data-i18n-title-suffix)
+    document.querySelectorAll('[data-i18n-title]').forEach(el => {
+      const key = el.dataset.i18nTitle;
+      const t = translations[key];
+      if (t && t[lang]) {
+        el.title = t[lang] + (el.dataset.i18nTitleSuffix || '');
+      }
+    });
+
     // Update active item in language bar
     document.querySelectorAll('.lang-item').forEach(item => {
       item.classList.toggle('active', item.dataset.lang === lang);

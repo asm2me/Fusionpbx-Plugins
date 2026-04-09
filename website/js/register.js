@@ -106,9 +106,9 @@ function populateInstallationTypes() {
         label.innerHTML = `
             <input type="radio" name="installation_type" value="${key}">
             <div class="installation-option-content">
-                <h4><i class="fas fa-${type.icon || 'building'}"></i> ${name}</h4>
-                <p>${desc}</p>
-                <small>${feats}</small>
+                <h4><i class="fas fa-${type.icon || 'building'}"></i> <span data-i18n="${tk}.name">${name}</span></h4>
+                <p data-i18n="${tk}.desc">${desc}</p>
+                <small data-i18n="${tk}.features">${feats}</small>
             </div>
         `;
         container.appendChild(label);
@@ -1411,7 +1411,7 @@ const FlowDesigner = (() => {
         const hdr = document.createElement('div');
         hdr.className = 'flow-node-header';
         hdr.style.background = def.color;
-        hdr.innerHTML = `<i class="fas ${def.icon}"></i><span>${t(def.labelKey)}</span>`;
+        hdr.innerHTML = `<i class="fas ${def.icon}"></i><span data-i18n="${def.labelKey}">${t(def.labelKey)}</span>`;
         el.appendChild(hdr);
 
         // Port legend bar
@@ -1424,9 +1424,9 @@ const FlowDesigner = (() => {
             const inPorts  = Object.entries(ports).filter(([,p]) => p.dir === 'in');
             const outPorts = Object.entries(ports).filter(([,p]) => p.dir === 'out');
             let barHtml = '<div class="portbar-in">';
-            inPorts.forEach(([,p])  => { barHtml += `<span class="portbar-label portbar-in-lbl  type-${p.type}">${t(p.labelKey)}</span>`; });
+            inPorts.forEach(([,p])  => { barHtml += `<span class="portbar-label portbar-in-lbl  type-${p.type}" data-i18n="${p.labelKey}">${t(p.labelKey)}</span>`; });
             barHtml += '</div><div class="portbar-out">';
-            outPorts.forEach(([,p]) => { barHtml += `<span class="portbar-label portbar-out-lbl type-${p.type}">${t(p.labelKey)}</span>`; });
+            outPorts.forEach(([,p]) => { barHtml += `<span class="portbar-label portbar-out-lbl type-${p.type}" data-i18n="${p.labelKey}">${t(p.labelKey)}</span>`; });
             barHtml += '</div>';
             bar.innerHTML = barHtml;
             el.appendChild(bar);
@@ -1477,6 +1477,8 @@ const FlowDesigner = (() => {
         pt.dataset.type   = pd.type;
         pt.dataset.dir    = pd.dir;
         pt.title = t(pd.labelKey) + ' (' + pd.type + ')';
+        pt.dataset.i18nTitle = pd.labelKey;
+        pt.dataset.i18nTitleSuffix = ' (' + pd.type + ')';
         pt.style.top = pct + '%';
         if (isIn)  pt.style.left  = '-7px';
         else       pt.style.right = '-7px';
