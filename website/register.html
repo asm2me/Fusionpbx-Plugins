@@ -140,11 +140,16 @@
                         <div class="step-line"></div>
                         <div class="form-step-indicator" data-step="8">
                             <span class="step-dot">8</span>
-                            <span class="step-text" data-i18n="reg.step.domain">Domain</span>
+                            <span class="step-text">Call Routes</span>
                         </div>
                         <div class="step-line"></div>
                         <div class="form-step-indicator" data-step="9">
                             <span class="step-dot">9</span>
+                            <span class="step-text" data-i18n="reg.step.domain">Domain</span>
+                        </div>
+                        <div class="step-line"></div>
+                        <div class="form-step-indicator" data-step="10">
+                            <span class="step-dot">10</span>
                             <span class="step-text" data-i18n="reg.step.review">Review</span>
                         </div>
                     </div>
@@ -514,8 +519,116 @@
                         </div>
                     </div>
 
-                    <!-- Step 8: Domain Setup -->
+                    <!-- Step 8: Call Routes Designer -->
                     <div class="form-step-content" id="step8">
+                        <h3 class="step-title"><i class="fas fa-route"></i> Call Routes Designer</h3>
+                        <p class="step-desc">Design your inbound and outbound call routing rules. Configure how calls are handled based on source, destination, and time.</p>
+
+                        <div class="call-routes-container">
+                            <!-- Inbound Routes Section -->
+                            <div class="route-section">
+                                <div class="route-header">
+                                    <h4><i class="fas fa-arrow-down"></i> Inbound Routes</h4>
+                                    <button type="button" class="btn btn-sm btn-ghost" onclick="addInboundRoute()">
+                                        <i class="fas fa-plus"></i> Add Route
+                                    </button>
+                                </div>
+                                <div class="routes-list" id="inboundRoutesList">
+                                    <div class="empty-state">
+                                        <p><i class="fas fa-inbox"></i> No inbound routes configured yet</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Outbound Routes Section -->
+                            <div class="route-section">
+                                <div class="route-header">
+                                    <h4><i class="fas fa-arrow-up"></i> Outbound Routes</h4>
+                                    <button type="button" class="btn btn-sm btn-ghost" onclick="addOutboundRoute()">
+                                        <i class="fas fa-plus"></i> Add Route
+                                    </button>
+                                </div>
+                                <div class="routes-list" id="outboundRoutesList">
+                                    <div class="empty-state">
+                                        <p><i class="fas fa-inbox"></i> No outbound routes configured yet</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Route Configuration Modal -->
+                        <div class="modal" id="routeModal" style="display:none;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 id="routeModalTitle">Configure Route</h3>
+                                    <button type="button" class="modal-close" onclick="closeRouteModal()">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label><i class="fas fa-tag"></i> Route Name</label>
+                                        <input type="text" id="routeName" placeholder="e.g., Business Hours Route" class="formfld">
+                                    </div>
+                                    
+                                    <div id="routeTypeFields"></div>
+                                    
+                                    <div class="form-group">
+                                        <label><i class="fas fa-clock"></i> Time Condition</label>
+                                        <select id="timeCondition" class="formfld" onchange="updateRouteTimeFields()">
+                                            <option value="always">Always Active</option>
+                                            <option value="business_hours">Business Hours (Mon-Fri, 9AM-5PM)</option>
+                                            <option value="after_hours">After Hours</option>
+                                            <option value="custom">Custom Time Range</option>
+                                        </select>
+                                    </div>
+
+                                    <div id="customTimeFields" style="display:none;">
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label>Start Time</label>
+                                                <input type="time" id="timeStart" class="formfld">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>End Time</label>
+                                                <input type="time" id="timeEnd" class="formfld">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label><i class="fas fa-phone"></i> Destination</label>
+                                        <select id="routeDestination" class="formfld">
+                                            <option value="">Select Destination...</option>
+                                            <option disabled>--- Extensions ---</option>
+                                            <div id="extensionOptions"></div>
+                                            <option disabled>--- Groups ---</option>
+                                            <option value="all_extensions">All Extensions (Round Robin)</option>
+                                            <option value="ring_group">Ring Group</option>
+                                            <option disabled>--- Other ---</option>
+                                            <option value="ivr">IVR Menu</option>
+                                            <option value="voicemail">Voicemail</option>
+                                            <option value="hangup">Hang Up</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-ghost" onclick="closeRouteModal()">Cancel</button>
+                                    <button type="button" class="btn btn-primary" onclick="saveRoute()">Save Route</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-ghost" onclick="prevStep(7)" data-i18n-html="reg.btn.back">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(9)" data-i18n-html="reg.btn.continue">
+                                Continue <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 9: Domain Setup -->
+                    <div class="form-step-content" id="step9">
                         <div class="form-group">
                             <label data-i18n-html="reg.label.domainName"><i class="fas fa-globe"></i> Your Domain Name</label>
                             <input type="text" id="domainName" name="domain_name" required data-i18n="reg.placeholder.domainName" placeholder="pbx.yourcompany.com">
