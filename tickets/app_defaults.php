@@ -72,6 +72,23 @@ if ($domains_processed == 1) {
 		'ticket_api' => ['superadmin', 'admin', 'user'],
 	];
 
+	$sql = "select column_name from information_schema.columns where table_name = 'v_group_permissions'";
+	$group_permission_columns = $database->select($sql, null, 'all') ?: [];
+	$sql = null;
+
+	$group_permission_has_permission_uuid = false;
+	$group_permission_has_permission_name = false;
+	$group_permission_has_group_uuid = false;
+	$group_permission_has_group_name = false;
+	foreach ($group_permission_columns as $column) {
+		$column_name = $column['column_name'] ?? '';
+		if ($column_name === 'permission_uuid') $group_permission_has_permission_uuid = true;
+		if ($column_name === 'permission_name') $group_permission_has_permission_name = true;
+		if ($column_name === 'group_uuid') $group_permission_has_group_uuid = true;
+		if ($column_name === 'group_name') $group_permission_has_group_name = true;
+	}
+	unset($group_permission_columns, $column_name);
+
 	foreach ($ticket_permissions as $permission_name => $group_names) {
 		$sql = "select permission_uuid from v_permissions where permission_name = :permission_name";
 		$parameters = ['permission_name' => $permission_name];
@@ -95,31 +112,51 @@ if ($domains_processed == 1) {
 			$group_uuid = $database->select($sql, $parameters, 'column');
 			$sql = null;
 			unset($parameters);
-			$sql = null;
-			unset($parameters);
 
-			if (!$group_uuid) {
-				continue;
-			}
+			if ($group_permission_has_group_uuid && $group_permission_has_permission_uuid) {
+				if (!$group_uuid) {
+					continue;
+				}
 
-			$sql = "select group_permission_uuid from v_group_permissions where group_uuid = :group_uuid and permission_uuid = :permission_uuid";
-			$parameters = [
-				'group_uuid' => $group_uuid,
-				'permission_uuid' => $permission_uuid
-			];
-			$group_permission_uuid = $database->select($sql, $parameters, 'column');
-
-			if (!$group_permission_uuid) {
-				$sql = "insert into v_group_permissions (group_permission_uuid, group_uuid, permission_uuid) values (:group_permission_uuid, :group_uuid, :permission_uuid)";
+				$sql = "select group_permission_uuid from v_group_permissions where group_uuid = :group_uuid and permission_uuid = :permission_uuid";
 				$parameters = [
-					'group_permission_uuid' => uuid(),
 					'group_uuid' => $group_uuid,
 					'permission_uuid' => $permission_uuid
 				];
-				$database->execute($sql, $parameters);
+				$group_permission_uuid = $database->select($sql, $parameters, 'column');
+
+				if (!$group_permission_uuid) {
+					$sql = "insert into v_group_permissions (group_permission_uuid, group_uuid, permission_uuid) values (:group_permission_uuid, :group_uuid, :permission_uuid)";
+					$parameters = [
+						'group_permission_uuid' => uuid(),
+						'group_uuid' => $group_uuid,
+						'permission_uuid' => $permission_uuid
+					];
+					$database->execute($sql, $parameters);
+				}
+				$sql = null;
+				unset($parameters, $group_permission_uuid);
 			}
-			$sql = null;
-			unset($parameters, $group_permission_uuid);
+			elseif ($group_permission_has_group_name && $group_permission_has_permission_name) {
+				$sql = "select group_permission_uuid from v_group_permissions where group_name = :group_name and permission_name = :permission_name";
+				$parameters = [
+					'group_name' => $group_name,
+					'permission_name' => $permission_name
+				];
+				$group_permission_uuid = $database->select($sql, $parameters, 'column');
+
+				if (!$group_permission_uuid) {
+					$sql = "insert into v_group_permissions (group_permission_uuid, group_name, permission_name) values (:group_permission_uuid, :group_name, :permission_name)";
+					$parameters = [
+						'group_permission_uuid' => uuid(),
+						'group_name' => $group_name,
+						'permission_name' => $permission_name
+					];
+					$database->execute($sql, $parameters);
+				}
+				$sql = null;
+				unset($parameters, $group_permission_uuid);
+			}
 		}
 
 		unset($permission_uuid);
