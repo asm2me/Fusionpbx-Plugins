@@ -4,7 +4,7 @@
 		$y = 0;
 		$apps[$x]['menu'][$y]['title']['en-us'] = 'Reseller';
 		$apps[$x]['menu'][$y]['uuid'] = 'c3d40010-a7b8-9012-cdef-123456789012';
-		$apps[$x]['menu'][$y]['parent_uuid'] = '';
+		$apps[$x]['menu'][$y]['parent_uuid'] = '594d99c5-6128-9c88-ca35-4b33392cec0f'; //advanced
 		$apps[$x]['menu'][$y]['category'] = 'internal';
 		$apps[$x]['menu'][$y]['icon'] = 'fa-solid fa-handshake';
 		$apps[$x]['menu'][$y]['path'] = '';

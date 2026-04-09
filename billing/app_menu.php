@@ -2,7 +2,7 @@
 
 	$apps[$x]['menu'][0]['title']['en-us'] = 'Billing';
 	$apps[$x]['menu'][0]['uuid'] = 'b2c3d4e5-0003-0001-0001-000000000001';
-	$apps[$x]['menu'][0]['parent_uuid'] = '';
+	$apps[$x]['menu'][0]['parent_uuid'] = '594d99c5-6128-9c88-ca35-4b33392cec0f'; //advanced
 	$apps[$x]['menu'][0]['category'] = 'internal';
 	$apps[$x]['menu'][0]['icon'] = 'fa-solid fa-money-bill-wave';
 	$apps[$x]['menu'][0]['path'] = '';
