@@ -1081,17 +1081,23 @@ function buildReviewTable() {
     }
 
     // Call Routes screenshot
-    const flowData = FlowDesigner.getData();
-    if (flowData.nodes.length > 0) {
-        const nodeCount = flowData.nodes.length;
-        const connCount = flowData.connections.length;
-        const imgHtml = flowDesignerScreenshot
-            ? `<img src="${flowDesignerScreenshot}" style="width:100%;border-radius:6px;display:block;" alt="Call Routes">`
-            : `<div style="padding:16px;text-align:center;color:#94a3b8;font-size:0.8rem;">${nodeCount} ${t('reg.review.lbl.nodescount')}, ${connCount} ${t('reg.review.lbl.conncount')}</div>`;
-        html += `<div class="review-section review-section-chart">
-            <h4>${t('reg.review.sec.callroutes')} <small style="font-weight:400;font-size:0.72rem;opacity:0.6">(${nodeCount} ${t('reg.review.lbl.nodescount')}, ${connCount} ${t('reg.review.lbl.conncount')})</small></h4>
-            <div class="review-chart-wrap">${imgHtml}</div>
-        </div>`;
+    const flowData = typeof FlowDesigner !== 'undefined' && FlowDesigner.getData ? FlowDesigner.getData() : { nodes: [], connections: [] };
+    const routesSection = document.getElementById('reviewCallRoutesSection');
+    const routesWrap = document.getElementById('reviewCallRoutesWrap');
+
+    if (routesSection && routesWrap) {
+        if (flowData.nodes.length > 0) {
+            routesSection.style.display = 'block';
+            const nodeCount = flowData.nodes.length;
+            const connCount = flowData.connections.length;
+            const imgHtml = flowDesignerScreenshot
+                ? `<img src="${flowDesignerScreenshot}" style="width:100%;border-radius:6px;display:block;background:transparent;object-fit:contain;vertical-align:middle;" alt="Call Routes Designer Snapshot">`
+                : `<div style="padding:16px;text-align:center;color:#94a3b8;font-size:0.8rem;">${nodeCount} ${t('reg.review.lbl.nodescount')}, ${connCount} ${t('reg.review.lbl.conncount')}</div>`;
+            routesWrap.innerHTML = imgHtml;
+        } else {
+            routesSection.style.display = 'none';
+            routesWrap.innerHTML = '';
+        }
     }
 
     document.getElementById('reviewTable').innerHTML = html;
