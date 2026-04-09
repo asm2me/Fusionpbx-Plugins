@@ -14,7 +14,7 @@
 }
 
 .register-section {
-    padding: 3rem 0;
+    padding: 3rem 0 4rem;
 }
 
 .register-layout {
@@ -1069,11 +1069,11 @@
 .flow-designer {
     display: flex;
     flex-direction: column;
-    height: 520px;
+    height: 460px;
     border: 1.5px solid rgba(108,43,217,0.25);
     border-radius: 14px;
     overflow: hidden;
-    margin: 20px 0 24px;
+    margin: 12px 0 16px;
     background: #0f0f18;
     transition: all 0.25s ease;
 }
