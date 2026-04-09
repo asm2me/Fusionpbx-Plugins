@@ -277,6 +277,7 @@
 	echo "<tr><td class='vncell'>".$text['label-ivrs_count']."</td><td class='vtable' id='review-ivr'></td></tr>\n";
 	echo "<tr><td class='vncell'>".$text['label-ring_groups_count']."</td><td class='vtable' id='review-rg'></td></tr>\n";
 	echo "<tr><td class='vncell'>".$text['label-recordings']."</td><td class='vtable' id='review-recordings'></td></tr>\n";
+	echo "<tr><td class='vncell' valign='top'>Call Routes Snapshot</td><td class='vtable'><div id='review-call-routes' style='margin-top: 8px; padding: 12px; border: 1px solid #ddd; border-radius: 6px; background: #fff; min-height: 120px;'></div></td></tr>\n";
 	echo "</table>\n";
 
 	echo "<div style='text-align: right; margin-top: 15px;'>\n";
@@ -357,6 +358,7 @@
 	echo "		document.getElementById('ivrs_count').value = opt.getAttribute('data-ivr') || '1';\n";
 	echo "		document.getElementById('ring_groups_count').value = opt.getAttribute('data-rg') || '1';\n";
 	echo "	}\n";
+	echo "	prepareReview();\n";
 	echo "}\n";
 	echo "\n";
 	echo "function prepareReview() {\n";
@@ -371,6 +373,18 @@
 	echo "	document.getElementById('review-rg').textContent = document.getElementById('ring_groups_count').value;\n";
 	echo "	var files = document.getElementById('recordings').files;\n";
 	echo "	document.getElementById('review-recordings').textContent = files.length + ' file(s)';\n";
+	echo "	var routesHtml = '';\n";
+	echo "	routesHtml += '<div style=\"font-weight: bold; margin-bottom: 8px;\">Inbound Call Routing</div>';\n";
+	echo "	routesHtml += '<div style=\"padding: 10px; background: #f7f7f7; border-radius: 4px; border: 1px solid #e0e0e0;\">';\n";
+	echo "	routesHtml += '<div style=\"margin-bottom: 6px;\"><span style=\"display:inline-block;width:10px;height:10px;border-radius:50%;background:#2196F3;margin-right:8px;\"></span>Inbound Calls</div>';\n";
+	echo "	routesHtml += '<div style=\"margin-left: 18px; padding-left: 12px; border-left: 2px solid #ccc;\">';\n";
+	echo "	routesHtml += '<div>Gateways: ' + document.getElementById('gateways_count').value + '</div>';\n";
+	echo "	routesHtml += '<div>IVRs: ' + document.getElementById('ivrs_count').value + '</div>';\n";
+	echo "	routesHtml += '<div>Extensions: ' + document.getElementById('extensions_count').value + '</div>';\n";
+	echo "	routesHtml += '<div>Ring Groups: ' + document.getElementById('ring_groups_count').value + '</div>';\n";
+	echo "	routesHtml += '</div>';\n";
+	echo "	routesHtml += '</div>';\n";
+	echo "	document.getElementById('review-call-routes').innerHTML = routesHtml;\n";
 	echo "}\n";
 	echo "\n";
 	echo "// drag and drop handling\n";
