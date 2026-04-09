@@ -1053,3 +1053,392 @@
         gap: 4px;
     }
 }
+
+/* ============================================================
+   FLOW DESIGNER - Drag & Drop Call Route Builder
+   ============================================================ */
+
+.port-demo {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #6C2BD9;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px #6C2BD9;
+    vertical-align: middle;
+    margin: 0 2px;
+}
+
+.flow-designer {
+    display: flex;
+    height: 500px;
+    border: 1.5px solid rgba(108,43,217,0.25);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    background: #0f0f18;
+}
+
+/* ---- Toolbox ---- */
+.flow-toolbox {
+    width: 155px;
+    min-width: 155px;
+    background: #13121f;
+    border-right: 1px solid rgba(255,255,255,0.07);
+    padding: 12px 8px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.toolbox-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.35);
+    padding: 0 4px 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    margin-bottom: 4px;
+}
+
+.toolbox-section-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.25);
+    padding: 8px 4px 3px;
+}
+
+.toolbox-node {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 9px;
+    border-radius: 8px;
+    cursor: grab;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    border: 1.5px solid rgba(255,255,255,0.06);
+    transition: all 0.15s;
+    user-select: none;
+    background: rgba(255,255,255,0.03);
+}
+
+.toolbox-node:hover {
+    background: rgba(108,43,217,0.25);
+    border-color: rgba(108,43,217,0.6);
+    color: #fff;
+    transform: translateX(2px);
+}
+
+.toolbox-node:active { cursor: grabbing; opacity: 0.7; }
+
+.toolbox-node[data-node-type="inbound"]       { --nc: #22c55e; }
+.toolbox-node[data-node-type="timecondition"] { --nc: #f59e0b; }
+.toolbox-node[data-node-type="ivr"]           { --nc: #3b82f6; }
+.toolbox-node[data-node-type="ringgroup"]     { --nc: #8b5cf6; }
+.toolbox-node[data-node-type="extension"]     { --nc: #06b6d4; }
+.toolbox-node[data-node-type="queue"]         { --nc: #f97316; }
+.toolbox-node[data-node-type="voicemail"]     { --nc: #ec4899; }
+.toolbox-node[data-node-type="hangup"]        { --nc: #ef4444; }
+
+.toolbox-node i { color: var(--nc, #6C2BD9); width: 14px; text-align: center; }
+
+.toolbox-actions {
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+.toolbox-btn {
+    width: 100%;
+    padding: 6px;
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 7px;
+    color: #ef4444;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.toolbox-btn:hover { background: rgba(239,68,68,0.2); }
+
+/* ---- Canvas ---- */
+.flow-canvas {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background-image:
+        radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+    background-size: 22px 22px;
+    background-color: #0f0f18;
+}
+
+.flow-canvas.drag-over {
+    background-color: #12102a;
+    outline: 2px dashed rgba(108,43,217,0.4);
+    outline-offset: -8px;
+}
+
+.flow-svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: visible;
+}
+
+.flow-svg path.flow-connection {
+    pointer-events: stroke;
+    cursor: pointer;
+    stroke: #94a3b8;
+    stroke-width: 2;
+    fill: none;
+    marker-end: url(#arrowhead);
+    transition: stroke 0.15s;
+}
+
+.flow-svg path.flow-connection:hover {
+    stroke: #6C2BD9;
+    stroke-width: 2.5;
+    marker-end: url(#arrowhead-hover);
+}
+
+.flow-svg path.flow-connection.conn-yes { stroke: #22c55e; }
+.flow-svg path.flow-connection.conn-no  { stroke: #ef4444; }
+
+.flow-svg text.conn-label {
+    fill: rgba(255,255,255,0.4);
+    font-size: 10px;
+    font-family: inherit;
+    pointer-events: none;
+}
+
+.flow-temp-line {
+    stroke: #6C2BD9;
+    stroke-width: 2;
+    stroke-dasharray: 6 4;
+    fill: none;
+    pointer-events: none;
+}
+
+.flow-canvas-hint {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: rgba(255,255,255,0.15);
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.flow-canvas-hint i { font-size: 2.5rem; margin-bottom: 10px; display: block; }
+.flow-canvas-hint p { font-size: 0.82rem; margin: 0; }
+
+/* ---- Nodes on canvas ---- */
+.flow-node {
+    position: absolute;
+    min-width: 140px;
+    background: #1a1a2e;
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    cursor: move;
+    user-select: none;
+    z-index: 10;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+.flow-node:hover {
+    box-shadow: 0 6px 28px rgba(0,0,0,0.6);
+    z-index: 15;
+}
+
+.flow-node.selected {
+    border-color: #6C2BD9;
+    box-shadow: 0 0 0 3px rgba(108,43,217,0.35), 0 6px 28px rgba(0,0,0,0.5);
+    z-index: 20;
+}
+
+.flow-node-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    border-radius: 8px 8px 0 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.04em;
+}
+
+.flow-node-label {
+    padding: 6px 10px 8px;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.flow-node-port-labels {
+    padding: 0 10px 6px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.3);
+}
+
+/* ---- Ports ---- */
+.flow-port {
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #1a1a2e;
+    border: 2px solid #64748b;
+    cursor: crosshair;
+    z-index: 25;
+    transition: all 0.12s;
+}
+
+.flow-port:hover {
+    background: #6C2BD9;
+    border-color: #6C2BD9;
+    transform: scale(1.5) !important;
+    box-shadow: 0 0 8px rgba(108,43,217,0.8);
+}
+
+.flow-port.port-in {
+    left: -7px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.flow-port.port-out      { right: -7px; top: 50%; transform: translateY(-50%); }
+.flow-port.port-out-yes  { right: -7px; top: 33%; border-color: #22c55e; }
+.flow-port.port-out-no   { right: -7px; top: 66%; border-color: #ef4444; }
+.flow-port.port-out-yes:hover { background: #22c55e; border-color: #22c55e; }
+.flow-port.port-out-no:hover  { background: #ef4444; border-color: #ef4444; }
+
+/* Node delete button */
+.flow-node-delete {
+    position: absolute;
+    top: -9px; right: -9px;
+    width: 20px; height: 20px;
+    background: #ef4444;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 10px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 30;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    border: none;
+    line-height: 1;
+}
+
+.flow-node:hover .flow-node-delete { display: flex; }
+.flow-node-delete:hover { background: #b91c1c; transform: scale(1.15); }
+
+/* ---- Properties Panel ---- */
+.flow-properties {
+    width: 210px;
+    min-width: 210px;
+    background: #13121f;
+    border-left: 1px solid rgba(255,255,255,0.07);
+    padding: 12px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.properties-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.35);
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    margin-bottom: 12px;
+}
+
+.properties-empty {
+    text-align: center;
+    color: rgba(255,255,255,0.2);
+    padding: 28px 8px;
+}
+
+.properties-empty i { font-size: 1.8rem; margin-bottom: 8px; display: block; }
+.properties-empty p { font-size: 0.8rem; margin: 0; line-height: 1.5; }
+
+#propertiesForm .prop-node-type {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+    padding: 4px 8px;
+    border-radius: 5px;
+    display: inline-block;
+    color: #fff;
+}
+
+#propertiesForm .form-group { margin-bottom: 10px; }
+
+#propertiesForm label {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+    display: block;
+    margin-bottom: 4px;
+}
+
+#propertiesForm .formfld {
+    padding: 6px 8px;
+    font-size: 0.8rem;
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.85);
+    border-radius: 6px;
+    width: 100%;
+}
+
+#propertiesForm .formfld:focus {
+    border-color: #6C2BD9;
+    background: rgba(108,43,217,0.1);
+    outline: none;
+}
+
+#propertiesForm select.formfld option { background: #1a1a2e; color: #fff; }
+
+.prop-delete-btn {
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+.prop-delete-btn button {
+    width: 100%;
+    padding: 7px;
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.25);
+    border-radius: 7px;
+    color: #ef4444;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.prop-delete-btn button:hover { background: rgba(239,68,68,0.25); }
