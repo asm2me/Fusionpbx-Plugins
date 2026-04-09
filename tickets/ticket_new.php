@@ -29,10 +29,15 @@
 		return 'TKT-' . str_pad($next, 5, '0', STR_PAD_LEFT);
 	}
 
-//process form submission
+//create token
+	$token = new token;
+	$token_hash = $token->create($_SERVER['PHP_SELF']);
+
+	//process form submission
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		//validate token
-		if (!isset($_POST['token']) || $_POST['token'] !== $_SESSION['token']) {
+		$token = new token;
+		if (!$token->validate($_SERVER['PHP_SELF'])) {
 			$_SESSION['message'] = "Invalid token.";
 			header("Location: ticket_new.php");
 			exit;
@@ -167,7 +172,7 @@
 
 <div class="card tickets-card">
 	<form method="post" id="ticket-form">
-		<input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+		<input type="hidden" name="token" value="<?php echo $token_hash; ?>">
 
 		<div class="form-group">
 			<label for="subject"><?php echo $text['label-subject']; ?> <span class="required">*</span></label>
