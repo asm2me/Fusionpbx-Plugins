@@ -16,7 +16,7 @@ if ($domains_processed == 1) {
 	        WHERE menu_item_link = '/app/tickets/tickets.php'
 	          AND menu_item_uuid != 'a1b2c3d4-a001-0001-0001-ef1234567890'";
 	$database->execute($sql);
-	unset($sql);
+	$sql = null;
 
 	//default settings
 	$y = 0;
@@ -61,6 +61,70 @@ if ($domains_processed == 1) {
 	$p->delete("default_setting_add", "temp");
 	$p->delete("default_setting_edit", "temp");
 
+	//repair default permissions and group assignments for existing installs
+	$ticket_permissions = [
+		'ticket_view' => ['superadmin', 'admin', 'user'],
+		'ticket_add' => ['superadmin', 'admin', 'user'],
+		'ticket_edit' => ['superadmin', 'admin'],
+		'ticket_delete' => ['superadmin', 'admin'],
+		'ticket_reply' => ['superadmin', 'admin', 'user'],
+		'ticket_manage' => ['superadmin', 'admin'],
+		'ticket_api' => ['superadmin', 'admin', 'user'],
+	];
+
+	foreach ($ticket_permissions as $permission_name => $group_names) {
+		$sql = "select permission_uuid from v_permissions where permission_name = :permission_name";
+		$parameters = ['permission_name' => $permission_name];
+		$permission_uuid = $database->select($sql, $parameters, 'column');
+
+		if (!$permission_uuid) {
+			$permission_uuid = uuid();
+			$sql = "insert into v_permissions (permission_uuid, permission_name) values (:permission_uuid, :permission_name)";
+			$parameters = [
+				'permission_uuid' => $permission_uuid,
+				'permission_name' => $permission_name
+			];
+			$database->execute($sql, $parameters);
+		}
+		$sql = null;
+		unset($parameters);
+
+		foreach ($group_names as $group_name) {
+			$sql = "select group_uuid from v_groups where group_name = :group_name";
+			$parameters = ['group_name' => $group_name];
+			$group_uuid = $database->select($sql, $parameters, 'column');
+			$sql = null;
+			unset($parameters);
+			$sql = null;
+			unset($parameters);
+
+			if (!$group_uuid) {
+				continue;
+			}
+
+			$sql = "select group_permission_uuid from v_group_permissions where group_uuid = :group_uuid and permission_uuid = :permission_uuid";
+			$parameters = [
+				'group_uuid' => $group_uuid,
+				'permission_uuid' => $permission_uuid
+			];
+			$group_permission_uuid = $database->select($sql, $parameters, 'column');
+
+			if (!$group_permission_uuid) {
+				$sql = "insert into v_group_permissions (group_permission_uuid, group_uuid, permission_uuid) values (:group_permission_uuid, :group_uuid, :permission_uuid)";
+				$parameters = [
+					'group_permission_uuid' => uuid(),
+					'group_uuid' => $group_uuid,
+					'permission_uuid' => $permission_uuid
+				];
+				$database->execute($sql, $parameters);
+			}
+			$sql = null;
+			unset($parameters, $group_permission_uuid);
+		}
+
+		unset($permission_uuid);
+	}
+
 	//create tickets table
 	$sql  = "CREATE TABLE IF NOT EXISTS v_tickets ( ";
 	$sql .= "ticket_uuid uuid PRIMARY KEY, ";
@@ -93,7 +157,7 @@ if ($domains_processed == 1) {
 	$sql .= ") ";
 	$database = new database;
 	$database->execute($sql);
-	unset($sql);
+	$sql = null;
 
 	//create ticket_number unique index
 	$sql = "CREATE UNIQUE INDEX IF NOT EXISTS idx_tickets_number ON v_tickets (domain_uuid, ticket_number)";
