@@ -529,7 +529,7 @@
                             <div class="flow-toolbox">
                                 <div class="toolbox-title"><i class="fas fa-toolbox"></i> Toolbox</div>
 
-                                <div class="toolbox-section-label">Inputs</div>
+                                <div class="toolbox-section-label">Inbound</div>
                                 <div class="toolbox-node" draggable="true" data-node-type="inbound">
                                     <i class="fas fa-phone-volume"></i> Inbound Call
                                 </div>
@@ -559,8 +559,19 @@
                                     <i class="fas fa-phone-slash"></i> Hangup
                                 </div>
 
+                                <div class="toolbox-section-label">Outbound</div>
+                                <div class="toolbox-node" draggable="true" data-node-type="outbound">
+                                    <i class="fas fa-share-from-square"></i> Outbound Route
+                                </div>
+                                <div class="toolbox-node" draggable="true" data-node-type="gateway">
+                                    <i class="fas fa-server"></i> Gateway / Trunk
+                                </div>
+
                                 <div class="toolbox-actions">
-                                    <button type="button" class="toolbox-btn" onclick="flowClearAll()" title="Clear canvas">
+                                    <button type="button" class="toolbox-btn" id="flowMaxBtn" onclick="flowToggleMaximize()" title="Maximize designer">
+                                        <i class="fas fa-expand-alt"></i> Maximize
+                                    </button>
+                                    <button type="button" class="toolbox-btn toolbox-btn-danger" onclick="flowClearAll()" title="Clear canvas">
                                         <i class="fas fa-trash-alt"></i> Clear
                                     </button>
                                 </div>

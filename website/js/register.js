@@ -1208,66 +1208,102 @@ document.head.appendChild(s);
    ============================================================ */
 
 const FlowDesigner = (() => {
+
     // ── State ──────────────────────────────────────────────────
-    let nodes       = [];   // { id, type, label, x, y, props }
-    let connections = [];   // { id, fromId, fromPort, toId, toPort }
-    let selectedId  = null;
-    let nodeCounter = 0;
-    let connCounter = 0;
-
-    // Connection drawing state
-    let drawing     = false;
-    let drawFrom    = null;  // { nodeId, portKey, el }
-    let tempPath    = null;
-
-    // Node drag state
+    let nodes        = [];
+    let connections  = [];
+    let selectedId   = null;
+    let nodeCounter  = 0;
+    let connCounter  = 0;
+    let drawing      = false;
+    let drawFrom     = null;   // { nodeId, portKey, portType }
+    let tempPath     = null;
     let draggingNode = null;
     let dragOffset   = { x: 0, y: 0 };
+    let dragType     = null;
+    let dragOffset2  = { x: 0, y: 0 };   // toolbox drag cursor offset
+    let maximized    = false;
 
-    // ── Node definitions ───────────────────────────────────────
+    // ── Port type compatibility ────────────────────────────────
+    // An output port of type X can only connect to an input port of type X
+    // Ports: dir 'in'|'out', type 'call'|'gateway'
     const NODE_DEFS = {
-        inbound:       { label: 'Inbound Call',    icon: 'fa-phone-volume',  color: '#22c55e', ports: { in: false, out: true } },
-        timecondition: { label: 'Time Condition',  icon: 'fa-clock',         color: '#f59e0b', ports: { in: true,  outYes: true, outNo: true } },
-        ivr:           { label: 'IVR Menu',        icon: 'fa-sitemap',       color: '#3b82f6', ports: { in: true,  out: true } },
-        ringgroup:     { label: 'Ring Group',      icon: 'fa-users',         color: '#8b5cf6', ports: { in: true,  out: true } },
-        extension:     { label: 'Extension',       icon: 'fa-user',          color: '#06b6d4', ports: { in: true,  out: true } },
-        queue:         { label: 'Call Queue',      icon: 'fa-list-ol',       color: '#f97316', ports: { in: true,  out: true } },
-        voicemail:     { label: 'Voicemail',       icon: 'fa-voicemail',     color: '#ec4899', ports: { in: true,  out: false } },
-        hangup:        { label: 'Hangup',          icon: 'fa-phone-slash',   color: '#ef4444', ports: { in: true,  out: false } },
+        inbound:       { label: 'Inbound Call',    icon: 'fa-phone-volume',      color: '#22c55e',
+                         ports: { 'out':     { dir: 'out', type: 'call',    label: 'Call Out' } } },
+        outbound:      { label: 'Outbound Route',  icon: 'fa-share-from-square', color: '#a855f7',
+                         ports: { 'in':      { dir: 'in',  type: 'call',    label: 'Call In'  },
+                                  'out':     { dir: 'out', type: 'gateway', label: 'Trunk Out' } } },
+        gateway:       { label: 'Gateway / Trunk', icon: 'fa-server',            color: '#64748b',
+                         ports: { 'in':      { dir: 'in',  type: 'gateway', label: 'Trunk In' } } },
+        timecondition: { label: 'Time Condition',  icon: 'fa-clock',             color: '#f59e0b',
+                         ports: { 'in':      { dir: 'in',  type: 'call',    label: 'Call In'  },
+                                  'out-yes': { dir: 'out', type: 'call',    label: 'Yes'       },
+                                  'out-no':  { dir: 'out', type: 'call',    label: 'No'        } } },
+        ivr:           { label: 'IVR Menu',        icon: 'fa-sitemap',           color: '#3b82f6',
+                         ports: { 'in':      { dir: 'in',  type: 'call',    label: 'Call In'  },
+                                  'out':     { dir: 'out', type: 'call',    label: 'Key Press' } } },
+        ringgroup:     { label: 'Ring Group',      icon: 'fa-users',             color: '#8b5cf6',
+                         ports: { 'in':      { dir: 'in',  type: 'call',    label: 'Call In'  },
+                                  'out':     { dir: 'out', type: 'call',    label: 'Answered'  } } },
+        extension:     { label: 'Extension',       icon: 'fa-user',              color: '#06b6d4',
+                         ports: { 'in':      { dir: 'in',  type: 'call',    label: 'Call In'  },
+                                  'out':     { dir: 'out', type: 'call',    label: 'No Answer' } } },
+        queue:         { label: 'Call Queue',      icon: 'fa-list-ol',           color: '#f97316',
+                         ports: { 'in':      { dir: 'in',  type: 'call',    label: 'Call In'  },
+                                  'out':     { dir: 'out', type: 'call',    label: 'Overflow'  } } },
+        voicemail:     { label: 'Voicemail',       icon: 'fa-voicemail',         color: '#ec4899',
+                         ports: { 'in':      { dir: 'in',  type: 'call',    label: 'Call In'  } } },
+        hangup:        { label: 'Hangup',          icon: 'fa-phone-slash',       color: '#ef4444',
+                         ports: { 'in':      { dir: 'in',  type: 'call',    label: 'Call In'  } } },
     };
 
     const PROP_FIELDS = {
-        inbound:       [{ key: 'did', label: 'DID / Phone Number', type: 'text', ph: 'e.g. +1 800 555 0100' },
-                        { key: 'description', label: 'Description', type: 'text', ph: '' }],
-        timecondition: [{ key: 'name', label: 'Condition Name', type: 'text', ph: 'Business Hours' },
-                        { key: 'start', label: 'Start Time', type: 'time', ph: '08:00' },
-                        { key: 'end',   label: 'End Time',   type: 'time', ph: '17:00' },
-                        { key: 'days',  label: 'Days', type: 'select', options: ['Mon–Fri','Mon–Sat','Every Day','Custom'] }],
-        ivr:           [{ key: 'name', label: 'IVR Name', type: 'text', ph: 'Main Menu' },
-                        { key: 'greeting', label: 'Greeting (filename)', type: 'text', ph: 'welcome.wav' },
-                        { key: 'timeout', label: 'Timeout (sec)', type: 'text', ph: '10' }],
-        ringgroup:     [{ key: 'name', label: 'Group Name', type: 'text', ph: 'Sales Team' },
-                        { key: 'extensions', label: 'Extensions (comma)', type: 'text', ph: '100,101,102' },
-                        { key: 'strategy', label: 'Ring Strategy', type: 'select', options: ['simultaneous','sequence','random'] },
-                        { key: 'timeout', label: 'Ring Timeout (sec)', type: 'text', ph: '20' }],
-        extension:     [{ key: 'number', label: 'Extension Number', type: 'text', ph: '100' },
-                        { key: 'name',   label: 'User Name', type: 'text', ph: 'John Smith' }],
-        queue:         [{ key: 'name', label: 'Queue Name', type: 'text', ph: 'Support Queue' },
-                        { key: 'strategy', label: 'Strategy', type: 'select', options: ['round-robin','least-recent','fewest-calls'] },
-                        { key: 'moh', label: 'Hold Music', type: 'text', ph: 'default' }],
-        voicemail:     [{ key: 'extension', label: 'Voicemail Box', type: 'text', ph: '100' },
-                        { key: 'greeting', label: 'Greeting File', type: 'text', ph: 'voicemail.wav' }],
-        hangup:        [{ key: 'cause', label: 'Hangup Cause', type: 'select', options: ['NORMAL_CLEARING','NO_ANSWER','BUSY','REJECTED'] }],
+        inbound:       [{ key: 'did',         label: 'DID / Phone Number', type: 'text',   ph: '+1 800 555 0100' },
+                        { key: 'description', label: 'Description',        type: 'text',   ph: 'Main line' }],
+        outbound:      [{ key: 'name',        label: 'Route Name',         type: 'text',   ph: 'Outbound Main' },
+                        { key: 'prefix',      label: 'Dial Prefix Strip',  type: 'text',   ph: 'e.g. 9' },
+                        { key: 'pattern',     label: 'Number Pattern',     type: 'text',   ph: '^9(\\d+)$' },
+                        { key: 'cid',         label: 'Caller ID Override', type: 'text',   ph: 'Leave blank to keep' }],
+        gateway:       [{ key: 'name',        label: 'Gateway Name',       type: 'text',   ph: 'Provider Name' },
+                        { key: 'host',        label: 'SIP Host / IP',      type: 'text',   ph: 'sip.provider.com' },
+                        { key: 'username',    label: 'Username',           type: 'text',   ph: '' },
+                        { key: 'register',    label: 'Registration',       type: 'select', options: ['Yes','No'] },
+                        { key: 'codec',       label: 'Preferred Codec',    type: 'select', options: ['PCMU','PCMA','G722','G729','Opus'] }],
+        timecondition: [{ key: 'name',        label: 'Condition Name',     type: 'text',   ph: 'Business Hours' },
+                        { key: 'start',       label: 'Start Time',         type: 'time',   ph: '08:00' },
+                        { key: 'end',         label: 'End Time',           type: 'time',   ph: '17:00' },
+                        { key: 'days',        label: 'Days',               type: 'select', options: ['Mon–Fri','Mon–Sat','Every Day','Weekends','Custom'] }],
+        ivr:           [{ key: 'name',        label: 'IVR Name',           type: 'text',   ph: 'Main Menu' },
+                        { key: 'greeting',    label: 'Greeting Audio',     type: 'audio-upload' },
+                        { key: 'timeout',     label: 'Key Timeout (sec)',   type: 'text',   ph: '10' },
+                        { key: 'invalid',     label: 'Invalid Key Action', type: 'select', options: ['Repeat','Hangup','Operator'] }],
+        ringgroup:     [{ key: 'name',        label: 'Group Name',         type: 'text',   ph: 'Sales Team' },
+                        { key: 'extensions',  label: 'Extensions',         type: 'text',   ph: '100,101,102' },
+                        { key: 'strategy',    label: 'Ring Strategy',      type: 'select', options: ['simultaneous','sequence','random','round-robin'] },
+                        { key: 'timeout',     label: 'Ring Timeout (sec)', type: 'text',   ph: '20' }],
+        extension:     [{ key: 'number',      label: 'Extension Number',   type: 'text',   ph: '100' },
+                        { key: 'name',        label: 'User Name',          type: 'text',   ph: 'John Smith' }],
+        queue:         [{ key: 'name',        label: 'Queue Name',         type: 'text',   ph: 'Support Queue' },
+                        { key: 'strategy',    label: 'Strategy',           type: 'select', options: ['round-robin','least-recent','fewest-calls','random'] },
+                        { key: 'moh',         label: 'Hold Music',         type: 'text',   ph: 'default' },
+                        { key: 'maxwait',     label: 'Max Wait (sec)',     type: 'text',   ph: '300' }],
+        voicemail:     [{ key: 'extension',   label: 'Voicemail Box',      type: 'text',   ph: '100' },
+                        { key: 'greeting',    label: 'Greeting Audio',     type: 'audio-upload' }],
+        hangup:        [{ key: 'cause',       label: 'Hangup Cause',       type: 'select', options: ['NORMAL_CLEARING','NO_ANSWER','BUSY','REJECTED','USER_BUSY'] }],
     };
 
     // ── Helpers ────────────────────────────────────────────────
-    function uid()  { return 'n' + (++nodeCounter); }
-    function cuid() { return 'c' + (++connCounter); }
-    function canvas()  { return document.getElementById('flowCanvas'); }
-    function svg()     { return document.getElementById('flowSvg'); }
-    function hint()    { return document.getElementById('flowCanvasHint'); }
-    function getNode(id) { return nodes.find(n => n.id === id); }
-    function getEl(id)   { return document.getElementById(id); }
+    function uid()      { return 'n' + (++nodeCounter); }
+    function cuid()     { return 'c' + (++connCounter); }
+    function canvas()   { return document.getElementById('flowCanvas'); }
+    function svg()      { return document.getElementById('flowSvg'); }
+    function hint()     { return document.getElementById('flowCanvasHint'); }
+    function getNode(id){ return nodes.find(n => n.id === id); }
+    function getEl(id)  { return document.getElementById(id); }
+
+    function portDef(nodeType, portKey) {
+        return (NODE_DEFS[nodeType] || {}).ports?.[portKey] || null;
+    }
 
     function portCenter(nodeId, portKey) {
         const el = document.querySelector(`#${nodeId} .flow-port[data-port="${portKey}"]`);
@@ -1278,14 +1314,18 @@ const FlowDesigner = (() => {
     }
 
     function bezier(x1, y1, x2, y2) {
-        const dx = Math.abs(x2 - x1) * 0.55;
+        const dx = Math.abs(x2 - x1) * 0.6;
         return `M ${x1} ${y1} C ${x1 + dx} ${y1}, ${x2 - dx} ${y2}, ${x2} ${y2}`;
+    }
+
+    function clearProps() {
+        document.getElementById('propertiesForm').innerHTML = '';
+        document.getElementById('propertiesEmpty').style.display = '';
     }
 
     // ── Render connections ─────────────────────────────────────
     function renderConnections() {
         const s = svg();
-        // Remove old paths / labels (keep defs and temp line)
         s.querySelectorAll('.flow-connection, .conn-label').forEach(el => el.remove());
 
         connections.forEach(conn => {
@@ -1293,33 +1333,60 @@ const FlowDesigner = (() => {
             const to   = portCenter(conn.toId,   conn.toPort);
             if (!from || !to) return;
 
+            // Determine CSS class from port type
+            const pd = portDef(getNode(conn.fromId)?.type, conn.fromPort);
+            const typeClass = pd?.type === 'gateway' ? ' conn-gateway' :
+                              conn.fromPort === 'out-yes' ? ' conn-yes' :
+                              conn.fromPort === 'out-no'  ? ' conn-no'  : '';
+
             const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             path.setAttribute('d', bezier(from.x, from.y, to.x, to.y));
-            path.setAttribute('class', `flow-connection${conn.fromPort === 'out-yes' ? ' conn-yes' : conn.fromPort === 'out-no' ? ' conn-no' : ''}`);
+            path.setAttribute('class', 'flow-connection' + typeClass);
             path.dataset.connId = conn.id;
-            path.style.pointerEvents = 'stroke';
-            path.style.cursor = 'pointer';
             path.addEventListener('click', () => removeConnection(conn.id));
             s.appendChild(path);
 
-            // Mid-point label for yes/no ports
-            if (conn.fromPort === 'out-yes' || conn.fromPort === 'out-no') {
+            // Mid-point label
+            const labelText = conn.fromPort === 'out-yes' ? 'Yes' :
+                              conn.fromPort === 'out-no'  ? 'No'  :
+                              pd?.type === 'gateway'      ? 'Trunk' : null;
+            if (labelText) {
                 const mx = (from.x + to.x) / 2;
-                const my = (from.y + to.y) / 2 - 8;
+                const my = (from.y + to.y) / 2 - 9;
                 const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 lbl.setAttribute('x', mx); lbl.setAttribute('y', my);
-                lbl.setAttribute('class', 'conn-label');
-                lbl.setAttribute('text-anchor', 'middle');
-                lbl.textContent = conn.fromPort === 'out-yes' ? 'Yes' : 'No';
+                lbl.setAttribute('class', 'conn-label'); lbl.setAttribute('text-anchor', 'middle');
+                lbl.textContent = labelText;
                 s.appendChild(lbl);
+            }
+        });
+    }
+
+    // ── Show / hide type-incompatible indicator ────────────────
+    function highlightCompatiblePorts(fromType, active) {
+        document.querySelectorAll('.flow-port').forEach(pt => {
+            const nodeId  = pt.dataset.nodeId;
+            const portKey = pt.dataset.port;
+            const node    = getNode(nodeId);
+            if (!node) return;
+            const pd = portDef(node.type, portKey);
+            if (!pd) return;
+            if (pd.dir === 'in') {
+                if (active) {
+                    pt.classList.toggle('port-compatible',   pd.type === fromType);
+                    pt.classList.toggle('port-incompatible', pd.type !== fromType);
+                } else {
+                    pt.classList.remove('port-compatible', 'port-incompatible');
+                }
             }
         });
     }
 
     // ── Create node DOM ────────────────────────────────────────
     function createNodeEl(node) {
-        const def = NODE_DEFS[node.type];
-        const el  = document.createElement('div');
+        const def   = NODE_DEFS[node.type];
+        const ports = def.ports;
+        const el    = document.createElement('div');
         el.id        = node.id;
         el.className = 'flow-node';
         el.style.left = node.x + 'px';
@@ -1332,38 +1399,47 @@ const FlowDesigner = (() => {
         hdr.innerHTML = `<i class="fas ${def.icon}"></i><span>${def.label}</span>`;
         el.appendChild(hdr);
 
-        // Label (custom name)
+        // Port legend bar
+        const hasIn  = Object.values(ports).some(p => p.dir === 'in');
+        const hasOut = Object.values(ports).some(p => p.dir === 'out');
+        if (hasIn || hasOut) {
+            const bar = document.createElement('div');
+            bar.className = 'flow-node-portbar';
+            // left = input labels, right = output labels
+            const inPorts  = Object.entries(ports).filter(([,p]) => p.dir === 'in');
+            const outPorts = Object.entries(ports).filter(([,p]) => p.dir === 'out');
+            let barHtml = '<div class="portbar-in">';
+            inPorts.forEach(([,p])  => { barHtml += `<span class="portbar-label portbar-in-lbl  type-${p.type}">${p.label}</span>`; });
+            barHtml += '</div><div class="portbar-out">';
+            outPorts.forEach(([,p]) => { barHtml += `<span class="portbar-label portbar-out-lbl type-${p.type}">${p.label}</span>`; });
+            barHtml += '</div>';
+            bar.innerHTML = barHtml;
+            el.appendChild(bar);
+        }
+
+        // Custom label
         const lbl = document.createElement('div');
         lbl.className = 'flow-node-label';
-        lbl.textContent = node.props.name || node.props.did || node.props.number || def.label;
         lbl.id = node.id + '-label';
+        lbl.textContent = node.props.name || node.props.did || node.props.number || node.props.host || def.label;
         el.appendChild(lbl);
 
         // Delete button
         const del = document.createElement('button');
         del.className = 'flow-node-delete';
         del.innerHTML = '<i class="fas fa-times"></i>';
-        del.title = 'Delete node';
-        del.addEventListener('click', (e) => { e.stopPropagation(); removeNode(node.id); });
+        del.title = 'Delete node (removes all connections)';
+        del.addEventListener('click', e => { e.stopPropagation(); removeNode(node.id); });
         el.appendChild(del);
 
         // Ports
-        const ports = def.ports;
-        if (ports.in)     addPort(el, 'in',      node.id);
-        if (ports.out)    addPort(el, 'out',      node.id);
-        if (ports.outYes) addPort(el, 'out-yes',  node.id);
-        if (ports.outNo)  addPort(el, 'out-no',   node.id);
+        const inList  = Object.entries(ports).filter(([,p]) => p.dir === 'in');
+        const outList = Object.entries(ports).filter(([,p]) => p.dir === 'out');
 
-        // Yes/No port labels
-        if (ports.outYes && ports.outNo) {
-            const pl = document.createElement('div');
-            pl.className = 'flow-node-port-labels';
-            pl.innerHTML = '<span></span><span style="display:flex;flex-direction:column;gap:8px;align-items:flex-end;font-size:0.62rem;color:rgba(255,255,255,0.35)"><span style="color:#22c55e">Yes</span><span style="color:#ef4444">No</span></span>';
-            el.appendChild(pl);
-        }
+        inList.forEach(([key, pd], i) => addPort(el, key, node.id, pd, i, inList.length));
+        outList.forEach(([key, pd], i) => addPort(el, key, node.id, pd, i, outList.length));
 
-        // Select on click
-        el.addEventListener('mousedown', (e) => {
+        el.addEventListener('mousedown', e => {
             if (e.target.classList.contains('flow-port')) return;
             selectNode(node.id);
             startNodeDrag(e, node.id);
@@ -1373,33 +1449,41 @@ const FlowDesigner = (() => {
         return el;
     }
 
-    function addPort(nodeEl, portKey, nodeId) {
+    function addPort(nodeEl, portKey, nodeId, pd, index, total) {
         const pt = document.createElement('div');
-        pt.className = 'flow-port port-' + portKey.replace('out-', 'out-');
+        const isIn = pd.dir === 'in';
+
+        // Position: spread vertically within 20%-80% range
+        const pct = total === 1 ? 50 : 20 + (index / (total - 1)) * 60;
+
+        pt.className = `flow-port port-dir-${pd.dir} port-type-${pd.type} port-key-${portKey.replace('-','_')}`;
         pt.dataset.port   = portKey;
         pt.dataset.nodeId = nodeId;
-        pt.title = portKey === 'in' ? 'Input' : portKey === 'out-yes' ? 'Yes branch' : portKey === 'out-no' ? 'No branch' : 'Output';
+        pt.dataset.type   = pd.type;
+        pt.dataset.dir    = pd.dir;
+        pt.title = pd.label + ' (' + pd.type + ')';
+        pt.style.top = pct + '%';
+        if (isIn)  pt.style.left  = '-7px';
+        else       pt.style.right = '-7px';
 
-        pt.addEventListener('mousedown', (e) => {
-            e.stopPropagation();
-            if (portKey === 'in') {
-                // accept connection finish
-            } else {
-                startDrawing(e, nodeId, portKey, pt);
-            }
-        });
+        if (!isIn) {
+            pt.addEventListener('mousedown', e => {
+                e.stopPropagation();
+                startDrawing(e, nodeId, portKey, pd.type);
+            });
+        }
 
-        pt.addEventListener('mouseup', (e) => {
+        pt.addEventListener('mouseup', e => {
             e.stopPropagation();
-            if (drawing && drawFrom && portKey === 'in' && drawFrom.nodeId !== nodeId) {
-                finishDrawing(nodeId, portKey);
+            if (drawing && drawFrom && isIn && drawFrom.nodeId !== nodeId) {
+                finishDrawing(nodeId, portKey, pd.type);
             }
         });
 
         nodeEl.appendChild(pt);
     }
 
-    // ── Node drag (move) ───────────────────────────────────────
+    // ── Node drag ─────────────────────────────────────────────
     function startNodeDrag(e, nodeId) {
         draggingNode = nodeId;
         const el = getEl(nodeId);
@@ -1411,7 +1495,6 @@ const FlowDesigner = (() => {
 
     function onMouseMove(e) {
         const cr = canvas().getBoundingClientRect();
-
         if (draggingNode) {
             const el = getEl(draggingNode);
             const x  = Math.max(0, e.clientX - cr.left - dragOffset.x);
@@ -1422,35 +1505,42 @@ const FlowDesigner = (() => {
             if (node) { node.x = x; node.y = y; }
             renderConnections();
         }
-
-        if (drawing && drawFrom) {
+        if (drawing && drawFrom && tempPath) {
             const fp = portCenter(drawFrom.nodeId, drawFrom.portKey);
-            if (!fp || !tempPath) return;
-            const mx = e.clientX - cr.left;
-            const my = e.clientY - cr.top;
-            tempPath.setAttribute('d', bezier(fp.x, fp.y, mx, my));
+            if (!fp) return;
+            tempPath.setAttribute('d', bezier(fp.x, fp.y, e.clientX - cr.left, e.clientY - cr.top));
         }
     }
 
-    function onMouseUp(e) {
+    function onMouseUp() {
         draggingNode = null;
         if (drawing) cancelDrawing();
     }
 
     // ── Connection drawing ─────────────────────────────────────
-    function startDrawing(e, nodeId, portKey, portEl) {
-        drawing   = true;
-        drawFrom  = { nodeId, portKey, el: portEl };
-
+    function startDrawing(e, nodeId, portKey, portType) {
+        drawing  = true;
+        drawFrom = { nodeId, portKey, portType };
         tempPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         tempPath.setAttribute('class', 'flow-temp-line');
         svg().appendChild(tempPath);
+        highlightCompatiblePorts(portType, true);
         e.preventDefault();
     }
 
-    function finishDrawing(toNodeId, toPortKey) {
-        // Prevent duplicate connections on same ports
-        const exists = connections.some(c => c.fromId === drawFrom.nodeId && c.fromPort === drawFrom.portKey && c.toId === toNodeId);
+    function finishDrawing(toNodeId, toPortKey, toPortType) {
+        highlightCompatiblePorts(null, false);
+
+        // Type check
+        if (drawFrom.portType !== toPortType) {
+            showConnectError('Cannot connect: ' + drawFrom.portType + ' → ' + toPortType + ' (type mismatch)');
+            cancelDrawing();
+            return;
+        }
+
+        // Duplicate check
+        const exists = connections.some(c =>
+            c.fromId === drawFrom.nodeId && c.fromPort === drawFrom.portKey && c.toId === toNodeId);
         if (!exists) {
             connections.push({ id: cuid(), fromId: drawFrom.nodeId, fromPort: drawFrom.portKey, toId: toNodeId, toPort: toPortKey });
         }
@@ -1459,12 +1549,21 @@ const FlowDesigner = (() => {
     }
 
     function cancelDrawing() {
-        drawing = false;
+        drawing  = false;
         drawFrom = null;
         if (tempPath) { tempPath.remove(); tempPath = null; }
+        highlightCompatiblePorts(null, false);
     }
 
-    // ── Select / deselect ──────────────────────────────────────
+    function showConnectError(msg) {
+        const toast = document.createElement('div');
+        toast.className = 'flow-toast flow-toast-error';
+        toast.textContent = msg;
+        canvas().appendChild(toast);
+        setTimeout(() => toast.remove(), 2800);
+    }
+
+    // ── Select ─────────────────────────────────────────────────
     function selectNode(id) {
         document.querySelectorAll('.flow-node.selected').forEach(el => el.classList.remove('selected'));
         selectedId = id;
@@ -1480,23 +1579,41 @@ const FlowDesigner = (() => {
         const def   = NODE_DEFS[node.type];
         const fields = PROP_FIELDS[node.type] || [];
         const form  = document.getElementById('propertiesForm');
-        const empty = document.getElementById('propertiesEmpty');
+        document.getElementById('propertiesEmpty').style.display = 'none';
 
-        empty.style.display = 'none';
+        let html = `<div class="prop-node-type" style="background:${def.color}22;color:${def.color}">
+                        <i class="fas ${def.icon}"></i> ${def.label}</div>`;
 
-        let html = `<div class="prop-node-type" style="background:${def.color}22;color:${def.color}"><i class="fas ${def.icon}"></i> ${def.label}</div>`;
         fields.forEach(f => {
             html += `<div class="form-group"><label>${f.label}</label>`;
             if (f.type === 'select') {
-                html += `<select class="formfld" data-prop="${f.key}" onchange="FlowDesigner.setProp('${nodeId}','${f.key}',this.value)">`;
+                html += `<select class="formfld" onchange="FlowDesigner.setProp('${nodeId}','${f.key}',this.value)">`;
                 f.options.forEach(o => html += `<option value="${o}"${node.props[f.key]===o?' selected':''}>${o}</option>`);
                 html += `</select>`;
+            } else if (f.type === 'audio-upload') {
+                const fname = node.props[f.key + '_name'] || '';
+                html += `<div class="audio-upload-wrap">
+                    <label class="audio-upload-btn" for="au_${nodeId}_${f.key}">
+                        <i class="fas fa-upload"></i> ${fname ? 'Change File' : 'Upload WAV / MP3'}
+                    </label>
+                    <input type="file" id="au_${nodeId}_${f.key}" accept=".wav,.mp3,audio/*" style="display:none"
+                        onchange="FlowDesigner.handleAudioUpload('${nodeId}','${f.key}',this)">
+                    ${fname ? `<div class="audio-upload-preview">
+                        <i class="fas fa-music"></i> ${fname}
+                        <audio controls src="${node.props[f.key]||''}" style="width:100%;margin-top:4px"></audio>
+                    </div>` : ''}
+                </div>`;
             } else {
-                html += `<input type="${f.type}" class="formfld" data-prop="${f.key}" value="${node.props[f.key]||''}" placeholder="${f.ph||''}" oninput="FlowDesigner.setProp('${nodeId}','${f.key}',this.value)">`;
+                html += `<input type="${f.type}" class="formfld" value="${node.props[f.key]||''}" placeholder="${f.ph||''}"
+                    oninput="FlowDesigner.setProp('${nodeId}','${f.key}',this.value)">`;
             }
             html += `</div>`;
         });
-        html += `<div class="prop-delete-btn"><button onclick="FlowDesigner.removeNode('${nodeId}')"><i class="fas fa-trash"></i> Delete Node</button></div>`;
+
+        html += `<div class="prop-delete-btn">
+            <button onclick="FlowDesigner.removeNode('${nodeId}')">
+                <i class="fas fa-trash"></i> Delete Node &amp; Connections
+            </button></div>`;
         form.innerHTML = html;
     }
 
@@ -1504,21 +1621,28 @@ const FlowDesigner = (() => {
         const node = getNode(nodeId);
         if (!node) return;
         node.props[key] = value;
-        // Update label on canvas
-        const lbl = document.getElementById(nodeId + '-label');
-        if (lbl) lbl.textContent = node.props.name || node.props.did || node.props.number || NODE_DEFS[node.type].label;
+        const lbl = getEl(nodeId + '-label');
+        if (lbl) lbl.textContent = node.props.name || node.props.did || node.props.number || node.props.host || NODE_DEFS[node.type].label;
+    }
+
+    function handleAudioUpload(nodeId, key, input) {
+        const file = input.files[0];
+        if (!file) return;
+        const node = getNode(nodeId);
+        if (!node) return;
+        node.props[key + '_name'] = file.name;
+        // Store object URL for preview playback
+        node.props[key] = URL.createObjectURL(file);
+        renderProperties(nodeId);   // re-render to show preview
     }
 
     // ── Remove ─────────────────────────────────────────────────
     function removeNode(id) {
-        nodes = nodes.filter(n => n.id !== id);
+        // Remove all connections touching this node first
         connections = connections.filter(c => c.fromId !== id && c.toId !== id);
+        nodes = nodes.filter(n => n.id !== id);
         getEl(id)?.remove();
-        if (selectedId === id) {
-            selectedId = null;
-            document.getElementById('propertiesForm').innerHTML = '';
-            document.getElementById('propertiesEmpty').style.display = '';
-        }
+        if (selectedId === id) { selectedId = null; clearProps(); }
         renderConnections();
         updateHint();
     }
@@ -1528,26 +1652,15 @@ const FlowDesigner = (() => {
         renderConnections();
     }
 
-    function updateHint() {
-        hint().style.display = nodes.length === 0 ? '' : 'none';
-    }
+    function updateHint() { hint().style.display = nodes.length === 0 ? '' : 'none'; }
 
-    // ── Drag from toolbox ──────────────────────────────────────
-    let dragType = null;
-    let dragCursorOffset = { x: 0, y: 0 };
-
+    // ── Toolbox drag ──────────────────────────────────────────
     function onToolboxDragStart(e) {
         dragType = e.currentTarget.dataset.nodeType;
-        dragCursorOffset.x = e.offsetX;
-        dragCursorOffset.y = e.offsetY;
+        dragOffset2.x = e.offsetX;
+        dragOffset2.y = e.offsetY;
         e.dataTransfer.effectAllowed = 'copy';
         e.dataTransfer.setData('text/plain', dragType);
-    }
-
-    function flowDragOver(e) {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'copy';
-        canvas().classList.add('drag-over');
     }
 
     function flowDrop(e) {
@@ -1555,12 +1668,10 @@ const FlowDesigner = (() => {
         canvas().classList.remove('drag-over');
         const type = e.dataTransfer.getData('text/plain') || dragType;
         if (!type || !NODE_DEFS[type]) return;
-
         const cr = canvas().getBoundingClientRect();
-        const x  = e.clientX - cr.left - dragCursorOffset.x;
-        const y  = e.clientY - cr.top  - dragCursorOffset.y;
-
-        const node = { id: uid(), type, label: NODE_DEFS[type].label, x: Math.max(10, x), y: Math.max(10, y), props: {} };
+        const x  = Math.max(10, e.clientX - cr.left - dragOffset2.x);
+        const y  = Math.max(10, e.clientY - cr.top  - dragOffset2.y);
+        const node = { id: uid(), type, x, y, props: {} };
         nodes.push(node);
         createNodeEl(node);
         updateHint();
@@ -1573,62 +1684,63 @@ const FlowDesigner = (() => {
         nodes = []; connections = [];
         canvas().querySelectorAll('.flow-node').forEach(el => el.remove());
         svg().querySelectorAll('.flow-connection, .conn-label').forEach(el => el.remove());
-        selectedId = null;
-        document.getElementById('propertiesForm').innerHTML = '';
-        document.getElementById('propertiesEmpty').style.display = '';
-        updateHint();
+        selectedId = null; clearProps(); updateHint();
     }
 
-    // ── Init ───────────────────────────────────────────────────
+    // ── Maximize / Restore ────────────────────────────────────
+    function toggleMaximize() {
+        const designer = document.querySelector('.flow-designer');
+        const btn      = document.getElementById('flowMaxBtn');
+        maximized = !maximized;
+        designer.classList.toggle('flow-designer-maximized', maximized);
+        btn.innerHTML = maximized
+            ? '<i class="fas fa-compress-alt"></i> Restore'
+            : '<i class="fas fa-expand-alt"></i> Maximize';
+        // Connections must re-render because canvas rect changed
+        requestAnimationFrame(renderConnections);
+    }
+
+    // ── Init ──────────────────────────────────────────────────
     function init() {
-        // Toolbox drag events
         document.querySelectorAll('.toolbox-node').forEach(el => {
             el.addEventListener('dragstart', onToolboxDragStart);
             el.addEventListener('dragend',   () => canvas().classList.remove('drag-over'));
         });
-
-        // Canvas-level events
         const cv = canvas();
         if (!cv) return;
-        cv.addEventListener('mousemove', onMouseMove);
-        cv.addEventListener('mouseup',   onMouseUp);
+        cv.addEventListener('mousemove',  onMouseMove);
+        cv.addEventListener('mouseup',    onMouseUp);
         cv.addEventListener('mouseleave', () => { if (drawing) cancelDrawing(); draggingNode = null; });
-        cv.addEventListener('click', (e) => {
-            if (e.target === cv || e.target === svg() || e.target.classList.contains('flow-svg')) {
-                selectNode(null);
-                document.getElementById('propertiesForm').innerHTML = '';
-                document.getElementById('propertiesEmpty').style.display = '';
+        cv.addEventListener('click', e => {
+            if (e.target === cv || e.target.classList.contains('flow-svg')) {
+                selectNode(null); clearProps();
             }
         });
     }
 
-    // ── Public API ─────────────────────────────────────────────
-    return { init, flowDrop, flowClearAll, setProp, removeNode, getData: () => ({ nodes, connections }) };
+    return { init, flowDrop, flowClearAll, setProp, handleAudioUpload, removeNode, toggleMaximize,
+             getData: () => ({ nodes, connections }) };
 })();
 
-// Global handlers called from HTML attributes
+// Global handlers (called from HTML attributes)
 function flowDragOver(e) {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'copy';
     document.getElementById('flowCanvas').classList.add('drag-over');
 }
-function flowDrop(e)    { FlowDesigner.flowDrop(e); }
-function flowClearAll() { FlowDesigner.flowClearAll(); }
+function flowDrop(e)        { FlowDesigner.flowDrop(e); }
+function flowClearAll()     { FlowDesigner.flowClearAll(); }
+function flowToggleMaximize(){ FlowDesigner.toggleMaximize(); }
 
-// Init FlowDesigner when step 8 first becomes active
+// Init when step 8 becomes active
 (function () {
-    let designerInited = false;
+    let inited = false;
     function tryInit() {
-        if (designerInited) return;
+        if (inited) return;
         const s8 = document.getElementById('step8');
-        if (s8 && s8.classList.contains('active')) {
-            FlowDesigner.init();
-            designerInited = true;
-        }
+        if (s8 && s8.classList.contains('active')) { FlowDesigner.init(); inited = true; }
     }
-    const formSteps = document.getElementById('formSteps');
-    if (formSteps) {
-        new MutationObserver(tryInit).observe(formSteps, { attributes: true, subtree: true, attributeFilter: ['class'] });
-    }
+    const fs = document.getElementById('formSteps');
+    if (fs) new MutationObserver(tryInit).observe(fs, { attributes: true, subtree: true, attributeFilter: ['class'] });
     document.addEventListener('DOMContentLoaded', tryInit);
 })();
