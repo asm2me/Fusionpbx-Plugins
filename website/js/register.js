@@ -1047,7 +1047,6 @@ function buildReviewTable() {
         row(t('reg.review.lbl.ivrmenus'),   ivr)
     );
 
-    // Devices
     if (devices.length > 0) {
         let drows = '';
         devices.forEach(deviceId => {
@@ -1058,12 +1057,11 @@ function buildReviewTable() {
         html += sec('reg.review.sec.devices', drows);
     }
 
-    // IVR details
     const ivrCards = document.querySelectorAll('.ivr-config-card');
     if (ivrCards.length > 0) {
         let irows = '';
         ivrCards.forEach((card, i) => {
-            const name = card.querySelector('.ivr-name').value || `IVR ${i+1}`;
+            const name = card.querySelector('.ivr-name').value || `IVR ${i + 1}`;
             const file = card.querySelector('input[type="file"]').files[0];
             const options = card.querySelectorAll('.ivr-option-row');
             irows += row(name, `${file ? file.name : t('reg.review.lbl.norecording')}, ${options.length} ${t('reg.review.lbl.options')}`);
@@ -1071,7 +1069,6 @@ function buildReviewTable() {
         html += sec('reg.review.sec.ivr', irows);
     }
 
-    // Gateway
     if (hasGw) {
         html += sec('reg.review.sec.gateway',
             row(t('reg.review.lbl.name'),     document.getElementById('gwName').value     || '-') +
@@ -1080,23 +1077,29 @@ function buildReviewTable() {
         );
     }
 
-    // Call Routes screenshot
-    const flowData = FlowDesigner.getData();
-    if (flowData.nodes.length > 0) {
-        const nodeCount = flowData.nodes.length;
-        const connCount = flowData.connections.length;
-        const imgHtml = flowDesignerScreenshot
-            ? `<img src="${flowDesignerScreenshot}" style="width:100%;border-radius:6px;display:block;" alt="Call Routes">`
-            : `<div style="padding:16px;text-align:center;color:#94a3b8;font-size:0.8rem;">${nodeCount} ${t('reg.review.lbl.nodescount')}, ${connCount} ${t('reg.review.lbl.conncount')}</div>`;
-        html += `<div class="review-section review-section-chart">
-            <h4>${t('reg.review.sec.callroutes')} <small style="font-weight:400;font-size:0.72rem;opacity:0.6">(${nodeCount} ${t('reg.review.lbl.nodescount')}, ${connCount} ${t('reg.review.lbl.conncount')})</small></h4>
-            <div class="review-chart-wrap">${imgHtml}</div>
-        </div>`;
+    const routesSection = document.getElementById('reviewCallRoutesSection');
+    const routesWrap = document.getElementById('reviewCallRoutesWrap');
+    const flowData = (typeof FlowDesigner !== 'undefined' && FlowDesigner.getData) ? FlowDesigner.getData() : { nodes: [], connections: [] };
+    const shouldShowRoutes = flowData.nodes && flowData.nodes.length > 0;
+
+    if (routesSection && routesWrap) {
+        if (shouldShowRoutes) {
+            routesSection.style.display = 'block';
+            const nodeCount = flowData.nodes.length;
+            const connCount = flowData.connections.length;
+            if (flowDesignerScreenshot) {
+                routesWrap.innerHTML = `<img src="${flowDesignerScreenshot}" style="width:100%;border-radius:6px;display:block;" alt="Call Routes Designer Snapshot">`;
+            } else {
+                routesWrap.innerHTML = `<div style="padding:16px;text-align:center;color:#94a3b8;font-size:0.8rem;">${nodeCount} ${t('reg.review.lbl.nodescount')}, ${connCount} ${t('reg.review.lbl.conncount')}</div>`;
+            }
+        } else {
+            routesSection.style.display = 'none';
+            routesWrap.innerHTML = '';
+        }
     }
 
     document.getElementById('reviewTable').innerHTML = html;
 }
-
 // ============ COLLECT FORM DATA ============
 function collectFormData() {
     const data = {
