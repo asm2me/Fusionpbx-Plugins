@@ -34,6 +34,7 @@ let deviceTypes = {};
 let fieldHints = {};
 let ivrMenus = {}; // Track IVR menus: { 0: {name, options}, 1: {name, options}, ... }
 let currentIvrModalTarget = null; // Track which IVR/action we're creating for
+let flowDesignerScreenshot = null; // Cached data URL screenshot of the flow canvas
 
 // ============ INIT ============
 document.addEventListener('DOMContentLoaded', function() {
@@ -779,7 +780,26 @@ function nextStep(step) {
     currentStep = step;
     console.log('Moved to step', step);
 
-    if (step === 10) buildReviewTable();
+    if (step === 10) {
+        const flowCanvas = document.getElementById('flowCanvas');
+        if (flowCanvas && typeof html2canvas !== 'undefined' && FlowDesigner.getData().nodes.length > 0) {
+            html2canvas(flowCanvas, {
+                backgroundColor: '#0d1117',
+                scale: 1,
+                useCORS: true,
+                logging: false
+            }).then(canvas => {
+                flowDesignerScreenshot = canvas.toDataURL('image/png');
+                buildReviewTable();
+            }).catch(() => {
+                flowDesignerScreenshot = null;
+                buildReviewTable();
+            });
+        } else {
+            flowDesignerScreenshot = null;
+            buildReviewTable();
+        }
+    }
     updateConfigSummary();
 }
 
@@ -990,130 +1010,6 @@ function updateConfigSummary() {
     `;
 }
 
-// ============ FLOW CHART SVG RENDERER ============
-function buildFlowChartSvg(flowData) {
-    const ns = 'http://www.w3.org/2000/svg';
-    const NODE_COLORS = {
-        inbound:'#22c55e', outbound:'#a855f7', gateway:'#64748b',
-        timecondition:'#f59e0b', ivr:'#3b82f6', ringgroup:'#8b5cf6',
-        extension:'#06b6d4', queue:'#f97316', voicemail:'#ec4899', hangup:'#ef4444'
-    };
-    const HDR_H = 24;
-
-    // Collect node DOM metrics
-    const rects = {};
-    flowData.nodes.forEach(n => {
-        const el = document.getElementById(n.id);
-        if (!el) return;
-        rects[n.id] = { x: el.offsetLeft, y: el.offsetTop, w: el.offsetWidth, h: el.offsetHeight };
-    });
-    if (!Object.keys(rects).length) return null;
-
-    // Bounding box
-    let minX = Infinity, minY = Infinity, maxX = 0, maxY = 0;
-    Object.values(rects).forEach(r => {
-        minX = Math.min(minX, r.x); minY = Math.min(minY, r.y);
-        maxX = Math.max(maxX, r.x + r.w); maxY = Math.max(maxY, r.y + r.h);
-    });
-    const pad = 24;
-    minX = Math.max(0, minX - pad); minY = Math.max(0, minY - pad);
-    maxX += pad; maxY += pad;
-    const vw = maxX - minX, vh = maxY - minY;
-
-    function el(tag, attrs, txt) {
-        const e = document.createElementNS(ns, tag);
-        Object.entries(attrs).forEach(([k, v]) => e.setAttribute(k, v));
-        if (txt !== undefined) e.textContent = txt;
-        return e;
-    }
-
-    const svg = el('svg', { xmlns: ns, viewBox: `0 0 ${vw} ${vh}`,
-                             width: vw, height: Math.min(vh, 340),
-                             style: 'width:100%;background:#0d1117;display:block;border-radius:6px;' });
-
-    // Background
-    svg.appendChild(el('rect', { width: vw, height: vh, fill: '#0d1117' }));
-
-    // Arrow marker
-    const defs = el('defs', {});
-    const marker = el('marker', { id: 'rv-arrow', markerWidth: 7, markerHeight: 6,
-                                   refX: 6, refY: 3, orient: 'auto', markerUnits: 'userSpaceOnUse' });
-    marker.appendChild(el('polygon', { points: '0 0, 7 3, 0 6', fill: '#94a3b8' }));
-    defs.appendChild(marker);
-    svg.appendChild(defs);
-
-    // Draw connections (behind nodes)
-    flowData.connections.forEach(conn => {
-        const fr = rects[conn.fromId], tr = rects[conn.toId];
-        if (!fr || !tr) return;
-        const fromEl = document.getElementById(conn.fromId);
-        const toEl   = document.getElementById(conn.toId);
-        if (!fromEl || !toEl) return;
-        const fromPort = fromEl.querySelector(`.flow-port[data-port="${conn.fromPort}"]`);
-        const toPort   = toEl.querySelector(`.flow-port[data-port="${conn.toPort}"]`);
-        if (!fromPort || !toPort) return;
-
-        const x1 = fr.x + fromPort.offsetLeft + fromPort.offsetWidth  / 2 - minX;
-        const y1 = fr.y + fromPort.offsetTop  - minY;
-        const x2 = tr.x + toPort.offsetLeft   + toPort.offsetWidth    / 2 - minX;
-        const y2 = tr.y + toPort.offsetTop    - minY;
-        const dx = Math.abs(x2 - x1) * 0.55;
-
-        svg.appendChild(el('path', {
-            d: `M ${x1} ${y1} C ${x1+dx} ${y1}, ${x2-dx} ${y2}, ${x2} ${y2}`,
-            fill: 'none', stroke: '#94a3b8', 'stroke-width': 1.5,
-            'marker-end': 'url(#rv-arrow)'
-        }));
-
-        // DTMF digit label on connection
-        if (conn.fromPort && conn.fromPort.startsWith('dtmf-')) {
-            const digit = conn.fromPort.replace('dtmf-', '').replace('star','*').replace('hash','#');
-            const mx = (x1 + x2) / 2, my = (y1 + y2) / 2 - 6;
-            const bg = el('rect', { x: mx-6, y: my-8, width: 12, height: 11, rx: 3, fill: '#1e293b', stroke:'#94a3b8', 'stroke-width':0.5 });
-            svg.appendChild(bg);
-            svg.appendChild(el('text', { x: mx, y: my, 'text-anchor':'middle',
-                'font-size': 8, fill: '#cbd5e1', 'font-family': 'monospace, Arial', 'font-weight': '700' }, digit));
-        }
-    });
-
-    // Draw nodes (on top)
-    flowData.nodes.forEach(n => {
-        const r = rects[n.id];
-        if (!r) return;
-        const x = r.x - minX, y = r.y - minY;
-        const color = NODE_COLORS[n.type] || '#555';
-
-        // Body
-        svg.appendChild(el('rect', { x, y, width: r.w, height: r.h, rx: 8,
-            fill: '#1a1a2e', stroke: color, 'stroke-width': 2 }));
-
-        // Header bar (top rounded, bottom square via two overlapping rects)
-        svg.appendChild(el('rect', { x, y, width: r.w, height: HDR_H, rx: 8, fill: color }));
-        svg.appendChild(el('rect', { x, y: y + HDR_H/2, width: r.w, height: HDR_H/2, fill: color }));
-
-        // Node type name in header
-        const typeLabel = t('reg.routes.node.' + n.type) || n.type;
-        svg.appendChild(el('text', {
-            x: x + r.w / 2, y: y + 15,
-            'text-anchor': 'middle', 'font-size': 9, 'font-weight': '700',
-            fill: '#fff', 'font-family': 'Arial,sans-serif'
-        }, typeLabel));
-
-        // User label below header
-        const lblEl = document.getElementById(n.id + '-label');
-        const userLabel = lblEl ? lblEl.textContent.trim() : '';
-        if (userLabel) {
-            svg.appendChild(el('text', {
-                x: x + r.w / 2, y: y + HDR_H + (r.h - HDR_H) / 2 + 4,
-                'text-anchor': 'middle', 'font-size': 9,
-                fill: 'rgba(255,255,255,0.65)', 'font-family': 'Arial,sans-serif'
-            }, userLabel));
-        }
-    });
-
-    return svg.outerHTML;
-}
-
 // ============ REVIEW TABLE ============
 function buildReviewTable() {
     const plan = PLANS[getSelectedPlan()];
@@ -1184,18 +1080,18 @@ function buildReviewTable() {
         );
     }
 
-    // Call Routes chart snapshot
+    // Call Routes screenshot
     const flowData = FlowDesigner.getData();
     if (flowData.nodes.length > 0) {
-        const chartSvg = buildFlowChartSvg(flowData);
-        if (chartSvg) {
-            const nodeCount = flowData.nodes.length;
-            const connCount = flowData.connections.length;
-            html += `<div class="review-section review-section-chart">
-                <h4>${t('reg.review.sec.callroutes')} <small style="font-weight:400;font-size:0.72rem;opacity:0.6">(${nodeCount} ${t('reg.review.lbl.nodescount')}, ${connCount} ${t('reg.review.lbl.conncount')})</small></h4>
-                <div class="review-chart-wrap">${chartSvg}</div>
-            </div>`;
-        }
+        const nodeCount = flowData.nodes.length;
+        const connCount = flowData.connections.length;
+        const imgHtml = flowDesignerScreenshot
+            ? `<img src="${flowDesignerScreenshot}" style="width:100%;border-radius:6px;display:block;" alt="Call Routes">`
+            : `<div style="padding:16px;text-align:center;color:#94a3b8;font-size:0.8rem;">${nodeCount} ${t('reg.review.lbl.nodescount')}, ${connCount} ${t('reg.review.lbl.conncount')}</div>`;
+        html += `<div class="review-section review-section-chart">
+            <h4>${t('reg.review.sec.callroutes')} <small style="font-weight:400;font-size:0.72rem;opacity:0.6">(${nodeCount} ${t('reg.review.lbl.nodescount')}, ${connCount} ${t('reg.review.lbl.conncount')})</small></h4>
+            <div class="review-chart-wrap">${imgHtml}</div>
+        </div>`;
     }
 
     document.getElementById('reviewTable').innerHTML = html;
