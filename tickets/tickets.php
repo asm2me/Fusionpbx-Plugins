@@ -73,16 +73,31 @@
 	$order_by = $_GET['order_by'] ?? 'insert_date';
 	$order_dir = (isset($_GET['order_dir']) && strtolower($_GET['order_dir']) === 'asc') ? 'asc' : 'desc';
 
-//build query
+	//determine access scope
+	$is_superadmin = false;
+	if (!empty($_SESSION['groups']) && is_array($_SESSION['groups'])) {
+		foreach ($_SESSION['groups'] as $group) {
+			if (($group['group_name'] ?? '') === 'superadmin') {
+				$is_superadmin = true;
+				break;
+			}
+		}
+	}
+	$is_ticket_manager = permission_exists('ticket_manage');
+
+	//build query
 	$sql = "SELECT t.*, u.username AS reporter_name, a.username AS assignee_name ";
 	$sql .= "FROM v_tickets t ";
 	$sql .= "LEFT JOIN v_users u ON u.user_uuid = t.user_uuid ";
 	$sql .= "LEFT JOIN v_users a ON a.user_uuid = t.assigned_to ";
-	$sql .= "WHERE t.domain_uuid = :domain_uuid ";
-	$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+	$sql .= "WHERE 1 = 1 ";
 
-	//non-admin users can only see their own tickets
-	if (!permission_exists('ticket_manage')) {
+	//superadmin sees all domains, admin sees current domain, users see only their own tickets
+	if (!$is_superadmin) {
+		$sql .= "AND t.domain_uuid = :domain_uuid ";
+		$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+	}
+	if (!$is_ticket_manager) {
 		$sql .= "AND t.user_uuid = :user_uuid ";
 		$parameters['user_uuid'] = $_SESSION['user_uuid'];
 	}
@@ -108,9 +123,13 @@
 	unset($sql, $parameters);
 
 //count open tickets
-	$sql = "SELECT count(*) FROM v_tickets WHERE domain_uuid = :domain_uuid AND status IN ('open','in_progress')";
-	$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
-	if (!permission_exists('ticket_manage')) {
+	$sql = "SELECT count(*) FROM v_tickets WHERE status IN ('open','in_progress')";
+	$parameters = [];
+	if (!$is_superadmin) {
+		$sql .= " AND domain_uuid = :domain_uuid";
+		$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+	}
+	if (!$is_ticket_manager) {
 		$sql .= " AND user_uuid = :user_uuid";
 		$parameters['user_uuid'] = $_SESSION['user_uuid'];
 	}

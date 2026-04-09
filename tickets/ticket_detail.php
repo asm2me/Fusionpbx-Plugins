@@ -27,17 +27,32 @@
 		exit;
 	}
 
-//load ticket
+	//determine access scope
+	$is_superadmin = false;
+	if (!empty($_SESSION['groups']) && is_array($_SESSION['groups'])) {
+		foreach ($_SESSION['groups'] as $group) {
+			if (($group['group_name'] ?? '') === 'superadmin') {
+				$is_superadmin = true;
+				break;
+			}
+		}
+	}
+	$is_ticket_manager = permission_exists('ticket_manage');
+
+	//load ticket
 	$sql  = "SELECT t.*, u.username AS reporter_name, a.username AS assignee_name ";
 	$sql .= "FROM v_tickets t ";
 	$sql .= "LEFT JOIN v_users u ON u.user_uuid = t.user_uuid ";
 	$sql .= "LEFT JOIN v_users a ON a.user_uuid = t.assigned_to ";
-	$sql .= "WHERE t.ticket_uuid = :ticket_uuid AND t.domain_uuid = :domain_uuid ";
+	$sql .= "WHERE t.ticket_uuid = :ticket_uuid ";
 	$parameters['ticket_uuid'] = $ticket_uuid;
-	$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
 
-	//non-admin users can only see their own tickets
-	if (!permission_exists('ticket_manage')) {
+	//superadmin sees all domains, admin sees current domain, users see only their own tickets
+	if (!$is_superadmin) {
+		$sql .= "AND t.domain_uuid = :domain_uuid ";
+		$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+	}
+	if (!$is_ticket_manager) {
 		$sql .= "AND t.user_uuid = :user_uuid ";
 		$parameters['user_uuid'] = $_SESSION['user_uuid'];
 	}
@@ -74,7 +89,7 @@
 				$sql .= "VALUES (:reply_uuid, :ticket_uuid, :domain_uuid, :user_uuid, :reply_text, :is_admin, now(), :insert_user)";
 				$parameters['reply_uuid'] = $reply_uuid;
 				$parameters['ticket_uuid'] = $ticket_uuid;
-				$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+				$parameters['domain_uuid'] = $ticket['domain_uuid'];
 				$parameters['user_uuid'] = $_SESSION['user_uuid'];
 				$parameters['reply_text'] = $reply_text;
 				$parameters['is_admin'] = $is_admin;
@@ -84,7 +99,7 @@
 				unset($sql, $parameters);
 
 				//if admin replies, set status to 'answered' (if currently open/in_progress)
-				if (permission_exists('ticket_manage') && in_array($ticket['status'], ['open', 'in_progress'])) {
+				if ($is_ticket_manager && in_array($ticket['status'], ['open', 'in_progress'])) {
 					$old_status = $ticket['status'];
 					$sql = "UPDATE v_tickets SET status = 'answered', update_date = now(), update_user = :user_uuid WHERE ticket_uuid = :ticket_uuid";
 					$parameters['user_uuid'] = $_SESSION['user_uuid'];
@@ -99,7 +114,7 @@
 					$sql .= "VALUES (:log_uuid, :ticket_uuid, :domain_uuid, :old, :new, :user_uuid, 'Admin replied', now())";
 					$parameters['log_uuid'] = $log_uuid;
 					$parameters['ticket_uuid'] = $ticket_uuid;
-					$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+					$parameters['domain_uuid'] = $ticket['domain_uuid'];
 					$parameters['old'] = $old_status;
 					$parameters['new'] = 'answered';
 					$parameters['user_uuid'] = $_SESSION['user_uuid'];
@@ -108,7 +123,7 @@
 				}
 
 				//if user replies to answered/resolved ticket, reopen it
-				if (!permission_exists('ticket_manage') && in_array($ticket['status'], ['answered', 'resolved'])) {
+				if (!$is_ticket_manager && in_array($ticket['status'], ['answered', 'resolved'])) {
 					$old_status = $ticket['status'];
 					$sql = "UPDATE v_tickets SET status = 'open', update_date = now(), update_user = :user_uuid WHERE ticket_uuid = :ticket_uuid";
 					$parameters['user_uuid'] = $_SESSION['user_uuid'];
@@ -122,7 +137,7 @@
 					$sql .= "VALUES (:log_uuid, :ticket_uuid, :domain_uuid, :old, 'open', :user_uuid, 'User replied - reopened', now())";
 					$parameters['log_uuid'] = $log_uuid;
 					$parameters['ticket_uuid'] = $ticket_uuid;
-					$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+					$parameters['domain_uuid'] = $ticket['domain_uuid'];
 					$parameters['old'] = $old_status;
 					$parameters['user_uuid'] = $_SESSION['user_uuid'];
 					$database->execute($sql, $parameters);
@@ -154,9 +169,14 @@
 					$parameters['assigned'] = $assigned_to;
 				}
 
-				$sql .= " WHERE ticket_uuid = :ticket_uuid AND domain_uuid = :domain_uuid";
+				$sql .= " WHERE ticket_uuid = :ticket_uuid";
+				if (!$is_superadmin) {
+					$sql .= " AND domain_uuid = :domain_uuid";
+				}
 				$parameters['ticket_uuid'] = $ticket_uuid;
-				$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+				if (!$is_superadmin) {
+					$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+				}
 				$database = new database;
 				$database->execute($sql, $parameters);
 				unset($sql, $parameters);
@@ -168,7 +188,7 @@
 				$sql .= "VALUES (:log_uuid, :ticket_uuid, :domain_uuid, :old, :new, :user_uuid, :note, now())";
 				$parameters['log_uuid'] = $log_uuid;
 				$parameters['ticket_uuid'] = $ticket_uuid;
-				$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+				$parameters['domain_uuid'] = $ticket['domain_uuid'];
 				$parameters['old'] = $old_status;
 				$parameters['new'] = $new_status;
 				$parameters['user_uuid'] = $_SESSION['user_uuid'];
@@ -189,42 +209,49 @@
 	$sql .= "FROM v_tickets t ";
 	$sql .= "LEFT JOIN v_users u ON u.user_uuid = t.user_uuid ";
 	$sql .= "LEFT JOIN v_users a ON a.user_uuid = t.assigned_to ";
-	$sql .= "WHERE t.ticket_uuid = :ticket_uuid AND t.domain_uuid = :domain_uuid";
+	$sql .= "WHERE t.ticket_uuid = :ticket_uuid";
 	$parameters['ticket_uuid'] = $ticket_uuid;
-	$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+	if (!$is_superadmin) {
+		$sql .= " AND t.domain_uuid = :domain_uuid";
+		$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+	}
+	if (!$is_ticket_manager) {
+		$sql .= " AND t.user_uuid = :user_uuid";
+		$parameters['user_uuid'] = $_SESSION['user_uuid'];
+	}
 	$ticket = $database->select($sql, $parameters, 'row');
 	unset($sql, $parameters);
 
 //load replies
 	$sql = "SELECT r.*, u.username FROM v_ticket_replies r LEFT JOIN v_users u ON u.user_uuid = r.user_uuid WHERE r.ticket_uuid = :ticket_uuid AND r.domain_uuid = :domain_uuid ORDER BY r.insert_date ASC";
 	$parameters['ticket_uuid'] = $ticket_uuid;
-	$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+	$parameters['domain_uuid'] = $ticket['domain_uuid'];
 	$replies = $database->select($sql, $parameters, 'all') ?: [];
 	unset($sql, $parameters);
 
 //load attachments
 	$sql = "SELECT * FROM v_ticket_attachments WHERE ticket_uuid = :ticket_uuid AND domain_uuid = :domain_uuid ORDER BY insert_date ASC";
 	$parameters['ticket_uuid'] = $ticket_uuid;
-	$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+	$parameters['domain_uuid'] = $ticket['domain_uuid'];
 	$attachments = $database->select($sql, $parameters, 'all') ?: [];
 	unset($sql, $parameters);
 
 //load status history
 	$sql = "SELECT l.*, u.username FROM v_ticket_status_log l LEFT JOIN v_users u ON u.user_uuid = l.changed_by WHERE l.ticket_uuid = :ticket_uuid AND l.domain_uuid = :domain_uuid ORDER BY l.insert_date ASC";
 	$parameters['ticket_uuid'] = $ticket_uuid;
-	$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+	$parameters['domain_uuid'] = $ticket['domain_uuid'];
 	$status_log = $database->select($sql, $parameters, 'all') ?: [];
 	unset($sql, $parameters);
 
 //load domain admins for assignment dropdown
 	$admins = [];
-	if (permission_exists('ticket_manage')) {
+	if ($is_ticket_manager) {
 		$sql  = "SELECT u.user_uuid, u.username FROM v_users u ";
 		$sql .= "JOIN v_user_groups g ON g.user_uuid = u.user_uuid ";
 		$sql .= "WHERE u.domain_uuid = :domain_uuid ";
 		$sql .= "AND g.group_name IN ('admin', 'superadmin') ";
 		$sql .= "GROUP BY u.user_uuid, u.username ORDER BY u.username";
-		$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+		$parameters['domain_uuid'] = $ticket['domain_uuid'];
 		$admins = $database->select($sql, $parameters, 'all') ?: [];
 		unset($sql, $parameters);
 	}
