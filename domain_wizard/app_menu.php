@@ -8,6 +8,6 @@
 	$apps[$x]['menu'][$y]['icon'] = 'fa-solid fa-hat-wizard';
 	$apps[$x]['menu'][$y]['path'] = '/app/domain_wizard/domain_wizard.php';
 	$apps[$x]['menu'][$y]['order'] = '';
-	$apps[$x]['menu'][$y]['groups'][] = 'superadmin';
+	$apps[$x]['menu'][$y]['groups'][] = 'admin';
 
 ?>
