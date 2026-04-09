@@ -3,7 +3,8 @@
     "allow": [
       "WebFetch(domain:mt.voipat.com)",
       "Bash(find c:/Users/asm2m/Fusionpbx-Plugins/WebrtcPhoneCSharp -name *.msi -o -name *setup* -o -name *install*)",
-      "Bash(grep -E \"\\\\.cs$|\\\\.xaml$\")"
+      "Bash(grep -E \"\\\\.cs$|\\\\.xaml$\")",
+      "Bash(gh repo:*)"
     ]
   }
 }
