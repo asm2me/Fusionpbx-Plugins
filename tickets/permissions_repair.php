@@ -59,12 +59,25 @@ foreach ($ticket_permissions as $permission_name => $group_names) {
 		$repairs++;
 	}
 
-	foreach ($group_names as $group_name) {
-		$sql = "select group_uuid from v_groups where group_name = :group_name limit 1";
-		$parameters = ['group_name' => $group_name];
-		$group_uuid = $database->select($sql, $parameters, 'column');
+	if ($group_permission_has_group_uuid && $group_permission_has_permission_uuid) {
+		$sql = "select group_uuid from v_groups where group_name = 'superadmin' limit 1";
+		$superadmin_group_uuid = $database->select($sql, null, 'column');
 
-		if ($group_permission_has_group_uuid && $group_permission_has_permission_uuid) {
+		$superadmin_permission_uuid = $permission_uuid;
+		if ($superadmin_group_uuid) {
+			$sql = "select permission_uuid from v_group_permissions where group_uuid = :group_uuid and permission_uuid = :permission_uuid";
+			$parameters = [
+				'group_uuid' => $superadmin_group_uuid,
+				'permission_uuid' => $permission_uuid
+			];
+			$superadmin_permission_uuid = $database->select($sql, $parameters, 'column') ?: $permission_uuid;
+		}
+
+		foreach ($group_names as $group_name) {
+			$sql = "select group_uuid from v_groups where group_name = :group_name limit 1";
+			$parameters = ['group_name' => $group_name];
+			$group_uuid = $database->select($sql, $parameters, 'column');
+
 			if (!$group_uuid) {
 				continue;
 			}
@@ -72,7 +85,7 @@ foreach ($ticket_permissions as $permission_name => $group_names) {
 			$sql = "select group_permission_uuid from v_group_permissions where group_uuid = :group_uuid and permission_uuid = :permission_uuid";
 			$parameters = [
 				'group_uuid' => $group_uuid,
-				'permission_uuid' => $permission_uuid
+				'permission_uuid' => $superadmin_permission_uuid
 			];
 			$group_permission_uuid = $database->select($sql, $parameters, 'column');
 
@@ -81,13 +94,15 @@ foreach ($ticket_permissions as $permission_name => $group_names) {
 				$parameters = [
 					'group_permission_uuid' => uuid(),
 					'group_uuid' => $group_uuid,
-					'permission_uuid' => $permission_uuid
+					'permission_uuid' => $superadmin_permission_uuid
 				];
 				$database->execute($sql, $parameters);
 				$repairs++;
 			}
 		}
-		elseif ($group_permission_has_group_name && $group_permission_has_permission_name) {
+	}
+	elseif ($group_permission_has_group_name && $group_permission_has_permission_name) {
+		foreach ($group_names as $group_name) {
 			$sql = "select group_permission_uuid from v_group_permissions where group_name = :group_name and permission_name = :permission_name";
 			$parameters = [
 				'group_name' => $group_name,

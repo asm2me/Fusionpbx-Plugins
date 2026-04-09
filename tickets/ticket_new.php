@@ -172,7 +172,7 @@
 
 <div class="card tickets-card">
 	<form method="post" id="ticket-form">
-		<input type="hidden" name="token" value="<?php echo $token_hash; ?>">
+		<input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token_hash['hash']; ?>">
 
 		<div class="form-group">
 			<label for="subject"><?php echo $text['label-subject']; ?> <span class="required">*</span></label>
