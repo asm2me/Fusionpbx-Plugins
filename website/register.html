@@ -525,86 +525,101 @@
                         <p class="step-desc" data-i18n="reg.routes.desc">Drag nodes from the toolbox onto the canvas. Click an output port <span class="port-demo"></span> and drag to an input port to connect them. Click a node to edit its properties.</p>
 
                         <div class="flow-designer">
-                            <!-- Toolbox -->
-                            <div class="flow-toolbox">
-                                <div class="toolbox-title" data-i18n-html="reg.routes.toolbox"><i class="fas fa-toolbox"></i> Toolbox</div>
-
-                                <div class="toolbox-section-label" data-i18n="reg.routes.section.inbound">Inbound</div>
-                                <div class="toolbox-node" draggable="true" data-node-type="inbound">
-                                    <i class="fas fa-phone-volume"></i> <span data-i18n="reg.routes.node.inbound">Inbound Call</span>
+                            <!-- Window title bar — visible only when maximized -->
+                            <div class="flow-designer-titlebar" id="flowTitleBar">
+                                <div class="flow-designer-window-title">
+                                    <i class="fas fa-route"></i>
+                                    <span data-i18n="reg.routes.title.window">Call Routes Designer</span>
                                 </div>
-
-                                <div class="toolbox-section-label" data-i18n="reg.routes.section.logic">Logic</div>
-                                <div class="toolbox-node" draggable="true" data-node-type="timecondition">
-                                    <i class="fas fa-clock"></i> <span data-i18n="reg.routes.node.timecondition">Time Condition</span>
-                                </div>
-
-                                <div class="toolbox-section-label" data-i18n="reg.routes.section.destinations">Destinations</div>
-                                <div class="toolbox-node" draggable="true" data-node-type="ivr">
-                                    <i class="fas fa-sitemap"></i> <span data-i18n="reg.routes.node.ivr">IVR Menu</span>
-                                </div>
-                                <div class="toolbox-node" draggable="true" data-node-type="ringgroup">
-                                    <i class="fas fa-users"></i> <span data-i18n="reg.routes.node.ringgroup">Ring Group</span>
-                                </div>
-                                <div class="toolbox-node" draggable="true" data-node-type="extension">
-                                    <i class="fas fa-user"></i> <span data-i18n="reg.routes.node.extension">Extension</span>
-                                </div>
-                                <div class="toolbox-node" draggable="true" data-node-type="queue">
-                                    <i class="fas fa-list-ol"></i> <span data-i18n="reg.routes.node.queue">Call Queue</span>
-                                </div>
-                                <div class="toolbox-node" draggable="true" data-node-type="voicemail">
-                                    <i class="fas fa-voicemail"></i> <span data-i18n="reg.routes.node.voicemail">Voicemail</span>
-                                </div>
-                                <div class="toolbox-node" draggable="true" data-node-type="hangup">
-                                    <i class="fas fa-phone-slash"></i> <span data-i18n="reg.routes.node.hangup">Hangup</span>
-                                </div>
-
-                                <div class="toolbox-section-label" data-i18n="reg.routes.section.outbound">Outbound</div>
-                                <div class="toolbox-node" draggable="true" data-node-type="outbound">
-                                    <i class="fas fa-share-from-square"></i> <span data-i18n="reg.routes.node.outbound">Outbound Route</span>
-                                </div>
-                                <div class="toolbox-node" draggable="true" data-node-type="gateway">
-                                    <i class="fas fa-server"></i> <span data-i18n="reg.routes.node.gateway">Gateway / Trunk</span>
-                                </div>
-
-                                <div class="toolbox-actions">
-                                    <button type="button" class="toolbox-btn" id="flowMaxBtn" onclick="flowToggleMaximize()">
-                                        <i class="fas fa-expand-alt"></i> <span data-i18n="reg.routes.btn.maximize">Maximize</span>
-                                    </button>
-                                    <button type="button" class="toolbox-btn toolbox-btn-danger" onclick="flowClearAll()">
-                                        <i class="fas fa-trash-alt"></i> <span data-i18n="reg.routes.btn.clear">Clear</span>
-                                    </button>
-                                </div>
+                                <button class="flow-designer-restore-btn" onclick="flowToggleMaximize()">
+                                    <i class="fas fa-compress-alt"></i>
+                                    <span data-i18n="reg.routes.btn.restore">Restore</span>
+                                </button>
                             </div>
 
-                            <!-- Canvas -->
-                            <div class="flow-canvas" id="flowCanvas"
-                                ondragover="flowDragOver(event)"
-                                ondrop="flowDrop(event)">
-                                <svg class="flow-svg" id="flowSvg" xmlns="http://www.w3.org/2000/svg">
-                                    <defs>
-                                        <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-                                            <polygon points="0 0, 8 3, 0 6" fill="#94a3b8"/>
-                                        </marker>
-                                        <marker id="arrowhead-hover" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-                                            <polygon points="0 0, 8 3, 0 6" fill="#6C2BD9"/>
-                                        </marker>
-                                    </defs>
-                                </svg>
-                                <div class="flow-canvas-hint" id="flowCanvasHint">
-                                    <i class="fas fa-project-diagram"></i>
-                                    <p data-i18n="reg.routes.canvas.hint">Drag nodes here to build your call flow</p>
-                                </div>
-                            </div>
+                            <!-- Main body (row: toolbox | canvas | properties) -->
+                            <div class="flow-designer-body">
+                                <!-- Toolbox -->
+                                <div class="flow-toolbox">
+                                    <div class="toolbox-title" data-i18n-html="reg.routes.toolbox"><i class="fas fa-toolbox"></i> Toolbox</div>
 
-                            <!-- Properties Panel -->
-                            <div class="flow-properties" id="flowProperties">
-                                <div class="properties-title" data-i18n-html="reg.routes.props.title"><i class="fas fa-sliders-h"></i> Properties</div>
-                                <div class="properties-empty" id="propertiesEmpty">
-                                    <i class="fas fa-mouse-pointer"></i>
-                                    <p data-i18n="reg.routes.props.empty">Select a node to edit its properties</p>
+                                    <div class="toolbox-section-label" data-i18n="reg.routes.section.inbound">Inbound</div>
+                                    <div class="toolbox-node" draggable="true" data-node-type="inbound">
+                                        <i class="fas fa-phone-volume"></i> <span data-i18n="reg.routes.node.inbound">Inbound Call</span>
+                                    </div>
+
+                                    <div class="toolbox-section-label" data-i18n="reg.routes.section.logic">Logic</div>
+                                    <div class="toolbox-node" draggable="true" data-node-type="timecondition">
+                                        <i class="fas fa-clock"></i> <span data-i18n="reg.routes.node.timecondition">Time Condition</span>
+                                    </div>
+
+                                    <div class="toolbox-section-label" data-i18n="reg.routes.section.destinations">Destinations</div>
+                                    <div class="toolbox-node" draggable="true" data-node-type="ivr">
+                                        <i class="fas fa-sitemap"></i> <span data-i18n="reg.routes.node.ivr">IVR Menu</span>
+                                    </div>
+                                    <div class="toolbox-node" draggable="true" data-node-type="ringgroup">
+                                        <i class="fas fa-users"></i> <span data-i18n="reg.routes.node.ringgroup">Ring Group</span>
+                                    </div>
+                                    <div class="toolbox-node" draggable="true" data-node-type="extension">
+                                        <i class="fas fa-user"></i> <span data-i18n="reg.routes.node.extension">Extension</span>
+                                    </div>
+                                    <div class="toolbox-node" draggable="true" data-node-type="queue">
+                                        <i class="fas fa-list-ol"></i> <span data-i18n="reg.routes.node.queue">Call Queue</span>
+                                    </div>
+                                    <div class="toolbox-node" draggable="true" data-node-type="voicemail">
+                                        <i class="fas fa-voicemail"></i> <span data-i18n="reg.routes.node.voicemail">Voicemail</span>
+                                    </div>
+                                    <div class="toolbox-node" draggable="true" data-node-type="hangup">
+                                        <i class="fas fa-phone-slash"></i> <span data-i18n="reg.routes.node.hangup">Hangup</span>
+                                    </div>
+
+                                    <div class="toolbox-section-label" data-i18n="reg.routes.section.outbound">Outbound</div>
+                                    <div class="toolbox-node" draggable="true" data-node-type="outbound">
+                                        <i class="fas fa-share-from-square"></i> <span data-i18n="reg.routes.node.outbound">Outbound Route</span>
+                                    </div>
+                                    <div class="toolbox-node" draggable="true" data-node-type="gateway">
+                                        <i class="fas fa-server"></i> <span data-i18n="reg.routes.node.gateway">Gateway / Trunk</span>
+                                    </div>
+
+                                    <div class="toolbox-actions">
+                                        <button type="button" class="toolbox-btn" id="flowMaxBtn" onclick="flowToggleMaximize()">
+                                            <i class="fas fa-expand-alt"></i> <span data-i18n="reg.routes.btn.maximize">Maximize</span>
+                                        </button>
+                                        <button type="button" class="toolbox-btn toolbox-btn-danger" onclick="flowClearAll()">
+                                            <i class="fas fa-trash-alt"></i> <span data-i18n="reg.routes.btn.clear">Clear</span>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div id="propertiesForm"></div>
+
+                                <!-- Canvas -->
+                                <div class="flow-canvas" id="flowCanvas"
+                                    ondragover="flowDragOver(event)"
+                                    ondrop="flowDrop(event)">
+                                    <svg class="flow-svg" id="flowSvg" xmlns="http://www.w3.org/2000/svg">
+                                        <defs>
+                                            <marker id="arrowhead" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto" markerUnits="userSpaceOnUse">
+                                                <polygon points="0 0, 6 2.5, 0 5" fill="#94a3b8"/>
+                                            </marker>
+                                            <marker id="arrowhead-hover" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto" markerUnits="userSpaceOnUse">
+                                                <polygon points="0 0, 6 2.5, 0 5" fill="#6C2BD9"/>
+                                            </marker>
+                                        </defs>
+                                    </svg>
+                                    <div class="flow-canvas-hint" id="flowCanvasHint">
+                                        <i class="fas fa-project-diagram"></i>
+                                        <p data-i18n="reg.routes.canvas.hint">Drag nodes here to build your call flow</p>
+                                    </div>
+                                </div>
+
+                                <!-- Properties Panel -->
+                                <div class="flow-properties" id="flowProperties">
+                                    <div class="properties-title" data-i18n-html="reg.routes.props.title"><i class="fas fa-sliders-h"></i> Properties</div>
+                                    <div class="properties-empty" id="propertiesEmpty">
+                                        <i class="fas fa-mouse-pointer"></i>
+                                        <p data-i18n="reg.routes.props.empty">Select a node to edit its properties</p>
+                                    </div>
+                                    <div id="propertiesForm"></div>
+                                </div>
                             </div>
                         </div>
 

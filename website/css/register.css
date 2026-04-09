@@ -1068,13 +1068,71 @@
 /* ---- Designer container ---- */
 .flow-designer {
     display: flex;
-    height: 500px;
+    flex-direction: column;
+    height: 520px;
     border: 1.5px solid rgba(108,43,217,0.25);
     border-radius: 14px;
     overflow: hidden;
-    margin-bottom: 24px;
+    margin: 20px 0 24px;
     background: #0f0f18;
     transition: all 0.25s ease;
+}
+
+/* Window title bar — hidden normally, shown when maximized */
+.flow-designer-titlebar {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+    height: 42px;
+    min-height: 42px;
+    background: #110f20;
+    border-bottom: 1px solid rgba(108,43,217,0.4);
+    flex-shrink: 0;
+}
+.flow-designer-maximized .flow-designer-titlebar {
+    display: flex;
+}
+
+.flow-designer-window-title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 0.04em;
+}
+.flow-designer-window-title i {
+    color: #6C2BD9;
+    font-size: 0.9rem;
+}
+
+.flow-designer-restore-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    background: rgba(108,43,217,0.18);
+    border: 1px solid rgba(108,43,217,0.4);
+    border-radius: 7px;
+    color: #a78bfa;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+.flow-designer-restore-btn:hover {
+    background: rgba(108,43,217,0.35);
+    color: #fff;
+}
+
+/* Row body: toolbox | canvas | properties */
+.flow-designer-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    min-height: 0;
 }
 
 .flow-designer-maximized {

@@ -19,6 +19,7 @@
 	//permission groups
 	$y = 0;
 	$apps[$x]['permissions'][$y]['name'] = "ticket_view";
+	$apps[$x]['permissions'][$y]['menu']['uuid'] = "a1b2c3d4-a001-0001-0001-ef1234567890";
 	$apps[$x]['permissions'][$y]['groups'][] = "superadmin";
 	$apps[$x]['permissions'][$y]['groups'][] = "admin";
 	$apps[$x]['permissions'][$y]['groups'][] = "user";
@@ -85,7 +86,7 @@
 	$apps[$x]['default_settings'][$y]['default_setting_description'] = "Automatically attach the web phone activity log when a ticket is created from call history.";
 	$y++;
 
-	//menu items
+	//menu items – Applications menu entry
 	$y = 0;
 	$apps[$x]['menu'][$y]['title']['en-us'] = "Support Tickets";
 	$apps[$x]['menu'][$y]['uuid'] = "a1b2c3d4-a001-0001-0001-ef1234567890";
@@ -99,6 +100,7 @@
 	$apps[$x]['menu'][$y]['groups'][] = "user";
 	$y++;
 
+	//menu items – Advanced menu entry
 	$apps[$x]['menu'][$y]['title']['en-us'] = "Support Tickets";
 	$apps[$x]['menu'][$y]['uuid'] = "a1b2c3d4-a001-0002-0001-ef1234567890";
 	$apps[$x]['menu'][$y]['parent_uuid'] = "594d99c5-6128-9c88-ca35-4b33392cec0f"; //advanced menu

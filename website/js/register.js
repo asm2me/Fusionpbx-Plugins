@@ -1228,68 +1228,68 @@ const FlowDesigner = (() => {
     // An output port of type X can only connect to an input port of type X
     // Ports: dir 'in'|'out', type 'call'|'gateway'
     const NODE_DEFS = {
-        inbound:       { label: 'Inbound Call',    icon: 'fa-phone-volume',      color: '#22c55e',
-                         ports: { 'out':     { dir: 'out', type: 'call',    label: 'Call Out' } } },
-        outbound:      { label: 'Outbound Route',  icon: 'fa-share-from-square', color: '#a855f7',
-                         ports: { 'in':      { dir: 'in',  type: 'call',    label: 'Call In'  },
-                                  'out':     { dir: 'out', type: 'gateway', label: 'Trunk Out' } } },
-        gateway:       { label: 'Gateway / Trunk', icon: 'fa-server',            color: '#64748b',
-                         ports: { 'in':      { dir: 'in',  type: 'gateway', label: 'Trunk In' } } },
-        timecondition: { label: 'Time Condition',  icon: 'fa-clock',             color: '#f59e0b',
-                         ports: { 'in':      { dir: 'in',  type: 'call',    label: 'Call In'  },
-                                  'out-yes': { dir: 'out', type: 'call',    label: 'Yes'       },
-                                  'out-no':  { dir: 'out', type: 'call',    label: 'No'        } } },
-        ivr:           { label: 'IVR Menu',        icon: 'fa-sitemap',           color: '#3b82f6',
-                         ports: { 'in':      { dir: 'in',  type: 'call',    label: 'Call In'  },
-                                  'out':     { dir: 'out', type: 'call',    label: 'Key Press' } } },
-        ringgroup:     { label: 'Ring Group',      icon: 'fa-users',             color: '#8b5cf6',
-                         ports: { 'in':      { dir: 'in',  type: 'call',    label: 'Call In'  },
-                                  'out':     { dir: 'out', type: 'call',    label: 'Answered'  } } },
-        extension:     { label: 'Extension',       icon: 'fa-user',              color: '#06b6d4',
-                         ports: { 'in':      { dir: 'in',  type: 'call',    label: 'Call In'  },
-                                  'out':     { dir: 'out', type: 'call',    label: 'No Answer' } } },
-        queue:         { label: 'Call Queue',      icon: 'fa-list-ol',           color: '#f97316',
-                         ports: { 'in':      { dir: 'in',  type: 'call',    label: 'Call In'  },
-                                  'out':     { dir: 'out', type: 'call',    label: 'Overflow'  } } },
-        voicemail:     { label: 'Voicemail',       icon: 'fa-voicemail',         color: '#ec4899',
-                         ports: { 'in':      { dir: 'in',  type: 'call',    label: 'Call In'  } } },
-        hangup:        { label: 'Hangup',          icon: 'fa-phone-slash',       color: '#ef4444',
-                         ports: { 'in':      { dir: 'in',  type: 'call',    label: 'Call In'  } } },
+        inbound:       { labelKey: 'reg.routes.node.inbound',       icon: 'fa-phone-volume',      color: '#22c55e',
+                         ports: { 'out':     { dir: 'out', type: 'call',    labelKey: 'reg.routes.port.callout'  } } },
+        outbound:      { labelKey: 'reg.routes.node.outbound',      icon: 'fa-share-from-square', color: '#a855f7',
+                         ports: { 'in':      { dir: 'in',  type: 'call',    labelKey: 'reg.routes.port.callin'   },
+                                  'out':     { dir: 'out', type: 'gateway', labelKey: 'reg.routes.port.trunkout' } } },
+        gateway:       { labelKey: 'reg.routes.node.gateway',       icon: 'fa-server',            color: '#64748b',
+                         ports: { 'in':      { dir: 'in',  type: 'gateway', labelKey: 'reg.routes.port.trunkin'  } } },
+        timecondition: { labelKey: 'reg.routes.node.timecondition', icon: 'fa-clock',             color: '#f59e0b',
+                         ports: { 'in':      { dir: 'in',  type: 'call',    labelKey: 'reg.routes.port.callin'   },
+                                  'out-yes': { dir: 'out', type: 'call',    labelKey: 'reg.routes.port.yes'      },
+                                  'out-no':  { dir: 'out', type: 'call',    labelKey: 'reg.routes.port.no'       } } },
+        ivr:           { labelKey: 'reg.routes.node.ivr',           icon: 'fa-sitemap',           color: '#3b82f6',
+                         ports: { 'in':      { dir: 'in',  type: 'call',    labelKey: 'reg.routes.port.callin'   },
+                                  'out':     { dir: 'out', type: 'call',    labelKey: 'reg.routes.port.keypress' } } },
+        ringgroup:     { labelKey: 'reg.routes.node.ringgroup',     icon: 'fa-users',             color: '#8b5cf6',
+                         ports: { 'in':      { dir: 'in',  type: 'call',    labelKey: 'reg.routes.port.callin'   },
+                                  'out':     { dir: 'out', type: 'call',    labelKey: 'reg.routes.port.answered' } } },
+        extension:     { labelKey: 'reg.routes.node.extension',     icon: 'fa-user',              color: '#06b6d4',
+                         ports: { 'in':      { dir: 'in',  type: 'call',    labelKey: 'reg.routes.port.callin'   },
+                                  'out':     { dir: 'out', type: 'call',    labelKey: 'reg.routes.port.noanswer' } } },
+        queue:         { labelKey: 'reg.routes.node.queue',         icon: 'fa-list-ol',           color: '#f97316',
+                         ports: { 'in':      { dir: 'in',  type: 'call',    labelKey: 'reg.routes.port.callin'   },
+                                  'out':     { dir: 'out', type: 'call',    labelKey: 'reg.routes.port.overflow' } } },
+        voicemail:     { labelKey: 'reg.routes.node.voicemail',     icon: 'fa-voicemail',         color: '#ec4899',
+                         ports: { 'in':      { dir: 'in',  type: 'call',    labelKey: 'reg.routes.port.callin'   } } },
+        hangup:        { labelKey: 'reg.routes.node.hangup',        icon: 'fa-phone-slash',       color: '#ef4444',
+                         ports: { 'in':      { dir: 'in',  type: 'call',    labelKey: 'reg.routes.port.callin'   } } },
     };
 
     const PROP_FIELDS = {
-        inbound:       [{ key: 'did',         label: 'DID / Phone Number', type: 'text',   ph: '+1 800 555 0100' },
-                        { key: 'description', label: 'Description',        type: 'text',   ph: 'Main line' }],
-        outbound:      [{ key: 'name',        label: 'Route Name',         type: 'text',   ph: 'Outbound Main' },
-                        { key: 'prefix',      label: 'Dial Prefix Strip',  type: 'text',   ph: 'e.g. 9' },
-                        { key: 'pattern',     label: 'Number Pattern',     type: 'text',   ph: '^9(\\d+)$' },
-                        { key: 'cid',         label: 'Caller ID Override', type: 'text',   ph: 'Leave blank to keep' }],
-        gateway:       [{ key: 'name',        label: 'Gateway Name',       type: 'text',   ph: 'Provider Name' },
-                        { key: 'host',        label: 'SIP Host / IP',      type: 'text',   ph: 'sip.provider.com' },
-                        { key: 'username',    label: 'Username',           type: 'text',   ph: '' },
-                        { key: 'register',    label: 'Registration',       type: 'select', options: ['Yes','No'] },
-                        { key: 'codec',       label: 'Preferred Codec',    type: 'select', options: ['PCMU','PCMA','G722','G729','Opus'] }],
-        timecondition: [{ key: 'name',        label: 'Condition Name',     type: 'text',   ph: 'Business Hours' },
-                        { key: 'start',       label: 'Start Time',         type: 'time',   ph: '08:00' },
-                        { key: 'end',         label: 'End Time',           type: 'time',   ph: '17:00' },
-                        { key: 'days',        label: 'Days',               type: 'select', options: ['Mon–Fri','Mon–Sat','Every Day','Weekends','Custom'] }],
-        ivr:           [{ key: 'name',        label: 'IVR Name',           type: 'text',   ph: 'Main Menu' },
-                        { key: 'greeting',    label: 'Greeting Audio',     type: 'audio-upload' },
-                        { key: 'timeout',     label: 'Key Timeout (sec)',   type: 'text',   ph: '10' },
-                        { key: 'invalid',     label: 'Invalid Key Action', type: 'select', options: ['Repeat','Hangup','Operator'] }],
-        ringgroup:     [{ key: 'name',        label: 'Group Name',         type: 'text',   ph: 'Sales Team' },
-                        { key: 'extensions',  label: 'Extensions',         type: 'text',   ph: '100,101,102' },
-                        { key: 'strategy',    label: 'Ring Strategy',      type: 'select', options: ['simultaneous','sequence','random','round-robin'] },
-                        { key: 'timeout',     label: 'Ring Timeout (sec)', type: 'text',   ph: '20' }],
-        extension:     [{ key: 'number',      label: 'Extension Number',   type: 'text',   ph: '100' },
-                        { key: 'name',        label: 'User Name',          type: 'text',   ph: 'John Smith' }],
-        queue:         [{ key: 'name',        label: 'Queue Name',         type: 'text',   ph: 'Support Queue' },
-                        { key: 'strategy',    label: 'Strategy',           type: 'select', options: ['round-robin','least-recent','fewest-calls','random'] },
-                        { key: 'moh',         label: 'Hold Music',         type: 'text',   ph: 'default' },
-                        { key: 'maxwait',     label: 'Max Wait (sec)',     type: 'text',   ph: '300' }],
-        voicemail:     [{ key: 'extension',   label: 'Voicemail Box',      type: 'text',   ph: '100' },
-                        { key: 'greeting',    label: 'Greeting Audio',     type: 'audio-upload' }],
-        hangup:        [{ key: 'cause',       label: 'Hangup Cause',       type: 'select', options: ['NORMAL_CLEARING','NO_ANSWER','BUSY','REJECTED','USER_BUSY'] }],
+        inbound:       [{ key: 'did',         lk: 'reg.routes.props.field.did',         type: 'text',   ph: '+1 800 555 0100' },
+                        { key: 'description', lk: 'reg.routes.props.field.description',  type: 'text',   ph: 'Main line' }],
+        outbound:      [{ key: 'name',        lk: 'reg.routes.props.field.routename',   type: 'text',   ph: 'Outbound Main' },
+                        { key: 'prefix',      lk: 'reg.routes.props.field.dialprefix',  type: 'text',   ph: 'e.g. 9' },
+                        { key: 'pattern',     lk: 'reg.routes.props.field.numpattern',  type: 'text',   ph: '^9(\\d+)$' },
+                        { key: 'cid',         lk: 'reg.routes.props.field.callerid',    type: 'text',   ph: '' }],
+        gateway:       [{ key: 'name',        lk: 'reg.routes.props.field.gwname',      type: 'text',   ph: 'Provider Name' },
+                        { key: 'host',        lk: 'reg.routes.props.field.siphost',     type: 'text',   ph: 'sip.provider.com' },
+                        { key: 'username',    lk: 'reg.routes.props.field.username',    type: 'text',   ph: '' },
+                        { key: 'register',    lk: 'reg.routes.props.field.registration',type: 'select', options: ['Yes','No'] },
+                        { key: 'codec',       lk: 'reg.routes.props.field.codec',       type: 'select', options: ['PCMU','PCMA','G722','G729','Opus'] }],
+        timecondition: [{ key: 'name',        lk: 'reg.routes.props.field.condname',    type: 'text',   ph: 'Business Hours' },
+                        { key: 'start',       lk: 'reg.routes.props.field.starttime',   type: 'time',   ph: '08:00' },
+                        { key: 'end',         lk: 'reg.routes.props.field.endtime',     type: 'time',   ph: '17:00' },
+                        { key: 'days',        lk: 'reg.routes.props.field.days',        type: 'select', options: ['Mon–Fri','Mon–Sat','Every Day','Weekends','Custom'] }],
+        ivr:           [{ key: 'name',        lk: 'reg.routes.props.field.ivrname',     type: 'text',   ph: 'Main Menu' },
+                        { key: 'greeting',    lk: 'reg.routes.props.field.greeting',    type: 'audio-upload' },
+                        { key: 'timeout',     lk: 'reg.routes.props.field.keytimeout',  type: 'text',   ph: '10' },
+                        { key: 'invalid',     lk: 'reg.routes.props.field.invalidkey',  type: 'select', options: ['Repeat','Hangup','Operator'] }],
+        ringgroup:     [{ key: 'name',        lk: 'reg.routes.props.field.groupname',   type: 'text',   ph: 'Sales Team' },
+                        { key: 'extensions',  lk: 'reg.routes.props.field.extensions',  type: 'text',   ph: '100,101,102' },
+                        { key: 'strategy',    lk: 'reg.routes.props.field.ringstrategy',type: 'select', options: ['simultaneous','sequence','random','round-robin'] },
+                        { key: 'timeout',     lk: 'reg.routes.props.field.ringtimeout', type: 'text',   ph: '20' }],
+        extension:     [{ key: 'number',      lk: 'reg.routes.props.field.extnumber',   type: 'text',   ph: '100' },
+                        { key: 'name',        lk: 'reg.routes.props.field.username',    type: 'text',   ph: 'John Smith' }],
+        queue:         [{ key: 'name',        lk: 'reg.routes.props.field.queuename',   type: 'text',   ph: 'Support Queue' },
+                        { key: 'strategy',    lk: 'reg.routes.props.field.qstrategy',   type: 'select', options: ['round-robin','least-recent','fewest-calls','random'] },
+                        { key: 'moh',         lk: 'reg.routes.props.field.holdmusic',   type: 'text',   ph: 'default' },
+                        { key: 'maxwait',     lk: 'reg.routes.props.field.maxwait',     type: 'text',   ph: '300' }],
+        voicemail:     [{ key: 'extension',   lk: 'reg.routes.props.field.vmbox',       type: 'text',   ph: '100' },
+                        { key: 'greeting',    lk: 'reg.routes.props.field.greeting',    type: 'audio-upload' }],
+        hangup:        [{ key: 'cause',       lk: 'reg.routes.props.field.hangupcause', type: 'select', options: ['NORMAL_CLEARING','NO_ANSWER','BUSY','REJECTED','USER_BUSY'] }],
     };
 
     // ── Helpers ────────────────────────────────────────────────
@@ -1305,12 +1305,17 @@ const FlowDesigner = (() => {
         return (NODE_DEFS[nodeType] || {}).ports?.[portKey] || null;
     }
 
+    // Offset-based portCenter: avoids getBoundingClientRect viewport issues.
+    // Ports have transform:translateY(-50%), so visual center Y === offsetTop.
     function portCenter(nodeId, portKey) {
-        const el = document.querySelector(`#${nodeId} .flow-port[data-port="${portKey}"]`);
-        if (!el) return null;
-        const cr = canvas().getBoundingClientRect();
-        const pr = el.getBoundingClientRect();
-        return { x: pr.left - cr.left + pr.width / 2, y: pr.top - cr.top + pr.height / 2 };
+        const portEl = document.querySelector(`#${nodeId} .flow-port[data-port="${portKey}"]`);
+        if (!portEl) return null;
+        const nodeEl = document.getElementById(nodeId);
+        if (!nodeEl) return null;
+        return {
+            x: nodeEl.offsetLeft + portEl.offsetLeft + portEl.offsetWidth  / 2,
+            y: nodeEl.offsetTop  + portEl.offsetTop   // center Y = offsetTop because translateY(-50%)
+        };
     }
 
     function bezier(x1, y1, x2, y2) {
@@ -1347,9 +1352,9 @@ const FlowDesigner = (() => {
             s.appendChild(path);
 
             // Mid-point label
-            const labelText = conn.fromPort === 'out-yes' ? 'Yes' :
-                              conn.fromPort === 'out-no'  ? 'No'  :
-                              pd?.type === 'gateway'      ? 'Trunk' : null;
+            const labelText = conn.fromPort === 'out-yes' ? t('reg.routes.port.yes') :
+                              conn.fromPort === 'out-no'  ? t('reg.routes.port.no')  :
+                              pd?.type === 'gateway'      ? t('reg.routes.port.trunk') : null;
             if (labelText) {
                 const mx = (from.x + to.x) / 2;
                 const my = (from.y + to.y) / 2 - 9;
@@ -1396,7 +1401,7 @@ const FlowDesigner = (() => {
         const hdr = document.createElement('div');
         hdr.className = 'flow-node-header';
         hdr.style.background = def.color;
-        hdr.innerHTML = `<i class="fas ${def.icon}"></i><span>${def.label}</span>`;
+        hdr.innerHTML = `<i class="fas ${def.icon}"></i><span>${t(def.labelKey)}</span>`;
         el.appendChild(hdr);
 
         // Port legend bar
@@ -1409,9 +1414,9 @@ const FlowDesigner = (() => {
             const inPorts  = Object.entries(ports).filter(([,p]) => p.dir === 'in');
             const outPorts = Object.entries(ports).filter(([,p]) => p.dir === 'out');
             let barHtml = '<div class="portbar-in">';
-            inPorts.forEach(([,p])  => { barHtml += `<span class="portbar-label portbar-in-lbl  type-${p.type}">${p.label}</span>`; });
+            inPorts.forEach(([,p])  => { barHtml += `<span class="portbar-label portbar-in-lbl  type-${p.type}">${t(p.labelKey)}</span>`; });
             barHtml += '</div><div class="portbar-out">';
-            outPorts.forEach(([,p]) => { barHtml += `<span class="portbar-label portbar-out-lbl type-${p.type}">${p.label}</span>`; });
+            outPorts.forEach(([,p]) => { barHtml += `<span class="portbar-label portbar-out-lbl type-${p.type}">${t(p.labelKey)}</span>`; });
             barHtml += '</div>';
             bar.innerHTML = barHtml;
             el.appendChild(bar);
@@ -1421,7 +1426,7 @@ const FlowDesigner = (() => {
         const lbl = document.createElement('div');
         lbl.className = 'flow-node-label';
         lbl.id = node.id + '-label';
-        lbl.textContent = node.props.name || node.props.did || node.props.number || node.props.host || def.label;
+        lbl.textContent = node.props.name || node.props.did || node.props.number || node.props.host || t(def.labelKey);
         el.appendChild(lbl);
 
         // Delete button
@@ -1461,7 +1466,7 @@ const FlowDesigner = (() => {
         pt.dataset.nodeId = nodeId;
         pt.dataset.type   = pd.type;
         pt.dataset.dir    = pd.dir;
-        pt.title = pd.label + ' (' + pd.type + ')';
+        pt.title = t(pd.labelKey) + ' (' + pd.type + ')';
         pt.style.top = pct + '%';
         if (isIn)  pt.style.left  = '-7px';
         else       pt.style.right = '-7px';
@@ -1533,7 +1538,7 @@ const FlowDesigner = (() => {
 
         // Type check
         if (drawFrom.portType !== toPortType) {
-            showConnectError('Cannot connect: ' + drawFrom.portType + ' → ' + toPortType + ' (type mismatch)');
+            showConnectError(t('reg.routes.error.mismatch'));
             cancelDrawing();
             return;
         }
@@ -1582,10 +1587,10 @@ const FlowDesigner = (() => {
         document.getElementById('propertiesEmpty').style.display = 'none';
 
         let html = `<div class="prop-node-type" style="background:${def.color}22;color:${def.color}">
-                        <i class="fas ${def.icon}"></i> ${def.label}</div>`;
+                        <i class="fas ${def.icon}"></i> ${t(def.labelKey)}</div>`;
 
         fields.forEach(f => {
-            html += `<div class="form-group"><label>${f.label}</label>`;
+            html += `<div class="form-group"><label>${t(f.lk)}</label>`;
             if (f.type === 'select') {
                 html += `<select class="formfld" onchange="FlowDesigner.setProp('${nodeId}','${f.key}',this.value)">`;
                 f.options.forEach(o => html += `<option value="${o}"${node.props[f.key]===o?' selected':''}>${o}</option>`);
@@ -1594,7 +1599,7 @@ const FlowDesigner = (() => {
                 const fname = node.props[f.key + '_name'] || '';
                 html += `<div class="audio-upload-wrap">
                     <label class="audio-upload-btn" for="au_${nodeId}_${f.key}">
-                        <i class="fas fa-upload"></i> ${fname ? 'Change File' : 'Upload WAV / MP3'}
+                        <i class="fas fa-upload"></i> ${fname ? t('reg.routes.props.changefile') : t('reg.routes.props.upload')}
                     </label>
                     <input type="file" id="au_${nodeId}_${f.key}" accept=".wav,.mp3,audio/*" style="display:none"
                         onchange="FlowDesigner.handleAudioUpload('${nodeId}','${f.key}',this)">
@@ -1612,7 +1617,7 @@ const FlowDesigner = (() => {
 
         html += `<div class="prop-delete-btn">
             <button onclick="FlowDesigner.removeNode('${nodeId}')">
-                <i class="fas fa-trash"></i> Delete Node &amp; Connections
+                <i class="fas fa-trash"></i> ${t('reg.routes.props.delete')}
             </button></div>`;
         form.innerHTML = html;
     }
@@ -1622,7 +1627,7 @@ const FlowDesigner = (() => {
         if (!node) return;
         node.props[key] = value;
         const lbl = getEl(nodeId + '-label');
-        if (lbl) lbl.textContent = node.props.name || node.props.did || node.props.number || node.props.host || NODE_DEFS[node.type].label;
+        if (lbl) lbl.textContent = node.props.name || node.props.did || node.props.number || node.props.host || t(NODE_DEFS[node.type].labelKey);
     }
 
     function handleAudioUpload(nodeId, key, input) {
@@ -1680,7 +1685,7 @@ const FlowDesigner = (() => {
 
     function flowClearAll() {
         if (nodes.length === 0) return;
-        if (!confirm('Clear the entire canvas?')) return;
+        if (!confirm(t('reg.routes.confirm.clear'))) return;
         nodes = []; connections = [];
         canvas().querySelectorAll('.flow-node').forEach(el => el.remove());
         svg().querySelectorAll('.flow-connection, .conn-label').forEach(el => el.remove());
@@ -1693,9 +1698,10 @@ const FlowDesigner = (() => {
         const btn      = document.getElementById('flowMaxBtn');
         maximized = !maximized;
         designer.classList.toggle('flow-designer-maximized', maximized);
+        // Update toolbox button label
         btn.innerHTML = maximized
-            ? '<i class="fas fa-compress-alt"></i> Restore'
-            : '<i class="fas fa-expand-alt"></i> Maximize';
+            ? `<i class="fas fa-compress-alt"></i> <span>${t('reg.routes.btn.restore')}</span>`
+            : `<i class="fas fa-expand-alt"></i> <span>${t('reg.routes.btn.maximize')}</span>`;
         // Connections must re-render because canvas rect changed
         requestAnimationFrame(renderConnections);
     }
