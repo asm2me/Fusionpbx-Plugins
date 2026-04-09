@@ -27,8 +27,8 @@ function t(key) {
     return translations[key][lang] || translations[key]['en'] || key;
 }
 
-const TOTAL_STEPS = 10;
-let currentStep = 1;
+    const TOTAL_STEPS = 10;
+    let currentStep = 1;
 let installationTypes = {};
 let deviceTypes = {};
 let fieldHints = {};
