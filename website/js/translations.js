@@ -1585,6 +1585,33 @@ const translations = {
     ru: "Номер CallerID для исходящих вызовов этого транка"
   },
 
+  // Review section headings & labels
+  "reg.review.sec.account":      { en: "Account",          ar: "الحساب",            es: "Cuenta",          fr: "Compte",         de: "Konto",         pt: "Conta",          zh: "账户",     ja: "アカウント",  tr: "Hesap",       ru: "Аккаунт" },
+  "reg.review.sec.domain":       { en: "Domain & Plan",    ar: "النطاق والخطة",     es: "Dominio y Plan",  fr: "Domaine et Plan",de: "Domain & Plan", pt: "Domínio e Plano",zh: "域名与套餐",ja: "ドメインとプラン",tr: "Alan ve Plan",ru: "Домен и тариф" },
+  "reg.review.sec.config":       { en: "Configuration",    ar: "الإعدادات",         es: "Configuración",   fr: "Configuration",  de: "Konfiguration", pt: "Configuração",   zh: "配置",     ja: "設定",        tr: "Yapılandırma",ru: "Конфигурация" },
+  "reg.review.sec.devices":      { en: "Devices",          ar: "الأجهزة",           es: "Dispositivos",    fr: "Appareils",      de: "Geräte",        pt: "Dispositivos",   zh: "设备",     ja: "デバイス",    tr: "Cihazlar",    ru: "Устройства" },
+  "reg.review.sec.ivr":          { en: "IVR Details",      ar: "تفاصيل IVR",        es: "Detalles IVR",    fr: "Détails IVR",    de: "IVR Details",   pt: "Detalhes IVR",   zh: "IVR详情",  ja: "IVR詳細",     tr: "IVR Detayları",ru: "Детали IVR" },
+  "reg.review.sec.gateway":      { en: "SIP Gateway",      ar: "بوابة SIP",         es: "Puerta SIP",      fr: "Passerelle SIP", de: "SIP-Gateway",   pt: "Gateway SIP",    zh: "SIP网关",  ja: "SIPゲートウェイ",tr: "SIP Ağ Geçidi",ru: "SIP-шлюз" },
+  "reg.review.sec.callroutes":   { en: "Call Routes",      ar: "مسارات المكالمات",  es: "Rutas de Llamada",fr: "Routes d'Appel", de: "Anrufrouten",   pt: "Rotas de Chamada",zh: "呼叫路由", ja: "コールルート", tr: "Çağrı Yolları",ru: "Маршруты вызовов" },
+  "reg.review.lbl.name":         { en: "Name",             ar: "الاسم",             es: "Nombre",          fr: "Nom",            de: "Name",          pt: "Nome",           zh: "姓名",     ja: "名前",        tr: "Ad",           ru: "Имя" },
+  "reg.review.lbl.email":        { en: "Email",            ar: "البريد الإلكتروني", es: "Correo",          fr: "E-mail",         de: "E-Mail",        pt: "E-mail",         zh: "邮箱",     ja: "メール",      tr: "E-posta",      ru: "Email" },
+  "reg.review.lbl.company":      { en: "Company",          ar: "الشركة",            es: "Empresa",         fr: "Société",        de: "Unternehmen",   pt: "Empresa",        zh: "公司",     ja: "会社",        tr: "Şirket",       ru: "Компания" },
+  "reg.review.lbl.domain":       { en: "Domain",           ar: "النطاق",            es: "Dominio",         fr: "Domaine",        de: "Domain",        pt: "Domínio",        zh: "域名",     ja: "ドメイン",    tr: "Alan Adı",     ru: "Домен" },
+  "reg.review.lbl.installtype":  { en: "Installation Type",ar: "نوع التثبيت",       es: "Tipo de Instalación",fr: "Type d'Installation",de: "Installationstyp",pt: "Tipo de Instalação",zh: "安装类型",ja: "インストール種別",tr: "Kurulum Tipi",ru: "Тип установки" },
+  "reg.review.lbl.adminuser":    { en: "Admin User",       ar: "مستخدم الإدارة",    es: "Usuario Admin",   fr: "Utilisateur Admin",de: "Admin-Benutzer",pt: "Usuário Admin",  zh: "管理员",   ja: "管理者",      tr: "Yönetici",     ru: "Администратор" },
+  "reg.review.lbl.plan":         { en: "Plan",             ar: "الخطة",             es: "Plan",            fr: "Plan",           de: "Plan",          pt: "Plano",          zh: "套餐",     ja: "プラン",      tr: "Plan",         ru: "Тариф" },
+  "reg.review.lbl.extensions":   { en: "Extensions",       ar: "التحويلات",         es: "Extensiones",     fr: "Extensions",     de: "Nebenstellen",  pt: "Ramais",         zh: "分机",     ja: "内線",        tr: "Dahili Hatlar", ru: "Внутренние номера" },
+  "reg.review.lbl.startingat":   { en: "starting at",      ar: "تبدأ من",           es: "a partir de",     fr: "à partir de",    de: "beginnend bei", pt: "a partir de",    zh: "从",       ja: "開始番号",    tr: "başlangıç",    ru: "начиная с" },
+  "reg.review.lbl.ringgroups":   { en: "Ring Groups",      ar: "مجموعات الرنين",    es: "Grupos de Timbre",fr: "Groupes d'Appel",de: "Rufgruppen",    pt: "Grupos de Toque",zh: "振铃组",   ja: "呼出グループ", tr: "Zil Grupları", ru: "Группы вызова" },
+  "reg.review.lbl.ivrmenus":     { en: "IVR Menus",        ar: "قوائم IVR",         es: "Menús IVR",       fr: "Menus IVR",      de: "IVR-Menüs",     pt: "Menus IVR",      zh: "IVR菜单",  ja: "IVRメニュー",  tr: "IVR Menüler",  ru: "IVR-меню" },
+  "reg.review.lbl.trunkservice": { en: "Trunk Service",    ar: "خدمة الاتصال",      es: "Servicio Troncal",fr: "Service Trunk",  de: "Trunk-Dienst",  pt: "Serviço de Tronco",zh: "中继服务", ja: "トランクサービス",tr: "Trunk Hizmeti",ru: "Транковый сервис" },
+  "reg.review.lbl.proxy":        { en: "Proxy / Host",     ar: "البروكسي",          es: "Proxy / Host",    fr: "Proxy / Hôte",   de: "Proxy / Host",  pt: "Proxy / Host",   zh: "代理/主机", ja: "プロキシ",   tr: "Proxy / Host", ru: "Прокси / Хост" },
+  "reg.review.lbl.username":     { en: "Username",         ar: "اسم المستخدم",      es: "Usuario",         fr: "Nom d'utilisateur",de: "Benutzername",  pt: "Usuário",        zh: "用户名",   ja: "ユーザー名",  tr: "Kullanıcı Adı",ru: "Имя пользователя" },
+  "reg.review.lbl.norecording":  { en: "No recording",     ar: "لا يوجد تسجيل",     es: "Sin grabación",   fr: "Pas d'enregistrement",de: "Keine Aufnahme",pt: "Sem gravação", zh: "无录音",   ja: "録音なし",    tr: "Kayıt yok",    ru: "Без записи" },
+  "reg.review.lbl.options":      { en: "options",          ar: "خيارات",            es: "opciones",        fr: "options",        de: "Optionen",      pt: "opções",         zh: "选项",     ja: "オプション",  tr: "seçenek",      ru: "вариантов" },
+  "reg.review.lbl.nodescount":   { en: "nodes",            ar: "عقد",               es: "nodos",           fr: "nœuds",          de: "Knoten",        pt: "nós",            zh: "节点",     ja: "ノード",      tr: "düğüm",        ru: "узлов" },
+  "reg.review.lbl.conncount":    { en: "connections",      ar: "اتصالات",           es: "conexiones",      fr: "connexions",     de: "Verbindungen",  pt: "conexões",       zh: "连接",     ja: "接続",        tr: "bağlantı",     ru: "связей" },
+
   // Step 7: Review & Confirm
   "reg.step7.title": {
     en: "<i class=\"fas fa-clipboard-check\"></i> Review & Confirm", ar: "<i class=\"fas fa-clipboard-check\"></i> المراجعة والتأكيد", es: "<i class=\"fas fa-clipboard-check\"></i> Revisar y Confirmar", fr: "<i class=\"fas fa-clipboard-check\"></i> Vérifier et Confirmer",

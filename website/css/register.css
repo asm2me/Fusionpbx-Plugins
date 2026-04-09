@@ -888,6 +888,11 @@
     text-align: right;
 }
 
+/* Call routes chart preview in review */
+.review-section-chart { border-top: 2px solid var(--primary); padding-top: 10px; }
+.review-chart-wrap { margin-top: 8px; border-radius: 8px; overflow: hidden; background: #0d1117; }
+.review-chart-wrap svg { display: block; }
+
 /* Config Summary sidebar */
 .config-summary {
     margin-top: 1.5rem;

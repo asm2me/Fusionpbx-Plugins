@@ -1003,62 +1003,140 @@ function buildReviewTable() {
     const devices = Array.from(document.querySelectorAll('.device-checkbox:checked')).map(cb => cb.value);
     const trunk = document.querySelector('input[name="trunk_service"]:checked')?.value || '-';
 
-    let html = `
-        <div class="review-section">
-            <h4>Account</h4>
-            <div class="review-row"><span class="review-label">Name</span><span class="review-value">${document.getElementById('fullName').value}</span></div>
-            <div class="review-row"><span class="review-label">Email</span><span class="review-value">${document.getElementById('email').value}</span></div>
-            <div class="review-row"><span class="review-label">Company</span><span class="review-value">${document.getElementById('company').value || '-'}</span></div>
-        </div>
-        <div class="review-section">
-            <h4>Domain & Plan</h4>
-            <div class="review-row"><span class="review-label">Domain</span><span class="review-value">${domain}</span></div>
-            <div class="review-row"><span class="review-label">Installation Type</span><span class="review-value">${installationTypes[installType]?.name || installType}</span></div>
-            <div class="review-row"><span class="review-label">Admin User</span><span class="review-value">${document.getElementById('adminUsername').value}</span></div>
-            <div class="review-row"><span class="review-label">Plan</span><span class="review-value">${plan.name} (${plan.price})</span></div>
-        </div>
-        <div class="review-section">
-            <h4>Configuration</h4>
-            <div class="review-row"><span class="review-label">Extensions</span><span class="review-value">${ext} (starting at ${extStart})</span></div>
-            <div class="review-row"><span class="review-label">Ring Groups</span><span class="review-value">${rg}</span></div>
-            <div class="review-row"><span class="review-label">IVR Menus</span><span class="review-value">${ivr}</span></div>
-        </div>`;
+    const row = (label, value) =>
+        `<div class="review-row"><span class="review-label">${label}</span><span class="review-value">${value}</span></div>`;
+    const sec = (titleKey, rows) =>
+        `<div class="review-section"><h4>${t(titleKey)}</h4>${rows}</div>`;
 
-    // Device details
+    let html = sec('reg.review.sec.account',
+        row(t('reg.review.lbl.name'),    document.getElementById('fullName').value) +
+        row(t('reg.review.lbl.email'),   document.getElementById('email').value) +
+        row(t('reg.review.lbl.company'), document.getElementById('company').value || '-')
+    );
+
+    html += sec('reg.review.sec.domain',
+        row(t('reg.review.lbl.domain'),      domain) +
+        row(t('reg.review.lbl.installtype'), installationTypes[installType]?.name || installType) +
+        row(t('reg.review.lbl.adminuser'),   document.getElementById('adminUsername').value) +
+        row(t('reg.review.lbl.plan'),        `${plan.name} (${plan.price})`)
+    );
+
+    html += sec('reg.review.sec.config',
+        row(t('reg.review.lbl.extensions'), `${ext} (${t('reg.review.lbl.startingat')} ${extStart})`) +
+        row(t('reg.review.lbl.ringgroups'), rg) +
+        row(t('reg.review.lbl.ivrmenus'),   ivr)
+    );
+
+    // Devices
     if (devices.length > 0) {
-        html += '<div class="review-section"><h4>Devices</h4>';
+        let drows = '';
         devices.forEach(deviceId => {
             const device = deviceTypes.devices?.find(d => d.id === deviceId);
-            if (device) {
-                html += `<div class="review-row"><span class="review-label">${device.name}</span><span class="review-value">${device.description}</span></div>`;
-            }
+            if (device) drows += row(device.name, device.description);
         });
-        html += `<div class="review-row"><span class="review-label">Trunk Service</span><span class="review-value">${deviceTypes.trunks?.find(t => t.id === trunk)?.name || trunk}</span></div>`;
-        html += '</div>';
+        drows += row(t('reg.review.lbl.trunkservice'), deviceTypes.trunks?.find(t2 => t2.id === trunk)?.name || trunk);
+        html += sec('reg.review.sec.devices', drows);
     }
 
     // IVR details
     const ivrCards = document.querySelectorAll('.ivr-config-card');
     if (ivrCards.length > 0) {
-        html += '<div class="review-section"><h4>IVR Details</h4>';
+        let irows = '';
         ivrCards.forEach((card, i) => {
             const name = card.querySelector('.ivr-name').value || `IVR ${i+1}`;
             const file = card.querySelector('input[type="file"]').files[0];
             const options = card.querySelectorAll('.ivr-option-row');
-            html += `<div class="review-row"><span class="review-label">${name}</span><span class="review-value">${file ? file.name : 'No recording'}, ${options.length} options</span></div>`;
+            irows += row(name, `${file ? file.name : t('reg.review.lbl.norecording')}, ${options.length} ${t('reg.review.lbl.options')}`);
         });
-        html += '</div>';
+        html += sec('reg.review.sec.ivr', irows);
     }
 
     // Gateway
     if (hasGw) {
-        html += `
-        <div class="review-section">
-            <h4>SIP Gateway</h4>
-            <div class="review-row"><span class="review-label">Name</span><span class="review-value">${document.getElementById('gwName').value || '-'}</span></div>
-            <div class="review-row"><span class="review-label">Proxy</span><span class="review-value">${document.getElementById('gwProxy').value || '-'}</span></div>
-            <div class="review-row"><span class="review-label">Username</span><span class="review-value">${document.getElementById('gwUsername').value || '-'}</span></div>
-        </div>`;
+        html += sec('reg.review.sec.gateway',
+            row(t('reg.review.lbl.name'),     document.getElementById('gwName').value     || '-') +
+            row(t('reg.review.lbl.proxy'),    document.getElementById('gwProxy').value    || '-') +
+            row(t('reg.review.lbl.username'), document.getElementById('gwUsername').value || '-')
+        );
+    }
+
+    // Call Routes chart snapshot
+    const flowData = FlowDesigner.getData();
+    if (flowData.nodes.length > 0) {
+        const srcSvg = document.getElementById('flowSvg');
+        const srcCanvas = document.getElementById('flowCanvas');
+        if (srcSvg && srcCanvas) {
+            // Clone SVG and embed node rects from the canvas DOM
+            const clone = srcSvg.cloneNode(true);
+
+            // Compute bounding box of all nodes
+            let minX = Infinity, minY = Infinity, maxX = 0, maxY = 0;
+            flowData.nodes.forEach(n => {
+                const el = document.getElementById(n.id);
+                if (!el) return;
+                const x = el.offsetLeft, y = el.offsetTop;
+                const w = el.offsetWidth,  h = el.offsetHeight;
+                minX = Math.min(minX, x); minY = Math.min(minY, y);
+                maxX = Math.max(maxX, x + w); maxY = Math.max(maxY, y + h);
+            });
+            const pad = 20;
+            minX = Math.max(0, minX - pad); minY = Math.max(0, minY - pad);
+            maxX += pad; maxY += pad;
+            const vw = maxX - minX, vh = maxY - minY;
+
+            // Add node rectangles as foreign SVG rects+text elements
+            const ns = 'http://www.w3.org/2000/svg';
+            flowData.nodes.forEach(n => {
+                const el = document.getElementById(n.id);
+                if (!el) return;
+                const def = { inbound:'#22c55e', outbound:'#a855f7', gateway:'#64748b', timecondition:'#f59e0b',
+                              ivr:'#3b82f6', ringgroup:'#8b5cf6', extension:'#06b6d4', queue:'#f97316',
+                              voicemail:'#ec4899', hangup:'#ef4444' };
+                const color = def[n.type] || '#555';
+                const x = el.offsetLeft - minX, y = el.offsetTop - minY;
+                const w = el.offsetWidth,        h = el.offsetHeight;
+
+                const rect = document.createElementNS(ns, 'rect');
+                rect.setAttribute('x', x); rect.setAttribute('y', y);
+                rect.setAttribute('width', w); rect.setAttribute('height', h);
+                rect.setAttribute('rx', 8); rect.setAttribute('fill', '#1a1a2e');
+                rect.setAttribute('stroke', color); rect.setAttribute('stroke-width', 2);
+                clone.appendChild(rect);
+
+                const hdr = document.createElementNS(ns, 'rect');
+                hdr.setAttribute('x', x); hdr.setAttribute('y', y);
+                hdr.setAttribute('width', w); hdr.setAttribute('height', 24);
+                hdr.setAttribute('rx', 8); hdr.setAttribute('fill', color);
+                clone.appendChild(hdr);
+
+                const lbl = document.getElementById(n.id + '-label');
+                const labelTxt = lbl ? lbl.textContent : n.type;
+                const txt = document.createElementNS(ns, 'text');
+                txt.setAttribute('x', x + w / 2); txt.setAttribute('y', y + 16);
+                txt.setAttribute('text-anchor', 'middle');
+                txt.setAttribute('font-size', '10'); txt.setAttribute('font-weight', '700');
+                txt.setAttribute('fill', '#fff'); txt.setAttribute('font-family', 'Arial,sans-serif');
+                txt.textContent = labelTxt;
+                clone.appendChild(txt);
+            });
+
+            // Offset existing connection paths by -minX,-minY
+            clone.querySelectorAll('.flow-connection, .conn-label').forEach(el => {
+                el.setAttribute('transform', `translate(${-minX},${-minY})`);
+            });
+
+            clone.setAttribute('width',   vw);
+            clone.setAttribute('height',  vh);
+            clone.setAttribute('viewBox', `0 0 ${vw} ${vh}`);
+            clone.style.cssText = 'background:#0d1117;border-radius:8px;width:100%;max-height:280px;';
+
+            const nodeCount = flowData.nodes.length;
+            const connCount = flowData.connections.length;
+            html += `<div class="review-section review-section-chart">
+                <h4>${t('reg.review.sec.callroutes')} <small style="font-weight:400;font-size:0.72rem;opacity:0.6">(${nodeCount} ${t('reg.review.lbl.nodescount')}, ${connCount} ${t('reg.review.lbl.conncount')})</small></h4>
+                <div class="review-chart-wrap">${clone.outerHTML}</div>
+            </div>`;
+        }
     }
 
     document.getElementById('reviewTable').innerHTML = html;
