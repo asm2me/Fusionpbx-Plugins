@@ -1079,19 +1079,17 @@
 }
 
 /* Window title bar — hidden normally, shown when maximized */
+/* Always-visible title bar */
 .flow-designer-titlebar {
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 14px;
-    height: 42px;
-    min-height: 42px;
+    height: 40px;
+    min-height: 40px;
     background: #110f20;
-    border-bottom: 1px solid rgba(108,43,217,0.4);
+    border-bottom: 1px solid rgba(108,43,217,0.35);
     flex-shrink: 0;
-}
-.flow-designer-maximized .flow-designer-titlebar {
-    display: flex;
 }
 
 .flow-designer-window-title {
@@ -1100,31 +1098,41 @@
     gap: 9px;
     font-size: 0.82rem;
     font-weight: 700;
-    color: rgba(255,255,255,0.75);
+    color: rgba(255,255,255,0.7);
     letter-spacing: 0.04em;
 }
-.flow-designer-window-title i {
-    color: #6C2BD9;
-    font-size: 0.9rem;
-}
+.flow-designer-window-title i { color: #6C2BD9; font-size: 0.88rem; }
 
-.flow-designer-restore-btn {
+.flow-designer-titlebar-actions {
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 5px 12px;
-    background: rgba(108,43,217,0.18);
-    border: 1px solid rgba(108,43,217,0.4);
-    border-radius: 7px;
-    color: #a78bfa;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s;
 }
-.flow-designer-restore-btn:hover {
-    background: rgba(108,43,217,0.35);
-    color: #fff;
+
+/* Title-bar buttons */
+.fd-tb-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 11px; border-radius: 6px;
+    font-size: 0.72rem; font-weight: 600; cursor: pointer;
+    border: 1px solid transparent; transition: all 0.15s; white-space: nowrap;
+}
+.fd-tb-btn-primary {
+    background: rgba(108,43,217,0.18);
+    border-color: rgba(108,43,217,0.4);
+    color: #a78bfa;
+}
+.fd-tb-btn-primary:hover { background: rgba(108,43,217,0.35); color: #fff; }
+.fd-tb-btn-danger {
+    background: rgba(239,68,68,0.1);
+    border-color: rgba(239,68,68,0.25);
+    color: #f87171;
+}
+.fd-tb-btn-danger:hover { background: rgba(239,68,68,0.25); color: #fff; }
+
+/* Maximized: thicker separator on title bar */
+.flow-designer-maximized .flow-designer-titlebar {
+    border-bottom-color: rgba(108,43,217,0.55);
+    background: #0d0b1a;
 }
 
 /* Row body: toolbox | canvas | properties */

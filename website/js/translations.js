@@ -1757,6 +1757,94 @@ const translations = {
     ru: "Выберите тип установки, наиболее подходящий для вашего бизнеса. Это определяет функции, доступные в вашем плане."
   },
 
+  // ── Step 2: Installation type cards ───────────────────────
+  "reg.install.type.company_pbx.name": {
+    en: "Company PBX", ar: "مقسم الشركة", es: "PBX Empresarial", fr: "PBX d'Entreprise",
+    de: "Firmen-PBX", pt: "PBX Empresarial", zh: "企业电话交换机", ja: "企業PBX", tr: "Kurumsal PBX", ru: "Корпоративная АТС"
+  },
+  "reg.install.type.company_pbx.desc": {
+    en: "Ideal for small to medium businesses. Supports multiple extensions, call routing, voicemail, and basic IVR.",
+    ar: "مثالي للشركات الصغيرة والمتوسطة. يدعم امتدادات متعددة وتوجيه المكالمات والبريد الصوتي وقائمة IVR الأساسية.",
+    es: "Ideal para pequeñas y medianas empresas. Soporta múltiples extensiones, enrutamiento de llamadas, buzón de voz e IVR básico.",
+    fr: "Idéal pour les petites et moyennes entreprises. Supporte les extensions multiples, le routage d'appels, la messagerie vocale et l'IVR de base.",
+    de: "Ideal für kleine und mittlere Unternehmen. Unterstützt mehrere Nebenstellen, Anrufweiterleitung, Voicemail und einfaches IVR.",
+    pt: "Ideal para pequenas e médias empresas. Suporta múltiplos ramais, roteamento de chamadas, correio de voz e IVR básico.",
+    zh: "适合中小型企业。支持多分机、呼叫路由、语音信箱和基础IVR。",
+    ja: "中小企業に最適。複数の内線、通話ルーティング、ボイスメール、基本IVRをサポート。",
+    tr: "Küçük ve orta ölçekli işletmeler için ideal. Çoklu dahili, çağrı yönlendirme, sesli mesaj ve temel IVR destekler.",
+    ru: "Идеально для малого и среднего бизнеса. Поддерживает множество добавочных, маршрутизацию, голосовую почту и базовое IVR."
+  },
+  "reg.install.type.company_pbx.features": {
+    en: "Extensions, Call Routing, Voicemail, Ring Groups, Basic IVR",
+    ar: "الامتدادات، توجيه المكالمات، البريد الصوتي، مجموعات الرنين، IVR أساسي",
+    es: "Extensiones, Enrutamiento, Buzón de Voz, Grupos de Timbre, IVR Básico",
+    fr: "Extensions, Routage, Messagerie Vocale, Groupes Sonnerie, IVR de Base",
+    de: "Nebenstellen, Anrufrouting, Voicemail, Rufgruppen, Basis-IVR",
+    pt: "Ramais, Roteamento, Correio de Voz, Grupos de Toque, IVR Básico",
+    zh: "分机、呼叫路由、语音信箱、振铃组、基础IVR",
+    ja: "内線、通話ルーティング、ボイスメール、リンググループ、基本IVR",
+    tr: "Dahililer, Çağrı Yönlendirme, Sesli Mesaj, Zil Grupları, Temel IVR",
+    ru: "Добавочные, маршрутизация, голосовая почта, группы вызова, базовое IVR"
+  },
+
+  "reg.install.type.call_center.name": {
+    en: "Call Center", ar: "مركز الاتصال", es: "Centro de Llamadas", fr: "Centre d'Appels",
+    de: "Callcenter", pt: "Central de Atendimento", zh: "呼叫中心", ja: "コールセンター", tr: "Çağrı Merkezi", ru: "Колл-центр"
+  },
+  "reg.install.type.call_center.desc": {
+    en: "Perfect for customer service operations. Includes agent queues, recording, reporting, and advanced IVR.",
+    ar: "مثالي لعمليات خدمة العملاء. يشمل قوائم الوكلاء والتسجيل والتقارير وقائمة IVR المتقدمة.",
+    es: "Perfecto para operaciones de servicio al cliente. Incluye colas de agentes, grabación, informes e IVR avanzado.",
+    fr: "Parfait pour le service client. Inclut les files d'agents, l'enregistrement, les rapports et l'IVR avancé.",
+    de: "Perfekt für Kundendienst. Beinhaltet Agenten-Warteschlangen, Aufzeichnung, Berichte und erweitertes IVR.",
+    pt: "Perfeito para atendimento ao cliente. Inclui filas de agentes, gravação, relatórios e IVR avançado.",
+    zh: "适合客服运营。包含坐席队列、录音、报表和高级IVR。",
+    ja: "カスタマーサービスに最適。エージェントキュー、録音、レポート、高度なIVRを含む。",
+    tr: "Müşteri hizmetleri için mükemmel. Ajan kuyrukları, kayıt, raporlama ve gelişmiş IVR içerir.",
+    ru: "Идеально для клиентского сервиса. Включает очереди агентов, запись, отчёты и расширенное IVR."
+  },
+  "reg.install.type.call_center.features": {
+    en: "Agent Queues, Call Recording, Reports & Analytics, Advanced IVR, CRM Integration",
+    ar: "قوائم الوكلاء، تسجيل المكالمات، التقارير والتحليلات، IVR متقدم، تكامل CRM",
+    es: "Colas de Agentes, Grabación, Informes, IVR Avanzado, Integración CRM",
+    fr: "Files Agents, Enregistrement, Rapports, IVR Avancé, Intégration CRM",
+    de: "Agentenwarteschlangen, Aufzeichnung, Berichte, Erweitertes IVR, CRM-Integration",
+    pt: "Filas de Agentes, Gravação, Relatórios, IVR Avançado, Integração CRM",
+    zh: "坐席队列、录音、报表分析、高级IVR、CRM集成",
+    ja: "エージェントキュー、録音、レポート、高度IVR、CRM連携",
+    tr: "Ajan Kuyrukları, Kayıt, Raporlar, Gelişmiş IVR, CRM Entegrasyonu",
+    ru: "Очереди агентов, запись, отчёты, расширенное IVR, интеграция CRM"
+  },
+
+  "reg.install.type.autodialer.name": {
+    en: "Auto Dialer", ar: "الاتصال التلقائي", es: "Marcador Automático", fr: "Composeur Automatique",
+    de: "Auto-Dialer", pt: "Discador Automático", zh: "自动拨号器", ja: "オートダイヤラー", tr: "Otomatik Çeviricі", ru: "Автодозвон"
+  },
+  "reg.install.type.autodialer.desc": {
+    en: "Designed for campaigns and bulk calling. Supports call lists, auto-dialing, and campaign management.",
+    ar: "مصمم للحملات والاتصال الجماعي. يدعم قوائم المكالمات والاتصال التلقائي وإدارة الحملات.",
+    es: "Diseñado para campañas y llamadas masivas. Soporta listas de llamadas, marcación automática y gestión de campañas.",
+    fr: "Conçu pour les campagnes d'appels. Supporte les listes d'appels, la composition automatique et la gestion de campagnes.",
+    de: "Für Kampagnen und Massenanrufe. Unterstützt Anruflisten, Auto-Dialing und Kampagnenverwaltung.",
+    pt: "Projetado para campanhas e chamadas em massa. Suporta listas de chamadas, discagem automática e gestão de campanhas.",
+    zh: "专为营销活动和批量呼叫设计。支持呼叫列表、自动拨号和活动管理。",
+    ja: "キャンペーンや一括通話向け。コールリスト、自動発信、キャンペーン管理をサポート。",
+    tr: "Kampanya ve toplu çağrılar için tasarlandı. Çağrı listeleri, otomatik çevirme ve kampanya yönetimi destekler.",
+    ru: "Для кампаний и массового обзвона. Поддерживает списки звонков, автодозвон и управление кампаниями."
+  },
+  "reg.install.type.autodialer.features": {
+    en: "Call Lists, Auto Dialing, Campaign Management, Recording, Reporting",
+    ar: "قوائم المكالمات، الاتصال التلقائي، إدارة الحملات، التسجيل، التقارير",
+    es: "Listas de Llamadas, Marcación Automática, Gestión Campañas, Grabación, Informes",
+    fr: "Listes d'Appels, Composition Automatique, Gestion Campagnes, Enregistrement, Rapports",
+    de: "Anruflisten, Auto-Dialing, Kampagnenverwaltung, Aufzeichnung, Berichte",
+    pt: "Listas de Chamadas, Discagem Automática, Gestão Campanha, Gravação, Relatórios",
+    zh: "呼叫列表、自动拨号、活动管理、录音、报表",
+    ja: "コールリスト、自動発信、キャンペーン管理、録音、レポート",
+    tr: "Çağrı Listeleri, Otomatik Çevirme, Kampanya Yönetimi, Kayıt, Raporlama",
+    ru: "Списки звонков, автодозвон, управление кампаниями, запись, отчёты"
+  },
+
   // ── Step 6: Devices & Trunk Services ──────────────────────
   "reg.devices.title": {
     en: "<i class=\"fas fa-mobile\"></i> Devices & Trunk Services",

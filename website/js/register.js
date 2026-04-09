@@ -97,18 +97,28 @@ function populateInstallationTypes() {
     if (!container) return;
     container.innerHTML = '';
     for (const [key, type] of Object.entries(installationTypes)) {
+        const tk    = 'reg.install.type.' + key;
+        const name  = tOr(tk + '.name',     type.name);
+        const desc  = tOr(tk + '.desc',     type.description);
+        const feats = tOr(tk + '.features', type.features.join(', '));
         const label = document.createElement('label');
         label.className = 'installation-option';
         label.innerHTML = `
             <input type="radio" name="installation_type" value="${key}">
             <div class="installation-option-content">
-                <h4><i class="fas fa-${type.icon || 'building'}"></i> ${type.name}</h4>
-                <p>${type.description}</p>
-                <small>${type.features.join(', ')}</small>
+                <h4><i class="fas fa-${type.icon || 'building'}"></i> ${name}</h4>
+                <p>${desc}</p>
+                <small>${feats}</small>
             </div>
         `;
         container.appendChild(label);
     }
+}
+
+// Returns translation for key, or fallback if key is not in translations
+function tOr(key, fallback) {
+    const v = t(key);
+    return v !== key ? v : fallback;
 }
 
 function populateDeviceTypes() {

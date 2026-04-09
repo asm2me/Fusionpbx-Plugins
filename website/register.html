@@ -525,16 +525,22 @@
                         <p class="step-desc" data-i18n="reg.routes.desc">Drag nodes from the toolbox onto the canvas. Click an output port <span class="port-demo"></span> and drag to an input port to connect them. Click a node to edit its properties.</p>
 
                         <div class="flow-designer">
-                            <!-- Window title bar — visible only when maximized -->
+                            <!-- Window title bar — always visible -->
                             <div class="flow-designer-titlebar" id="flowTitleBar">
                                 <div class="flow-designer-window-title">
                                     <i class="fas fa-route"></i>
                                     <span data-i18n="reg.routes.title.window">Call Routes Designer</span>
                                 </div>
-                                <button class="flow-designer-restore-btn" onclick="flowToggleMaximize()">
-                                    <i class="fas fa-compress-alt"></i>
-                                    <span data-i18n="reg.routes.btn.restore">Restore</span>
-                                </button>
+                                <div class="flow-designer-titlebar-actions">
+                                    <button type="button" class="fd-tb-btn fd-tb-btn-danger" onclick="flowClearAll()">
+                                        <i class="fas fa-trash-alt"></i>
+                                        <span data-i18n="reg.routes.btn.clear">Clear</span>
+                                    </button>
+                                    <button type="button" class="fd-tb-btn fd-tb-btn-primary" id="flowMaxBtn" onclick="flowToggleMaximize()">
+                                        <i class="fas fa-expand-alt"></i>
+                                        <span data-i18n="reg.routes.btn.maximize">Maximize</span>
+                                    </button>
+                                </div>
                             </div>
 
                             <!-- Main body (row: toolbox | canvas | properties) -->
@@ -581,14 +587,6 @@
                                         <i class="fas fa-server"></i> <span data-i18n="reg.routes.node.gateway">Gateway / Trunk</span>
                                     </div>
 
-                                    <div class="toolbox-actions">
-                                        <button type="button" class="toolbox-btn" id="flowMaxBtn" onclick="flowToggleMaximize()">
-                                            <i class="fas fa-expand-alt"></i> <span data-i18n="reg.routes.btn.maximize">Maximize</span>
-                                        </button>
-                                        <button type="button" class="toolbox-btn toolbox-btn-danger" onclick="flowClearAll()">
-                                            <i class="fas fa-trash-alt"></i> <span data-i18n="reg.routes.btn.clear">Clear</span>
-                                        </button>
-                                    </div>
                                 </div>
 
                                 <!-- Canvas -->
