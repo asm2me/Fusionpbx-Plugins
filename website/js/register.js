@@ -1250,8 +1250,19 @@ const FlowDesigner = (() => {
                                   'out-yes': { dir: 'out', type: 'call',    labelKey: 'reg.routes.port.yes'      },
                                   'out-no':  { dir: 'out', type: 'call',    labelKey: 'reg.routes.port.no'       } } },
         ivr:           { labelKey: 'reg.routes.node.ivr',           icon: 'fa-sitemap',           color: '#3b82f6',
-                         ports: { 'in':      { dir: 'in',  type: 'call',    labelKey: 'reg.routes.port.callin'   },
-                                  'out':     { dir: 'out', type: 'call',    labelKey: 'reg.routes.port.keypress' } } },
+                         ports: { 'in':       { dir: 'in',  type: 'call', labelKey: 'reg.routes.port.callin' },
+                                  'dtmf-1':   { dir: 'out', type: 'call', label: '1' },
+                                  'dtmf-2':   { dir: 'out', type: 'call', label: '2' },
+                                  'dtmf-3':   { dir: 'out', type: 'call', label: '3' },
+                                  'dtmf-4':   { dir: 'out', type: 'call', label: '4' },
+                                  'dtmf-5':   { dir: 'out', type: 'call', label: '5' },
+                                  'dtmf-6':   { dir: 'out', type: 'call', label: '6' },
+                                  'dtmf-7':   { dir: 'out', type: 'call', label: '7' },
+                                  'dtmf-8':   { dir: 'out', type: 'call', label: '8' },
+                                  'dtmf-9':   { dir: 'out', type: 'call', label: '9' },
+                                  'dtmf-0':   { dir: 'out', type: 'call', label: '0' },
+                                  'dtmf-star':{ dir: 'out', type: 'call', label: '*' },
+                                  'dtmf-hash':{ dir: 'out', type: 'call', label: '#' } } },
         ringgroup:     { labelKey: 'reg.routes.node.ringgroup',     icon: 'fa-users',             color: '#8b5cf6',
                          ports: { 'in':      { dir: 'in',  type: 'call',    labelKey: 'reg.routes.port.callin'   },
                                   'out':     { dir: 'out', type: 'call',    labelKey: 'reg.routes.port.answered' } } },
@@ -1424,9 +1435,23 @@ const FlowDesigner = (() => {
             const inPorts  = Object.entries(ports).filter(([,p]) => p.dir === 'in');
             const outPorts = Object.entries(ports).filter(([,p]) => p.dir === 'out');
             let barHtml = '<div class="portbar-in">';
-            inPorts.forEach(([,p])  => { barHtml += `<span class="portbar-label portbar-in-lbl  type-${p.type}" data-i18n="${p.labelKey}">${t(p.labelKey)}</span>`; });
+            inPorts.forEach(([,p]) => {
+                const lbl = p.label || (p.labelKey ? t(p.labelKey) : '');
+                const i18nAttr = p.labelKey ? ` data-i18n="${p.labelKey}"` : '';
+                barHtml += `<span class="portbar-label portbar-in-lbl type-${p.type}"${i18nAttr}>${lbl}</span>`;
+            });
             barHtml += '</div><div class="portbar-out">';
-            outPorts.forEach(([,p]) => { barHtml += `<span class="portbar-label portbar-out-lbl type-${p.type}" data-i18n="${p.labelKey}">${t(p.labelKey)}</span>`; });
+            if (outPorts.length > 4) {
+                // Collapsed summary for many ports (e.g. IVR DTMF)
+                const outType = outPorts[0][1].type;
+                barHtml += `<span class="portbar-label portbar-out-lbl type-${outType}">DTMF ×${outPorts.length}</span>`;
+            } else {
+                outPorts.forEach(([,p]) => {
+                    const lbl = p.label || (p.labelKey ? t(p.labelKey) : '');
+                    const i18nAttr = p.labelKey ? ` data-i18n="${p.labelKey}"` : '';
+                    barHtml += `<span class="portbar-label portbar-out-lbl type-${p.type}"${i18nAttr}>${lbl}</span>`;
+                });
+            }
             barHtml += '</div>';
             bar.innerHTML = barHtml;
             el.appendChild(bar);
@@ -1451,6 +1476,12 @@ const FlowDesigner = (() => {
         const inList  = Object.entries(ports).filter(([,p]) => p.dir === 'in');
         const outList = Object.entries(ports).filter(([,p]) => p.dir === 'out');
 
+        // Expand node height when many ports to prevent overlap
+        const maxPorts = Math.max(inList.length, outList.length);
+        if (maxPorts > 3) {
+            el.style.minHeight = (maxPorts * 22 + 40) + 'px';
+        }
+
         inList.forEach(([key, pd], i) => addPort(el, key, node.id, pd, i, inList.length));
         outList.forEach(([key, pd], i) => addPort(el, key, node.id, pd, i, outList.length));
 
@@ -1468,20 +1499,27 @@ const FlowDesigner = (() => {
         const pt = document.createElement('div');
         const isIn = pd.dir === 'in';
 
-        // Position: spread vertically within 20%-80% range
-        const pct = total === 1 ? 50 : 20 + (index / (total - 1)) * 60;
+        // Wider spread when many ports (e.g. 12 DTMF) to use more of the node height
+        const minPct = total <= 4 ? 20 : 5;
+        const maxPct = total <= 4 ? 80 : 95;
+        const pct = total === 1 ? 50 : minPct + (index / (total - 1)) * (maxPct - minPct);
 
-        pt.className = `flow-port port-dir-${pd.dir} port-type-${pd.type} port-key-${portKey.replace('-','_')}`;
+        const portLabel = pd.label || (pd.labelKey ? t(pd.labelKey) : '');
+        pt.className = `flow-port port-dir-${pd.dir} port-type-${pd.type} port-key-${portKey.replace(/-/g,'_')}`;
+        if (pd.label) pt.classList.add('flow-port-labeled');
         pt.dataset.port   = portKey;
         pt.dataset.nodeId = nodeId;
         pt.dataset.type   = pd.type;
         pt.dataset.dir    = pd.dir;
-        pt.title = t(pd.labelKey) + ' (' + pd.type + ')';
-        pt.dataset.i18nTitle = pd.labelKey;
-        pt.dataset.i18nTitleSuffix = ' (' + pd.type + ')';
+        pt.title = portLabel + ' (' + pd.type + ')';
+        if (pd.labelKey) {
+            pt.dataset.i18nTitle = pd.labelKey;
+            pt.dataset.i18nTitleSuffix = ' (' + pd.type + ')';
+        }
+        if (pd.label) pt.textContent = pd.label;
         pt.style.top = pct + '%';
-        if (isIn)  pt.style.left  = '-7px';
-        else       pt.style.right = '-7px';
+        if (isIn)  pt.style.left  = '-8px';
+        else       pt.style.right = '-8px';
 
         if (!isIn) {
             pt.addEventListener('mousedown', e => {
