@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(xargs grep:*)"
+      "Bash(xargs grep:*)",
+      "Read(//Users/macintosh/**)",
+      "Read(//Users/macintosh/Downloads/**)"
     ]
   }
 }
