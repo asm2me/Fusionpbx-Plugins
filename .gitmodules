@@ -1,6 +1,3 @@
-[submodule "VoipatDialer"]
-	path = VoipatDialer
-	url = https://github.com/asm2me/VoipatDialer.git
 [submodule "WebrtcPhoneCSharp"]
 	path = WebrtcPhoneCSharp
 	url = https://github.com/asm2me/Webrtc-phone-c-.git
@@ -13,3 +10,6 @@
 [submodule "fusionpbx-api"]
 	path = fusionpbx-api
 	url = https://github.com/asm2me/Fusionpbx-API.git
+[submodule "WebRtcPhoneDialer-iOS-MAUI"]
+	path = WebRtcPhoneDialer-iOS-MAUI
+	url = https://github.com/asm2me/WebRtcPhoneDialer-iOS-MAUI.git
