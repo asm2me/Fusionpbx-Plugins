@@ -225,6 +225,7 @@ function onPlanChange() {
         if (parseInt(ivrSlider.value) > p.ivrs) ivrSlider.value = p.ivrs;
         const maxIvrLabel = document.getElementById('maxIvrLabel');
         if (maxIvrLabel) maxIvrLabel.textContent = p.ivrs;
+        updateIvrCount(ivrSlider.value);
     }
 
     // Update plan name display
