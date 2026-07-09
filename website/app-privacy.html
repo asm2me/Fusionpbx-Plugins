@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voipat Dialer — App Privacy Policy | VOIP@ Cloud</title>
+    <meta name="description" content="Privacy policy for the Voipat Auto Dialer Android app — what data the app accesses on your device and how it is handled.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .legal-page { padding: 100px 0 60px; }
+        .legal-page h1 { margin-bottom: 0.5rem; }
+        .legal-page .updated { color: var(--gray-400); font-size: 0.875rem; margin-bottom: 2rem; }
+        .legal-page h2 { font-size: 1.25rem; margin: 2rem 0 0.75rem; color: var(--gray-800); }
+        .legal-page h3 { font-size: 1.0625rem; margin: 1.5rem 0 0.5rem; color: var(--gray-700); }
+        .legal-page p, .legal-page li { color: var(--gray-600); line-height: 1.8; font-size: 0.9375rem; margin-bottom: 0.75rem; }
+        .legal-page ul, .legal-page ol { padding-left: 24px; margin-bottom: 1rem; }
+        .legal-page li { margin-bottom: 0.5rem; }
+        .legal-content { max-width: 800px; margin: 0 auto; }
+    </style>
+</head>
+<body>
+<nav class="navbar scrolled">
+    <div class="container nav-container">
+        <a href="/" class="logo">
+            <span class="logo-icon"><i class="fas fa-cloud-arrow-up"></i></span>
+            <span class="logo-text">VOIP<span class="logo-at">@</span> Cloud</span>
+        </a>
+        <div class="nav-actions">
+            <a href="/" class="btn btn-ghost">Home</a>
+            <a href="register.html" class="btn btn-primary">Sign Up</a>
+        </div>
+    </div>
+</nav>
+
+<section class="legal-page">
+    <div class="container">
+        <div class="legal-content">
+            <h1>Voipat Auto Dialer — App Privacy Policy</h1>
+            <p class="updated">Last updated: July 9, 2026</p>
+
+            <p>This Privacy Policy explains how the <strong>Voipat Auto Dialer</strong> Android application ("the app", "we", "us") handles your information. Voipat Auto Dialer is a SIP/VoIP softphone that lets you make and receive internet phone calls using a SIP account you provide.</p>
+
+            <h2>Summary</h2>
+            <ul>
+                <li>The app is a phone dialer. Most data stays <strong>on your device</strong>.</li>
+                <li>We do <strong>not</strong> sell your data and do <strong>not</strong> use advertising or analytics SDKs.</li>
+                <li>Optional features (call recording, transcription, aftercall webhook, Google Drive sharing) are <strong>OFF by default</strong>. They only send data when you turn them on, and only to destinations <strong>you</strong> configure — never to us.</li>
+            </ul>
+
+            <h2>1. Information the App Accesses</h2>
+            <ul>
+                <li><strong>SIP account details</strong> (username, password, server) that you enter, used to register with your VoIP provider so you can make and receive calls. Stored locally on your device.</li>
+                <li><strong>Microphone audio</strong>, used for the voice call itself and, only if you enable it, call recording.</li>
+                <li><strong>Contacts</strong> (name, phone number, company), read <em>only if you grant the Contacts permission</em>, to display caller names and let you dial contacts. Contacts are processed on the device and are <strong>never uploaded</strong> by the app. The app works if you decline this permission.</li>
+                <li><strong>Call information</strong> (phone number of the other party, direction, start/end time, duration), kept in your on-device call history.</li>
+            </ul>
+
+            <h2>2. Optional Features That Transmit Data (Off by Default)</h2>
+            <p>These are disabled unless you enable them in Settings. When enabled, data is sent only to the endpoints you configure:</p>
+            <ul>
+                <li><strong>Call recording</strong> — records call audio to your device. Off by default. You are responsible for complying with the call-recording and consent laws that apply to you.</li>
+                <li><strong>Transcription</strong> — if enabled, sends a call recording to the transcription service/API you configure to produce a text transcript.</li>
+                <li><strong>Aftercall webhook</strong> — if you set a webhook URL, the app sends call metadata (phone number, caller ID, direction, timestamps, duration), the transcript, and the audio recording to <em>your</em> URL.</li>
+                <li><strong>Google Drive sharing</strong> — if enabled, shares the transcript/recording to a Google Drive location you authorize.</li>
+            </ul>
+            <p>We (the developer) do not receive any of this data. It goes only to the services you set up.</p>
+
+            <h2>3. Data Sharing and Selling</h2>
+            <p>We do not sell your personal data and do not share it with third parties for advertising. The only transmissions are (a) call signaling and media to your SIP provider and (b) the optional, user-configured features above.</p>
+
+            <h2>4. Data Retention and Deletion</h2>
+            <p>Recordings, contacts cache, call history, and settings are stored on your device. You can delete recordings within the app, and remove all app data by clearing the app's storage or uninstalling it. The app does not create a developer-side account, so there is no server-side profile for us to delete.</p>
+
+            <h2>5. Security</h2>
+            <p>Network communication uses encrypted transport (TLS / HTTPS / WSS) where your provider supports it. Some on-premises SIP servers may use unencrypted connections on local networks; use TLS-capable servers where possible.</p>
+
+            <h2>6. Children</h2>
+            <p>The app is not directed to children and is intended for general and business use.</p>
+
+            <h2>7. Changes</h2>
+            <p>We may update this policy; the "Last updated" date will change accordingly.</p>
+
+            <h2>8. Contact</h2>
+            <p>Questions about this policy: <a href="mailto:support@voipat.com">support@voipat.com</a></p>
+        </div>
+    </div>
+</section>
+
+<footer class="footer footer-simple">
+    <div class="container">
+        <p>&copy; 2024 VOIP@ Cloud. All rights reserved. | <a href="terms.html">Terms</a> | <a href="privacy.html">Privacy</a> | <a href="app-privacy.html">App Privacy</a></p>
+    </div>
+</footer>
+</body>
+</html>
