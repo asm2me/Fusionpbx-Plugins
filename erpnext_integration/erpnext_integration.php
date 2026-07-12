@@ -44,7 +44,9 @@
 		if (!permission_exists('erpnext_integration_edit')) {
 			echo "access denied"; exit;
 		}
-		if (($_POST['token'] ?? '') !== ($_SESSION['token'] ?? 'x')) {
+		//validate the FusionPBX token
+		$token = new token;
+		if (!$token->validate('/app/erpnext_integration/erpnext_integration.php')) {
 			$_SESSION['message'] = "Invalid token.";
 			header("Location: erpnext_integration.php"); exit;
 		}
@@ -109,9 +111,13 @@
 	$document['title'] = $text['title-erpnext_integration'];
 	require_once dirname(__DIR__, 2) . "/resources/header.php";
 
+	//create a token for the save form
+	$token = new token;
+	$token_array = $token->create('/app/erpnext_integration/erpnext_integration.php');
+
 	echo "<form method='post' action='erpnext_integration.php'>\n";
 	echo "<input type='hidden' name='action' value='save'>\n";
-	echo "<input type='hidden' name='token' value='".($_SESSION['token'] ?? '')."'>\n";
+	echo "<input type='hidden' name='".$token_array['name']."' value='".$token_array['hash']."'>\n";
 
 	echo "<div class='action_bar' id='action_bar'>\n";
 	echo "	<div class='heading'><b>".$text['title-erpnext_integration']."</b></div>\n";
