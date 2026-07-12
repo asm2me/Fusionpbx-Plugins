@@ -179,11 +179,13 @@ def incoming_call(**kwargs):
 
 
 def _user_for_extension(extension):
-    """Best-effort map a FusionPBX extension to an ERPNext user.
-    Looks for an Employee / User whose phone/mobile equals the extension."""
+    """Map a FusionPBX extension to an ERPNext user.
+    Primary match is the custom fusionpbx_extension field on User; phone/mobile
+    are checked as fallbacks."""
     if not extension:
         return None
-    for field in ("phone", "mobile_no"):
+    extension = str(extension).strip()
+    for field in ("fusionpbx_extension", "phone", "mobile_no"):
         if frappe.db.has_column("User", field):
             user = frappe.db.get_value("User", {field: extension, "enabled": 1}, "name")
             if user:
@@ -319,9 +321,10 @@ def click_to_dial(destination=None, extension=None):
 
 
 def _extension_for_user(user):
-    for field in ("phone", "mobile_no"):
+    for field in ("fusionpbx_extension", "phone", "mobile_no"):
         if frappe.db.has_column("User", field):
             val = frappe.db.get_value("User", user, field)
             if val:
-                return re.sub(r"\D+", "", val)
+                # extension field is stored as-is; strip formatting only for phone/mobile
+                return val.strip() if field == "fusionpbx_extension" else re.sub(r"\D+", "", val)
     return None

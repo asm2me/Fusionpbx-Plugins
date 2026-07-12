@@ -21,3 +21,14 @@ app_include_js = "/assets/fusionpbx_integration/js/fusionpbx_integration.js"
 
 # Whitelisted methods exposed at /api/method/fusionpbx_integration.api.*
 # are defined in fusionpbx_integration/api.py
+
+# Fixtures
+# --------
+# Ship the custom "FusionPBX Extension" field on User so each agent's extension
+# can be stored (used to route inbound screen-pops to the right person).
+fixtures = [
+    {
+        "dt": "Custom Field",
+        "filters": [["name", "in", ["User-fusionpbx_extension"]]],
+    }
+]

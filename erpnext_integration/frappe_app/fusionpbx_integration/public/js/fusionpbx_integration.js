@@ -52,21 +52,44 @@ frappe.realtime.on("fusionpbx_incoming_call", function (data) {
 	var caller = data.from || __("Unknown");
 	var name = data.contact ? data.contact.name : __("Unknown caller");
 
-	var msg = data.contact
-		? __("Incoming call from <b>{0}</b> ({1})", [name, caller])
-		: __("Incoming call from <b>{0}</b>", [caller]);
-
-	// Non-blocking toast with an "Open" action
-	frappe.show_alert(
-		{
-			message: msg,
-			indicator: data.contact ? "green" : "orange",
-		},
-		12
-	);
-
-	// Auto-navigate to the matched record
-	if (data.route) {
-		frappe.set_route(data.route.replace(/^\/app\//, "").split("/"));
+	if (data.contact) {
+		// Known caller: toast + auto-open the matched record
+		frappe.show_alert(
+			{
+				message: __("Incoming call from <b>{0}</b> ({1})", [name, caller]),
+				indicator: "green",
+			},
+			12
+		);
+		if (data.route) {
+			frappe.set_route(data.route.replace(/^\/app\//, "").split("/"));
+		}
+	} else {
+		// Unknown caller: toast with a one-click "Create Contact" action,
+		// pre-filled with the caller's number. Nothing is created automatically.
+		var create_link =
+			"<a href='#' onclick=\"fusionpbx_integration.create_contact('" +
+			(caller || "").replace(/'/g, "") +
+			"'); return false;\">" +
+			__("Create Contact") +
+			"</a>";
+		frappe.show_alert(
+			{
+				message: __("Incoming call from <b>{0}</b> &nbsp; {1}", [caller, create_link]),
+				indicator: "orange",
+			},
+			20
+		);
 	}
 });
+
+// Open a new Contact form pre-filled with the caller's number.
+fusionpbx_integration.create_contact = function (number) {
+	frappe.new_doc("Contact", {}, function (doc) {
+		if (number) {
+			// set the primary phone on the new contact
+			doc.phone_nos = [{ phone: number, is_primary_phone: 1 }];
+			frappe.set_route("Form", "Contact", doc.name);
+		}
+	});
+};
