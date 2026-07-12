@@ -119,8 +119,15 @@
 	echo "<input type='hidden' name='action' value='save'>\n";
 	echo "<input type='hidden' name='".$token_array['name']."' value='".$token_array['hash']."'>\n";
 
+	//this configuration applies only to the current domain (strictly per-domain)
+	$current_domain_name = $_SESSION['domain_name'] ?? '';
+
 	echo "<div class='action_bar' id='action_bar'>\n";
-	echo "	<div class='heading'><b>".$text['title-erpnext_integration']."</b></div>\n";
+	echo "	<div class='heading'><b>".$text['title-erpnext_integration']."</b>";
+	if ($current_domain_name !== '') {
+		echo " <span style='font-weight:normal;font-size:0.85em;color:#888;'>&mdash; ".htmlspecialchars($current_domain_name)."</span>";
+	}
+	echo "</div>\n";
 	echo "	<div class='actions'>\n";
 	echo "		<button type='button' class='btn btn-default' onclick='erpnext_test();'>".$text['button-test']."</button>\n";
 	if (permission_exists('erpnext_integration_edit')) {

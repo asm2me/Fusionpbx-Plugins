@@ -26,36 +26,34 @@ if (!class_exists('erpnext')) {
 		}
 
 		/**
-		 * Load erpnext.* default/domain settings from the database.
-		 * Domain-level settings override global default settings.
+		 * Load erpnext.* settings for this domain.
+		 *
+		 * The integration is configured strictly per-domain: connection values
+		 * (url, api_key, api_secret, shared_secret, ...) come ONLY from
+		 * v_domain_settings for this domain_uuid. There is no global-default
+		 * fallback for connection values, so each domain has an independent
+		 * ERPNext connection and a domain with nothing configured is inert.
+		 *
+		 * The global v_default_settings rows exist only so the fields appear in
+		 * Advanced > Default Settings; they are intentionally NOT merged here.
 		 */
 		public function load_config() {
 			$database = new database;
+			$this->config = [];
 
-			//global defaults
-			$sql = "select default_setting_subcategory as name, default_setting_value as value ";
-			$sql .= "from v_default_settings ";
-			$sql .= "where default_setting_category = 'erpnext' and default_setting_enabled = 'true'";
-			$rows = $database->select($sql, null, 'all') ?: [];
+			if (empty($this->domain_uuid)) {
+				return; //no domain => no config (strict per-domain)
+			}
+
+			$sql = "select domain_setting_subcategory as name, domain_setting_value as value ";
+			$sql .= "from v_domain_settings ";
+			$sql .= "where domain_uuid = :domain_uuid and domain_setting_category = 'erpnext' and domain_setting_enabled = 'true'";
+			$parameters['domain_uuid'] = $this->domain_uuid;
+			$rows = $database->select($sql, $parameters, 'all') ?: [];
 			foreach ($rows as $r) {
 				$this->config[$r['name']] = $r['value'];
 			}
-			unset($sql, $rows);
-
-			//domain overrides
-			if (!empty($this->domain_uuid)) {
-				$sql = "select domain_setting_subcategory as name, domain_setting_value as value ";
-				$sql .= "from v_domain_settings ";
-				$sql .= "where domain_uuid = :domain_uuid and domain_setting_category = 'erpnext' and domain_setting_enabled = 'true'";
-				$parameters['domain_uuid'] = $this->domain_uuid;
-				$rows = $database->select($sql, $parameters, 'all') ?: [];
-				foreach ($rows as $r) {
-					if ($r['value'] !== null && $r['value'] !== '') {
-						$this->config[$r['name']] = $r['value'];
-					}
-				}
-				unset($sql, $parameters, $rows);
-			}
+			unset($sql, $parameters, $rows);
 		}
 
 		public function get($name, $default = '') {

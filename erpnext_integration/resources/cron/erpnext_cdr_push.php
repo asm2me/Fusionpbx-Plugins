@@ -44,17 +44,8 @@
 	$domains = $database->select($sql, null, 'all') ?: [];
 	unset($sql);
 
-	//also allow a global (default) enable with per-domain credentials
-	if (empty($domains)) {
-		$sql = "select default_setting_value from v_default_settings where default_setting_category='erpnext' and default_setting_subcategory='enabled' and default_setting_value='true' and default_setting_enabled='true'";
-		if ($database->select($sql, null, 'column') === 'true') {
-			$sql = "select domain_uuid from v_domains where domain_enabled = 'true'";
-			foreach (($database->select($sql, null, 'all') ?: []) as $d) {
-				$domains[] = ['domain_uuid' => $d['domain_uuid']];
-			}
-		}
-		unset($sql);
-	}
+	//strictly per-domain: only domains that enabled the integration in their own
+	//v_domain_settings are processed. No global-default enable fallback.
 
 	$total_sent = 0;
 	foreach ($domains as $d) {
