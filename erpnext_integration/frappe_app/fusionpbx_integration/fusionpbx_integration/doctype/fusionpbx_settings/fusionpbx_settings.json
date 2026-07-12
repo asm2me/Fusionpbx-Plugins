@@ -1,0 +1,114 @@
+{
+ "actions": [],
+ "creation": "2026-07-13 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "enabled",
+  "fusionpbx_url",
+  "domain_name",
+  "shared_secret",
+  "column_break_1",
+  "default_country_code",
+  "match_digits",
+  "screen_pop_section",
+  "screen_pop_enabled",
+  "screen_pop_route",
+  "click_to_dial_section",
+  "originate_caller_id_name"
+ ],
+ "fields": [
+  {
+   "default": "0",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "fusionpbx_url",
+   "fieldtype": "Data",
+   "label": "FusionPBX Base URL",
+   "description": "e.g. https://pbx.example.com"
+  },
+  {
+   "fieldname": "domain_name",
+   "fieldtype": "Data",
+   "label": "FusionPBX Domain Name",
+   "description": "The sofia/domain name in FusionPBX, e.g. pbx.example.com"
+  },
+  {
+   "fieldname": "shared_secret",
+   "fieldtype": "Password",
+   "label": "Shared Secret",
+   "description": "Must match erpnext.shared_secret configured in FusionPBX. Sent as X-Fusionpbx-Secret."
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "default_country_code",
+   "fieldtype": "Data",
+   "label": "Default Country Code",
+   "description": "Digits only, used to normalize phone numbers for matching."
+  },
+  {
+   "default": "9",
+   "fieldname": "match_digits",
+   "fieldtype": "Int",
+   "label": "Trailing Digits to Match",
+   "description": "Number of trailing digits used when matching caller numbers to contacts."
+  },
+  {
+   "fieldname": "screen_pop_section",
+   "fieldtype": "Section Break",
+   "label": "Screen Pop"
+  },
+  {
+   "default": "1",
+   "fieldname": "screen_pop_enabled",
+   "fieldtype": "Check",
+   "label": "Enable Screen Pop"
+  },
+  {
+   "fieldname": "screen_pop_route",
+   "fieldtype": "Data",
+   "label": "Screen Pop Route",
+   "description": "Frappe route opened for the matched contact, e.g. /app/contact/{docname}. Leave blank for the default doc view.",
+   "default": ""
+  },
+  {
+   "fieldname": "click_to_dial_section",
+   "fieldtype": "Section Break",
+   "label": "Click to Dial"
+  },
+  {
+   "fieldname": "originate_caller_id_name",
+   "fieldtype": "Data",
+   "label": "Originate Caller ID Name",
+   "default": "ERPNext"
+  }
+ ],
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-07-13 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "FusionPBX Integration",
+ "name": "FusionPBX Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

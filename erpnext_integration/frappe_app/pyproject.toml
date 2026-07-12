@@ -1,0 +1,19 @@
+[project]
+name = "fusionpbx_integration"
+authors = [
+    { name = "VOIPEGYPT", email = "info@voipegypt.com" }
+]
+description = "Bidirectional integration between ERPNext/Frappe and FusionPBX"
+requires-python = ">=3.10"
+readme = "README.md"
+dynamic = ["version"]
+dependencies = [
+    "requests>=2.28",
+]
+
+[build-system]
+requires = ["flit_core >=3.4,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.module]
+name = "fusionpbx_integration"
