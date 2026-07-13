@@ -46,27 +46,49 @@ end
 -- ---------------------------------------------------------------------------
 -- load this domain's ERPNext settings from the database
 -- ---------------------------------------------------------------------------
--- FusionPBX exposes an ODBC DSN named "fusionpbx" for scripts; prefer it and
--- fall back to a local pgsql socket connection.
-local dbh = freeswitch.Dbh("odbc://fusionpbx")
-if dbh == nil or not dbh:connected() then
-	dbh = freeswitch.Dbh("pgsql://hostaddr=127.0.0.1 dbname=fusionpbx user=fusionpbx")
-end
-if dbh == nil or not dbh:connected() then
-	log("err", "cannot open fusionpbx database; skipping")
-	return
-end
-
+-- Use FusionPBX's own database resource so the DSN/credentials are resolved the
+-- same way as every other FusionPBX Lua script (works across pgsql/odbc setups).
 local settings = {}
 local safe_uuid = domain_uuid:gsub("[^%x%-]", "")
-local sql = string.format(
+local sql =
 	"select domain_setting_subcategory as k, domain_setting_value as v " ..
-	"from v_domain_settings where domain_uuid = '%s' and domain_setting_category = 'erpnext' " ..
-	"and domain_setting_enabled = 'true'", safe_uuid)
-dbh:query(sql, function(row)
-	settings[row.k] = row.v
-end)
-dbh:release()
+	"from v_domain_settings where domain_uuid = '" .. safe_uuid .. "' " ..
+	"and domain_setting_category = 'erpnext' and domain_setting_enabled = 'true'"
+
+local ok_db, Database = pcall(require, "resources.functions.database")
+if ok_db and Database then
+	local dbh = Database.new('system')
+	if dbh then
+		dbh:query(sql, function(row)
+			settings[row.k] = row.v
+		end)
+		dbh:release()
+	end
+end
+
+-- fall back to a direct Dbh if the FusionPBX resource was unavailable
+if next(settings) == nil then
+	require 'resources.functions.config'
+	local dsn
+	if database and database.system then
+		dsn = "pgsql://hostaddr=" .. (database.system.host or "127.0.0.1") ..
+			" dbname=" .. (database.system.database or "fusionpbx") ..
+			" user=" .. (database.system.username or "fusionpbx") ..
+			" password=" .. (database.system.password or "")
+	end
+	if dsn then
+		local dbh = freeswitch.Dbh(dsn)
+		if dbh and dbh:connected() then
+			dbh:query(sql, function(row) settings[row.k] = row.v end)
+			dbh:release()
+		end
+	end
+end
+
+if next(settings) == nil then
+	log("err", "cannot read erpnext settings from database; skipping")
+	return
+end
 
 if settings["enabled"] ~= "true" or settings["screen_pop"] ~= "true" then
 	log("info", "screen-pop disabled for this domain; skipping")
