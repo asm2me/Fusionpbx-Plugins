@@ -1,0 +1,539 @@
+{
+  "info": {
+    "_postman_id": "b6f2a2b0-6e0a-4a1a-9c1a-voipat-pbxapi",
+    "name": "VOIP@ Cloud - FusionPBX API",
+    "description": "REST API for the VOIP@ Cloud / FusionPBX API bridge (mt.voipat.com/pbxapi) plus the WebRTC Phone CRM integration endpoints. See website/api-docs.html for full docs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{token}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "base_url", "value": "https://mt.voipat.com" },
+    { "key": "api_key", "value": "fpx_your_key_here" },
+    { "key": "domain", "value": "pbx.example.com" },
+    { "key": "token", "value": "" },
+    { "key": "extension", "value": "1001" },
+    { "key": "call_uuid", "value": "" },
+    { "key": "apikey_uuid", "value": "" },
+    { "key": "ctd_token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Get Token",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"api_key\": \"{{api_key}}\",\n  \"domain\": \"{{domain}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/pbxapi/auth/token",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "auth", "token" ]
+            },
+            "description": "Exchange your fpx_ API key for a short-lived Bearer JWT. Saves the token into the {{token}} collection variable so every other request in this collection can use it automatically."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const data = pm.response.json();",
+                  "    pm.collectionVariables.set('token', data.token);",
+                  "    pm.test('Token received', function () {",
+                  "        pm.expect(data.token).to.be.a('string');",
+                  "    });",
+                  "} else {",
+                  "    pm.test('Auth failed: ' + pm.response.code, function () {",
+                  "        pm.expect.fail(pm.response.text());",
+                  "    });",
+                  "}"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Status",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pbxapi/status",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "status" ]
+            }
+          }
+        },
+        {
+          "name": "Detailed Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pbxapi/status/detailed",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "status", "detailed" ]
+            },
+            "description": "ESL + DB + WebSocket status. Requires auth."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Domains",
+      "item": [
+        {
+          "name": "List Domains",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pbxapi/domains",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "domains" ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Extensions",
+      "item": [
+        {
+          "name": "List Extensions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pbxapi/extensions?domain={{domain}}",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "extensions" ],
+              "query": [ { "key": "domain", "value": "{{domain}}" } ]
+            }
+          }
+        },
+        {
+          "name": "Get Extension by Number",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pbxapi/extensions/{{extension}}?domain={{domain}}",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "extensions", "{{extension}}" ],
+              "query": [ { "key": "domain", "value": "{{domain}}" } ]
+            }
+          }
+        },
+        {
+          "name": "Get Registrations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pbxapi/extensions/registrations?domain={{domain}}",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "extensions", "registrations" ],
+              "query": [ { "key": "domain", "value": "{{domain}}" } ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Calls",
+      "item": [
+        {
+          "name": "Get Active Calls",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pbxapi/calls/active?domain={{domain}}",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "calls", "active" ],
+              "query": [ { "key": "domain", "value": "{{domain}}" } ]
+            }
+          }
+        },
+        {
+          "name": "Get Active Channels",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pbxapi/calls/channels?domain={{domain}}",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "calls", "channels" ],
+              "query": [ { "key": "domain", "value": "{{domain}}" } ]
+            }
+          }
+        },
+        {
+          "name": "Get Channel by UUID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pbxapi/calls/channels/{{call_uuid}}",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "calls", "channels", "{{call_uuid}}" ]
+            }
+          }
+        },
+        {
+          "name": "Originate Call",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from\": \"{{extension}}\",\n  \"to\": \"+14155551234\",\n  \"domain\": \"{{domain}}\",\n  \"callerId\": \"+12025550100\",\n  \"timeout\": 30\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/pbxapi/calls/originate",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "calls", "originate" ]
+            },
+            "description": "Saves the returned call uuid into {{call_uuid}} for use by hangup/transfer/hold/dtmf/mute requests below."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const data = pm.response.json();",
+                  "    if (data.uuid) {",
+                  "        pm.collectionVariables.set('call_uuid', data.uuid);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Hangup Call",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cause\": \"NORMAL_CLEARING\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/pbxapi/calls/{{call_uuid}}/hangup",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "calls", "{{call_uuid}}", "hangup" ]
+            }
+          }
+        },
+        {
+          "name": "Transfer Call",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"destination\": \"1002\",\n  \"domain\": \"{{domain}}\",\n  \"type\": \"blind\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/pbxapi/calls/{{call_uuid}}/transfer",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "calls", "{{call_uuid}}", "transfer" ]
+            },
+            "description": "type: \"blind\" (default) or \"attended\""
+          }
+        },
+        {
+          "name": "Hold Call",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pbxapi/calls/{{call_uuid}}/hold",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "calls", "{{call_uuid}}", "hold" ]
+            }
+          }
+        },
+        {
+          "name": "Unhold Call",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pbxapi/calls/{{call_uuid}}/unhold",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "calls", "{{call_uuid}}", "unhold" ]
+            }
+          }
+        },
+        {
+          "name": "Toggle Hold",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pbxapi/calls/{{call_uuid}}/hold/toggle",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "calls", "{{call_uuid}}", "hold", "toggle" ]
+            }
+          }
+        },
+        {
+          "name": "Send DTMF",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"digits\": \"1234#\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/pbxapi/calls/{{call_uuid}}/dtmf",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "calls", "{{call_uuid}}", "dtmf" ]
+            }
+          }
+        },
+        {
+          "name": "Mute Call",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pbxapi/calls/{{call_uuid}}/mute",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "calls", "{{call_uuid}}", "mute" ]
+            }
+          }
+        },
+        {
+          "name": "Unmute Call",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pbxapi/calls/{{call_uuid}}/unmute",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "calls", "{{call_uuid}}", "unmute" ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "CDR",
+      "item": [
+        {
+          "name": "Get CDR Records",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pbxapi/cdr?domain={{domain}}&start_date=2026-01-01&direction=outbound&limit=50&offset=0",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "cdr" ],
+              "query": [
+                { "key": "domain", "value": "{{domain}}" },
+                { "key": "start_date", "value": "2026-01-01" },
+                { "key": "end_date", "value": "", "disabled": true },
+                { "key": "direction", "value": "outbound" },
+                { "key": "extension", "value": "", "disabled": true },
+                { "key": "search", "value": "", "disabled": true },
+                { "key": "limit", "value": "50" },
+                { "key": "offset", "value": "0" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get CDR Stats Summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pbxapi/cdr/stats/summary?domain={{domain}}",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "cdr", "stats", "summary" ],
+              "query": [ { "key": "domain", "value": "{{domain}}" } ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "API Keys",
+      "item": [
+        {
+          "name": "Create API Key",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"john.doe\",\n  \"domain\": \"{{domain}}\",\n  \"description\": \"Postman test key\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/pbxapi/apikeys",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "apikeys" ]
+            },
+            "description": "Response includes plain_key — shown only once. Also try to capture the new key's uuid (if returned) into {{apikey_uuid}}."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const data = pm.response.json();",
+                  "    if (data.api_key_uuid) {",
+                  "        pm.collectionVariables.set('apikey_uuid', data.api_key_uuid);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List API Keys",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pbxapi/apikeys?domain={{domain}}",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "apikeys" ],
+              "query": [ { "key": "domain", "value": "{{domain}}" } ]
+            }
+          }
+        },
+        {
+          "name": "Enable/Disable API Key",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enabled\": false\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/pbxapi/apikeys/{{apikey_uuid}}",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "apikeys", "{{apikey_uuid}}" ]
+            }
+          }
+        },
+        {
+          "name": "Revoke API Key",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pbxapi/apikeys/{{apikey_uuid}}",
+              "host": [ "{{base_url}}" ],
+              "path": [ "pbxapi", "apikeys", "{{apikey_uuid}}" ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "WebRTC Phone / CRM Integration",
+      "item": [
+        {
+          "name": "CRM Webhook Proxy (simulate call event)",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/app/webrtc_phone/crm_webhook_proxy.php?event=answered&caller_id=15551234567&caller_name=John+Doe&destination={{extension}}&direction=inbound&extension={{extension}}&call_id=test-call-id&timestamp={{$isoTimestamp}}",
+              "host": [ "{{base_url}}" ],
+              "path": [ "app", "webrtc_phone", "crm_webhook_proxy.php" ],
+              "query": [
+                { "key": "event", "value": "answered" },
+                { "key": "caller_id", "value": "15551234567" },
+                { "key": "caller_name", "value": "John Doe" },
+                { "key": "destination", "value": "{{extension}}" },
+                { "key": "direction", "value": "inbound" },
+                { "key": "extension", "value": "{{extension}}" },
+                { "key": "call_id", "value": "test-call-id" },
+                { "key": "timestamp", "value": "{{$isoTimestamp}}" }
+              ]
+            },
+            "description": "Simulates what the phone widget sends on every call event. event values: new_call, ringing, dial_out, answered, hangup, agent_login, agent_logout."
+          }
+        },
+        {
+          "name": "Session API (extensions + CRM config)",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/app/webrtc_phone/webrtc_phone_api.php",
+              "host": [ "{{base_url}}" ],
+              "path": [ "app", "webrtc_phone", "webrtc_phone_api.php" ]
+            },
+            "description": "Requires a logged-in FusionPBX session cookie, not a Bearer token/API key. Log into FusionPBX in a browser sharing cookies with Postman, or copy the PHPSESSID cookie into this request for it to succeed."
+          }
+        },
+        {
+          "name": "Click-to-Dial API",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [
+              { "key": "X-CTD-Token", "value": "{{ctd_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/app/webrtc_phone/click_to_dial/click_to_dial_api.php",
+              "host": [ "{{base_url}}" ],
+              "path": [ "app", "webrtc_phone", "click_to_dial", "click_to_dial_api.php" ]
+            },
+            "description": "Token-authenticated, CORS-enabled. Token created in FusionPBX under the click-to-dial settings."
+          }
+        }
+      ]
+    }
+  ]
+}
