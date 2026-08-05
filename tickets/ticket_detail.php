@@ -28,15 +28,6 @@
 	}
 
 	//determine access scope
-	$is_superadmin = false;
-	if (!empty($_SESSION['groups']) && is_array($_SESSION['groups'])) {
-		foreach ($_SESSION['groups'] as $group) {
-			if (($group['group_name'] ?? '') === 'superadmin') {
-				$is_superadmin = true;
-				break;
-			}
-		}
-	}
 	$is_ticket_manager = permission_exists('ticket_manage');
 
 	//load ticket
@@ -47,11 +38,9 @@
 	$sql .= "WHERE t.ticket_uuid = :ticket_uuid ";
 	$parameters['ticket_uuid'] = $ticket_uuid;
 
-	//superadmin sees all domains, admin sees current domain, users see only their own tickets
-	if (!$is_superadmin) {
-		$sql .= "AND t.domain_uuid = :domain_uuid ";
-		$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
-	}
+	//tickets are always scoped to the current domain, even for superadmin; admin sees the whole domain, users see only their own tickets
+	$sql .= "AND t.domain_uuid = :domain_uuid ";
+	$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
 	if (!$is_ticket_manager) {
 		$sql .= "AND t.user_uuid = :user_uuid ";
 		$parameters['user_uuid'] = $_SESSION['user_uuid'];
@@ -170,13 +159,9 @@
 				}
 
 				$sql .= " WHERE ticket_uuid = :ticket_uuid";
-				if (!$is_superadmin) {
-					$sql .= " AND domain_uuid = :domain_uuid";
-				}
+				$sql .= " AND domain_uuid = :domain_uuid";
 				$parameters['ticket_uuid'] = $ticket_uuid;
-				if (!$is_superadmin) {
-					$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
-				}
+				$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
 				$database = new database;
 				$database->execute($sql, $parameters);
 				unset($sql, $parameters);
@@ -211,10 +196,8 @@
 	$sql .= "LEFT JOIN v_users a ON a.user_uuid = t.assigned_to ";
 	$sql .= "WHERE t.ticket_uuid = :ticket_uuid";
 	$parameters['ticket_uuid'] = $ticket_uuid;
-	if (!$is_superadmin) {
-		$sql .= " AND t.domain_uuid = :domain_uuid";
-		$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
-	}
+	$sql .= " AND t.domain_uuid = :domain_uuid";
+	$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
 	if (!$is_ticket_manager) {
 		$sql .= " AND t.user_uuid = :user_uuid";
 		$parameters['user_uuid'] = $_SESSION['user_uuid'];

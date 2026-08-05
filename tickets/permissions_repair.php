@@ -22,6 +22,7 @@ $ticket_permissions = [
 	'ticket_delete' => ['superadmin', 'admin'],
 	'ticket_reply' => ['superadmin', 'admin', 'user'],
 	'ticket_manage' => ['superadmin', 'admin'],
+	'ticket_api_manage' => ['superadmin', 'admin'],
 	'ticket_api' => ['superadmin', 'admin', 'user'],
 ];
 

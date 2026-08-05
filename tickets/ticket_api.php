@@ -17,15 +17,6 @@
 
 //includes
 	require_once dirname(__DIR__, 2) . "/resources/require.php";
-	require_once "resources/check_auth.php";
-
-//check permissions
-	if (!permission_exists('ticket_api') && !permission_exists('ticket_view')) {
-		header('Content-Type: application/json');
-		http_response_code(403);
-		echo json_encode(['error' => 'access_denied']);
-		exit;
-	}
 
 	header('Content-Type: application/json');
 
@@ -41,9 +32,71 @@
 		return 'TKT-' . str_pad($next, 5, '0', STR_PAD_LEFT);
 	}
 
+//verify a domain-locked ticket API key/secret pair
+	function api_verify_ticket_key($api_key, $api_secret) {
+		$database = new database;
+		$sql = "SELECT * FROM v_ticket_api_keys WHERE api_key = :api_key AND enabled = true";
+		$parameters['api_key'] = $api_key;
+		$row = $database->select($sql, $parameters, 'row');
+		if (!$row || !hash_equals($row['api_secret'], hash('sha256', $api_secret))) {
+			return false;
+		}
+		$sql = "UPDATE v_ticket_api_keys SET last_used_date = now() WHERE ticket_api_key_uuid = :key_uuid";
+		$database->execute($sql, ['key_uuid' => $row['ticket_api_key_uuid']]);
+		return $row;
+	}
+
+//------- authenticate: either a domain-locked API key, or a normal browser/webphone session -------
+	$api_key = '';
+	$api_secret = '';
+	$auth_header = $_SERVER['HTTP_AUTHORIZATION'] ?? $_SERVER['HTTP_X_API_KEY'] ?? '';
+	if (!empty($auth_header)) {
+		if (stripos($auth_header, 'Bearer ') === 0) {
+			$parts = explode(':', substr($auth_header, 7), 2);
+			$api_key = $parts[0] ?? '';
+			$api_secret = $parts[1] ?? '';
+		} else {
+			$api_key = trim($auth_header);
+			$api_secret = $_SERVER['HTTP_X_API_SECRET'] ?? '';
+		}
+	}
+	if (empty($api_key)) {
+		$api_key = $_GET['api_key'] ?? $_POST['api_key'] ?? '';
+		$api_secret = $_GET['api_secret'] ?? $_POST['api_secret'] ?? '';
+	}
+
+	$is_api_key_auth = false;
+
+	if (!empty($api_key) || !empty($api_secret)) {
+		//API-key auth: locked to the single domain the key was issued for; create + view only
+		$key_row = api_verify_ticket_key($api_key, $api_secret);
+		if (!$key_row) {
+			http_response_code(401);
+			echo json_encode(['error' => 'invalid_api_key']);
+			exit;
+		}
+		if (!in_array($action, ['create', 'list', 'detail', 'updates'])) {
+			http_response_code(403);
+			echo json_encode(['error' => 'action_not_permitted_for_api_key']);
+			exit;
+		}
+		$domain_uuid = $key_row['domain_uuid'];
+		$acting_user_uuid = $key_row['user_uuid'];
+		$is_api_key_auth = true;
+	} else {
+		require_once "resources/check_auth.php";
+		if (!permission_exists('ticket_api') && !permission_exists('ticket_view')) {
+			http_response_code(403);
+			echo json_encode(['error' => 'access_denied']);
+			exit;
+		}
+		$domain_uuid = $_SESSION['domain_uuid'];
+		$acting_user_uuid = $_SESSION['user_uuid'];
+	}
+
 // ====== CREATE TICKET ======
 	if ($action === 'create' && $method === 'POST') {
-		if (!permission_exists('ticket_add')) {
+		if (!$is_api_key_auth && !permission_exists('ticket_add')) {
 			http_response_code(403);
 			echo json_encode(['error' => 'permission_denied']);
 			exit;
@@ -68,11 +121,11 @@
 		if (!in_array($source, ['panel', 'webphone', 'dialer'])) $source = 'panel';
 
 		$ticket_uuid = uuid();
-		$ticket_number = api_generate_ticket_number($_SESSION['domain_uuid']);
+		$ticket_number = api_generate_ticket_number($domain_uuid);
 
 		$array['tickets'][0]['ticket_uuid'] = $ticket_uuid;
-		$array['tickets'][0]['domain_uuid'] = $_SESSION['domain_uuid'];
-		$array['tickets'][0]['user_uuid'] = $_SESSION['user_uuid'];
+		$array['tickets'][0]['domain_uuid'] = $domain_uuid;
+		$array['tickets'][0]['user_uuid'] = $acting_user_uuid;
 		$array['tickets'][0]['ticket_number'] = $ticket_number;
 		$array['tickets'][0]['subject'] = $subject;
 		$array['tickets'][0]['description'] = $description;
@@ -120,9 +173,9 @@
 			$sql .= "VALUES (:att_uuid, :ticket_uuid, :domain_uuid, 'activity_log.json', 'application/json', :content, 'activity_log', now(), :user_uuid)";
 			$parameters['att_uuid'] = $att_uuid;
 			$parameters['ticket_uuid'] = $ticket_uuid;
-			$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+			$parameters['domain_uuid'] = $domain_uuid;
 			$parameters['content'] = $log_data;
-			$parameters['user_uuid'] = $_SESSION['user_uuid'];
+			$parameters['user_uuid'] = $acting_user_uuid;
 			$database->execute($sql, $parameters);
 			unset($sql, $parameters);
 		}
@@ -136,9 +189,9 @@
 			$sql .= "VALUES (:att_uuid, :ticket_uuid, :domain_uuid, 'call_details.json', 'application/json', :content, 'call_detail', now(), :user_uuid)";
 			$parameters['att_uuid'] = $att_uuid;
 			$parameters['ticket_uuid'] = $ticket_uuid;
-			$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+			$parameters['domain_uuid'] = $domain_uuid;
 			$parameters['content'] = $detail_data;
-			$parameters['user_uuid'] = $_SESSION['user_uuid'];
+			$parameters['user_uuid'] = $acting_user_uuid;
 			$database->execute($sql, $parameters);
 			unset($sql, $parameters);
 		}
@@ -150,8 +203,8 @@
 		$sql .= "VALUES (:log_uuid, :ticket_uuid, :domain_uuid, NULL, 'open', :user_uuid, now())";
 		$parameters['log_uuid'] = $log_uuid;
 		$parameters['ticket_uuid'] = $ticket_uuid;
-		$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
-		$parameters['user_uuid'] = $_SESSION['user_uuid'];
+		$parameters['domain_uuid'] = $domain_uuid;
+		$parameters['user_uuid'] = $acting_user_uuid;
 		$database->execute($sql, $parameters);
 		unset($sql, $parameters);
 
@@ -174,11 +227,12 @@
 		$sql  = "SELECT ticket_uuid, ticket_number, subject, status, priority, source, ";
 		$sql .= "call_number, call_direction, extension, insert_date, update_date ";
 		$sql .= "FROM v_tickets WHERE domain_uuid = :domain_uuid ";
-		$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+		$parameters['domain_uuid'] = $domain_uuid;
 
-		if (!permission_exists('ticket_manage')) {
+		//an API key always has domain-wide (admin-equivalent) view; a session user needs ticket_manage to see beyond their own tickets
+		if (!$is_api_key_auth && !permission_exists('ticket_manage')) {
 			$sql .= "AND user_uuid = :user_uuid ";
-			$parameters['user_uuid'] = $_SESSION['user_uuid'];
+			$parameters['user_uuid'] = $acting_user_uuid;
 		}
 
 		if (!empty($status_filter) && in_array($status_filter, ['open', 'in_progress', 'answered', 'resolved', 'closed'])) {
@@ -209,11 +263,11 @@
 
 		$sql  = "SELECT * FROM v_tickets WHERE ticket_uuid = :ticket_uuid AND domain_uuid = :domain_uuid";
 		$parameters['ticket_uuid'] = $ticket_uuid;
-		$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+		$parameters['domain_uuid'] = $domain_uuid;
 
-		if (!permission_exists('ticket_manage')) {
+		if (!$is_api_key_auth && !permission_exists('ticket_manage')) {
 			$sql .= " AND user_uuid = :user_uuid";
-			$parameters['user_uuid'] = $_SESSION['user_uuid'];
+			$parameters['user_uuid'] = $acting_user_uuid;
 		}
 
 		$database = new database;
@@ -229,7 +283,7 @@
 		//load replies
 		$sql = "SELECT r.*, u.username FROM v_ticket_replies r LEFT JOIN v_users u ON u.user_uuid = r.user_uuid WHERE r.ticket_uuid = :ticket_uuid AND r.domain_uuid = :domain_uuid ORDER BY r.insert_date ASC";
 		$parameters['ticket_uuid'] = $ticket_uuid;
-		$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+		$parameters['domain_uuid'] = $domain_uuid;
 		$replies = $database->select($sql, $parameters, 'all') ?: [];
 		unset($sql, $parameters);
 
@@ -251,12 +305,17 @@
 		$sql .= "FROM v_tickets t ";
 		$sql .= "JOIN v_ticket_status_log l ON l.ticket_uuid = t.ticket_uuid ";
 		$sql .= "WHERE t.domain_uuid = :domain_uuid ";
-		$sql .= "AND t.user_uuid = :user_uuid ";
+		$parameters['domain_uuid'] = $domain_uuid;
+
+		//an API key gets domain-wide updates; a session user only ever sees their own, as before
+		if (!$is_api_key_auth) {
+			$sql .= "AND t.user_uuid = :user_uuid ";
+			$parameters['user_uuid'] = $acting_user_uuid;
+		}
+
 		$sql .= "AND l.insert_date > :since ";
 		$sql .= "AND l.new_status IN ('answered', 'resolved', 'closed') ";
 		$sql .= "ORDER BY l.insert_date DESC LIMIT 20";
-		$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
-		$parameters['user_uuid'] = $_SESSION['user_uuid'];
 		$parameters['since'] = $since;
 
 		$database = new database;
@@ -290,10 +349,10 @@
 		//verify ticket exists and user can access it
 		$sql = "SELECT status, user_uuid FROM v_tickets WHERE ticket_uuid = :ticket_uuid AND domain_uuid = :domain_uuid";
 		$parameters['ticket_uuid'] = $ticket_uuid;
-		$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+		$parameters['domain_uuid'] = $domain_uuid;
 		if (!permission_exists('ticket_manage')) {
 			$sql .= " AND user_uuid = :user_uuid";
-			$parameters['user_uuid'] = $_SESSION['user_uuid'];
+			$parameters['user_uuid'] = $acting_user_uuid;
 		}
 
 		$database = new database;
@@ -320,8 +379,8 @@
 		$sql .= "VALUES (:reply_uuid, :ticket_uuid, :domain_uuid, :user_uuid, :reply_text, :is_admin, now(), :user_uuid)";
 		$parameters['reply_uuid'] = $reply_uuid;
 		$parameters['ticket_uuid'] = $ticket_uuid;
-		$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
-		$parameters['user_uuid'] = $_SESSION['user_uuid'];
+		$parameters['domain_uuid'] = $domain_uuid;
+		$parameters['user_uuid'] = $acting_user_uuid;
 		$parameters['reply_text'] = $reply_text;
 		$parameters['is_admin'] = $is_admin;
 		$database->execute($sql, $parameters);

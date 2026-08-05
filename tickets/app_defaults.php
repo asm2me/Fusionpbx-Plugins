@@ -69,6 +69,7 @@ if ($domains_processed == 1) {
 		'ticket_delete' => ['superadmin', 'admin'],
 		'ticket_reply' => ['superadmin', 'admin', 'user'],
 		'ticket_manage' => ['superadmin', 'admin'],
+		'ticket_api_manage' => ['superadmin', 'admin'],
 		'ticket_api' => ['superadmin', 'admin', 'user'],
 	];
 
@@ -241,6 +242,26 @@ if ($domains_processed == 1) {
 	$sql .= "note text, ";
 	$sql .= "insert_date timestamptz DEFAULT now() ";
 	$sql .= ") ";
+	$database->execute($sql);
+	unset($sql);
+
+	//create ticket API keys table (domain-locked credentials for external integrations)
+	$sql  = "CREATE TABLE IF NOT EXISTS v_ticket_api_keys ( ";
+	$sql .= "ticket_api_key_uuid uuid PRIMARY KEY, ";
+	$sql .= "domain_uuid uuid NOT NULL, ";
+	$sql .= "user_uuid uuid NOT NULL, ";
+	$sql .= "api_key varchar(64) NOT NULL, ";
+	$sql .= "api_secret varchar(128) NOT NULL, ";
+	$sql .= "label varchar(128), ";
+	$sql .= "enabled boolean NOT NULL DEFAULT true, ";
+	$sql .= "insert_date timestamptz DEFAULT now(), ";
+	$sql .= "insert_user uuid, ";
+	$sql .= "last_used_date timestamptz ";
+	$sql .= ") ";
+	$database->execute($sql);
+	unset($sql);
+
+	$sql = "CREATE UNIQUE INDEX IF NOT EXISTS idx_ticket_api_keys_key ON v_ticket_api_keys (api_key)";
 	$database->execute($sql);
 	unset($sql);
 }

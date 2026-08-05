@@ -83,6 +83,23 @@
 	$text['label-filter_all']['en-us'] = "All";
 	$text['label-search']['en-us'] = "Search";
 
+	// API keys page
+	$text['title-ticket_api_keys']['en-us'] = "Ticket API Key";
+	$text['button-api_keys']['en-us'] = "API Key";
+	$text['label-ticket_api_keys_description']['en-us'] = "Generate a key for external systems to create tickets and check ticket status in this domain only. The key cannot access any other domain.";
+	$text['label-api_key']['en-us'] = "API Key";
+	$text['label-api_secret']['en-us'] = "API Secret";
+	$text['label-key_label']['en-us'] = "Label";
+	$text['label-enabled']['en-us'] = "Active";
+	$text['label-revoked']['en-us'] = "Revoked";
+	$text['label-last_used']['en-us'] = "Last Used";
+	$text['label-no_api_keys']['en-us'] = "No API keys yet.";
+	$text['button-generate_api_key']['en-us'] = "Generate API Key";
+	$text['button-revoke']['en-us'] = "Revoke";
+	$text['message-api_key_generated']['en-us'] = "Copy the secret now — it will not be shown again.";
+	$text['message-confirm_generate']['en-us'] = "Generate a new API key? Any existing key for this domain will be revoked.";
+	$text['message-confirm_revoke']['en-us'] = "Revoke this API key? Any integration using it will stop working.";
+
 	// Webphone JS strings
 	$text['js-reportIssue']['en-us'] = "Report Issue";
 	$text['js-reportCallIssue']['en-us'] = "Report Call Issue";
@@ -158,6 +175,21 @@
 	$text['label-filter_status']['ar'] = "تصفية حسب الحالة";
 	$text['label-filter_all']['ar'] = "الكل";
 	$text['label-search']['ar'] = "بحث";
+	$text['title-ticket_api_keys']['ar'] = "مفتاح API للتذاكر";
+	$text['button-api_keys']['ar'] = "مفتاح API";
+	$text['label-ticket_api_keys_description']['ar'] = "أنشئ مفتاحاً للأنظمة الخارجية لإنشاء تذاكر ومعرفة حالتها في هذا النطاق فقط. لا يمكن للمفتاح الوصول لأي نطاق آخر.";
+	$text['label-api_key']['ar'] = "مفتاح API";
+	$text['label-api_secret']['ar'] = "السر السري";
+	$text['label-key_label']['ar'] = "الوصف";
+	$text['label-enabled']['ar'] = "نشط";
+	$text['label-revoked']['ar'] = "ملغى";
+	$text['label-last_used']['ar'] = "آخر استخدام";
+	$text['label-no_api_keys']['ar'] = "لا توجد مفاتيح API.";
+	$text['button-generate_api_key']['ar'] = "إنشاء مفتاح API";
+	$text['button-revoke']['ar'] = "إلغاء";
+	$text['message-api_key_generated']['ar'] = "انسخ السر الآن، لن يظهر مرة أخرى.";
+	$text['message-confirm_generate']['ar'] = "إنشاء مفتاح API جديد؟ سيتم إلغاء أي مفتاح حالي لهذا النطاق.";
+	$text['message-confirm_revoke']['ar'] = "إلغاء مفتاح API هذا؟ سيتوقف أي تكامل يستخدمه.";
 	$text['js-reportIssue']['ar'] = "الإبلاغ عن مشكلة";
 	$text['js-reportCallIssue']['ar'] = "الإبلاغ عن مشكلة في المكالمة";
 	$text['js-issueSubject']['ar'] = "عنوان المشكلة";

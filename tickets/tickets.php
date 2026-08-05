@@ -74,15 +74,6 @@
 	$order_dir = (isset($_GET['order_dir']) && strtolower($_GET['order_dir']) === 'asc') ? 'asc' : 'desc';
 
 	//determine access scope
-	$is_superadmin = false;
-	if (!empty($_SESSION['groups']) && is_array($_SESSION['groups'])) {
-		foreach ($_SESSION['groups'] as $group) {
-			if (($group['group_name'] ?? '') === 'superadmin') {
-				$is_superadmin = true;
-				break;
-			}
-		}
-	}
 	$is_ticket_manager = permission_exists('ticket_manage');
 
 	//build query
@@ -92,11 +83,9 @@
 	$sql .= "LEFT JOIN v_users a ON a.user_uuid = t.assigned_to ";
 	$sql .= "WHERE 1 = 1 ";
 
-	//superadmin sees all domains, admin sees current domain, users see only their own tickets
-	if (!$is_superadmin) {
-		$sql .= "AND t.domain_uuid = :domain_uuid ";
-		$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
-	}
+	//tickets are always scoped to the current domain, even for superadmin; admin sees the whole domain, users see only their own tickets
+	$sql .= "AND t.domain_uuid = :domain_uuid ";
+	$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
 	if (!$is_ticket_manager) {
 		$sql .= "AND t.user_uuid = :user_uuid ";
 		$parameters['user_uuid'] = $_SESSION['user_uuid'];
@@ -125,10 +114,8 @@
 //count open tickets
 	$sql = "SELECT count(*) FROM v_tickets WHERE status IN ('open','in_progress')";
 	$parameters = [];
-	if (!$is_superadmin) {
-		$sql .= " AND domain_uuid = :domain_uuid";
-		$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
-	}
+	$sql .= " AND domain_uuid = :domain_uuid";
+	$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
 	if (!$is_ticket_manager) {
 		$sql .= " AND user_uuid = :user_uuid";
 		$parameters['user_uuid'] = $_SESSION['user_uuid'];
@@ -182,6 +169,9 @@
 		<?php } ?>
 	</div>
 	<div class="actions">
+		<?php if (permission_exists('ticket_api_manage')) { ?>
+			<a href="ticket_api_keys.php" class="btn btn-default btn-sm"><i class="fa-solid fa-key"></i> <?php echo $text['button-api_keys']; ?></a>
+		<?php } ?>
 		<?php if (permission_exists('ticket_add')) { ?>
 			<a href="ticket_new.php" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> <?php echo $text['button-new_ticket']; ?></a>
 		<?php } ?>
