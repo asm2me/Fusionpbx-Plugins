@@ -273,16 +273,31 @@
 
 // ====== TICKET DETAIL ======
 	if ($action === 'detail' && $method === 'GET') {
+		//accept either the internal id (uuid) or the human-readable ticket_number (e.g. TKT-00042)
 		$ticket_uuid = $_GET['id'] ?? '';
-		if (!is_uuid($ticket_uuid)) {
+		$ticket_number_lookup = trim($_GET['ticket_number'] ?? '');
+
+		if (!empty($ticket_uuid) && !is_uuid($ticket_uuid)) {
+			http_response_code(400);
+			echo json_encode(['error' => 'invalid_id']);
+			exit;
+		}
+		if (empty($ticket_uuid) && empty($ticket_number_lookup)) {
 			http_response_code(400);
 			echo json_encode(['error' => 'invalid_id']);
 			exit;
 		}
 
-		$sql  = "SELECT * FROM v_tickets WHERE ticket_uuid = :ticket_uuid AND domain_uuid = :domain_uuid";
-		$parameters['ticket_uuid'] = $ticket_uuid;
+		$sql  = "SELECT * FROM v_tickets WHERE domain_uuid = :domain_uuid";
 		$parameters['domain_uuid'] = $domain_uuid;
+
+		if (!empty($ticket_uuid)) {
+			$sql .= " AND ticket_uuid = :ticket_uuid";
+			$parameters['ticket_uuid'] = $ticket_uuid;
+		} else {
+			$sql .= " AND ticket_number = :ticket_number";
+			$parameters['ticket_number'] = $ticket_number_lookup;
+		}
 
 		if (!$is_ticket_manager) {
 			$sql .= " AND user_uuid = :user_uuid";
@@ -300,6 +315,7 @@
 		}
 
 		//load replies
+		$ticket_uuid = $ticket['ticket_uuid'];
 		$sql = "SELECT r.*, u.username FROM v_ticket_replies r LEFT JOIN v_users u ON u.user_uuid = r.user_uuid WHERE r.ticket_uuid = :ticket_uuid AND r.domain_uuid = :domain_uuid ORDER BY r.insert_date ASC";
 		$parameters['ticket_uuid'] = $ticket_uuid;
 		$parameters['domain_uuid'] = $domain_uuid;
