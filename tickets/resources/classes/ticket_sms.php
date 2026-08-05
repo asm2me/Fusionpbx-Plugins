@@ -280,6 +280,9 @@ if (!class_exists('ticket_sms')) {
 				if (!empty($support_number)) {
 					$success = $this->send($support_number, $messages[$event]['support']);
 					$this->log_attempt($ticket_uuid, $event, 'support', $support_number, $messages[$event]['support'], $success, $this->last_error);
+				} else {
+					//enabled but nothing to send to - log it as a failure so it isn't invisible
+					$this->log_attempt($ticket_uuid, $event, 'support', '', $messages[$event]['support'], false, 'notify_support_enabled is on but notify_support_number is empty');
 				}
 			}
 
@@ -289,6 +292,8 @@ if (!class_exists('ticket_sms')) {
 				if (!empty($customer_number)) {
 					$success = $this->send($customer_number, $messages[$event]['customer']);
 					$this->log_attempt($ticket_uuid, $event, 'customer', $customer_number, $messages[$event]['customer'], $success, $this->last_error);
+				} else {
+					$this->log_attempt($ticket_uuid, $event, 'customer', '', $messages[$event]['customer'], false, 'notify_customer_enabled is on but the ticket has no contact_phone or call_number');
 				}
 			}
 		}

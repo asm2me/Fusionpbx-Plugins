@@ -289,7 +289,10 @@
 							<?php if ($log['success'] === 't' || $log['success'] === true) { ?>
 								<span class="ticket-badge badge-open">Sent</span>
 							<?php } else { ?>
-								<span class="ticket-badge badge-closed" title="<?php echo htmlspecialchars($log['error_message'] ?? ''); ?>">Failed</span>
+								<span class="ticket-badge badge-closed">Failed</span>
+								<?php if (!empty($log['error_message'])) { ?>
+									<br><small class="text-danger"><?php echo htmlspecialchars($log['error_message']); ?></small>
+								<?php } ?>
 							<?php } ?>
 						</td>
 					</tr>
