@@ -28,7 +28,8 @@
 			exit;
 		}
 		//validate token
-		if (!isset($_POST['token']) || $_POST['token'] !== $_SESSION['token']) {
+		$token_check = new token;
+		if (!$token_check->validate($_SERVER['PHP_SELF'])) {
 			$_SESSION['message'] = "Invalid token.";
 			header("Location: tickets.php");
 			exit;
@@ -153,6 +154,10 @@
 		}
 	}
 
+//create token
+	$object = new token;
+	$token = $object->create($_SERVER['PHP_SELF']);
+
 //include header
 	$document['title'] = $text['title-tickets'];
 	require_once "resources/header.php";
@@ -256,7 +261,7 @@
 								<form method="post" style="display:inline;" onsubmit="return confirm('Delete this ticket?');">
 									<input type="hidden" name="action" value="delete">
 									<input type="hidden" name="ticket_uuid" value="<?php echo $ticket['ticket_uuid']; ?>">
-									<input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+									<input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['hash']; ?>">
 									<button type="submit" class="btn btn-danger btn-xs" title="Delete"><i class="fa-solid fa-trash"></i></button>
 								</form>
 							<?php } ?>

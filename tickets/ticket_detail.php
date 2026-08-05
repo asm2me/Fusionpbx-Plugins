@@ -59,7 +59,8 @@
 //handle reply
 	if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 		//validate token
-		if (!isset($_POST['token']) || $_POST['token'] !== $_SESSION['token']) {
+		$token_check = new token;
+		if (!$token_check->validate($_SERVER['PHP_SELF'])) {
 			$_SESSION['message'] = "Invalid token.";
 			header("Location: ticket_detail.php?id=" . urlencode($ticket_uuid));
 			exit;
@@ -251,6 +252,10 @@
 		}
 	}
 
+//create token
+	$object = new token;
+	$token = $object->create($_SERVER['PHP_SELF']);
+
 //include header
 	$document['title'] = $text['title-ticket_detail'] . ' - ' . $ticket['ticket_number'];
 	require_once "resources/header.php";
@@ -436,7 +441,7 @@
 		<?php if (permission_exists('ticket_reply') && !in_array($ticket['status'], ['closed'])) { ?>
 			<div class="reply-form">
 				<form method="post">
-					<input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+					<input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['hash']; ?>">
 					<input type="hidden" name="action" value="reply">
 					<div class="form-group">
 						<label for="reply_text"><?php echo $text['label-add_reply']; ?></label>
@@ -453,7 +458,7 @@
 		<div class="ticket-admin-controls">
 			<h4><i class="fa-solid fa-cog"></i> Admin Controls</h4>
 			<form method="post">
-				<input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+				<input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['hash']; ?>">
 				<input type="hidden" name="action" value="update_status">
 
 				<div class="admin-control-grid">

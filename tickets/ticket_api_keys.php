@@ -131,7 +131,7 @@
 	<?php } ?>
 
 	<form method="post" style="margin-bottom: 20px;">
-		<input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token_hash['hash']; ?>">
+		<input type="hidden" name="<?php echo $token_hash['name']; ?>" value="<?php echo $token_hash['hash']; ?>">
 		<input type="hidden" name="action" value="generate">
 		<div class="form-group" style="display:flex; gap:10px; align-items:flex-end;">
 			<div>
@@ -172,7 +172,7 @@
 					<td>
 						<?php if ($key['enabled'] === 't' || $key['enabled'] === true) { ?>
 							<form method="post" style="display:inline;" onsubmit="return confirm('<?php echo $text['message-confirm_revoke']; ?>');">
-								<input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token_hash['hash']; ?>">
+								<input type="hidden" name="<?php echo $token_hash['name']; ?>" value="<?php echo $token_hash['hash']; ?>">
 								<input type="hidden" name="action" value="revoke">
 								<input type="hidden" name="ticket_api_key_uuid" value="<?php echo $key['ticket_api_key_uuid']; ?>">
 								<button type="submit" class="btn btn-danger btn-xs"><?php echo $text['button-revoke']; ?></button>
