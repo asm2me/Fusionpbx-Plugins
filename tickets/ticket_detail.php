@@ -9,6 +9,7 @@
 //includes
 	require_once dirname(__DIR__, 2) . "/resources/require.php";
 	require_once "resources/check_auth.php";
+	require_once __DIR__ . "/resources/classes/ticket_sms.php";
 
 //check permissions
 	if (!permission_exists('ticket_view')) {
@@ -89,8 +90,10 @@
 				unset($sql, $parameters);
 
 				//if admin replies, set status to 'answered' (if currently open/in_progress)
+				$reply_new_status = null;
 				if ($is_ticket_manager && in_array($ticket['status'], ['open', 'in_progress'])) {
 					$old_status = $ticket['status'];
+					$reply_new_status = 'answered';
 					$sql = "UPDATE v_tickets SET status = 'answered', update_date = now(), update_user = :user_uuid WHERE ticket_uuid = :ticket_uuid";
 					$parameters['user_uuid'] = $_SESSION['user_uuid'];
 					$parameters['ticket_uuid'] = $ticket_uuid;
@@ -115,6 +118,7 @@
 				//if user replies to answered/resolved ticket, reopen it
 				if (!$is_ticket_manager && in_array($ticket['status'], ['answered', 'resolved'])) {
 					$old_status = $ticket['status'];
+					$reply_new_status = 'open';
 					$sql = "UPDATE v_tickets SET status = 'open', update_date = now(), update_user = :user_uuid WHERE ticket_uuid = :ticket_uuid";
 					$parameters['user_uuid'] = $_SESSION['user_uuid'];
 					$parameters['ticket_uuid'] = $ticket_uuid;
@@ -133,6 +137,15 @@
 					$database->execute($sql, $parameters);
 					unset($sql, $parameters);
 				}
+
+				//best-effort SMS notification; never blocks the reply
+				$sms = new ticket_sms($ticket['domain_uuid']);
+				$sms->notify([
+					'ticket_number' => $ticket['ticket_number'],
+					'subject' => $ticket['subject'],
+					'status' => $reply_new_status ?? $ticket['status'],
+					'call_number' => $ticket['call_number'] ?? '',
+				], $reply_new_status ? 'status_changed' : 'updated');
 
 				$_SESSION['message'] = $text['message-reply_added'];
 			}
@@ -181,6 +194,15 @@
 				$parameters['note'] = $resolved_note;
 				$database->execute($sql, $parameters);
 				unset($sql, $parameters);
+
+				//best-effort SMS notification; never blocks the status update
+				$sms = new ticket_sms($ticket['domain_uuid']);
+				$sms->notify([
+					'ticket_number' => $ticket['ticket_number'],
+					'subject' => $ticket['subject'],
+					'status' => $new_status,
+					'call_number' => $ticket['call_number'] ?? '',
+				], 'status_changed');
 
 				$_SESSION['message'] = $text['message-ticket_updated'];
 			}

@@ -46,6 +46,124 @@ if ($domains_processed == 1) {
 	$array['default_settings'][$y]['default_setting_value'] = "true";
 	$array['default_settings'][$y]['default_setting_enabled'] = "true";
 	$array['default_settings'][$y]['default_setting_description'] = "Automatically attach web phone activity log when ticket created from call history.";
+	$y++;
+
+	//SMS gateway notification settings (strictly per-domain, configured under Domain > Settings)
+	$array['default_settings'][$y]['default_setting_uuid'] = "a1b2c3d4-0002-0001-0001-ef1234567890";
+	$array['default_settings'][$y]['default_setting_category'] = "tickets_sms";
+	$array['default_settings'][$y]['default_setting_subcategory'] = "enabled";
+	$array['default_settings'][$y]['default_setting_name'] = "boolean";
+	$array['default_settings'][$y]['default_setting_value'] = "false";
+	$array['default_settings'][$y]['default_setting_enabled'] = "true";
+	$array['default_settings'][$y]['default_setting_description'] = "Enable SMS notifications for tickets via a GSM gateway.";
+	$y++;
+
+	$array['default_settings'][$y]['default_setting_uuid'] = "a1b2c3d4-0002-0002-0001-ef1234567890";
+	$array['default_settings'][$y]['default_setting_category'] = "tickets_sms";
+	$array['default_settings'][$y]['default_setting_subcategory'] = "gateway_type";
+	$array['default_settings'][$y]['default_setting_name'] = "text";
+	$array['default_settings'][$y]['default_setting_value'] = "";
+	$array['default_settings'][$y]['default_setting_enabled'] = "true";
+	$array['default_settings'][$y]['default_setting_description'] = "SMS gateway brand: dinstar or goip.";
+	$y++;
+
+	$array['default_settings'][$y]['default_setting_uuid'] = "a1b2c3d4-0002-0003-0001-ef1234567890";
+	$array['default_settings'][$y]['default_setting_category'] = "tickets_sms";
+	$array['default_settings'][$y]['default_setting_subcategory'] = "gateway_host";
+	$array['default_settings'][$y]['default_setting_name'] = "text";
+	$array['default_settings'][$y]['default_setting_value'] = "";
+	$array['default_settings'][$y]['default_setting_enabled'] = "true";
+	$array['default_settings'][$y]['default_setting_description'] = "IP address or hostname of the SMS gateway.";
+	$y++;
+
+	$array['default_settings'][$y]['default_setting_uuid'] = "a1b2c3d4-0002-0004-0001-ef1234567890";
+	$array['default_settings'][$y]['default_setting_category'] = "tickets_sms";
+	$array['default_settings'][$y]['default_setting_subcategory'] = "gateway_port";
+	$array['default_settings'][$y]['default_setting_name'] = "text";
+	$array['default_settings'][$y]['default_setting_value'] = "";
+	$array['default_settings'][$y]['default_setting_enabled'] = "true";
+	$array['default_settings'][$y]['default_setting_description'] = "Gateway HTTP port. Leave blank for the brand default (443 for Dinstar, 80 for GoIP).";
+	$y++;
+
+	$array['default_settings'][$y]['default_setting_uuid'] = "a1b2c3d4-0002-0005-0001-ef1234567890";
+	$array['default_settings'][$y]['default_setting_category'] = "tickets_sms";
+	$array['default_settings'][$y]['default_setting_subcategory'] = "gateway_username";
+	$array['default_settings'][$y]['default_setting_name'] = "text";
+	$array['default_settings'][$y]['default_setting_value'] = "";
+	$array['default_settings'][$y]['default_setting_enabled'] = "true";
+	$array['default_settings'][$y]['default_setting_description'] = "Gateway login username.";
+	$y++;
+
+	$array['default_settings'][$y]['default_setting_uuid'] = "a1b2c3d4-0002-0006-0001-ef1234567890";
+	$array['default_settings'][$y]['default_setting_category'] = "tickets_sms";
+	$array['default_settings'][$y]['default_setting_subcategory'] = "gateway_password";
+	$array['default_settings'][$y]['default_setting_name'] = "text";
+	$array['default_settings'][$y]['default_setting_value'] = "";
+	$array['default_settings'][$y]['default_setting_enabled'] = "true";
+	$array['default_settings'][$y]['default_setting_description'] = "Gateway login password.";
+	$y++;
+
+	$array['default_settings'][$y]['default_setting_uuid'] = "a1b2c3d4-0002-0007-0001-ef1234567890";
+	$array['default_settings'][$y]['default_setting_category'] = "tickets_sms";
+	$array['default_settings'][$y]['default_setting_subcategory'] = "gateway_channel";
+	$array['default_settings'][$y]['default_setting_name'] = "text";
+	$array['default_settings'][$y]['default_setting_value'] = "0";
+	$array['default_settings'][$y]['default_setting_enabled'] = "true";
+	$array['default_settings'][$y]['default_setting_description'] = "GSM port/channel number on the gateway to send from (0-31 for Dinstar, gateway-specific for GoIP).";
+	$y++;
+
+	$array['default_settings'][$y]['default_setting_uuid'] = "a1b2c3d4-0002-0008-0001-ef1234567890";
+	$array['default_settings'][$y]['default_setting_category'] = "tickets_sms";
+	$array['default_settings'][$y]['default_setting_subcategory'] = "verify_ssl";
+	$array['default_settings'][$y]['default_setting_name'] = "boolean";
+	$array['default_settings'][$y]['default_setting_value'] = "false";
+	$array['default_settings'][$y]['default_setting_enabled'] = "true";
+	$array['default_settings'][$y]['default_setting_description'] = "Verify the gateway's TLS certificate (Dinstar only). Most units use a self-signed certificate, so this is off by default.";
+	$y++;
+
+	$array['default_settings'][$y]['default_setting_uuid'] = "a1b2c3d4-0002-0009-0001-ef1234567890";
+	$array['default_settings'][$y]['default_setting_category'] = "tickets_sms";
+	$array['default_settings'][$y]['default_setting_subcategory'] = "notify_support_enabled";
+	$array['default_settings'][$y]['default_setting_name'] = "boolean";
+	$array['default_settings'][$y]['default_setting_value'] = "false";
+	$array['default_settings'][$y]['default_setting_enabled'] = "true";
+	$array['default_settings'][$y]['default_setting_description'] = "Text a fixed support number on ticket events.";
+	$y++;
+
+	$array['default_settings'][$y]['default_setting_uuid'] = "a1b2c3d4-0002-0010-0001-ef1234567890";
+	$array['default_settings'][$y]['default_setting_category'] = "tickets_sms";
+	$array['default_settings'][$y]['default_setting_subcategory'] = "notify_support_number";
+	$array['default_settings'][$y]['default_setting_name'] = "text";
+	$array['default_settings'][$y]['default_setting_value'] = "";
+	$array['default_settings'][$y]['default_setting_enabled'] = "true";
+	$array['default_settings'][$y]['default_setting_description'] = "Support phone number to notify, e.g. +15551234567.";
+	$y++;
+
+	$array['default_settings'][$y]['default_setting_uuid'] = "a1b2c3d4-0002-0011-0001-ef1234567890";
+	$array['default_settings'][$y]['default_setting_category'] = "tickets_sms";
+	$array['default_settings'][$y]['default_setting_subcategory'] = "notify_support_events";
+	$array['default_settings'][$y]['default_setting_name'] = "text";
+	$array['default_settings'][$y]['default_setting_value'] = "created";
+	$array['default_settings'][$y]['default_setting_enabled'] = "true";
+	$array['default_settings'][$y]['default_setting_description'] = "Comma-separated events that text the support number: created, status_changed, updated.";
+	$y++;
+
+	$array['default_settings'][$y]['default_setting_uuid'] = "a1b2c3d4-0002-0012-0001-ef1234567890";
+	$array['default_settings'][$y]['default_setting_category'] = "tickets_sms";
+	$array['default_settings'][$y]['default_setting_subcategory'] = "notify_customer_enabled";
+	$array['default_settings'][$y]['default_setting_name'] = "boolean";
+	$array['default_settings'][$y]['default_setting_value'] = "false";
+	$array['default_settings'][$y]['default_setting_enabled'] = "true";
+	$array['default_settings'][$y]['default_setting_description'] = "Text the customer (the ticket's linked call_number) on ticket events.";
+	$y++;
+
+	$array['default_settings'][$y]['default_setting_uuid'] = "a1b2c3d4-0002-0013-0001-ef1234567890";
+	$array['default_settings'][$y]['default_setting_category'] = "tickets_sms";
+	$array['default_settings'][$y]['default_setting_subcategory'] = "notify_customer_events";
+	$array['default_settings'][$y]['default_setting_name'] = "text";
+	$array['default_settings'][$y]['default_setting_value'] = "status_changed";
+	$array['default_settings'][$y]['default_setting_enabled'] = "true";
+	$array['default_settings'][$y]['default_setting_description'] = "Comma-separated events that text the customer: created, status_changed, updated. Requires the ticket to have a call_number.";
 
 	//add or update the default settings
 	$p = new permissions;

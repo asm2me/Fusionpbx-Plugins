@@ -9,6 +9,7 @@
 //includes
 	require_once dirname(__DIR__, 2) . "/resources/require.php";
 	require_once "resources/check_auth.php";
+	require_once __DIR__ . "/resources/classes/ticket_sms.php";
 
 //check permissions
 	if (!permission_exists('ticket_add')) {
@@ -149,6 +150,15 @@
 		$parameters['user_uuid'] = $_SESSION['user_uuid'];
 		$database->execute($sql, $parameters);
 		unset($sql, $parameters);
+
+		//best-effort SMS notification; never blocks ticket creation
+		$sms = new ticket_sms($_SESSION['domain_uuid']);
+		$sms->notify([
+			'ticket_number' => $ticket_number,
+			'subject' => $subject,
+			'status' => 'open',
+			'call_number' => $_POST['call_number'] ?? '',
+		], 'created');
 
 		$_SESSION['message'] = $text['message-ticket_created'];
 		header("Location: ticket_detail.php?id=" . urlencode($ticket_uuid));

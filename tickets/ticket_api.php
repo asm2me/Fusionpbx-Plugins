@@ -17,6 +17,7 @@
 
 //includes
 	require_once dirname(__DIR__, 2) . "/resources/require.php";
+	require_once __DIR__ . "/resources/classes/ticket_sms.php";
 
 	header('Content-Type: application/json');
 
@@ -227,6 +228,15 @@
 		$database->execute($sql, $parameters);
 		unset($sql, $parameters);
 
+		//best-effort SMS notification; never blocks ticket creation
+		$sms = new ticket_sms($domain_uuid);
+		$sms->notify([
+			'ticket_number' => $ticket_number,
+			'subject' => $subject,
+			'status' => 'open',
+			'call_number' => $has_call ? $input['call_number'] : '',
+		], 'created');
+
 		echo json_encode([
 			'status' => 'success',
 			'ticket_uuid' => $ticket_uuid,
@@ -382,7 +392,7 @@
 		}
 
 		//verify ticket exists and user can access it
-		$sql = "SELECT status, user_uuid FROM v_tickets WHERE ticket_uuid = :ticket_uuid AND domain_uuid = :domain_uuid";
+		$sql = "SELECT status, user_uuid, ticket_number, subject, call_number FROM v_tickets WHERE ticket_uuid = :ticket_uuid AND domain_uuid = :domain_uuid";
 		$parameters['ticket_uuid'] = $ticket_uuid;
 		$parameters['domain_uuid'] = $domain_uuid;
 		if (!$is_ticket_manager) {
@@ -420,6 +430,15 @@
 		$parameters['is_admin'] = $is_admin;
 		$database->execute($sql, $parameters);
 		unset($sql, $parameters);
+
+		//best-effort SMS notification; never blocks the reply
+		$sms = new ticket_sms($domain_uuid);
+		$sms->notify([
+			'ticket_number' => $ticket['ticket_number'],
+			'subject' => $ticket['subject'],
+			'status' => $ticket['status'],
+			'call_number' => $ticket['call_number'] ?? '',
+		], 'updated');
 
 		echo json_encode(['status' => 'success', 'reply_uuid' => $reply_uuid]);
 		exit;
