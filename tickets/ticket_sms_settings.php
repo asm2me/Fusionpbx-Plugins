@@ -138,6 +138,11 @@
 	}
 	unset($sql, $rows, $row);
 
+//load recent SMS activity for this domain
+	$sql = "SELECT * FROM v_ticket_sms_log WHERE domain_uuid = :domain_uuid ORDER BY insert_date DESC LIMIT 10";
+	$recent_logs = $database->select($sql, ['domain_uuid' => $_SESSION['domain_uuid']], 'all') ?: [];
+	unset($sql);
+
 	function sms_val($settings, $name, $default = '') {
 		return htmlspecialchars($settings[$name] ?? $default);
 	}
@@ -239,6 +244,59 @@
 			<button type="submit" class="btn btn-primary">Save</button>
 		</div>
 	</form>
+</div>
+
+<div class="card tickets-card">
+	<h4>Send Test SMS</h4>
+	<p><small>Sends using whatever is currently saved above (save your settings first if you just changed them). Works even if "Enable SMS notifications" is unchecked, so you can verify credentials before turning it on for real.</small></p>
+	<form method="post" style="display:flex; gap:10px; align-items:flex-end;">
+		<input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['hash']; ?>">
+		<input type="hidden" name="action" value="test_send">
+		<div class="form-group" style="margin-bottom:0;">
+			<label for="test_number">Destination Number</label>
+			<input type="text" id="test_number" name="test_number" class="form-control" placeholder="+15551234567">
+		</div>
+		<button type="submit" class="btn btn-default">Send Test SMS</button>
+	</form>
+</div>
+
+<div class="card tickets-card">
+	<div style="display:flex; justify-content:space-between; align-items:center;">
+		<h4>Recent SMS Activity</h4>
+		<a href="ticket_sms_log.php" class="btn btn-default btn-sm">View Full Log</a>
+	</div>
+	<?php if (count($recent_logs) === 0) { ?>
+		<p>No SMS attempts logged yet.</p>
+	<?php } else { ?>
+		<table class="table tickets-table">
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Event</th>
+					<th>Recipient</th>
+					<th>To</th>
+					<th>Result</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ($recent_logs as $log) { ?>
+					<tr>
+						<td><?php echo date('Y-m-d H:i:s', strtotime($log['insert_date'])); ?></td>
+						<td><?php echo htmlspecialchars($log['event']); ?></td>
+						<td><?php echo htmlspecialchars($log['recipient_type']); ?></td>
+						<td><?php echo htmlspecialchars($log['to_number']); ?></td>
+						<td>
+							<?php if ($log['success'] === 't' || $log['success'] === true) { ?>
+								<span class="ticket-badge badge-open">Sent</span>
+							<?php } else { ?>
+								<span class="ticket-badge badge-closed" title="<?php echo htmlspecialchars($log['error_message'] ?? ''); ?>">Failed</span>
+							<?php } ?>
+						</td>
+					</tr>
+				<?php } ?>
+			</tbody>
+		</table>
+	<?php } ?>
 </div>
 
 <?php
