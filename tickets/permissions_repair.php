@@ -25,7 +25,8 @@ $ticket_permissions = [
 	'ticket_api' => ['superadmin', 'admin', 'user'],
 ];
 
-$sql = "select column_name from information_schema.columns where table_name = 'v_group_permissions'";
+//detect schema via pg_catalog directly; information_schema.columns is far slower on a database with many tables
+$sql = "SELECT a.attname AS column_name FROM pg_attribute a JOIN pg_class c ON c.oid = a.attrelid WHERE c.relname = 'v_group_permissions' AND a.attnum > 0 AND NOT a.attisdropped";
 $group_permission_columns = $database->select($sql, null, 'all') ?: [];
 
 $group_permission_has_permission_uuid = false;
@@ -39,6 +40,16 @@ foreach ($group_permission_columns as $column) {
 	if ($column_name === 'permission_name') $group_permission_has_permission_name = true;
 	if ($column_name === 'group_uuid') $group_permission_has_group_uuid = true;
 	if ($column_name === 'group_name') $group_permission_has_group_name = true;
+}
+
+//look up each group's uuid once, not once per permission
+$group_uuids = [];
+if ($group_permission_has_group_uuid && $group_permission_has_permission_uuid) {
+	$sql = "select group_name, group_uuid from v_groups where group_name in ('superadmin', 'admin', 'user')";
+	$rows = $database->select($sql, null, 'all') ?: [];
+	foreach ($rows as $row) {
+		$group_uuids[$row['group_name']] = $row['group_uuid'];
+	}
 }
 
 $repairs = 0;
@@ -60,8 +71,7 @@ foreach ($ticket_permissions as $permission_name => $group_names) {
 	}
 
 	if ($group_permission_has_group_uuid && $group_permission_has_permission_uuid) {
-		$sql = "select group_uuid from v_groups where group_name = 'superadmin' limit 1";
-		$superadmin_group_uuid = $database->select($sql, null, 'column');
+		$superadmin_group_uuid = $group_uuids['superadmin'] ?? null;
 
 		$superadmin_permission_uuid = $permission_uuid;
 		if ($superadmin_group_uuid) {
@@ -74,9 +84,7 @@ foreach ($ticket_permissions as $permission_name => $group_names) {
 		}
 
 		foreach ($group_names as $group_name) {
-			$sql = "select group_uuid from v_groups where group_name = :group_name limit 1";
-			$parameters = ['group_name' => $group_name];
-			$group_uuid = $database->select($sql, $parameters, 'column');
+			$group_uuid = $group_uuids[$group_name] ?? null;
 
 			if (!$group_uuid) {
 				continue;

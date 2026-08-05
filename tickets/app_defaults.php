@@ -72,7 +72,8 @@ if ($domains_processed == 1) {
 		'ticket_api' => ['superadmin', 'admin', 'user'],
 	];
 
-	$sql = "select column_name from information_schema.columns where table_name = 'v_group_permissions'";
+	//detect schema via pg_catalog directly; information_schema.columns is far slower on a database with many tables
+	$sql = "SELECT a.attname AS column_name FROM pg_attribute a JOIN pg_class c ON c.oid = a.attrelid WHERE c.relname = 'v_group_permissions' AND a.attnum > 0 AND NOT a.attisdropped";
 	$group_permission_columns = $database->select($sql, null, 'all') ?: [];
 	$sql = null;
 
@@ -88,6 +89,17 @@ if ($domains_processed == 1) {
 		if ($column_name === 'group_name') $group_permission_has_group_name = true;
 	}
 	unset($group_permission_columns, $column_name);
+
+	//look up each group's uuid once, not once per permission
+	$group_uuids = [];
+	if ($group_permission_has_group_uuid && $group_permission_has_permission_uuid) {
+		$sql = "select group_name, group_uuid from v_groups where group_name in ('superadmin', 'admin', 'user')";
+		$rows = $database->select($sql, null, 'all') ?: [];
+		foreach ($rows as $row) {
+			$group_uuids[$row['group_name']] = $row['group_uuid'];
+		}
+		unset($sql, $rows, $row);
+	}
 
 	foreach ($ticket_permissions as $permission_name => $group_names) {
 		$sql = "select permission_uuid from v_permissions where permission_name = :permission_name";
@@ -107,11 +119,7 @@ if ($domains_processed == 1) {
 		unset($parameters);
 
 		foreach ($group_names as $group_name) {
-			$sql = "select group_uuid from v_groups where group_name = :group_name";
-			$parameters = ['group_name' => $group_name];
-			$group_uuid = $database->select($sql, $parameters, 'column');
-			$sql = null;
-			unset($parameters);
+			$group_uuid = $group_uuids[$group_name] ?? null;
 
 			if ($group_permission_has_group_uuid && $group_permission_has_permission_uuid) {
 				if (!$group_uuid) {
