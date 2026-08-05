@@ -92,9 +92,42 @@ if (!class_exists('ticket_sms')) {
 
 			if (!$this->is_configured()) {
 				$this->last_error = 'sms gateway not configured (set gateway type and host first)';
+				$this->log_attempt(null, 'test', 'test', $to_number, $message, false, $this->last_error);
 				return false;
 			}
-			return $this->dispatch($to_number, $message);
+			$success = $this->dispatch($to_number, $message);
+			$this->log_attempt(null, 'test', 'test', $to_number, $message, $success, $this->last_error);
+			return $success;
+		}
+
+		/**
+		 * Record an SMS attempt to v_ticket_sms_log for the settings/log page.
+		 * Best-effort: a logging failure never affects the send result.
+		 */
+		private function log_attempt($ticket_uuid, $event, $recipient_type, $to_number, $message, $success, $error) {
+			if (empty($this->domain_uuid)) {
+				return;
+			}
+			try {
+				$database = new database;
+				$sql  = "INSERT INTO v_ticket_sms_log ";
+				$sql .= "(sms_log_uuid, domain_uuid, ticket_uuid, event, recipient_type, to_number, message, gateway_type, success, error_message, insert_date) ";
+				$sql .= "VALUES (:uuid, :domain_uuid, :ticket_uuid, :event, :recipient_type, :to_number, :message, :gateway_type, :success, :error, now())";
+				$database->execute($sql, [
+					'uuid' => uuid(),
+					'domain_uuid' => $this->domain_uuid,
+					'ticket_uuid' => $ticket_uuid,
+					'event' => $event,
+					'recipient_type' => $recipient_type,
+					'to_number' => $to_number,
+					'message' => $message,
+					'gateway_type' => $this->get('gateway_type'),
+					'success' => $success ? 'true' : 'false',
+					'error' => $error ?: null,
+				]);
+			} catch (\Throwable $e) {
+				//never let logging break a send
+			}
 		}
 
 		private function dispatch($to_number, $message) {
@@ -239,11 +272,14 @@ if (!class_exists('ticket_sms')) {
 				return;
 			}
 
+			$ticket_uuid = $ticket['ticket_uuid'] ?? null;
+
 			if ($this->get('notify_support_enabled') === 'true'
 				&& in_array($event, $this->events_list('notify_support_events'))) {
 				$support_number = $this->get('notify_support_number');
 				if (!empty($support_number)) {
-					$this->send($support_number, $messages[$event]['support']);
+					$success = $this->send($support_number, $messages[$event]['support']);
+					$this->log_attempt($ticket_uuid, $event, 'support', $support_number, $messages[$event]['support'], $success, $this->last_error);
 				}
 			}
 
@@ -251,7 +287,8 @@ if (!class_exists('ticket_sms')) {
 				&& in_array($event, $this->events_list('notify_customer_events'))) {
 				$customer_number = !empty($ticket['contact_phone']) ? $ticket['contact_phone'] : ($ticket['call_number'] ?? '');
 				if (!empty($customer_number)) {
-					$this->send($customer_number, $messages[$event]['customer']);
+					$success = $this->send($customer_number, $messages[$event]['customer']);
+					$this->log_attempt($ticket_uuid, $event, 'customer', $customer_number, $messages[$event]['customer'], $success, $this->last_error);
 				}
 			}
 		}

@@ -141,6 +141,7 @@
 				//best-effort SMS notification; never blocks the reply
 				$sms = new ticket_sms($ticket['domain_uuid']);
 				$sms->notify([
+					'ticket_uuid' => $ticket['ticket_uuid'],
 					'ticket_number' => $ticket['ticket_number'],
 					'subject' => $ticket['subject'],
 					'status' => $reply_new_status ?? $ticket['status'],
@@ -199,6 +200,7 @@
 				//best-effort SMS notification; never blocks the status update
 				$sms = new ticket_sms($ticket['domain_uuid']);
 				$sms->notify([
+					'ticket_uuid' => $ticket['ticket_uuid'],
 					'ticket_number' => $ticket['ticket_number'],
 					'subject' => $ticket['subject'],
 					'status' => $new_status,

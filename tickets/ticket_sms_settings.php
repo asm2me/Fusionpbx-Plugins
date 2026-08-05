@@ -160,6 +160,7 @@
 <div class="action_bar" id="action_bar">
 	<div class="heading"><b>SMS Gateway Settings</b></div>
 	<div class="actions">
+		<a href="ticket_sms_log.php" class="btn btn-default btn-sm"><i class="fa-solid fa-comment-sms"></i> SMS Log</a>
 		<a href="tickets.php" class="btn btn-default btn-sm"><?php echo $text['button-back']; ?></a>
 	</div>
 </div>

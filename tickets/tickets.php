@@ -175,6 +175,7 @@
 	</div>
 	<div class="actions">
 		<?php if (permission_exists('ticket_manage')) { ?>
+			<a href="ticket_sms_log.php" class="btn btn-default btn-sm"><i class="fa-solid fa-comment-sms"></i> SMS Log</a>
 			<a href="ticket_sms_settings.php" class="btn btn-default btn-sm"><i class="fa-solid fa-sms"></i> SMS Settings</a>
 		<?php } ?>
 		<?php if (permission_exists('ticket_api')) { ?>

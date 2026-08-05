@@ -239,6 +239,7 @@
 		//best-effort SMS notification; never blocks ticket creation
 		$sms = new ticket_sms($domain_uuid);
 		$sms->notify([
+			'ticket_uuid' => $ticket_uuid,
 			'ticket_number' => $ticket_number,
 			'subject' => $subject,
 			'status' => 'open',
@@ -443,6 +444,7 @@
 		//best-effort SMS notification; never blocks the reply
 		$sms = new ticket_sms($domain_uuid);
 		$sms->notify([
+			'ticket_uuid' => $ticket_uuid,
 			'ticket_number' => $ticket['ticket_number'],
 			'subject' => $ticket['subject'],
 			'status' => $ticket['status'],

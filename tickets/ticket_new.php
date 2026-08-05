@@ -160,6 +160,7 @@
 		//best-effort SMS notification; never blocks ticket creation
 		$sms = new ticket_sms($_SESSION['domain_uuid']);
 		$sms->notify([
+			'ticket_uuid' => $ticket_uuid,
 			'ticket_number' => $ticket_number,
 			'subject' => $subject,
 			'status' => 'open',

@@ -397,6 +397,27 @@ if ($domains_processed == 1) {
 	$sql = "CREATE UNIQUE INDEX IF NOT EXISTS idx_ticket_api_keys_key ON v_ticket_api_keys (api_key)";
 	$database->execute($sql);
 	unset($sql);
+
+	//create SMS notification log table
+	$sql  = "CREATE TABLE IF NOT EXISTS v_ticket_sms_log ( ";
+	$sql .= "sms_log_uuid uuid PRIMARY KEY, ";
+	$sql .= "domain_uuid uuid NOT NULL, ";
+	$sql .= "ticket_uuid uuid, ";
+	$sql .= "event varchar(30) NOT NULL, ";
+	$sql .= "recipient_type varchar(20) NOT NULL, ";
+	$sql .= "to_number varchar(64) NOT NULL, ";
+	$sql .= "message text, ";
+	$sql .= "gateway_type varchar(20), ";
+	$sql .= "success boolean NOT NULL, ";
+	$sql .= "error_message text, ";
+	$sql .= "insert_date timestamptz DEFAULT now() ";
+	$sql .= ") ";
+	$database->execute($sql);
+	unset($sql);
+
+	$sql = "CREATE INDEX IF NOT EXISTS idx_ticket_sms_log_domain ON v_ticket_sms_log (domain_uuid, insert_date)";
+	$database->execute($sql);
+	unset($sql);
 }
 
 ?>
