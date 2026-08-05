@@ -75,10 +75,19 @@
 			$database->execute($sql, $parameters);
 			unset($sql, $parameters);
 
-			//flash the secret once; it is never shown again (only the hash is stored)
-			$_SESSION['ticket_api_new_key'] = $keys['api_key'];
-			$_SESSION['ticket_api_new_secret'] = $keys['api_secret'];
-			$_SESSION['message'] = "API key generated.";
+			//confirm the row actually landed before showing a secret that implies success
+			$sql = "SELECT 1 FROM v_ticket_api_keys WHERE ticket_api_key_uuid = :key_uuid";
+			$saved = $database->select($sql, ['key_uuid' => $key_uuid], 'column');
+			unset($sql);
+
+			if ($saved) {
+				//flash the secret once; it is never shown again (only the hash is stored)
+				$_SESSION['ticket_api_new_key'] = $keys['api_key'];
+				$_SESSION['ticket_api_new_secret'] = $keys['api_secret'];
+				$_SESSION['message'] = "API key generated.";
+			} else {
+				$_SESSION['message'] = "API key generation failed — the key was not saved. Check that the tickets app's database tables are up to date (run the FusionPBX upgrade step).";
+			}
 		}
 		elseif ($post_action === 'revoke') {
 			$key_uuid = $_POST['ticket_api_key_uuid'] ?? '';
