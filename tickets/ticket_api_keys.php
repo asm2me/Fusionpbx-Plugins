@@ -5,9 +5,12 @@
 	Copyright (c) VOIPEGYPT - https://voipegypt.com
 	License: MPL 1.1
 
-	Lets a domain admin generate a domain-locked API key/secret pair for
-	external integrations (create tickets, check ticket status) without
-	being able to reach any other domain's tickets.
+	Lets a user generate their own domain-locked API key/secret pair for
+	external integrations (create tickets, check ticket status). The key
+	is tied to that user's account: it can never reach another domain,
+	and its visibility into tickets matches that user's own role (a
+	regular user's key sees only their tickets; an admin's key sees the
+	whole domain), exactly like the normal web UI.
 */
 
 //includes
@@ -15,7 +18,7 @@
 	require_once "resources/check_auth.php";
 
 //check permissions
-	if (!permission_exists('ticket_api_manage')) {
+	if (!permission_exists('ticket_api')) {
 		echo "access denied";
 		exit;
 	}
@@ -49,9 +52,10 @@
 		$database = new database;
 
 		if ($post_action === 'generate') {
-			//only one active key per domain; disable any existing ones
-			$sql = "UPDATE v_ticket_api_keys SET enabled = false WHERE domain_uuid = :domain_uuid";
+			//only one active key per user; disable any existing ones of theirs
+			$sql = "UPDATE v_ticket_api_keys SET enabled = false WHERE domain_uuid = :domain_uuid AND user_uuid = :user_uuid";
 			$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+			$parameters['user_uuid'] = $_SESSION['user_uuid'];
 			$database->execute($sql, $parameters);
 			unset($sql, $parameters);
 
@@ -79,9 +83,11 @@
 		elseif ($post_action === 'revoke') {
 			$key_uuid = $_POST['ticket_api_key_uuid'] ?? '';
 			if (is_uuid($key_uuid)) {
-				$sql = "UPDATE v_ticket_api_keys SET enabled = false WHERE ticket_api_key_uuid = :key_uuid AND domain_uuid = :domain_uuid";
+				//a user may only revoke their own key
+				$sql = "UPDATE v_ticket_api_keys SET enabled = false WHERE ticket_api_key_uuid = :key_uuid AND domain_uuid = :domain_uuid AND user_uuid = :user_uuid";
 				$parameters['key_uuid'] = $key_uuid;
 				$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+				$parameters['user_uuid'] = $_SESSION['user_uuid'];
 				$database->execute($sql, $parameters);
 				unset($sql, $parameters);
 				$_SESSION['message'] = "API key revoked.";
@@ -97,9 +103,10 @@
 	$new_secret = $_SESSION['ticket_api_new_secret'] ?? null;
 	unset($_SESSION['ticket_api_new_key'], $_SESSION['ticket_api_new_secret']);
 
-//load existing keys for this domain
-	$sql = "SELECT * FROM v_ticket_api_keys WHERE domain_uuid = :domain_uuid ORDER BY insert_date DESC";
+//load this user's own keys
+	$sql = "SELECT * FROM v_ticket_api_keys WHERE domain_uuid = :domain_uuid AND user_uuid = :user_uuid ORDER BY insert_date DESC";
 	$parameters['domain_uuid'] = $_SESSION['domain_uuid'];
+	$parameters['user_uuid'] = $_SESSION['user_uuid'];
 	$database = new database;
 	$api_keys = $database->select($sql, $parameters, 'all') ?: [];
 	unset($sql, $parameters);

@@ -86,7 +86,7 @@
 	// API keys page
 	$text['title-ticket_api_keys']['en-us'] = "Ticket API Key";
 	$text['button-api_keys']['en-us'] = "API Key";
-	$text['label-ticket_api_keys_description']['en-us'] = "Generate a key for external systems to create tickets and check ticket status in this domain only. The key cannot access any other domain.";
+	$text['label-ticket_api_keys_description']['en-us'] = "Generate your personal API key for external systems to create tickets and check status on your behalf. The key is locked to this domain and to your own tickets (or the whole domain, if your account has manage access) — it can never reach another domain.";
 	$text['label-api_key']['en-us'] = "API Key";
 	$text['label-api_secret']['en-us'] = "API Secret";
 	$text['label-key_label']['en-us'] = "Label";
@@ -177,7 +177,7 @@
 	$text['label-search']['ar'] = "بحث";
 	$text['title-ticket_api_keys']['ar'] = "مفتاح API للتذاكر";
 	$text['button-api_keys']['ar'] = "مفتاح API";
-	$text['label-ticket_api_keys_description']['ar'] = "أنشئ مفتاحاً للأنظمة الخارجية لإنشاء تذاكر ومعرفة حالتها في هذا النطاق فقط. لا يمكن للمفتاح الوصول لأي نطاق آخر.";
+	$text['label-ticket_api_keys_description']['ar'] = "أنشئ مفتاح API الخاص بك للأنظمة الخارجية لإنشاء تذاكر ومعرفة حالتها نيابة عنك. المفتاح مقيد بهذا النطاق وبتذاكرك (أو بكامل النطاق إذا كان حسابك يملك صلاحية الإدارة) — لا يمكنه الوصول لأي نطاق آخر.";
 	$text['label-api_key']['ar'] = "مفتاح API";
 	$text['label-api_secret']['ar'] = "السر السري";
 	$text['label-key_label']['ar'] = "الوصف";

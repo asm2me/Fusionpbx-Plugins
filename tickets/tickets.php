@@ -174,7 +174,7 @@
 		<?php } ?>
 	</div>
 	<div class="actions">
-		<?php if (permission_exists('ticket_api_manage')) { ?>
+		<?php if (permission_exists('ticket_api')) { ?>
 			<a href="ticket_api_keys.php" class="btn btn-default btn-sm"><i class="fa-solid fa-key"></i> <?php echo $text['button-api_keys']; ?></a>
 		<?php } ?>
 		<?php if (permission_exists('ticket_add')) { ?>

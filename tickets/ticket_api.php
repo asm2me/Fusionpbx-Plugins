@@ -46,6 +46,14 @@
 		return $row;
 	}
 
+//does this user have domain-wide ticket_manage-equivalent access? (mirrors the admin/superadmin grant in app_defaults.php)
+	function api_user_is_ticket_manager($user_uuid) {
+		$database = new database;
+		$sql = "SELECT 1 FROM v_user_groups WHERE user_uuid = :user_uuid AND group_name IN ('admin', 'superadmin') LIMIT 1";
+		$parameters['user_uuid'] = $user_uuid;
+		return (bool) $database->select($sql, $parameters, 'column');
+	}
+
 //------- authenticate: either a domain-locked API key, or a normal browser/webphone session -------
 	$api_key = '';
 	$api_secret = '';
@@ -83,6 +91,8 @@
 		$domain_uuid = $key_row['domain_uuid'];
 		$acting_user_uuid = $key_row['user_uuid'];
 		$is_api_key_auth = true;
+		//visibility follows the key owner's real role, same as if they were logged in
+		$is_ticket_manager = api_user_is_ticket_manager($acting_user_uuid);
 	} else {
 		require_once "resources/check_auth.php";
 		if (!permission_exists('ticket_api') && !permission_exists('ticket_view')) {
@@ -92,6 +102,7 @@
 		}
 		$domain_uuid = $_SESSION['domain_uuid'];
 		$acting_user_uuid = $_SESSION['user_uuid'];
+		$is_ticket_manager = permission_exists('ticket_manage');
 	}
 
 // ====== CREATE TICKET ======
@@ -229,8 +240,8 @@
 		$sql .= "FROM v_tickets WHERE domain_uuid = :domain_uuid ";
 		$parameters['domain_uuid'] = $domain_uuid;
 
-		//an API key always has domain-wide (admin-equivalent) view; a session user needs ticket_manage to see beyond their own tickets
-		if (!$is_api_key_auth && !permission_exists('ticket_manage')) {
+		//visibility follows the acting user's real role, whether they came in via session or API key
+		if (!$is_ticket_manager) {
 			$sql .= "AND user_uuid = :user_uuid ";
 			$parameters['user_uuid'] = $acting_user_uuid;
 		}
@@ -265,7 +276,7 @@
 		$parameters['ticket_uuid'] = $ticket_uuid;
 		$parameters['domain_uuid'] = $domain_uuid;
 
-		if (!$is_api_key_auth && !permission_exists('ticket_manage')) {
+		if (!$is_ticket_manager) {
 			$sql .= " AND user_uuid = :user_uuid";
 			$parameters['user_uuid'] = $acting_user_uuid;
 		}
@@ -307,8 +318,8 @@
 		$sql .= "WHERE t.domain_uuid = :domain_uuid ";
 		$parameters['domain_uuid'] = $domain_uuid;
 
-		//an API key gets domain-wide updates; a session user only ever sees their own, as before
-		if (!$is_api_key_auth) {
+		//visibility follows the acting user's real role, whether they came in via session or API key
+		if (!$is_ticket_manager) {
 			$sql .= "AND t.user_uuid = :user_uuid ";
 			$parameters['user_uuid'] = $acting_user_uuid;
 		}
@@ -350,7 +361,7 @@
 		$sql = "SELECT status, user_uuid FROM v_tickets WHERE ticket_uuid = :ticket_uuid AND domain_uuid = :domain_uuid";
 		$parameters['ticket_uuid'] = $ticket_uuid;
 		$parameters['domain_uuid'] = $domain_uuid;
-		if (!permission_exists('ticket_manage')) {
+		if (!$is_ticket_manager) {
 			$sql .= " AND user_uuid = :user_uuid";
 			$parameters['user_uuid'] = $acting_user_uuid;
 		}
@@ -372,7 +383,7 @@
 		}
 
 		$reply_uuid = uuid();
-		$is_admin = permission_exists('ticket_manage') ? 'true' : 'false';
+		$is_admin = $is_ticket_manager ? 'true' : 'false';
 
 		$sql  = "INSERT INTO v_ticket_replies ";
 		$sql .= "(ticket_reply_uuid, ticket_uuid, domain_uuid, user_uuid, reply_text, is_admin, insert_date, insert_user) ";

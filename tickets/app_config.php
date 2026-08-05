@@ -52,11 +52,6 @@
 	$apps[$x]['permissions'][$y]['groups'][] = "admin";
 	$y++;
 
-	$apps[$x]['permissions'][$y]['name'] = "ticket_api_manage";
-	$apps[$x]['permissions'][$y]['groups'][] = "superadmin";
-	$apps[$x]['permissions'][$y]['groups'][] = "admin";
-	$y++;
-
 	$apps[$x]['permissions'][$y]['name'] = "ticket_api";
 	$apps[$x]['permissions'][$y]['groups'][] = "superadmin";
 	$apps[$x]['permissions'][$y]['groups'][] = "admin";
