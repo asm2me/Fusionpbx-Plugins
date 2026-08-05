@@ -145,6 +145,7 @@
 					'subject' => $ticket['subject'],
 					'status' => $reply_new_status ?? $ticket['status'],
 					'call_number' => $ticket['call_number'] ?? '',
+					'contact_phone' => $ticket['contact_phone'] ?? '',
 				], $reply_new_status ? 'status_changed' : 'updated');
 
 				$_SESSION['message'] = $text['message-reply_added'];
@@ -202,6 +203,7 @@
 					'subject' => $ticket['subject'],
 					'status' => $new_status,
 					'call_number' => $ticket['call_number'] ?? '',
+					'contact_phone' => $ticket['contact_phone'] ?? '',
 				], 'status_changed');
 
 				$_SESSION['message'] = $text['message-ticket_updated'];
@@ -325,6 +327,24 @@
 				<div class="meta-item">
 					<span class="meta-label"><?php echo $text['label-assigned_to']; ?></span>
 					<span class="meta-value"><?php echo htmlspecialchars($ticket['assignee_name'] ?? '-'); ?></span>
+				</div>
+			<?php } ?>
+			<?php if (!empty($ticket['contact_name'])) { ?>
+				<div class="meta-item">
+					<span class="meta-label"><?php echo $text['label-contact_name']; ?></span>
+					<span class="meta-value"><?php echo htmlspecialchars($ticket['contact_name']); ?></span>
+				</div>
+			<?php } ?>
+			<?php if (!empty($ticket['contact_phone'])) { ?>
+				<div class="meta-item">
+					<span class="meta-label"><?php echo $text['label-contact_phone']; ?></span>
+					<span class="meta-value"><?php echo htmlspecialchars($ticket['contact_phone']); ?></span>
+				</div>
+			<?php } ?>
+			<?php if (!empty($ticket['contact_email'])) { ?>
+				<div class="meta-item">
+					<span class="meta-label"><?php echo $text['label-contact_email']; ?></span>
+					<span class="meta-value"><?php echo htmlspecialchars($ticket['contact_email']); ?></span>
 				</div>
 			<?php } ?>
 		</div>

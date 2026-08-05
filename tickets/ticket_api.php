@@ -122,6 +122,9 @@
 		$description = trim($input['description'] ?? '');
 		$priority = $input['priority'] ?? 'normal';
 		$source = $input['source'] ?? 'panel';
+		$contact_name = trim($input['contact_name'] ?? '');
+		$contact_phone = trim($input['contact_phone'] ?? '');
+		$contact_email = trim($input['contact_email'] ?? '');
 
 		if (empty($subject)) {
 			http_response_code(400);
@@ -144,10 +147,12 @@
 		$sql .= "(ticket_uuid, domain_uuid, user_uuid, ticket_number, subject, description, status, priority, source, ";
 		$sql .= "call_number, call_direction, call_duration, call_status, call_timestamp, extension, ";
 		$sql .= "call_quality_mos, call_quality_rating, call_quality_issues, call_hangup_by, call_hangup_cause, ";
+		$sql .= "contact_name, contact_phone, contact_email, ";
 		$sql .= "insert_date, insert_user) ";
 		$sql .= "VALUES (:ticket_uuid, :domain_uuid, :user_uuid, :ticket_number, :subject, :description, 'open', :priority, :source, ";
 		$sql .= ":call_number, :call_direction, :call_duration, :call_status, :call_timestamp, :extension, ";
 		$sql .= ":call_quality_mos, :call_quality_rating, :call_quality_issues, :call_hangup_by, :call_hangup_cause, ";
+		$sql .= ":contact_name, :contact_phone, :contact_email, ";
 		$sql .= "now(), :insert_user)";
 		$parameters = [
 			'ticket_uuid' => $ticket_uuid,
@@ -169,6 +174,9 @@
 			'call_quality_issues' => $has_quality ? ($input['call_quality_issues'] ?? '') : null,
 			'call_hangup_by' => $has_hangup ? $input['call_hangup_by'] : null,
 			'call_hangup_cause' => $has_hangup ? ($input['call_hangup_cause'] ?? '') : null,
+			'contact_name' => $contact_name ?: null,
+			'contact_phone' => $contact_phone ?: null,
+			'contact_email' => $contact_email ?: null,
 			'insert_user' => $acting_user_uuid,
 		];
 
@@ -235,6 +243,7 @@
 			'subject' => $subject,
 			'status' => 'open',
 			'call_number' => $has_call ? $input['call_number'] : '',
+			'contact_phone' => $contact_phone,
 		], 'created');
 
 		echo json_encode([
@@ -392,7 +401,7 @@
 		}
 
 		//verify ticket exists and user can access it
-		$sql = "SELECT status, user_uuid, ticket_number, subject, call_number FROM v_tickets WHERE ticket_uuid = :ticket_uuid AND domain_uuid = :domain_uuid";
+		$sql = "SELECT status, user_uuid, ticket_number, subject, call_number, contact_phone FROM v_tickets WHERE ticket_uuid = :ticket_uuid AND domain_uuid = :domain_uuid";
 		$parameters['ticket_uuid'] = $ticket_uuid;
 		$parameters['domain_uuid'] = $domain_uuid;
 		if (!$is_ticket_manager) {
@@ -438,6 +447,7 @@
 			'subject' => $ticket['subject'],
 			'status' => $ticket['status'],
 			'call_number' => $ticket['call_number'] ?? '',
+			'contact_phone' => $ticket['contact_phone'] ?? '',
 		], 'updated');
 
 		echo json_encode(['status' => 'success', 'reply_uuid' => $reply_uuid]);

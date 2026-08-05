@@ -47,6 +47,9 @@
 		$subject = trim($_POST['subject'] ?? '');
 		$description = trim($_POST['description'] ?? '');
 		$priority = $_POST['priority'] ?? 'normal';
+		$contact_name = trim($_POST['contact_name'] ?? '');
+		$contact_phone = trim($_POST['contact_phone'] ?? '');
+		$contact_email = trim($_POST['contact_email'] ?? '');
 
 		if (empty($subject)) {
 			$_SESSION['message'] = "Subject is required.";
@@ -69,6 +72,9 @@
 		$array['tickets'][0]['status'] = 'open';
 		$array['tickets'][0]['priority'] = $priority;
 		$array['tickets'][0]['source'] = 'panel';
+		$array['tickets'][0]['contact_name'] = $contact_name;
+		$array['tickets'][0]['contact_phone'] = $contact_phone;
+		$array['tickets'][0]['contact_email'] = $contact_email;
 
 		//call details (if provided via hidden fields from webphone redirect)
 		if (!empty($_POST['call_number'])) {
@@ -158,6 +164,7 @@
 			'subject' => $subject,
 			'status' => 'open',
 			'call_number' => $_POST['call_number'] ?? '',
+			'contact_phone' => $contact_phone,
 		], 'created');
 
 		$_SESSION['message'] = $text['message-ticket_created'];
@@ -202,6 +209,20 @@
 		<div class="form-group">
 			<label for="description"><?php echo $text['label-description']; ?></label>
 			<textarea id="description" name="description" class="form-control" rows="6" placeholder="Describe the issue in detail..."></textarea>
+		</div>
+
+		<h4><?php echo $text['label-contact_details']; ?></h4>
+		<div class="form-group">
+			<label for="contact_name"><?php echo $text['label-contact_name']; ?></label>
+			<input type="text" id="contact_name" name="contact_name" class="form-control" maxlength="255">
+		</div>
+		<div class="form-group">
+			<label for="contact_phone"><?php echo $text['label-contact_phone']; ?></label>
+			<input type="text" id="contact_phone" name="contact_phone" class="form-control" maxlength="64" placeholder="+15551234567">
+		</div>
+		<div class="form-group">
+			<label for="contact_email"><?php echo $text['label-contact_email']; ?></label>
+			<input type="email" id="contact_email" name="contact_email" class="form-control" maxlength="255">
 		</div>
 
 		<!-- Hidden fields populated by webphone report -->

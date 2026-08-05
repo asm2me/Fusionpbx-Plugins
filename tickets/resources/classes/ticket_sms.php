@@ -53,10 +53,19 @@ if (!class_exists('ticket_sms')) {
 			return isset($this->config[$name]) && $this->config[$name] !== '' ? $this->config[$name] : $default;
 		}
 
+		/**
+		 * A gateway type + host are set - enough to attempt sending.
+		 */
+		public function is_configured() {
+			return in_array($this->get('gateway_type'), ['dinstar', 'goip']) && $this->get('gateway_host') !== '';
+		}
+
+		/**
+		 * Configured AND the domain has turned the master switch on.
+		 * This is what ticket-event notifications require.
+		 */
 		public function is_enabled() {
-			return $this->get('enabled') === 'true'
-				&& in_array($this->get('gateway_type'), ['dinstar', 'goip'])
-				&& $this->get('gateway_host') !== '';
+			return $this->get('enabled') === 'true' && $this->is_configured();
 		}
 
 		/**
@@ -70,6 +79,25 @@ if (!class_exists('ticket_sms')) {
 				$this->last_error = 'sms gateway not configured or disabled';
 				return false;
 			}
+			return $this->dispatch($to_number, $message);
+		}
+
+		/**
+		 * Send a test SMS using whatever is currently configured, ignoring
+		 * the master "enabled" switch - lets an admin verify credentials
+		 * work before turning notifications on for real.
+		 */
+		public function send_test($to_number, $message) {
+			$this->last_error = '';
+
+			if (!$this->is_configured()) {
+				$this->last_error = 'sms gateway not configured (set gateway type and host first)';
+				return false;
+			}
+			return $this->dispatch($to_number, $message);
+		}
+
+		private function dispatch($to_number, $message) {
 			if (empty($to_number)) {
 				$this->last_error = 'no destination number';
 				return false;
@@ -179,7 +207,8 @@ if (!class_exists('ticket_sms')) {
 		 * Compose and send the SMS(es) for a ticket event, per this domain's
 		 * configured recipients/events. $event is one of:
 		 * 'created', 'status_changed', 'updated'.
-		 * $ticket must include: ticket_number, subject, status, call_number.
+		 * $ticket must include: ticket_number, subject, status, and a
+		 * customer number in either contact_phone (preferred) or call_number.
 		 * Best-effort: never throws, returns void.
 		 */
 		public function notify($ticket, $event) {
@@ -220,7 +249,7 @@ if (!class_exists('ticket_sms')) {
 
 			if ($this->get('notify_customer_enabled') === 'true'
 				&& in_array($event, $this->events_list('notify_customer_events'))) {
-				$customer_number = $ticket['call_number'] ?? '';
+				$customer_number = !empty($ticket['contact_phone']) ? $ticket['contact_phone'] : ($ticket['call_number'] ?? '');
 				if (!empty($customer_number)) {
 					$this->send($customer_number, $messages[$event]['customer']);
 				}

@@ -43,6 +43,10 @@
 	// New ticket page
 	$text['title-new_ticket']['en-us'] = "New Ticket";
 	$text['label-description']['en-us'] = "Description";
+	$text['label-contact_details']['en-us'] = "Contact Details";
+	$text['label-contact_name']['en-us'] = "Contact Name";
+	$text['label-contact_phone']['en-us'] = "Contact Phone";
+	$text['label-contact_email']['en-us'] = "Contact Email";
 	$text['label-call_details']['en-us'] = "Call Details";
 	$text['label-call_number']['en-us'] = "Call Number";
 	$text['label-call_direction']['en-us'] = "Direction";
@@ -142,6 +146,10 @@
 	$text['source-dialer']['ar'] = "تطبيق الاتصال";
 	$text['title-new_ticket']['ar'] = "تذكرة جديدة";
 	$text['label-description']['ar'] = "الوصف";
+	$text['label-contact_details']['ar'] = "بيانات التواصل";
+	$text['label-contact_name']['ar'] = "اسم جهة الاتصال";
+	$text['label-contact_phone']['ar'] = "هاتف جهة الاتصال";
+	$text['label-contact_email']['ar'] = "بريد جهة الاتصال الإلكتروني";
 	$text['label-call_details']['ar'] = "تفاصيل المكالمة";
 	$text['label-call_number']['ar'] = "رقم المكالمة";
 	$text['label-call_direction']['ar'] = "الاتجاه";

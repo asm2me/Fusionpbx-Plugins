@@ -311,6 +311,9 @@ if ($domains_processed == 1) {
 	$sql .= "call_quality_issues text, ";
 	$sql .= "call_hangup_by varchar(20), ";
 	$sql .= "call_hangup_cause varchar(64), ";
+	$sql .= "contact_name varchar(255), ";
+	$sql .= "contact_phone varchar(64), ";
+	$sql .= "contact_email varchar(255), ";
 	$sql .= "assigned_to uuid, ";
 	$sql .= "resolved_note text, ";
 	$sql .= "insert_date timestamptz DEFAULT now(), ";
@@ -321,6 +324,11 @@ if ($domains_processed == 1) {
 	$database = new database;
 	$database->execute($sql);
 	$sql = null;
+
+	//add contact columns for installs that already had v_tickets before this update
+	$database->execute("ALTER TABLE v_tickets ADD COLUMN IF NOT EXISTS contact_name varchar(255)");
+	$database->execute("ALTER TABLE v_tickets ADD COLUMN IF NOT EXISTS contact_phone varchar(64)");
+	$database->execute("ALTER TABLE v_tickets ADD COLUMN IF NOT EXISTS contact_email varchar(255)");
 
 	//create ticket_number unique index
 	$sql = "CREATE UNIQUE INDEX IF NOT EXISTS idx_tickets_number ON v_tickets (domain_uuid, ticket_number)";

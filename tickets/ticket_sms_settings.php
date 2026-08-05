@@ -14,6 +14,7 @@
 //includes
 	require_once dirname(__DIR__, 2) . "/resources/require.php";
 	require_once "resources/check_auth.php";
+	require_once __DIR__ . "/resources/classes/ticket_sms.php";
 
 //check permissions
 	if (!permission_exists('ticket_manage')) {
@@ -79,9 +80,25 @@
 			exit;
 		}
 
-		$database = new database;
 		$domain_uuid = $_SESSION['domain_uuid'];
 		$user_uuid = $_SESSION['user_uuid'];
+		$post_action = $_POST['action'] ?? 'save';
+
+		if ($post_action === 'test_send') {
+			$test_number = trim($_POST['test_number'] ?? '');
+			$sms = new ticket_sms($domain_uuid);
+			if (empty($test_number)) {
+				$_SESSION['message'] = "Enter a destination number to send the test to.";
+			} elseif ($sms->send_test($test_number, "Test message from FusionPBX Support Tickets.")) {
+				$_SESSION['message'] = "Test SMS sent to $test_number.";
+			} else {
+				$_SESSION['message'] = "Test SMS failed: " . $sms->last_error;
+			}
+			header("Location: ticket_sms_settings.php");
+			exit;
+		}
+
+		$database = new database;
 
 		$support_events = implode(',', $_POST['notify_support_events'] ?? []);
 		$customer_events = implode(',', $_POST['notify_customer_events'] ?? []);
