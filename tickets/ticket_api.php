@@ -134,46 +134,54 @@
 		$ticket_uuid = uuid();
 		$ticket_number = api_generate_ticket_number($domain_uuid);
 
-		$array['tickets'][0]['ticket_uuid'] = $ticket_uuid;
-		$array['tickets'][0]['domain_uuid'] = $domain_uuid;
-		$array['tickets'][0]['user_uuid'] = $acting_user_uuid;
-		$array['tickets'][0]['ticket_number'] = $ticket_number;
-		$array['tickets'][0]['subject'] = $subject;
-		$array['tickets'][0]['description'] = $description;
-		$array['tickets'][0]['status'] = 'open';
-		$array['tickets'][0]['priority'] = $priority;
-		$array['tickets'][0]['source'] = $source;
+		//call details are only meaningful together with a call_number
+		$has_call = !empty($input['call_number']);
+		$has_quality = $has_call && !empty($input['call_quality_mos']);
+		$has_hangup = $has_call && !empty($input['call_hangup_by']);
 
-		//call details
-		if (!empty($input['call_number'])) {
-			$array['tickets'][0]['call_number'] = $input['call_number'];
-			$array['tickets'][0]['call_direction'] = $input['call_direction'] ?? '';
-			$array['tickets'][0]['call_duration'] = intval($input['call_duration'] ?? 0);
-			$array['tickets'][0]['call_status'] = $input['call_status'] ?? '';
-			$array['tickets'][0]['call_timestamp'] = $input['call_timestamp'] ?? null;
-			$array['tickets'][0]['extension'] = $input['extension'] ?? '';
-
-			if (!empty($input['call_quality_mos'])) {
-				$array['tickets'][0]['call_quality_mos'] = floatval($input['call_quality_mos']);
-				$array['tickets'][0]['call_quality_rating'] = $input['call_quality_rating'] ?? '';
-				$array['tickets'][0]['call_quality_issues'] = $input['call_quality_issues'] ?? '';
-			}
-			if (!empty($input['call_hangup_by'])) {
-				$array['tickets'][0]['call_hangup_by'] = $input['call_hangup_by'];
-				$array['tickets'][0]['call_hangup_cause'] = $input['call_hangup_cause'] ?? '';
-			}
-		}
-
-		$p = new permissions;
-		$p->add("ticket_add", "temp");
+		$sql  = "INSERT INTO v_tickets ";
+		$sql .= "(ticket_uuid, domain_uuid, user_uuid, ticket_number, subject, description, status, priority, source, ";
+		$sql .= "call_number, call_direction, call_duration, call_status, call_timestamp, extension, ";
+		$sql .= "call_quality_mos, call_quality_rating, call_quality_issues, call_hangup_by, call_hangup_cause, ";
+		$sql .= "insert_date, insert_user) ";
+		$sql .= "VALUES (:ticket_uuid, :domain_uuid, :user_uuid, :ticket_number, :subject, :description, 'open', :priority, :source, ";
+		$sql .= ":call_number, :call_direction, :call_duration, :call_status, :call_timestamp, :extension, ";
+		$sql .= ":call_quality_mos, :call_quality_rating, :call_quality_issues, :call_hangup_by, :call_hangup_cause, ";
+		$sql .= "now(), :insert_user)";
+		$parameters = [
+			'ticket_uuid' => $ticket_uuid,
+			'domain_uuid' => $domain_uuid,
+			'user_uuid' => $acting_user_uuid,
+			'ticket_number' => $ticket_number,
+			'subject' => $subject,
+			'description' => $description,
+			'priority' => $priority,
+			'source' => $source,
+			'call_number' => $has_call ? $input['call_number'] : null,
+			'call_direction' => $has_call ? ($input['call_direction'] ?? '') : null,
+			'call_duration' => $has_call ? intval($input['call_duration'] ?? 0) : null,
+			'call_status' => $has_call ? ($input['call_status'] ?? '') : null,
+			'call_timestamp' => $has_call ? ($input['call_timestamp'] ?? null) : null,
+			'extension' => $has_call ? ($input['extension'] ?? '') : null,
+			'call_quality_mos' => $has_quality ? floatval($input['call_quality_mos']) : null,
+			'call_quality_rating' => $has_quality ? ($input['call_quality_rating'] ?? '') : null,
+			'call_quality_issues' => $has_quality ? ($input['call_quality_issues'] ?? '') : null,
+			'call_hangup_by' => $has_hangup ? $input['call_hangup_by'] : null,
+			'call_hangup_cause' => $has_hangup ? ($input['call_hangup_cause'] ?? '') : null,
+			'insert_user' => $acting_user_uuid,
+		];
 
 		$database = new database;
-		$database->app_name = "tickets";
-		$database->app_uuid = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";
-		$database->save($array);
-		unset($array);
+		$database->execute($sql, $parameters);
+		unset($sql, $parameters);
 
-		$p->delete("ticket_add", "temp");
+		//confirm the ticket actually landed before reporting success
+		$saved = $database->select("SELECT 1 FROM v_tickets WHERE ticket_uuid = :ticket_uuid", ['ticket_uuid' => $ticket_uuid], 'column');
+		if (!$saved) {
+			http_response_code(500);
+			echo json_encode(['error' => 'ticket_not_saved']);
+			exit;
+		}
 
 		//save activity log attachment
 		if (!empty($input['activity_log'])) {
