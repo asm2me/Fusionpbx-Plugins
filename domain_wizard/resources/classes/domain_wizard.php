@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/namecheap_integration.php';
+
 /**
  * domain_wizard
  *
@@ -63,6 +65,14 @@ class domain_wizard {
 			}
 
 			$this->log[] = 'New domain created: ' . $new_domain_name . ' (' . $new_domain_uuid . ')';
+
+		//register DNS with Namecheap when the domain is a voipat.com subdomain (best effort, never blocks domain creation)
+			$namecheap_registered = false;
+			try {
+				$namecheap_registered = namecheap_integration::auto_register_for_domain($new_domain_uuid, $new_domain_name, $this->log);
+			} catch (\Throwable $e) {
+				$this->log[] = 'WARNING: Namecheap DNS registration threw an exception - ' . $e->getMessage();
+			}
 
 		//clone extensions
 			$extensions_count = (int)($options['extensions_count'] ?? 0);
@@ -148,6 +158,7 @@ class domain_wizard {
 			'status' => 'success',
 			'message' => 'Domain created successfully.',
 			'domain_uuid' => $new_domain_uuid,
+			'namecheap_registered' => $namecheap_registered,
 			'log' => $this->log,
 		];
 	}

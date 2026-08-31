@@ -104,6 +104,7 @@
 				'status' => 'success',
 				'message' => 'Domain created successfully.',
 				'domain_uuid' => $result['domain_uuid'] ?? null,
+				'namecheap_registered' => $result['namecheap_registered'] ?? false,
 				'log' => $result['log'] ?? [],
 			];
 		} else {

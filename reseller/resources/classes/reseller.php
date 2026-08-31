@@ -128,6 +128,9 @@ if (!class_exists('reseller')) {
 				return ['success' => false, 'message' => 'Failed to create domain in database.', 'domain_uuid' => null];
 			}
 
+			//register DNS with Namecheap when the domain is a voipat.com subdomain (best effort)
+			$this->namecheap_auto_register($new_domain_uuid, $domain_data['domain_name'], $log);
+
 			//use domain_wizard class if available for advanced cloning
 			if (class_exists('domain_wizard')) {
 				try {
@@ -287,6 +290,9 @@ if (!class_exists('reseller')) {
 				return ['success' => false, 'message' => 'Failed to create domain. DB error: ' . $error_detail, 'domain_uuid' => null, 'log' => $log];
 			}
 			$log[] = 'OK: Domain created in v_domains.';
+
+			//register DNS with Namecheap when the domain is a voipat.com subdomain (best effort)
+			$this->namecheap_auto_register($new_domain_uuid, $domain_data['domain_name'], $log);
 
 			//clone from source domain if specified
 			if (!empty($domain_data['source_domain_uuid']) && is_uuid($domain_data['source_domain_uuid'])) {
@@ -918,6 +924,30 @@ if (!class_exists('reseller')) {
 			$database = new database;
 			$row = $database->select($sql, $parameters, 'row');
 			return (is_array($row) && (int)$row['num'] > 0);
+		}
+
+		/**
+		 * Register the domain in Namecheap when it is a subdomain of the configured
+		 * base domain (default voipat.com). Best effort - never throws.
+		 * @param string $domain_uuid
+		 * @param string $domain_name
+		 * @param array  $log  Log array (by reference) - OK:/WARNING: lines are appended
+		 * @return bool
+		 */
+		private function namecheap_auto_register($domain_uuid, $domain_name, array &$log) {
+			$namecheap_class = dirname(__DIR__, 3) . '/domain_wizard/resources/classes/namecheap_integration.php';
+			if (!file_exists($namecheap_class)) {
+				return false;
+			}
+
+			require_once $namecheap_class;
+
+			try {
+				return namecheap_integration::auto_register_for_domain($domain_uuid, $domain_name, $log);
+			} catch (\Throwable $e) {
+				$log[] = 'WARNING: Namecheap DNS registration threw an exception - ' . $e->getMessage();
+				return false;
+			}
 		}
 
 		/**

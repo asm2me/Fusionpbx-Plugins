@@ -344,21 +344,6 @@
 			exit;
 		}
 
-		//NEW: Namecheap subdomain registration - register in Namecheap API
-		$namecheap_registered = false;
-		if (function_exists('register_namecheap_subdomain')) {
-			try {
-				$server_ip = $_SERVER['SERVER_ADDR'] ?? gethostbyname(gethostname());
-				$namecheap_result = register_namecheap_subdomain($subdomain, $server_ip);
-				if ($namecheap_result['status'] === 'success') {
-					$namecheap_registered = true;
-				}
-			} catch (Exception $e) {
-				//log error but don't fail registration
-				error_log("Namecheap registration failed: " . $e->getMessage());
-			}
-		}
-
 		//plan configuration - MODIFIED: includes installation type settings
 		$plan_config = [
 			'starter' => [
@@ -496,6 +481,8 @@
 
 			if ($result['status'] === 'success') {
 				$domain_uuid = $result['domain_uuid'] ?? null;
+				//clone_domain() already registered the voipat.com subdomain in Namecheap (if applicable)
+				$namecheap_registered = $result['namecheap_registered'] ?? false;
 
 				if ($domain_uuid) {
 					$billing_class = dirname(__DIR__) . "/billing/resources/classes/billing.php";
@@ -529,7 +516,6 @@
 					$settings[] = ['category' => 'registration', 'subcategory' => 'plan', 'value' => $plan];
 					$settings[] = ['category' => 'registration', 'subcategory' => 'installation_type', 'value' => $installation_type];
 					$settings[] = ['category' => 'registration', 'subcategory' => 'extension_start', 'value' => (string)$extension_start];
-					$settings[] = ['category' => 'registration', 'subcategory' => 'namecheap_registered', 'value' => $namecheap_registered ? 'true' : 'false'];
 
 					if (!empty($ivr_chart_config)) {
 						$settings[] = ['category' => 'registration', 'subcategory' => 'ivr_chart_config', 'value' => json_encode($ivr_chart_config)];
