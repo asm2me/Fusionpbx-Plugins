@@ -284,7 +284,19 @@
 		$email = trim($_POST['email'] ?? '');
 		$phone = trim($_POST['phone'] ?? '');
 		$company = trim($_POST['company'] ?? '');
+
+		//the website form posts "domain_name" (bare label or full x.voipat.com), not "subdomain" - accept both
 		$subdomain = trim($_POST['subdomain'] ?? '');
+		if (empty($subdomain) && !empty($_POST['domain_name'])) {
+			$raw_domain = trim($_POST['domain_name']);
+			$base_suffix = '.voipat.com';
+			if (strcasecmp(substr($raw_domain, -strlen($base_suffix)), $base_suffix) === 0) {
+				$subdomain = substr($raw_domain, 0, -strlen($base_suffix));
+			} else {
+				$subdomain = $raw_domain;
+			}
+		}
+
 		$admin_username = trim($_POST['admin_username'] ?? 'admin');
 		$admin_password = $_POST['admin_password'] ?? '';
 		$plan = trim($_POST['plan'] ?? 'starter');
