@@ -140,6 +140,11 @@
             margin: 20px 0 10px;
         }
 
+        .apk-version-tag {
+            font-size: 0.75rem; color: var(--gray-400); text-align: center;
+            margin: -8px 0 12px;
+        }
+
         /* Steps */
         .steps { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
         .step {
@@ -378,6 +383,32 @@ function renderPage(cfg, token) {
         colorDark: '#1a1a2e',
         colorLight: '#ffffff',
     });
+
+    annotateApkVersion();
+}
+
+// Tag every "Download APK" link with the live build version/size, pulled from the
+// same feed the in-app updater reads. Best-effort: on failure the link is left as-is
+// rather than showing stale or wrong info.
+let apkVersionPromise = null;
+function annotateApkVersion() {
+    const links = document.querySelectorAll('a[href*="voipat-dialer.apk"]');
+    if (!links.length) return;
+
+    if (!apkVersionPromise) {
+        apkVersionPromise = fetch('https://private.voipat.com/dl/version.json', { cache: 'no-store' })
+            .then(r => r.ok ? r.json() : Promise.reject(r.status));
+    }
+    apkVersionPromise.then(v => {
+        const mb = (v.apkSize / 1048576).toFixed(1);
+        links.forEach(a => {
+            if (a.nextElementSibling && a.nextElementSibling.classList.contains('apk-version-tag')) return;
+            const tag = document.createElement('div');
+            tag.className = 'apk-version-tag';
+            tag.textContent = `v${v.version} (build ${v.versionCode}) · ${mb} MB`;
+            a.insertAdjacentElement('afterend', tag);
+        });
+    }).catch(() => { /* feed unreachable — link still works, just no version shown */ });
 }
 
 function openApp(deepLink) {
