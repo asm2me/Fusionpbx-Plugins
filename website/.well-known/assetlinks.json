@@ -8,8 +8,20 @@
       "namespace": "android_app",
       "package_name": "com.webrtcphonedialer.android",
       "sha256_cert_fingerprints": [
-        "7D:74:AE:10:D3:B5:C4:6B:4D:F5:5B:E8:BF:E7:EA:F3:FD:69:CF:7C:DE:D2:2B:AE:24:A0:5D:D3:DB:21",
         "A2:E8:76:74:AE:10:D3:B5:C4:6B:4D:F5:5B:E8:BF:E7:EA:F3:FD:69:CF:7C:DE:D2:2B:AE:24:A0:5D:D3:DB:21"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.pvtcall.app",
+      "sha256_cert_fingerprints": [
+        "48:24:71:66:7E:B4:F8:B2:4B:AD:D3:8A:BF:D6:7C:78:D2:03:67:19:51:E6:FD:69:6F:33:45:8A:52:73:CE:AF"
       ]
     }
   }
