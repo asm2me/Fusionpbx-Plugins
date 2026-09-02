@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.webrtcphonedialer.android",
+      "sha256_cert_fingerprints": [
+        "7D:74:AE:10:D3:B5:C4:6B:4D:F5:5B:E8:BF:E7:EA:F3:FD:69:CF:7C:DE:D2:2B:AE:24:A0:5D:D3:DB:21"
+      ]
+    }
+  }
+]
