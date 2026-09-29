@@ -296,8 +296,10 @@ function renderPage(cfg, token) {
             </a>`;
 
     } else if (platform === 'android') {
+        // The Android app registers pvtcall:// (voipat:// only from v1.0.71), so use it here.
+        const androidLink = `pvtcall://provision?t=${encodeURIComponent(token)}`;
         platformHTML = `
-            <button class="btn btn-android" onclick="openApp('${deepLink}')">
+            <button class="btn btn-android" onclick="openApp('${androidLink}')">
                 <i class="fab fa-android"></i> Open in VOIP@ Dialer
             </button>
             <div class="section-label">Not installed yet?</div>
