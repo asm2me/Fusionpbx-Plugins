@@ -232,6 +232,20 @@ class namecheap_integration {
 	 * @return array|false  List of ['Name'=>, 'Type'=>, 'Address'=>, 'MXPref'=>, 'TTL'=>] or false on failure
 	 */
 	private function get_hosts() {
+		//the API occasionally fails a single call - retry a couple of times before giving up
+		for ($attempt = 1; $attempt <= 3; $attempt++) {
+			$hosts = $this->fetch_hosts();
+			if ($hosts !== false) {
+				return $hosts;
+			}
+			if ($attempt < 3) {
+				sleep(2);
+			}
+		}
+		return false;
+	}
+
+	private function fetch_hosts() {
 		$params = [
 			'ApiUser' => $this->api_user,
 			'ApiKey' => $this->api_key,
