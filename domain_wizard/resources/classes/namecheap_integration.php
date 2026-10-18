@@ -119,6 +119,10 @@ class namecheap_integration {
 			if ($existing_hosts === false) {
 				return ['status' => 'error', 'message' => 'Failed to retrieve current DNS records'];
 			}
+			if (count($existing_hosts) === 0) {
+				//never push a zone built from an empty read - it would wipe every record on the domain
+				return ['status' => 'error', 'message' => 'Namecheap returned no existing DNS records; refusing to overwrite the zone'];
+			}
 
 			//drop any existing record for this exact host name - we're replacing it
 			$hosts = [];
@@ -134,6 +138,7 @@ class namecheap_integration {
 				'Name' => $subdomain,
 				'Type' => 'A',
 				'Address' => $target_ip,
+				'MXPref' => '10',
 				'TTL' => '1800',
 			];
 
@@ -181,7 +186,7 @@ class namecheap_integration {
 
 		try {
 			$existing_hosts = $this->get_hosts();
-			if ($existing_hosts === false) {
+			if ($existing_hosts === false || count($existing_hosts) === 0) {
 				return ['status' => 'error', 'message' => 'Failed to retrieve current DNS records'];
 			}
 
@@ -217,8 +222,14 @@ class namecheap_integration {
 	}
 
 	/**
+	 * Email mode of the zone as reported by getHosts (e.g. FWD for Namecheap email forwarding).
+	 * setHosts must send it back, otherwise Namecheap resets the domain's mail settings.
+	 */
+	private $email_type = null;
+
+	/**
 	 * Get the current host records for the configured domain
-	 * @return array|false  List of ['Name'=>, 'Type'=>, 'Address'=>, 'TTL'=>] or false on failure
+	 * @return array|false  List of ['Name'=>, 'Type'=>, 'Address'=>, 'MXPref'=>, 'TTL'=>] or false on failure
 	 */
 	private function get_hosts() {
 		$params = [
@@ -244,13 +255,20 @@ class namecheap_integration {
 			return false;
 		}
 
+		$result = $xml->CommandResponse->DomainDNSGetHostsResult;
+		if (!isset($result)) {
+			return false;
+		}
+		$this->email_type = isset($result['EmailType']) ? (string)$result['EmailType'] : null;
+
 		$hosts = [];
-		if (isset($xml->CommandResponse->DomainDNSGetHostsResult->host)) {
-			foreach ($xml->CommandResponse->DomainDNSGetHostsResult->host as $host) {
+		if (isset($result->host)) {
+			foreach ($result->host as $host) {
 				$hosts[] = [
 					'Name' => (string)$host['Name'],
 					'Type' => (string)$host['Type'],
 					'Address' => (string)$host['Address'],
+					'MXPref' => (string)$host['MXPref'],
 					'TTL' => (string)$host['TTL'],
 				];
 			}
@@ -275,12 +293,16 @@ class namecheap_integration {
 			'TLD' => $this->tld,
 			'SLD' => $this->sld,
 		];
+		if (!empty($this->email_type)) {
+			$params['EmailType'] = $this->email_type;
+		}
 
 		foreach (array_values($hosts) as $i => $host) {
 			$n = $i + 1;
 			$params['HostName' . $n] = $host['Name'];
 			$params['RecordType' . $n] = $host['Type'];
 			$params['Address' . $n] = $host['Address'];
+			$params['MXPref' . $n] = ($host['MXPref'] ?? '') !== '' ? $host['MXPref'] : '10';
 			$params['TTL' . $n] = $host['TTL'];
 		}
 
@@ -341,7 +363,10 @@ class namecheap_integration {
 	private function make_api_request($query) {
 		$ch = curl_init();
 		curl_setopt_array($ch, [
-			CURLOPT_URL => $this->api_url . '?' . $query,
+			//POST: the full zone is sent on every setHosts and grows with each subdomain
+			CURLOPT_URL => $this->api_url,
+			CURLOPT_POST => true,
+			CURLOPT_POSTFIELDS => $query,
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_TIMEOUT => 10,
 			CURLOPT_SSL_VERIFYPEER => true,
