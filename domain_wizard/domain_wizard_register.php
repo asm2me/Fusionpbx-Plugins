@@ -125,8 +125,8 @@
 
 //handle domain check - MODIFIED: Step 2 validation with subdomain restriction
 	if ($action === 'check_domain') {
-		$domain_name = trim($_GET['domain'] ?? '');
-		$subdomain = trim($_GET['subdomain'] ?? '');
+		$domain_name = strtolower(trim($_GET['domain'] ?? ''));
+		$subdomain = strtolower(trim($_GET['subdomain'] ?? ''));
 
 		if (empty($domain_name) && empty($subdomain)) {
 			echo json_encode(['status' => 'error', 'message' => 'Domain name or subdomain is required']);
@@ -286,9 +286,9 @@
 		$company = trim($_POST['company'] ?? '');
 
 		//the website form posts "domain_name" (bare label or full x.voipat.com), not "subdomain" - accept both
-		$subdomain = trim($_POST['subdomain'] ?? '');
+		$subdomain = strtolower(trim($_POST['subdomain'] ?? ''));
 		if (empty($subdomain) && !empty($_POST['domain_name'])) {
-			$raw_domain = trim($_POST['domain_name']);
+			$raw_domain = strtolower(trim($_POST['domain_name']));
 			$base_suffix = '.voipat.com';
 			if (strcasecmp(substr($raw_domain, -strlen($base_suffix)), $base_suffix) === 0) {
 				$subdomain = substr($raw_domain, 0, -strlen($base_suffix));

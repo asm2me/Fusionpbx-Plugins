@@ -19,7 +19,8 @@
 
 .register-layout {
     display: grid;
-    grid-template-columns: 1fr;
+    /* minmax(0,1fr) lets the column shrink below its content's min width on phones */
+    grid-template-columns: minmax(0, 1fr);
     gap: 0;
     align-items: start;
 }
@@ -95,6 +96,7 @@
 /* Form Side */
 .register-form-wrap {
     position: relative;
+    min-width: 0;
 }
 
 .register-form {
@@ -1053,9 +1055,89 @@
 }
 
 @media (max-width: 768px) {
-    .register-form {
-        padding: 24px;
+    .register-section {
+        padding: 1.5rem 0 2.5rem;
     }
+
+    .register-form {
+        padding: 20px 16px;
+    }
+
+    /* 7-step indicator: compact dots, label only on the current step, scroll as a fallback */
+    .form-steps {
+        justify-content: flex-start;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding-bottom: 4px;
+    }
+
+    .form-steps::-webkit-scrollbar {
+        display: none;
+    }
+
+    .form-step-indicator {
+        flex-shrink: 0;
+    }
+
+    .step-dot {
+        width: 28px;
+        height: 28px;
+    }
+
+    .step-text {
+        display: none;
+    }
+
+    .form-step-indicator.active .step-text {
+        display: block;
+        font-size: 0.625rem;
+    }
+
+    .step-line {
+        flex: 1 1 12px;
+        min-width: 2px;
+        width: auto;
+        margin: 0 1px;
+    }
+
+    .form-steps {
+        align-items: flex-start;
+        padding-bottom: 18px;
+    }
+
+    .form-step-indicator {
+        position: relative;
+    }
+
+    .step-line {
+        margin-top: 12px;
+    }
+
+    .step-dot {
+        width: 24px;
+        height: 24px;
+        font-size: 0.6875rem;
+    }
+
+    .form-step-indicator.active .step-text {
+        position: absolute;
+        top: 28px;
+        white-space: nowrap;
+    }
+
+    .form-step-indicator:first-child.active .step-text { left: 0; }
+    .form-step-indicator:last-child.active .step-text { right: 0; }
+
+    .form-buttons .btn {
+        min-width: 0;
+        white-space: normal;
+    }
+
+    .form-buttons .btn-lg {
+        padding: 12px 18px;
+        font-size: 1rem;
+    }
+
 
     .plan-option-content ul {
         flex-direction: column;
@@ -1269,6 +1351,7 @@
 
 /* ---- Nodes on canvas ---- */
 .flow-node {
+    touch-action: none;
     position: absolute; min-width: 148px;
     background: #1a1a2e; border: 2px solid rgba(255,255,255,0.1);
     border-radius: 10px; cursor: move; user-select: none;
@@ -1325,6 +1408,7 @@
 
 /* ---- Ports ---- */
 .flow-port {
+    touch-action: none;
     position: absolute;
     width: 14px; height: 14px;
     cursor: crosshair; z-index: 25; transition: all 0.12s;
@@ -1413,3 +1497,55 @@
     border-radius: 7px; color: #ef4444; font-size: 0.76rem; cursor: pointer; transition: all 0.15s;
 }
 .prop-delete-btn button:hover { background: rgba(239,68,68,0.25); }
+
+@media (max-width: 768px) {
+    /* Flow designer: stack toolbox / canvas / properties vertically */
+    .flow-designer {
+        height: auto;
+    }
+
+    .flow-designer-body {
+        flex-direction: column;
+    }
+
+    .flow-toolbox {
+        width: auto;
+        min-width: 0;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 6px;
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .flow-toolbox .toolbox-node {
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+
+    .flow-toolbox .toolbox-section-label,
+    .flow-toolbox .toolbox-title {
+        display: none;
+    }
+
+    .flow-canvas {
+        flex: none;
+        height: 360px;
+        overflow: auto;
+    }
+
+    .flow-properties {
+        width: auto;
+        min-width: 0;
+        max-height: 260px;
+        border-left: none;
+        border-top: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .flow-designer-maximized .flow-canvas {
+        flex: 1;
+        height: auto;
+    }
+}

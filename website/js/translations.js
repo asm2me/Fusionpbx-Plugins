@@ -1209,8 +1209,8 @@ const translations = {
 
   // Step 2: Placeholders
   "reg.placeholder.domainName": {
-    en: "pbx.yourcompany.com", ar: "pbx.yourcompany.com", es: "pbx.suempresa.com", fr: "pbx.votreentreprise.com",
-    de: "pbx.ihrefirma.com", pt: "pbx.suaempresa.com", zh: "pbx.yourcompany.com", ja: "pbx.yourcompany.com", tr: "pbx.sirketiniz.com", ru: "pbx.вашакомпания.com"
+    en: "yourcompany", ar: "yourcompany", es: "suempresa", fr: "votreentreprise",
+    de: "ihrefirma", pt: "suaempresa", zh: "yourcompany", ja: "yourcompany", tr: "sirketiniz", ru: "yourcompany"
   },
   "reg.placeholder.adminUsername": {
     en: "admin", ar: "admin", es: "admin", fr: "admin",
@@ -1227,16 +1227,16 @@ const translations = {
 
   // Step 2: Hints
   "reg.hint.domainName": {
-    en: "Enter the domain/subdomain you want to use for your PBX",
-    ar: "أدخل النطاق/النطاق الفرعي الذي تريد استخدامه لنظام PBX الخاص بك",
-    es: "Ingrese el dominio/subdominio que desea usar para su PBX",
-    fr: "Entrez le domaine/sous-domaine que vous souhaitez utiliser pour votre PBX",
-    de: "Geben Sie die Domain/Subdomain ein, die Sie für Ihre PBX verwenden möchten",
-    pt: "Insira o domínio/subdomínio que deseja usar para seu PBX",
-    zh: "输入您想用于PBX的域名/子域名",
-    ja: "PBXに使用するドメイン/サブドメインを入力してください",
-    tr: "PBX'iniz için kullanmak istediğiniz alan adını/alt alan adını girin",
-    ru: "Введите домен/поддомен, который хотите использовать для АТС"
+    en: "Letters, numbers and hyphens only. Your PBX will be at yourname.voipat.com",
+    ar: "أحرف وأرقام وشرطات فقط. سيكون نظام PBX الخاص بك على yourname.voipat.com",
+    es: "Solo letras, números y guiones. Su PBX estará en sunombre.voipat.com",
+    fr: "Lettres, chiffres et tirets uniquement. Votre PBX sera sur votrenom.voipat.com",
+    de: "Nur Buchstaben, Ziffern und Bindestriche. Ihre PBX ist dann unter ihrname.voipat.com erreichbar",
+    pt: "Apenas letras, números e hífens. Seu PBX ficará em seunome.voipat.com",
+    zh: "仅限字母、数字和连字符。您的PBX地址将是 yourname.voipat.com",
+    ja: "英数字とハイフンのみ。PBXのアドレスは yourname.voipat.com になります",
+    tr: "Yalnızca harf, rakam ve tire. PBX'iniz adiniz.voipat.com adresinde olacak",
+    ru: "Только латинские буквы, цифры и дефисы. Ваша АТС будет доступна по адресу yourname.voipat.com"
   },
 
   // Buttons

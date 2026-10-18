@@ -892,10 +892,9 @@ function validateStep(step) {
         }
 
         if (step === 9) {
-            const domain = document.getElementById('domainName')?.value.trim();
-            if (domain && !isValidDomain(domain)) {
+            if (!getFullDomain()) {
                 const domainCheck = document.getElementById('domainCheck');
-                if (domainCheck) domainCheck.innerHTML = '<span style="color:#EF4444"><i class="fas fa-times-circle"></i> Invalid domain format</span>';
+                if (domainCheck) domainCheck.innerHTML = '<span style="color:#EF4444"><i class="fas fa-times-circle"></i> Use letters, numbers and hyphens only (e.g. <strong>acme</strong> for acme.voipat.com)</span>';
                 valid = false;
             }
             const pass = document.getElementById('adminPassword')?.value;
@@ -930,24 +929,31 @@ function validateStep(step) {
     }
 }
 
-function isValidDomain(domain) {
-    return /^([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/.test(domain);
+// The server only provisions single-label voipat.com subdomains (acme -> acme.voipat.com).
+// Accepts "acme", "acme.voipat.com" or "https://acme.voipat.com/" and returns the bare label, or null if invalid.
+function normalizeSubdomain(value) {
+    let label = (value || '').trim().toLowerCase()
+        .replace(/^https?:\/\//, '')
+        .replace(/\/.*$/, '')
+        .replace(/\.voipat\.com\.?$/, '');
+    return /^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$/.test(label) ? label : null;
+}
+
+function getFullDomain() {
+    const label = normalizeSubdomain(document.getElementById('domainName')?.value);
+    return label ? label + '.voipat.com' : '';
 }
 
 // ============ DOMAIN CHECK ============
 function checkDomain() {
-    const domain = document.getElementById('domainName').value.trim();
+    const raw = document.getElementById('domainName').value.trim();
     const checkEl = document.getElementById('domainCheck');
-    if (!domain) { checkEl.innerHTML = ''; return; }
+    if (!raw) { checkEl.innerHTML = ''; return; }
 
-    // Check for voipat.com subdomain requirement
-    if (!domain.endsWith('.voipat.com')) {
-        checkEl.innerHTML = '<span style="color:#F59E0B"><i class="fas fa-info-circle"></i> Your domain will be registered as <strong>' + domain + '.voipat.com</strong></span>';
-    }
-
-    if (!isValidDomain(domain)) { 
-        checkEl.innerHTML += ' <span style="color:#EF4444"><i class="fas fa-times-circle"></i> Invalid domain format</span>';
-        return; 
+    const domain = getFullDomain();
+    if (!domain) {
+        checkEl.innerHTML = '<span style="color:#EF4444"><i class="fas fa-times-circle"></i> Use letters, numbers and hyphens only (e.g. <strong>acme</strong> for acme.voipat.com)</span>';
+        return;
     }
 
     checkEl.innerHTML = '<span class="checking"><i class="fas fa-spinner fa-spin"></i> Checking...</span>';
@@ -957,9 +963,7 @@ function checkDomain() {
             let msg = data.available
                 ? '<span class="available"><i class="fas fa-check-circle"></i> Available!</span>'
                 : '<span class="taken"><i class="fas fa-times-circle"></i> Already in use</span>';
-            if (!domain.endsWith('.voipat.com')) {
-                msg = '<span style="color:#F59E0B"><i class="fas fa-info-circle"></i> Will be registered as <strong>' + domain + '.voipat.com</strong></span> ' + msg;
-            }
+            msg = '<span style="color:#F59E0B"><i class="fas fa-info-circle"></i> Will be registered as <strong>' + domain + '</strong></span> ' + msg;
             checkEl.innerHTML = msg;
         })
         .catch(() => {
@@ -1014,7 +1018,7 @@ function updateConfigSummary() {
 // ============ REVIEW TABLE ============
 function buildReviewTable() {
     const plan = PLANS[getSelectedPlan()];
-    const domain = document.getElementById('domainName').value;
+    const domain = getFullDomain();
     const ext = document.getElementById('extensionsCount').value;
     const extStart = document.getElementById('extensionStart').value;
     const rg = document.getElementById('ringGroupsCount').value;
@@ -1111,7 +1115,7 @@ function collectFormData() {
         email: document.getElementById('email').value.trim(),
         phone: document.getElementById('phone').value.trim(),
         company: document.getElementById('company').value.trim(),
-        domain_name: document.getElementById('domainName').value.trim(),
+        domain_name: getFullDomain(),
         admin_username: document.getElementById('adminUsername').value.trim(),
         admin_password: document.getElementById('adminPassword').value,
         plan: getSelectedPlan(),
@@ -1580,7 +1584,7 @@ const FlowDesigner = (() => {
         inList.forEach(([key, pd], i) => addPort(el, key, node.id, pd, i, inList.length));
         outList.forEach(([key, pd], i) => addPort(el, key, node.id, pd, i, outList.length));
 
-        el.addEventListener('mousedown', e => {
+        el.addEventListener('pointerdown', e => {
             if (e.target.classList.contains('flow-port')) return;
             selectNode(node.id);
             startNodeDrag(e, node.id);
@@ -1617,38 +1621,38 @@ const FlowDesigner = (() => {
         else       pt.style.right = '-8px';
 
         if (!isIn) {
-            pt.addEventListener('mousedown', e => {
+            pt.addEventListener('pointerdown', e => {
                 e.stopPropagation();
                 startDrawing(e, nodeId, portKey, pd.type);
             });
         }
 
-        pt.addEventListener('mouseup', e => {
-            e.stopPropagation();
-            if (drawing && drawFrom && isIn && drawFrom.nodeId !== nodeId) {
-                finishDrawing(nodeId, portKey, pd.type);
-            }
-        });
-
         nodeEl.appendChild(pt);
     }
 
     // ── Node drag ─────────────────────────────────────────────
+    // Pointer position in canvas content coordinates (the canvas scrolls on small screens)
+    function canvasPoint(e) {
+        const cv = canvas();
+        const cr = cv.getBoundingClientRect();
+        return { x: e.clientX - cr.left + cv.scrollLeft, y: e.clientY - cr.top + cv.scrollTop };
+    }
+
     function startNodeDrag(e, nodeId) {
         draggingNode = nodeId;
         const el = getEl(nodeId);
-        const cr = canvas().getBoundingClientRect();
-        dragOffset.x = e.clientX - cr.left - parseInt(el.style.left);
-        dragOffset.y = e.clientY - cr.top  - parseInt(el.style.top);
+        const p  = canvasPoint(e);
+        dragOffset.x = p.x - parseInt(el.style.left);
+        dragOffset.y = p.y - parseInt(el.style.top);
         e.preventDefault();
     }
 
     function onMouseMove(e) {
-        const cr = canvas().getBoundingClientRect();
+        const p = canvasPoint(e);
         if (draggingNode) {
             const el = getEl(draggingNode);
-            const x  = Math.max(0, e.clientX - cr.left - dragOffset.x);
-            const y  = Math.max(0, e.clientY - cr.top  - dragOffset.y);
+            const x  = Math.max(0, p.x - dragOffset.x);
+            const y  = Math.max(0, p.y - dragOffset.y);
             el.style.left = x + 'px';
             el.style.top  = y + 'px';
             const node = getNode(draggingNode);
@@ -1658,13 +1662,21 @@ const FlowDesigner = (() => {
         if (drawing && drawFrom && tempPath) {
             const fp = portCenter(drawFrom.nodeId, drawFrom.portKey);
             if (!fp) return;
-            tempPath.setAttribute('d', bezier(fp.x, fp.y, e.clientX - cr.left, e.clientY - cr.top));
+            tempPath.setAttribute('d', bezier(fp.x, fp.y, p.x, p.y));
         }
     }
 
-    function onMouseUp() {
+    function onMouseUp(e) {
         draggingNode = null;
-        if (drawing) cancelDrawing();
+        if (!drawing) return;
+        // touch pointers stay captured by the port the drag started on, so find the drop target by position
+        const target = document.elementFromPoint(e.clientX, e.clientY);
+        const pt = target && target.closest('.flow-port.port-dir-in');
+        if (drawFrom && pt && pt.dataset.nodeId !== drawFrom.nodeId) {
+            finishDrawing(pt.dataset.nodeId, pt.dataset.port, pt.dataset.type);
+        } else {
+            cancelDrawing();
+        }
     }
 
     // ── Connection drawing ─────────────────────────────────────
@@ -1818,10 +1830,23 @@ const FlowDesigner = (() => {
         canvas().classList.remove('drag-over');
         const type = e.dataTransfer.getData('text/plain') || dragType;
         if (!type || !NODE_DEFS[type]) return;
-        const cr = canvas().getBoundingClientRect();
-        const x  = Math.max(10, e.clientX - cr.left - dragOffset2.x);
-        const y  = Math.max(10, e.clientY - cr.top  - dragOffset2.y);
+        const p  = canvasPoint(e);
+        const x  = Math.max(10, p.x - dragOffset2.x);
+        const y  = Math.max(10, p.y - dragOffset2.y);
         const node = { id: uid(), type, x, y, props: {} };
+        nodes.push(node);
+        createNodeEl(node);
+        updateHint();
+        selectNode(node.id);
+    }
+
+    // Tap/click on a toolbox item adds the node to the visible part of the canvas (touch devices can't drag-and-drop)
+    function onToolboxClick(e) {
+        const type = e.currentTarget.dataset.nodeType;
+        if (!NODE_DEFS[type]) return;
+        const cv = canvas();
+        const n  = nodes.length % 6;
+        const node = { id: uid(), type, x: cv.scrollLeft + 20 + n * 24, y: cv.scrollTop + 20 + n * 24, props: {} };
         nodes.push(node);
         createNodeEl(node);
         updateHint();
@@ -1911,12 +1936,14 @@ const FlowDesigner = (() => {
         document.querySelectorAll('.toolbox-node').forEach(el => {
             el.addEventListener('dragstart', onToolboxDragStart);
             el.addEventListener('dragend',   () => canvas().classList.remove('drag-over'));
+            el.addEventListener('click',     onToolboxClick);
         });
         const cv = canvas();
         if (!cv) return;
-        cv.addEventListener('mousemove',  onMouseMove);
-        cv.addEventListener('mouseup',    onMouseUp);
-        cv.addEventListener('mouseleave', () => { if (drawing) cancelDrawing(); draggingNode = null; });
+        cv.addEventListener('pointermove',   onMouseMove);
+        cv.addEventListener('pointerup',     onMouseUp);
+        cv.addEventListener('pointercancel', () => { if (drawing) cancelDrawing(); draggingNode = null; });
+        cv.addEventListener('pointerleave',  () => { if (drawing) cancelDrawing(); draggingNode = null; });
         cv.addEventListener('click', e => {
             if (e.target === cv || e.target.classList.contains('flow-svg')) {
                 selectNode(null); clearProps();
