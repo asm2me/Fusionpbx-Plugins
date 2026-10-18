@@ -238,7 +238,8 @@ class namecheap_integration {
 			'UserName' => $this->api_user,
 			'Command' => 'namecheap.domains.dns.getHosts',
 			'ClientIp' => $this->client_ip,
-			'DomainName' => $this->domain_name,
+			'SLD' => $this->sld,
+			'TLD' => $this->tld,
 		];
 
 		$response = $this->make_api_request(http_build_query($params));
@@ -289,7 +290,6 @@ class namecheap_integration {
 			'UserName' => $this->api_user,
 			'Command' => 'namecheap.domains.dns.setHosts',
 			'ClientIp' => $this->client_ip,
-			'DomainName' => $this->domain_name,
 			'TLD' => $this->tld,
 			'SLD' => $this->sld,
 		];
