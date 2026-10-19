@@ -22,7 +22,7 @@
 		$apps[$x]['permissions'][$y]['groups'][] = 'admin';
 
 	//default settings
-		$settings = [
+		$recording_normalize_settings = [
 			['44388944-0880-4a80-b0d2-41e2f17d183d', 'mode', 'text', 'loudness', 'true', 'loudness (EBU R128, needs ffmpeg) or peak.'],
 			['38c6f238-b9a2-44e8-bb7b-0c02687e0525', 'target_lufs', 'numeric', '-18', 'true', 'Loudness target in LUFS for loudness mode. -16 is louder, -20 quieter.'],
 			['3fa6614a-ba26-49cb-9a63-f8b369f3ad78', 'true_peak', 'numeric', '-1.5', 'true', 'Maximum true peak in dBTP for loudness mode.'],
@@ -31,16 +31,16 @@
 			['7a9a049f-b090-49d7-9773-b63692eb4630', 'auto_ivr_only', 'boolean', 'true', 'true', 'When true, auto normalize only touches recordings used by an IVR menu.'],
 		];
 		$y = 0;
-		foreach ($settings as $s) {
-			$apps[$x]['default_settings'][$y]['default_setting_uuid'] = $s[0];
+		foreach ($recording_normalize_settings as $recording_normalize_setting) {
+			$apps[$x]['default_settings'][$y]['default_setting_uuid'] = $recording_normalize_setting[0];
 			$apps[$x]['default_settings'][$y]['default_setting_category'] = 'recording_normalize';
-			$apps[$x]['default_settings'][$y]['default_setting_subcategory'] = $s[1];
-			$apps[$x]['default_settings'][$y]['default_setting_name'] = $s[2];
-			$apps[$x]['default_settings'][$y]['default_setting_value'] = $s[3];
-			$apps[$x]['default_settings'][$y]['default_setting_enabled'] = $s[4];
-			$apps[$x]['default_settings'][$y]['default_setting_description'] = $s[5];
+			$apps[$x]['default_settings'][$y]['default_setting_subcategory'] = $recording_normalize_setting[1];
+			$apps[$x]['default_settings'][$y]['default_setting_name'] = $recording_normalize_setting[2];
+			$apps[$x]['default_settings'][$y]['default_setting_value'] = $recording_normalize_setting[3];
+			$apps[$x]['default_settings'][$y]['default_setting_enabled'] = $recording_normalize_setting[4];
+			$apps[$x]['default_settings'][$y]['default_setting_description'] = $recording_normalize_setting[5];
 			$y++;
 		}
-		unset($settings, $s);
+		unset($recording_normalize_settings, $recording_normalize_setting);
 
 ?>
