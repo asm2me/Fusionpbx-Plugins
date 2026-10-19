@@ -28,10 +28,10 @@ class recording_normalize {
 	//read the recording_normalize default settings and the recordings dir
 	private function load_settings() {
 		$settings = [
-			'mode' => 'loudness',
+			'mode' => 'peak',
 			'target_lufs' => '-18',
 			'true_peak' => '-1.5',
-			'peak_db' => '-1',
+			'peak_percent' => '90',
 			'auto_normalize' => 'false',
 			'auto_ivr_only' => 'true',
 			'recordings_dir' => '/var/lib/freeswitch/recordings',
@@ -149,7 +149,7 @@ class recording_normalize {
 		return is_array($row) ? $row : null;
 	}
 
-	//normalize one recording; $options overrides mode/target_lufs/true_peak/peak_db
+	//normalize one recording; $options overrides mode/target_lufs/true_peak/peak_percent
 	public function normalize($domain_uuid, $domain_name, $recording_uuid, $options = []) {
 		$row = $this->get_recording($domain_uuid, $recording_uuid);
 		if (!$row) {
@@ -256,19 +256,20 @@ class recording_normalize {
 	//write a normalized copy of $in to $out in the same sample rate, channels and encoding
 	private function process($in, $out, $opts) {
 		$tools = $this->tools();
-		$mode = ($opts['mode'] === 'peak') ? 'peak' : 'loudness';
+		$mode = ($opts['mode'] === 'loudness') ? 'loudness' : 'peak';
+		$percent = min(100, max(1, (float)$opts['peak_percent']));
+		$peak = round(20 * log10($percent / 100), 2);
 
 		if (!$tools['ffmpeg']) {
 			if (!$tools['sox']) {
 				return ['ok' => false, 'message' => 'neither ffmpeg nor sox is installed'];
 			}
 			//sox only does peak normalization
-			$peak = (float)$opts['peak_db'];
 			$cmd = escapeshellarg($tools['sox']).' '.escapeshellarg($in).' '.escapeshellarg($out).' norm '.escapeshellarg((string)$peak);
 			if (self::run($cmd, $output) !== 0) {
 				return ['ok' => false, 'message' => 'sox failed: '.substr($output, -300)];
 			}
-			return ['ok' => true, 'mode' => 'peak', 'target' => $peak.' dBFS', 'before' => '', 'summary' => 'peak normalized to '.$peak.' dBFS (sox)'];
+			return ['ok' => true, 'mode' => 'peak', 'target' => $percent.'%', 'before' => '', 'summary' => 'peak normalized to '.$percent.'% (sox)'];
 		}
 
 		$ffmpeg = escapeshellarg($tools['ffmpeg']);
@@ -285,7 +286,6 @@ class recording_normalize {
 		}
 
 		if ($mode === 'peak') {
-			$peak = (float)$opts['peak_db'];
 			self::run($ffmpeg.' -hide_banner -nostats -i '.escapeshellarg($in).' -af volumedetect -f null -', $output);
 			if (!preg_match('/max_volume:\s*(-?[\d.]+|-inf) dB/', $output, $m) || $m[1] === '-inf') {
 				return ['ok' => false, 'message' => 'audio is silent or unreadable'];
@@ -295,8 +295,10 @@ class recording_normalize {
 			if (self::run($cmd, $output) !== 0) {
 				return ['ok' => false, 'message' => 'ffmpeg failed: '.substr($output, -300)];
 			}
-			return ['ok' => true, 'mode' => 'peak', 'target' => $peak.' dBFS', 'before' => $m[1].' dBFS',
-				'summary' => 'peak '.$m[1].' → '.$peak.' dBFS ('.sprintf('%+.1f', $gain).' dB)'];
+			$before = 100 * pow(10, (float)$m[1] / 20);
+			$before = round($before, $before < 10 ? 1 : 0).'%';
+			return ['ok' => true, 'mode' => 'peak', 'target' => $percent.'%', 'before' => $before,
+				'summary' => 'peak '.$before.' → '.$percent.'% ('.sprintf('%+.1f', $gain).' dB)'];
 		}
 
 		//loudness: two-pass EBU R128 loudnorm, linear so the prompt is not compressed
@@ -318,6 +320,41 @@ class recording_normalize {
 		}
 		return ['ok' => true, 'mode' => 'loudness', 'target' => $i.' LUFS', 'before' => $measured['input_i'].' LUFS',
 			'summary' => 'loudness '.$measured['input_i'].' → '.$i.' LUFS'];
+	}
+
+	//waveform: peak absolute amplitude (0..1 of full scale) for each of $buckets slices
+	public function peaks($path, $buckets = 200) {
+		$tools = $this->tools();
+		$rate = 4000;
+		if ($tools['ffmpeg']) {
+			$cmd = escapeshellarg($tools['ffmpeg']).' -v error -i '.escapeshellarg($path).' -ac 1 -ar '.$rate.' -f s16le -';
+		}
+		elseif ($tools['sox']) {
+			$cmd = escapeshellarg($tools['sox']).' '.escapeshellarg($path).' -t raw -e signed -b 16 -L -c 1 -r '.$rate.' -';
+		}
+		else {
+			return null;
+		}
+		$pcm = shell_exec($cmd.' 2>/dev/null');
+		$count = intdiv(strlen((string)$pcm), 2);
+		if ($count === 0) {
+			return null;
+		}
+		$samples = unpack('v*', $pcm);
+		$size = max(1, $count / $buckets);
+		$peaks = [];
+		for ($b = 0; $b < $buckets; $b++) {
+			$start = (int)floor($b * $size) + 1;
+			$end = min($count, (int)floor(($b + 1) * $size));
+			$max = 0;
+			for ($i = $start; $i <= $end; $i++) {
+				$v = $samples[$i];
+				$v = ($v >= 32768) ? 65536 - $v : $v;
+				if ($v > $max) $max = $v;
+			}
+			$peaks[] = round(min(1, $max / 32768), 3);
+		}
+		return ['peaks' => $peaks, 'duration' => round($count / $rate, 2)];
 	}
 
 	private function probe($in) {
